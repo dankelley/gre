@@ -1,0 +1,378 @@
+%
+% This file was automatically produced at Nov  5 1998, 12:43:56 by
+% c++2latex +complete-file +font-size 10 scalar.cpp
+%
+\documentstyle{article}
+\setlength{\textwidth}{15cm}
+\setlength{\textheight}{22.5cm}
+\setlength{\hoffset}{-2cm}
+\setlength{\voffset}{-2cm}
+\begin{document}
+\expandafter\ifx\csname indentation\endcsname\relax%
+\newlength{\indentation}\fi
+\setlength{\indentation}{0.5em}
+\begin{flushleft}
+{$//$\it{} -$\ast$- mode: c$+$$+$ -$\ast$-{}\mbox{}\\
+}{$//$\it{} 'scalar' (old name!!) stores list of numeric/string values{}\mbox{}\\
+}\mbox{}\\
+{\tt \#include} $<${\tt{}stdio.h}$>$\mbox{}\\
+{\tt \#include} $<${\tt{}stdlib.h}$>$\mbox{}\\
+{\tt \#include} $<${\tt{}string.h}$>$\mbox{}\\
+{\tt \#include} "{\tt{}scalar.h}"\mbox{}\\
+\mbox{}\\
+{\bf extern} {\bf void} gre\_exit({\bf int} code);\mbox{}\\
+{\bf extern} {\bf void} fatal\_error({\bf const} {\bf char} $\ast$msg);\mbox{}\\
+\mbox{}\\
+\mbox{}\\
+\mbox{}\\
+{\bf void} scalar::free\_storage()\mbox{}\\
+\{\mbox{}\\
+\hspace*{4\indentation}printf({\tt"scalar::free\_storage this \%x (len \%d) BEGIN$\backslash$n"}, {\bf int}({\bf this}),len);\mbox{}\\
+\hspace*{4\indentation}{\bf for} ({\bf unsigned} {\bf int} i = 0; i $<$ len; i++) \{\mbox{}\\
+\hspace*{8\indentation}printf({\tt"    about to delete s[\%d](at \%x, value '\%s') this$=$ \%x ...$\backslash$n"}, i,{\bf int}(\&s[i]), s[i],{\bf int}({\bf this}));\mbox{}\\
+\hspace*{8\indentation}free(s[i]);\mbox{}\\
+\hspace*{8\indentation}printf({\tt"        done$\backslash$n"});\mbox{}\\
+\hspace*{4\indentation}\}\mbox{}\\
+\hspace*{4\indentation}printf({\tt"about to delete n$\backslash$n"});\mbox{}\\
+\hspace*{4\indentation}free(n);\mbox{}\\
+\hspace*{4\indentation}printf({\tt"about to delete s$\backslash$n"});\mbox{}\\
+\hspace*{4\indentation}free(s);\mbox{}\\
+\hspace*{4\indentation}printf({\tt"about to delete numeric at \%x$\backslash$n"}, {\bf int}(\&numeric));\mbox{}\\
+\hspace*{4\indentation}free(numeric);\mbox{}\\
+\hspace*{4\indentation}len = 0;\mbox{}\\
+\hspace*{4\indentation}printf({\tt"... scalar::free\_storage this$=$ \%x END$\backslash$n$\backslash$n"}, {\bf int}({\bf this}));\mbox{}\\
+\}\mbox{}\\
+\mbox{}\\
+\mbox{}\\
+\mbox{}\\
+scalar::$\sim$scalar()\mbox{}\\
+\{\mbox{}\\
+\hspace*{4\indentation}free\_storage();\mbox{}\\
+\}\mbox{}\\
+\mbox{}\\
+\mbox{}\\
+\mbox{}\\
+\mbox{}\\
+{\bf void} scalar::expand({\bf unsigned} {\bf int} len\_new) {$//$\it{}resize to 'len\_new' (or more) items{}\mbox{}\\
+}\{\mbox{}\\
+\hspace*{4\indentation}printf({\tt"$\backslash$nscalar::expand(\%d)$\backslash$n"}, len\_new);\mbox{}\\
+\hspace*{4\indentation}{\bf unsigned} {\bf int} len\_old = len;\mbox{}\\
+\hspace*{4\indentation}{\bf if} (len $<$ 1) \{\mbox{}\\
+\hspace*{8\indentation}fprintf(stderr, {\tt"Error \#1 in scalar::expand(\%d) -- corrupted length len$=$ \%d$\backslash$n"}, len\_new, len);\mbox{}\\
+\hspace*{8\indentation}gre\_exit(1);\mbox{}\\
+\hspace*{4\indentation}\}\mbox{}\\
+\hspace*{4\indentation}{\bf while} (len $<$ len\_new)       {$//$\it{} double until big enough{}\mbox{}\\
+}\hspace*{8\indentation}len = 1 + len;\mbox{}\\
+\hspace*{4\indentation}printf({\tt"   expand will now have len$=$ \%d$\backslash$n"}, len);\mbox{}\\
+\hspace*{4\indentation}bool $\ast$numeric\_new = (bool$\ast$) malloc(len $\ast$ {\bf sizeof}(bool));\mbox{}\\
+\hspace*{4\indentation}printf({\tt"expand put numeric at \%x$\backslash$n"}, {\bf int}(\&numeric\_new));\mbox{}\\
+\hspace*{4\indentation}{\bf if} (!numeric\_new) \{\mbox{}\\
+\hspace*{8\indentation}fprintf(stderr, {\tt"Error \#1 in scalar::expand(\%d) at \%x -- out of memory$\backslash$n"}, len\_new, {\bf int}({\bf this}));\mbox{}\\
+\hspace*{8\indentation}gre\_exit(1);\mbox{}\\
+\hspace*{4\indentation}\}\mbox{}\\
+\hspace*{4\indentation}{\bf double} $\ast$n\_new = ({\bf double}$\ast$) malloc(len $\ast$ {\bf sizeof}({\bf double}));\mbox{}\\
+\hspace*{4\indentation}{\bf if} (!n\_new) \{\mbox{}\\
+\hspace*{8\indentation}fprintf(stderr, {\tt"Error \#2 in scalar::expand(\%d) at \%x -- out of memory$\backslash$n"}, len\_new, {\bf int}({\bf this}));\mbox{}\\
+\hspace*{8\indentation}gre\_exit(1);\mbox{}\\
+\hspace*{4\indentation}\}\mbox{}\\
+\hspace*{4\indentation}{\bf char} $\ast$$\ast$s\_new = ({\bf char}$\ast$$\ast$) malloc(len $\ast$ {\bf sizeof}({\bf char}$\ast$));\mbox{}\\
+\hspace*{4\indentation}{\bf if} (!s\_new) \{\mbox{}\\
+\hspace*{8\indentation}fprintf(stderr, {\tt"Error \#3 in scalar::expand(\%d) at \%x -- out of memory$\backslash$n"}, len\_new, {\bf int}({\bf this}));\mbox{}\\
+\hspace*{8\indentation}gre\_exit(1);\mbox{}\\
+\hspace*{4\indentation}\}\mbox{}\\
+\hspace*{4\indentation}printf({\tt"about to loop len$=$ \%d  len\_old$=$ \%d$\backslash$n"}, len, len\_old);\mbox{}\\
+\hspace*{4\indentation}{\bf for} ({\bf unsigned} {\bf int} i = 0; i $<$ len; i++) \{\mbox{}\\
+\hspace*{8\indentation}{\bf if} (i $<$ len\_old) \{\mbox{}\\
+\hspace*{12\indentation}s\_new[i] = ({\bf char}$\ast$)malloc({\bf sizeof}({\bf char}) $\ast$ (1 + strlen(s[i])));\mbox{}\\
+\hspace*{12\indentation}printf({\tt"    expand(this \%x) loop COPYING s[\%d] '\%s' at \%x$\backslash$n"}, {\bf int}({\bf this}),i, s[i], {\bf int}(\&s[i]));\mbox{}\\
+\hspace*{12\indentation}{\bf if} (!s\_new[i]) \{\mbox{}\\
+\hspace*{16\indentation}fprintf(stderr, {\tt"Error \#4 in scalar::expand(\%d) at \%x -- out of memory$\backslash$n"}, len\_new, {\bf int}({\bf this}));\mbox{}\\
+\hspace*{16\indentation}gre\_exit(1);\mbox{}\\
+\hspace*{12\indentation}\}\mbox{}\\
+\hspace*{12\indentation}n\_new[i] = n[i];\mbox{}\\
+\hspace*{12\indentation}strcpy(s\_new[i], s[i]);\mbox{}\\
+\hspace*{12\indentation}numeric[i] = s[i];\mbox{}\\
+\hspace*{8\indentation}\} {\bf else} \{\mbox{}\\
+\hspace*{12\indentation}s\_new[i] = ({\bf char}$\ast$)malloc({\bf sizeof}({\bf char}));\mbox{}\\
+\hspace*{12\indentation}printf({\tt"    expand(this \%x) loop BLANKING s[\%d] at \%x$\backslash$n"}, {\bf int}({\bf this}),i, {\bf int}(\&s\_new[i]));\mbox{}\\
+\hspace*{12\indentation}{\bf if} (!s\_new[i]) \{\mbox{}\\
+\hspace*{16\indentation}fprintf(stderr, {\tt"Error \#5 in scalar::expand(\%d) at \%x -- out of memory$\backslash$n"}, len\_new, {\bf int}({\bf this}));\mbox{}\\
+\hspace*{16\indentation}gre\_exit(1);\mbox{}\\
+\hspace*{12\indentation}\}\mbox{}\\
+\hspace*{12\indentation}n\_new[i] = n[i];\mbox{}\\
+\hspace*{12\indentation}strcpy(s\_new[i], {\tt""});\mbox{}\\
+\hspace*{12\indentation}numeric[i] = s[i];\mbox{}\\
+\hspace*{8\indentation}\}\mbox{}\\
+\hspace*{4\indentation}\}\mbox{}\\
+\hspace*{4\indentation}{\bf unsigned} {\bf int} len\_keep = len;\mbox{}\\
+\mbox{}\\
+\hspace*{4\indentation}len = len\_old;\mbox{}\\
+\hspace*{4\indentation}printf({\tt"DONE withloop   2.  About to free storage, thinking len$=$ \%d (note len\_keep is \%d$\backslash$n"},len, len\_keep);\mbox{}\\
+\hspace*{4\indentation}free\_storage();\mbox{}\\
+\hspace*{4\indentation}printf({\tt"DONE withloop   3.  Done freeing storage.$\backslash$n"});\mbox{}\\
+\hspace*{4\indentation}s = s\_new;\mbox{}\\
+\hspace*{4\indentation}n = n\_new;\mbox{}\\
+\hspace*{4\indentation}numeric = numeric\_new;\mbox{}\\
+\hspace*{4\indentation}printf({\tt"scalar::expand() ended up with numeric at \%x$\backslash$n"}, {\bf int}(\&numeric));\mbox{}\\
+\hspace*{4\indentation}len = len\_keep;\mbox{}\\
+\hspace*{4\indentation}printf({\tt"scalar::expand  DONE (len is now \%d)!$\backslash$n$\backslash$n"}, len);\mbox{}\\
+\}\mbox{}\\
+\mbox{}\\
+\mbox{}\\
+\mbox{}\\
+scalar::scalar()  \mbox{}\\
+\{ \mbox{}\\
+\hspace*{4\indentation}printf({\tt"scalar::scalar() this \%x$\backslash$n"}, {\bf int}({\bf this}));\mbox{}\\
+\mbox{}\\
+\hspace*{4\indentation}{\bf if} (\_gre\_debug \& DEBUG\_VARIABLES) printf({\tt"scalar::scalar() at \%x$\backslash$n"}, {\bf int}({\bf this}));\mbox{}\\
+\hspace*{4\indentation}len = 1;\mbox{}\\
+\hspace*{4\indentation}numeric = (bool$\ast$) malloc(len $\ast$ {\bf sizeof}(bool));\mbox{}\\
+\hspace*{4\indentation}printf({\tt"scalar() put numeric at \%x$\backslash$n"}, {\bf int}(\&numeric));\mbox{}\\
+\hspace*{4\indentation}{\bf if} (!numeric) \{\mbox{}\\
+\hspace*{8\indentation}fprintf(stderr, {\tt"Error \#1 in scalar::scalar() -- out of memory$\backslash$n"});\mbox{}\\
+\hspace*{8\indentation}gre\_exit(1);\mbox{}\\
+\hspace*{4\indentation}\}\mbox{}\\
+\hspace*{4\indentation}n = ({\bf double}$\ast$) malloc(len $\ast$ {\bf sizeof}({\bf double}));\mbox{}\\
+\hspace*{4\indentation}{\bf if} (!n) \{\mbox{}\\
+\hspace*{8\indentation}fprintf(stderr, {\tt"Error \#2 in scalar::scalar() -- out of memory$\backslash$n"});\mbox{}\\
+\hspace*{8\indentation}gre\_exit(1);\mbox{}\\
+\hspace*{4\indentation}\}\mbox{}\\
+\hspace*{4\indentation}s = ({\bf char}$\ast$$\ast$) malloc(len $\ast$ {\bf sizeof}({\bf char}$\ast$));\mbox{}\\
+\hspace*{4\indentation}{\bf if} (!s) \{\mbox{}\\
+\hspace*{8\indentation}fprintf(stderr, {\tt"Error \#3 in scalar::scalar() -- out of memory$\backslash$n"});\mbox{}\\
+\hspace*{8\indentation}gre\_exit(1);\mbox{}\\
+\hspace*{4\indentation}\}\mbox{}\\
+\hspace*{4\indentation}s[0] = ({\bf char}$\ast$)malloc({\bf sizeof}({\bf char}));\mbox{}\\
+\hspace*{4\indentation}{\bf if} (!s[0]) \{\mbox{}\\
+\hspace*{8\indentation}fprintf(stderr, {\tt"Error \#4 in scalar::scalar() -- out of memory$\backslash$n"});\mbox{}\\
+\hspace*{8\indentation}gre\_exit(1);\mbox{}\\
+\hspace*{4\indentation}\}\mbox{}\\
+\hspace*{4\indentation}printf({\tt"scalar::scalar() put s[0] at \%x$\backslash$n"},{\bf int}(\&s[0]));\mbox{}\\
+\hspace*{4\indentation}n[0] = 0.0;\mbox{}\\
+\hspace*{4\indentation}strcpy(s[0], {\tt""});\mbox{}\\
+\hspace*{4\indentation}numeric[0] = true;\mbox{}\\
+\}\mbox{}\\
+\mbox{}\\
+scalar::scalar({\bf double} n\_source)\mbox{}\\
+\{ \mbox{}\\
+\hspace*{4\indentation}printf({\tt"scalar::scalar(\%f) this \%x$\backslash$n"}, n\_source, {\bf int}({\bf this}));\mbox{}\\
+\mbox{}\\
+\hspace*{4\indentation}{\bf if} (\_gre\_debug \& DEBUG\_VARIABLES) printf({\tt"scalar::scalar(\%f) at \%x$\backslash$n"}, n\_source, {\bf int}({\bf this}));\mbox{}\\
+\hspace*{4\indentation}len = 1;\mbox{}\\
+\hspace*{4\indentation}numeric = (bool$\ast$) malloc(len $\ast$ {\bf sizeof}(bool));\mbox{}\\
+\hspace*{4\indentation}printf({\tt"scalar(\%f) put numeric at \%x$\backslash$n"}, n\_source,{\bf int}(\&numeric));\mbox{}\\
+\hspace*{4\indentation}{\bf if} (!numeric) \{\mbox{}\\
+\hspace*{8\indentation}fprintf(stderr, {\tt"Error \#1 in scalar::scalar(\%f) -- out of memory$\backslash$n"}, n\_source);\mbox{}\\
+\hspace*{8\indentation}gre\_exit(1);\mbox{}\\
+\hspace*{4\indentation}\}\mbox{}\\
+\hspace*{4\indentation}n = ({\bf double}$\ast$) malloc(len $\ast$ {\bf sizeof}({\bf double}));\mbox{}\\
+\hspace*{4\indentation}{\bf if} (!n) \{\mbox{}\\
+\hspace*{8\indentation}fprintf(stderr, {\tt"Error \#2 in scalar::scalar(\%f) -- out of memory$\backslash$n"}, n\_source);\mbox{}\\
+\hspace*{8\indentation}gre\_exit(1);\mbox{}\\
+\hspace*{4\indentation}\}\mbox{}\\
+\hspace*{4\indentation}s = ({\bf char}$\ast$$\ast$) malloc(len $\ast$ {\bf sizeof}({\bf char}$\ast$));\mbox{}\\
+\hspace*{4\indentation}{\bf if} (!s) \{\mbox{}\\
+\hspace*{8\indentation}fprintf(stderr, {\tt"Error \#3 in scalar::scalar(\%f) -- out of memory$\backslash$n"}, n\_source);\mbox{}\\
+\hspace*{8\indentation}gre\_exit(1);\mbox{}\\
+\hspace*{4\indentation}\}\mbox{}\\
+\hspace*{4\indentation}s[0] = ({\bf char}$\ast$)malloc({\bf sizeof}({\bf char}));\mbox{}\\
+\hspace*{4\indentation}{\bf if} (!s[0]) \{\mbox{}\\
+\hspace*{8\indentation}fprintf(stderr, {\tt"Error \#4 in scalar::scalar(\%f) -- out of memory$\backslash$n"}, n\_source);\mbox{}\\
+\hspace*{8\indentation}gre\_exit(1);\mbox{}\\
+\hspace*{4\indentation}\}\mbox{}\\
+\hspace*{4\indentation}n[0] = n\_source;\mbox{}\\
+\hspace*{4\indentation}strcpy(s[0], {\tt""});\mbox{}\\
+\hspace*{4\indentation}numeric[0] = true;\mbox{}\\
+\}\mbox{}\\
+\mbox{}\\
+scalar::scalar({\bf const} {\bf char}$\ast$ s\_source)\mbox{}\\
+\{ \mbox{}\\
+\hspace*{4\indentation}printf({\tt"scalar::scalar('\%s') this \%x$\backslash$n"}, s\_source, {\bf int}({\bf this}));\mbox{}\\
+\mbox{}\\
+\hspace*{4\indentation}{\bf if} (\_gre\_debug \& DEBUG\_VARIABLES) printf({\tt"scalar::scalar(\%s) at \%x$\backslash$n"}, s\_source, {\bf int}({\bf this}));\mbox{}\\
+\hspace*{4\indentation}len = 1;\mbox{}\\
+\hspace*{4\indentation}numeric = (bool$\ast$) malloc(len $\ast$ {\bf sizeof}(bool));\mbox{}\\
+\hspace*{4\indentation}printf({\tt"scalar(\%s) put numeric at \%x$\backslash$n"}, s\_source,{\bf int}(\&numeric));\mbox{}\\
+\hspace*{4\indentation}{\bf if} (!numeric) \{\mbox{}\\
+\hspace*{8\indentation}fprintf(stderr, {\tt"Error \#1 in scalar::scalar(\%s) -- out of memory$\backslash$n"}, s\_source);\mbox{}\\
+\hspace*{8\indentation}gre\_exit(1);\mbox{}\\
+\hspace*{4\indentation}\}\mbox{}\\
+\hspace*{4\indentation}n = ({\bf double}$\ast$) malloc(len $\ast$ {\bf sizeof}({\bf double}));\mbox{}\\
+\hspace*{4\indentation}{\bf if} (!n) \{\mbox{}\\
+\hspace*{8\indentation}fprintf(stderr, {\tt"Error \#2 in scalar::scalar(\%s) -- out of memory$\backslash$n"}, s\_source);\mbox{}\\
+\hspace*{8\indentation}gre\_exit(1);\mbox{}\\
+\hspace*{4\indentation}\}\mbox{}\\
+\hspace*{4\indentation}s = ({\bf char}$\ast$$\ast$) malloc(len $\ast$ {\bf sizeof}({\bf char}$\ast$));\mbox{}\\
+\hspace*{4\indentation}{\bf if} (!s) \{\mbox{}\\
+\hspace*{8\indentation}fprintf(stderr, {\tt"Error \#3 in scalar::scalar(\%s) -- out of memory$\backslash$n"}, s\_source);\mbox{}\\
+\hspace*{8\indentation}gre\_exit(1);\mbox{}\\
+\hspace*{4\indentation}\}\mbox{}\\
+\mbox{}\\
+\hspace*{4\indentation}s[0] = strdup(s\_source);\mbox{}\\
+\hspace*{4\indentation}{\bf if} (!s[0]) \{\mbox{}\\
+\hspace*{8\indentation}fprintf(stderr, {\tt"Error \#4 in scalar::scalar(\%s) -- out of memory$\backslash$n"}, s\_source);\mbox{}\\
+\hspace*{8\indentation}gre\_exit(1);\mbox{}\\
+\hspace*{4\indentation}\}\mbox{}\\
+\mbox{}\\
+\hspace*{4\indentation}n[0] = 0.0;\mbox{}\\
+\hspace*{4\indentation}numeric[0] = false;\mbox{}\\
+\}\mbox{}\\
+\mbox{}\\
+\mbox{}\\
+scalar::scalar({\bf const} scalar\& scalar\_source)\mbox{}\\
+\{\mbox{}\\
+\hspace*{4\indentation}printf({\tt"$\backslash$nscalar::scalar(at \%x) this \%x$\backslash$n"}, {\bf int}(\&scalar\_source), {\bf int}({\bf this}));\mbox{}\\
+\mbox{}\\
+\hspace*{4\indentation}{\bf if} (\_gre\_debug \& DEBUG\_VARIABLES) printf({\tt"scalar::scalar(scalar at \%x) at \%x$\backslash$n"}, {\bf int}(\&scalar\_source), {\bf int}({\bf this}));\mbox{}\\
+\hspace*{4\indentation}len = scalar\_source.get\_len();\mbox{}\\
+\hspace*{4\indentation}numeric = (bool$\ast$) malloc(len $\ast$ {\bf sizeof}(bool));\mbox{}\\
+\hspace*{4\indentation}printf({\tt"scalar(at \%x) put numeric at \%x$\backslash$n"}, {\bf int}(\&scalar\_source),{\bf int}(\&numeric));\mbox{}\\
+\hspace*{4\indentation}{\bf if} (!numeric) \{\mbox{}\\
+\hspace*{8\indentation}fprintf(stderr, {\tt"Error \#1 in scalar::scalar(scalar at \%x) at \%x -- out of memory$\backslash$n"}, {\bf int}(\&scalar\_source), {\bf int}({\bf this}));\mbox{}\\
+\hspace*{8\indentation}gre\_exit(1);\mbox{}\\
+\hspace*{4\indentation}\}\mbox{}\\
+\hspace*{4\indentation}n = ({\bf double}$\ast$) malloc(len $\ast$ {\bf sizeof}({\bf double}));\mbox{}\\
+\hspace*{4\indentation}{\bf if} (!n) \{\mbox{}\\
+\hspace*{8\indentation}fprintf(stderr, {\tt"Error \#2 in scalar::scalar(scalar at \%x) at \%x -- out of memory$\backslash$n"}, {\bf int}(\&scalar\_source), {\bf int}({\bf this}));\mbox{}\\
+\hspace*{8\indentation}gre\_exit(1);\mbox{}\\
+\hspace*{4\indentation}\}\mbox{}\\
+\hspace*{4\indentation}s = ({\bf char}$\ast$$\ast$) malloc(len $\ast$ {\bf sizeof}({\bf char}$\ast$));\mbox{}\\
+\hspace*{4\indentation}{\bf if} (!s) \{\mbox{}\\
+\hspace*{8\indentation}fprintf(stderr, {\tt"Error \#3 in scalar::scalar(scalar at \%x) at \%x -- out of memory$\backslash$n"}, {\bf int}(\&scalar\_source), {\bf int}({\bf this}));\mbox{}\\
+\hspace*{8\indentation}gre\_exit(1);\mbox{}\\
+\hspace*{4\indentation}\}\mbox{}\\
+\hspace*{4\indentation}printf({\tt"scalar::scalar(at \%x) about to do malloc loop. len \%d.  NOTE: s at \%x$\backslash$n"},{\bf int}(\&scalar\_source),len,{\bf int}(\&s));\mbox{}\\
+\hspace*{4\indentation}\mbox{}\\
+\hspace*{4\indentation}{\bf for} ({\bf unsigned} {\bf int} i = 0; i $<$ len; i++) \{\mbox{}\\
+\hspace*{8\indentation}printf({\tt"scalar::scalar(scalar at \%x) about to malloc i$=$\%d$\backslash$n"},{\bf int}(\&scalar\_source),i);\mbox{}\\
+\hspace*{8\indentation}printf({\tt"                                   source-len $=$\%d$\backslash$n"},strlen(scalar\_source.get\_text(i)));\mbox{}\\
+\hspace*{1\indentation}\mbox{}\\
+\hspace*{8\indentation}s[i] = ({\bf char}$\ast$)malloc({\bf sizeof}({\bf char}) $\ast$ (1 + strlen(scalar\_source.get\_text(i))));\mbox{}\\
+\hspace*{8\indentation}{\bf if} (!s[i]) \{\mbox{}\\
+\hspace*{8\indentation}fprintf(stderr, {\tt"Error \#4 in scalar::scalar(scalar at \%x) at \%x -- out of memory$\backslash$n"}, {\bf int}(\&scalar\_source), {\bf int}({\bf this}));\mbox{}\\
+\hspace*{12\indentation}gre\_exit(1);\mbox{}\\
+\hspace*{8\indentation}\}\mbox{}\\
+\hspace*{8\indentation}n[i] = scalar\_source.get\_numeric(i);\mbox{}\\
+\hspace*{8\indentation}printf({\tt"scalar::scalar(\%x) about to copy s[\%d,\%s] to \%x   len$=$\%d  this \%x$\backslash$n"},{\bf int}(\&scalar\_source),i,scalar\_source.get\_text(i),{\bf int}(\&s[i]),len,{\bf int}({\bf this}));\mbox{}\\
+\hspace*{8\indentation}strcpy(s[i], scalar\_source.get\_text(i));\mbox{}\\
+\hspace*{8\indentation}numeric[i] = scalar\_source.is\_numeric(i);\mbox{}\\
+\hspace*{4\indentation}\}\mbox{}\\
+\}\mbox{}\\
+\mbox{}\\
+\mbox{}\\
+\mbox{}\\
+\mbox{}\\
+scalar\& scalar::{\bf operator}=({\bf const} scalar\& scalar\_source)\mbox{}\\
+\{\mbox{}\\
+\hspace*{4\indentation}printf({\tt"scalar::operator$=$(at \%x) this \%x$\backslash$n"}, {\bf int}(\&scalar\_source), {\bf int}({\bf this}));\mbox{}\\
+\mbox{}\\
+\hspace*{4\indentation}{$//$\it{}if (\_gre\_debug \& DEBUG\_VARIABLES){}\mbox{}\\
+}\hspace*{4\indentation}printf({\tt"scalar::operator$=$(scalar at \%x) at \%x$\backslash$n"}, {\bf int}(\&scalar\_source), {\bf int}({\bf this}));\mbox{}\\
+\mbox{}\\
+\hspace*{4\indentation}free\_storage();\mbox{}\\
+\mbox{}\\
+\hspace*{4\indentation}len = scalar\_source.get\_len();\mbox{}\\
+\hspace*{4\indentation}numeric = (bool$\ast$) malloc(len $\ast$ {\bf sizeof}(bool));\mbox{}\\
+\hspace*{4\indentation}printf({\tt"scalar::operator$=$(at \%x) put numeric at \%x$\backslash$n"}, {\bf int}(\&scalar\_source),{\bf int}(\&numeric));\mbox{}\\
+\hspace*{4\indentation}{\bf if} (!numeric) \{\mbox{}\\
+\hspace*{8\indentation}fprintf(stderr, {\tt"Error \#1 in scalar::operator$=$(scalar at \%x) at \%x -- out of memory$\backslash$n"}, {\bf int}(\&scalar\_source), {\bf int}({\bf this}));\mbox{}\\
+\hspace*{8\indentation}gre\_exit(1);\mbox{}\\
+\hspace*{4\indentation}\}\mbox{}\\
+\hspace*{4\indentation}n = ({\bf double}$\ast$) malloc(len $\ast$ {\bf sizeof}({\bf double}));\mbox{}\\
+\hspace*{4\indentation}{\bf if} (!n) \{\mbox{}\\
+\hspace*{8\indentation}fprintf(stderr, {\tt"Error \#2 in scalar::operator$=$(scalar at \%x) at \%x -- out of memory$\backslash$n"}, {\bf int}(\&scalar\_source), {\bf int}({\bf this}));\mbox{}\\
+\hspace*{8\indentation}gre\_exit(1);\mbox{}\\
+\hspace*{4\indentation}\}\mbox{}\\
+\hspace*{4\indentation}s = ({\bf char}$\ast$$\ast$) malloc(len $\ast$ {\bf sizeof}({\bf char}$\ast$));\mbox{}\\
+\hspace*{4\indentation}{\bf if} (!s) \{\mbox{}\\
+\hspace*{8\indentation}fprintf(stderr, {\tt"Error \#3 in scalar::operator$=$(scalar at \%x) at \%x -- out of memory$\backslash$n"}, {\bf int}(\&scalar\_source), {\bf int}({\bf this}));\mbox{}\\
+\hspace*{8\indentation}gre\_exit(1);\mbox{}\\
+\hspace*{4\indentation}\}\mbox{}\\
+\hspace*{4\indentation}{\bf for} ({\bf unsigned} {\bf int} i = 0; i $<$ len; i++) \{\mbox{}\\
+\hspace*{8\indentation}printf({\tt"operator$=$ copying \%d '\%s' $\backslash$n"}, i, s[i]);\mbox{}\\
+\hspace*{8\indentation}s[i] = ({\bf char}$\ast$)malloc({\bf sizeof}({\bf char}) $\ast$ (1 + strlen(scalar\_source.get\_text(i))));\mbox{}\\
+\hspace*{8\indentation}{\bf if} (!s[i]) \{\mbox{}\\
+\hspace*{8\indentation}fprintf(stderr, {\tt"Error \#4 in scalar::operator$=$(scalar at \%x) at \%x -- out of memory$\backslash$n"}, {\bf int}(\&scalar\_source), {\bf int}({\bf this}));\mbox{}\\
+\hspace*{12\indentation}gre\_exit(1);\mbox{}\\
+\hspace*{8\indentation}\}\mbox{}\\
+\hspace*{8\indentation}n[i] = scalar\_source.get\_numeric(i);\mbox{}\\
+\hspace*{8\indentation}strcpy(s[i], scalar\_source.get\_text(i));\mbox{}\\
+\hspace*{8\indentation}numeric[i] = scalar\_source.is\_numeric(i);\mbox{}\\
+\hspace*{4\indentation}\}\mbox{}\\
+\hspace*{4\indentation}{\bf return} $\ast${\bf this};\mbox{}\\
+\}\mbox{}\\
+\mbox{}\\
+\mbox{}\\
+\mbox{}\\
+\mbox{}\\
+{\bf void} scalar::set\_numeric({\bf unsigned} {\bf int} i, {\bf double} n\_source) \{\mbox{}\\
+\hspace*{4\indentation}{\bf if} (i $>$= len)\mbox{}\\
+\hspace*{8\indentation}expand(i + 1);\mbox{}\\
+\hspace*{4\indentation}n[i] = n\_source;\mbox{}\\
+\hspace*{4\indentation}strcpy(s[i], {\tt""});\mbox{}\\
+\hspace*{4\indentation}numeric[i] = true;\mbox{}\\
+\}\mbox{}\\
+\mbox{}\\
+\mbox{}\\
+\mbox{}\\
+\mbox{}\\
+{\bf void} scalar::set\_text({\bf unsigned} {\bf int} i, {\bf const} {\bf char}$\ast$ s\_source) \mbox{}\\
+\{\mbox{}\\
+\hspace*{4\indentation}printf({\tt"scalar::set\_text(\%d,\%s)$\backslash$n"},i,s\_source);\mbox{}\\
+\hspace*{4\indentation}{\bf if} (i $>$= len) \{\mbox{}\\
+\hspace*{8\indentation}printf({\tt"$\backslash$nNOTE: i$=$\%d len$=$\%d expanding to \%d$\backslash$n"},i,len,i+1);\mbox{}\\
+\hspace*{8\indentation}expand(i + 1);\mbox{}\\
+\hspace*{4\indentation}\}\mbox{}\\
+\hspace*{4\indentation}{\bf if} (strlen(s\_source) $>$ strlen(s[i])) \{\mbox{}\\
+\hspace*{8\indentation}printf({\tt"scalar::set\_text allocating new space for '\%s'$\backslash$n"},s\_source);\mbox{}\\
+\hspace*{8\indentation}free(s[i]);\mbox{}\\
+\hspace*{8\indentation}s[i] = ({\bf char}$\ast$)malloc({\bf sizeof}({\bf char}) $\ast$ (1 + strlen(s\_source)));\mbox{}\\
+\hspace*{8\indentation}{\bf if} (!s[i]) \{\mbox{}\\
+\hspace*{12\indentation}fprintf(stderr, {\tt"Error in scalar::set\_text(\%d,\%s) -- out of memory$\backslash$n"}, i, s\_source);\mbox{}\\
+\hspace*{12\indentation}exit(1);\mbox{}\\
+\hspace*{8\indentation}\}\mbox{}\\
+\hspace*{4\indentation}\}\mbox{}\\
+\hspace*{4\indentation}strcpy(s[i], s\_source); \mbox{}\\
+\hspace*{4\indentation}numeric[i] = false;\mbox{}\\
+\hspace*{4\indentation}n[i] = 0.0;\mbox{}\\
+\hspace*{4\indentation}printf({\tt"DONE scalar::set\_text(\%d,\%s)$\backslash$n"},i,s\_source);\mbox{}\\
+\}\mbox{}\\
+\mbox{}\\
+\mbox{}\\
+\mbox{}\\
+\mbox{}\\
+{\bf char}$\ast$ scalar::get\_text({\bf unsigned} {\bf int} i) {\bf const} \mbox{}\\
+\{\mbox{}\\
+\hspace*{4\indentation}{\bf if} (i $<$ len) \mbox{}\\
+\hspace*{8\indentation}{\bf return} s[i];\mbox{}\\
+\hspace*{4\indentation}{\bf else}\mbox{}\\
+\hspace*{8\indentation}{\bf return} {\tt""};\mbox{}\\
+\}\mbox{}\\
+\mbox{}\\
+\mbox{}\\
+\mbox{}\\
+{\bf double} scalar::get\_numeric({\bf unsigned} {\bf int} i = 0) {\bf const}\mbox{}\\
+\{\mbox{}\\
+\hspace*{4\indentation}{\bf if} (i $<$ len) \{\mbox{}\\
+\hspace*{8\indentation}{\bf if} (!numeric[i]) \{\mbox{}\\
+\hspace*{12\indentation}{\bf double} nn = atof(s[i]);\mbox{}\\
+\hspace*{12\indentation}{\bf return} nn;\mbox{}\\
+\hspace*{8\indentation}\} {\bf else} \{\mbox{}\\
+\hspace*{12\indentation}{\bf return} n[i];\mbox{}\\
+\hspace*{8\indentation}\}\mbox{}\\
+\hspace*{4\indentation}\} {\bf else} \{\mbox{}\\
+\hspace*{8\indentation}{\bf return} 0.0;\mbox{}\\
+\hspace*{4\indentation}\}\mbox{}\\
+\}\mbox{}\\
+\mbox{}\\
+\mbox{}\\
+\mbox{}\\
+bool scalar::is\_numeric({\bf unsigned} {\bf int} i = 0) {\bf const}\mbox{}\\
+\{\mbox{}\\
+\hspace*{4\indentation}{\bf if} (i $<$ len)\mbox{}\\
+\hspace*{8\indentation}{\bf return} numeric[i];\mbox{}\\
+\hspace*{4\indentation}{\bf else}\mbox{}\\
+\hspace*{8\indentation}{\bf return} false;\mbox{}\\
+\}\mbox{}\\
+\end{flushleft}
+\end{document}

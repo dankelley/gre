@@ -1,0 +1,45 @@
+print "tst_suite/tst-string-comp.gre    ...";
+
+# Compare constants.
+die " failed test 1\n" if ("ab" ne "ab");
+die " failed test 2'\n" if ("ab" eq "zab");
+die " failed test 3\n" if (!("ab" ne "zab"));
+
+# Compare scalar variables.
+$a = "hi";
+die " failed test 4\n" if ($a ne "hi");
+die " failed test 5\n" if ("hi" ne $a);
+die " failed test 6\n" if ("$a" ne "hi");
+die " failed test 7\n" if ("hi" ne "$a");
+
+# Compare vector variables.
+$a[0] = "hi";
+die " failed test  9\n" if ("$a[0]" ne "hi");
+die " failed test 10\n" if ($a[0] ne "hi");
+$a[0] = "HI";
+die " failed test  9\n" if ("$a[0]" ne "HI");
+die " failed test 10\n" if ("HI" ne $a[0]);
+
+# Check that numerical meaning recovered.
+$a = 1;
+die " failed test 11\n" if (1 != $a);
+
+# Search patterns.
+$_ = "gre";
+die " failed test 12\n" if (!/^g/);
+
+# Substitutions.
+$a = "gre";
+$a =~ s/^g/G/;
+die " failed test 13\n" if ($a ne "Gre");
+$a = "gregre";
+$a =~ s/^g/G/;
+die " failed test 14\n" if ($a ne "Gregre");
+$a = "gregre";
+$a =~ s/^g/G/g;
+die " failed test 14\n" if ($a ne "Gregre");
+$a = "gregre";
+$a =~ s/g/G/g;
+die " failed test 15\n" if ($a ne "GreGre");
+
+print " passed\n";

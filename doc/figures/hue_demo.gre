@@ -1,0 +1,38 @@
+cmd sample ($$;) {              # saturation value
+    draw axes none;
+    $dd = 0.01;
+    for ($d = 0; $d <= 1; $d += $dd) {
+        set color hsv $d $_[0] $_[1];
+        draw box filled ($d-$dd1) $_ybottom ($d+$dd) $_ytop;
+    }
+    set color black;
+    draw axes;
+    draw label "Saturation=$_[0]  Value=$_[1]" 
+        at ($_xmargin + $_xsize + 1) ($_ymargin + $_ysize/2) cm;
+    set y margin $_ymargin + $_ysize + 0.75;
+    set x name "";
+    set x format "";
+    set y format "";
+}
+set x margin 2;
+set y margin 4;
+set x name "Hue";
+set y name "";
+set y size 1;
+set y axis 0 1;
+set x axis 0 1 0.5 0.1;
+draw label "`pwd`/$_command_file" at $_xmargin ($_ymargin - 2) cm;
+
+sample 1   1;
+sample 0.8 1;
+sample 0.6 1;
+sample 0.4 1;
+sample 0.2 1;
+sample 0.0 1;
+sample 1   0.8;
+sample 1   0.6;
+sample 1   0.4;
+sample 1   0.2;
+sample 1   0.0;
+
+

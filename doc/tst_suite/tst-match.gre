@@ -1,0 +1,17 @@
+print "tst_suite/tst-match.gre          ...";
+$file = "tst-match.dat";
+open(IN, $file) or die "  cannot open $file";
+$line = 1;
+while(<IN>) {
+    if (/GRE/)       { die " failed test 1\n" if ($line != 1); }
+    if (/gre/)       { die " failed test 2\n" if ($line != 2); }
+    if (/f(o{2})b/)  { 
+	die " failed test 3\n" if ($line != 3);
+	die " failed test 4\n" if $1 ne "oo";
+    }
+    if (/o{3}/)      { die " failed test 5\n" if ($line != 4); }
+    if (/lastline/i) { die " failed test 6\n" if ($line != 5 and $line != 6); }
+    $line++;
+}
+die " failed test 7\n" if ($line != 7);
+print " passed\n";

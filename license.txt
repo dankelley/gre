@@ -1,0 +1,2 @@
+The Gre license is not decide upon yet.  It may be made GNU eventually,
+but for now it is closed-source.

@@ -1,0 +1,111 @@
+<html>
+<!- Created Sun Jul 13 17:06:22 2003 by ./../gre2html from maritimes.gre.gre -->
+<head>
+<title>maritimes.gre.gre</title>
+</head>
+<body>
+<i># Draw map of Maritime provinces of Canada, to demonstrate</i><br>
+<i># 'set map projection' command.  (The data file used here </i><br>
+<i># is available upon request.)</i><br>
+
+<br>
+<i># Use lambert-conformal-conic (lcc) projection, with the Clark 1966</i><br>
+<i># formula describing the ellipsoidal shape of the earth.  The projection</i><br>
+<i># is centered at a longitude of 63.5 west (near Halifax, Nova Scotia).</i><br>
+
+<br>
+<i># This projection requires intersection latitudes (circles at which</i><br>
+<i># the cone touches the earth surface).  Here I use 43N and 49N to</i><br>
+<i># match Canadian Hydographic Service charts of the region.</i><br>
+<i>#</i><br>
+<i># NB. The -m argument sets a scale factor of 0.001, so that the unit</i><br>
+<i># will be kilometers rather than the default meters (see axis commands</i><br>
+<i># below).</i><br>
+
+<br>
+set map projection <tt>"+proj=lcc +ellps=clrk66 +lon_0=63.5w +lat_0=44.6n +lat_1=43 +lat_2=49 -m 1/1000"</tt>;
+<br>
+
+<br>
+<i># Set up axes to view rectangle 500 kilometers on a side.</i><br>
+<i>#</i><br>
+<i># NB. It is crucial that the x and y ranges be identical or the</i><br>
+<i># map will be distored.</i><br>
+
+<br>
+set x axis -300 400 100;
+<br>
+set y axis -250 350 100;
+<br>
+draw axes none;                 <i># Don't draw axes</i><br>
+
+<br>
+<i># Set clip on, so that coastline doesn't plot outside the </i><br>
+<i># box containing the map.</i><br>
+set clip on;
+<br>
+
+<br>
+<i># The data file is in a weird format, with header lines that</i><br>
+<i># have the letter <tt>"P"</tt> in them.  Compensate by passing </i><br>
+<i># data though a gawk script first.</i><br>
+set missing value -999;
+<br>
+open(IN, <tt>"gawk '{if(\$1 == \"</tt>P\<tt>"){print -999,-999}else{print}}' /users/dek/kelley/data/Coastline/NS_1.dat |"</tt>) or die;
+<br>
+
+<br>
+read columns IN x=1 y=2;
+<br>
+close(IN);
+<br>
+
+<br>
+<i># Draw a black coastline surrounding an 80-percent</i><br>
+<i># gray land-mass.</i><br>
+set graylevel 0.8;
+<br>
+draw curve filled;
+<br>
+set color black;
+<br>
+draw curve;
+<br>
+
+<br>
+<i># Draw frame around box</i><br>
+set clip off;
+<br>
+draw axes frame;
+<br>
+
+<br>
+<i># Draw graticule crosses, with labels</i><br>
+<b>for</b> ($lat = 43; $lat < 48; $lat += 1) {
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>for</b> ($lon = -67; $lon < -58; $lon += 2) {
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;draw line from ($lon - 1/10) $lat to ($lon + 1/10) $lat;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;draw line from  $lon ($lat - 1/10) to $lon ($lat + 1/10);
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+<br>
+}
+<br>
+set font size 9;
+<br>
+<b>for</b> ($lon = -67; $lon < -58; $lon += 2) { 
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;draw label (-$lon . <tt>"W"</tt>) whiteunder at ($lon - 0.2) 42.7;
+<br>
+}
+<br>
+<b>for</b> ($lat = 43; $lat < 48; $lat += 2) {
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;draw label ($lat . <tt>"N"</tt>) whiteunder at -58.8 ($lat - 0.04);
+<br>
+}
+<br>
+</body>
+</html>

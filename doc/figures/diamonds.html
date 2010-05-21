@@ -1,0 +1,63 @@
+<html>
+<!- Created Sun Jul 13 12:36:33 2003 by ../gre2html from diamonds.gre -->
+<head>
+<title>diamonds.gre</title>
+</head>
+<body>
+set x margin 2;
+<br>
+set x size 8.5*2.54 - 4;
+<br>
+set y size 6;
+<br>
+set x axis 0 1;
+<br>
+set y axis 0 1;
+<br>
+draw axes none;
+<br>
+$s = $_xsize;
+<br>
+set clip on;
+<br>
+
+<br>
+<i># Some hues that look nice:</i><br>
+<i># 0.10 warm browns and oranges, tending to red</i><br>
+<i># 0.11 warm browns and golds, tending to green</i><br>
+<i># 0.60 slightly warm blues</i><br>
+<i># 0.04 reds</i><br>
+
+<br>
+$hue = 0.11;
+<br>
+$saturation = 0.6;
+<br>
+$value = 0.6;
+<br>
+<b>for</b> ($d = 0; $d < 25; $d++) {
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$x = rand();
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$y = rand();
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set color hsv $hue $saturation $value;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set symbol size $s;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;draw symbol filleddiamond at $x $y;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set color white;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;draw symbol diamond at $x $y;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$s *= 0.9;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$saturation *= 1.1;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$value *= 1.05;
+<br>
+}
+<br>
+</body>
+</html>

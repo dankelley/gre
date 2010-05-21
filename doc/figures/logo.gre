@@ -1,0 +1,8 @@
+set x axis 0 1;
+set y axis 0 1;
+draw axes none;
+set font size 48;
+set font to PalatinoRoman;
+draw label "Gre" at 3 3 cm;
+
+

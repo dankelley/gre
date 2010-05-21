@@ -1,0 +1,36 @@
+print "tst_suite/tst-read.gre           ...";
+
+# Test open/read/close, with anonymous style and filehandle style
+
+# With anonymous style.
+$dir = ".";
+open(IN, "$dir/tst-read.dat");
+read IN $x $y;
+die " failed test 1" if ($x != 1);
+die " failed test 2" if ($y != 2);
+read IN $x $y;
+die " failed test 3" if ($x != 10);
+die " failed test 4" if ($y != 20);
+close IN;
+
+# With file handle style.
+open(IN2, "$dir/tst-read.dat");
+read IN2 $x $y;
+die " failed test 5" if ($x != 1);
+die " failed test 6" if ($y != 2);
+read IN2 $x $y;
+die " failed test 7" if ($x != 10);
+die " failed test 8" if ($y != 20);
+close IN2;
+
+# new
+
+open(IN3, "$dir/tst-read.dat");
+while(<IN3>) {
+    @F = split;
+    die " failed test 9"  if ($F[0] ne "1");
+    die " failed test 10" if ($F[1] ne "2");
+    last;
+}
+
+print " passed\n";

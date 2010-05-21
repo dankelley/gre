@@ -1,0 +1,8 @@
+# Test 3 styles of die command
+print "expect integers from 0 to 5:\n";
+for ($i = 0; $i < 20; $i += 1) {
+    print "    $i\n";
+    die if ($i >= 5);		# prints file and line
+    # die "hi\n" if ($i >= 5);  # prints only message
+    # die "hi" if ($i >= 5);    # prints message and file and line
+}

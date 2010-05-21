@@ -1,0 +1,64 @@
+.TH GRE 1
+.SH NAME 
+gre \- scientific graphics language
+.SH SYNOPSIS
+.B gre
+[
+.B OPTIONS
+]
+.I CommandFile
+[
+.I PostScriptFile
+]
+
+.SH DESCRIPTION
+
+Gre is a programming language for scientific graphics.  It can make
+x-y graphs, contour-graphs, and image graphs.  In addition, Gre has a
+full suite of low-level graphical elements and sufficient programming
+capabilities (loops, subroutines, etc) to permit complex
+customization.
+
+Gre is not point-click.  In some ways it is analogous to TeX.
+Extensive power rewards tolerance of a modest learning curve.
+
+For more information, please consult online 
+.I info
+and
+.I html
+manuals.
+
+The 
+.I info
+manual is normally accessed by typing
+
+.B	info gre
+
+The location of the 
+.I html
+manual depends on the system setup.  Normally it is at
+
+.B	file:/usr/doc/gre-VERSION/html/index.html
+
+.SH EMACS SUPPORT
+
+An 
+.I emacs
+mode is provided with Gre, but it is not installed automatically, due to technical difficulties.  To access it, put the following lines in your 
+.I ~/.emacs
+file:
+.(q
+
+ (setq gre*WWW-page "file:/usr/doc/gre-VERSION/html/index.html")
+
+ (setq gre*directory-tree "/usr/share/gre")
+
+ (autoload 'gre-mode "gre-mode" "Enter Gre-mode." t)
+
+ (setq auto-mode-alist (cons '("\\.gre$" . gre-mode) auto-mode-alist))
+
+.)q
+
+
+.SH AUTHOR
+(c) 1998 Dan Kelley, Dan.Kelley@Dal.CA

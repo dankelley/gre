@@ -1,0 +1,2 @@
+print "Character version is: $_version\n";
+print "Numerical version is: ", version(), "\n";

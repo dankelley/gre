@@ -1,0 +1,2612 @@
+
+PJ_vandg4.c,441
+static const char SCCSID[2,13
+#define PJ_LIB__4,87
+#define TOL	7,191
+#define TWORPI	8,209
+	double x1,10,282
+	double x1, t,10,282
+	double x1, t, bt,10,282
+	double x1, t, bt, ct,10,282
+	double x1, t, bt, ct, ft,10,282
+	double x1, t, bt, ct, ft, bt2,10,282
+	double x1, t, bt, ct, ft, bt2, ct2,10,282
+	double x1, t, bt, ct, ft, bt2, ct2, dt,10,282
+	double x1, t, bt, ct, ft, bt2, ct2, dt, dt2;10,282
+FREEUP;43,1155
+ENTRY0(44,1186
+
+pj_release.c,60
+static const char SCCSID[3,54
+char const pj_release[6,130
+
+PJ_putp3.c,225
+static const char SCCSID[2,13
+#define PROJ_PARMS__ 4,86
+#define PJ_LIB__6,120
+#define C	10,271
+#define RPISQ	11,292
+	xy.x 13,354
+	xy.y 14,406
+	lp.phi 18,477
+	lp.lam 19,497
+FREEUP;22,567
+setup(24,611
+ENTRY0(28,692
+
+PJ_nocol.c,104
+static const char SCCSID[2,13
+#define PJ_LIB__4,86
+#define EPS	7,188
+FREEUP;40,1083
+ENTRY0(41,1114
+
+pj_mlfn.c,394
+static const char SCCSID[2,13
+#define C00 10,330
+#define C02 11,345
+#define C04 12,361
+#define C06 13,381
+#define C08 14,403
+#define C22 15,431
+#define C44 16,447
+#define C46 17,466
+#define C48 18,500
+#define C66 19,534
+#define C68 20,568
+#define C88 21,602
+#define EPS 22,626
+#define MAX_ITER 23,644
+#define EN_SIZE 24,664
+pj_enfn(26,692
+pj_mlfn(39,1111
+pj_inv_mlfn(46,1295
+
+pj_inv.c,89
+static const char SCCSID[3,46
+#define PJ_LIB__5,117
+# define EPS 8,175
+pj_inv(10,231
+
+PJ_hammer.c,287
+static const char SCCSID[2,13
+#define PROJ_PARMS__ 4,87
+#define PJ_LIB__7,138
+	double cosphi,12,298
+	double cosphi, d;12,298
+	d 14,318
+	xy.x 15,385
+	xy.y 16,426
+FREEUP;19,475
+ENTRY0(20,506
+		P->w 24,635
+		P->m 28,762
+	P->rm 29,775
+	P->es 31,810
+	P->es = 0.; P->fwd 31,810
+
+pj_factors.c,118
+static const char SCCSID[3,44
+#define PJ_LIB__5,119
+#define DEFAULT_H 9,195
+#define EPS 11,265
+pj_factors(13,290
+
+PJ_eck5.c,317
+static const char SCCSID[2,13
+#define PJ_LIB__4,93
+#define XF	7,179
+#define RXF	8,213
+#define YF	9,248
+#define RYF	10,282
+	xy.x 12,352
+	xy.y 13,394
+	lp.lam 17,466
+FREEUP;20,539
+ENTRY0(eck5); P->es 21,570
+ENTRY0(eck5); P->es = 0.; P->inv 21,570
+ENTRY0(eck5); P->es = 0.; P->inv = s_inverse; P->fwd 21,570
+
+PJ_denoy.c,233
+static const char SCCSID[2,13
+#define PJ_LIB__4,94
+#define C0	7,205
+#define C1	8,221
+#define C3	9,255
+#define D1	10,288
+#define D5	11,303
+	xy.y 13,354
+	xy.x 14,370
+	lp.lam 15,386
+	xy.x 16,410
+FREEUP;20,546
+ENTRY0(21,577
+
+PJ_collg.c,219
+static const char SCCSID[2,13
+#define PJ_LIB__4,94
+#define FXC	7,182
+#define FYC	8,217
+#define ONEEPS	9,252
+		xy.y 14,369
+	xy.x 15,390
+	xy.y 16,419
+	lp.phi 20,497
+		lp.lam 28,745
+FREEUP;31,801
+ENTRY0(32,832
+
+PJ_wink1.c,171
+static const char SCCSID[2,13
+#define PROJ_PARMS__ 4,94
+#define PJ_LIB__6,134
+	xy.x 10,268
+	xy.y 11,318
+	lp.phi 15,385
+	lp.lam 16,401
+FREEUP;19,467
+ENTRY0(20,498
+
+PJ_putp4p.c,233
+static const char SCCSID[2,13
+#define PROJ_PARMS__ 4,87
+#define PJ_LIB__6,128
+	lp.phi 11,308
+	xy.x 12,352
+	xy.y 14,434
+	lp.phi 18,515
+	lp.lam 19,547
+	lp.phi 20,586
+	lp.phi 22,625
+FREEUP;25,684
+setup(27,728
+ENTRY0(31,809
+
+PJ_mod_ster.c,1703
+static const char SCCSID[2,13
+#define PROJ_PARMS__ 5,133
+#define PJ_LIB__9,212
+#define EPSLN 16,580
+	double sinlon,19,637
+	double sinlon, coslon,19,637
+	double sinlon, coslon, esphi,19,637
+	double sinlon, coslon, esphi, chi,19,637
+	double sinlon, coslon, esphi, chi, schi,19,637
+	double sinlon, coslon, esphi, chi, schi, cchi,19,637
+	double sinlon, coslon, esphi, chi, schi, cchi, s;19,637
+	COMPLEX p;20,688
+	sinlon 22,701
+	coslon 23,724
+	esphi 24,747
+	chi 25,776
+	schi 27,880
+	cchi 28,898
+	s 29,916
+	p.r 30,977
+	p.i 31,1003
+	p 32,1060
+	xy.x 33,1096
+	xy.y 34,1109
+	int nn;38,1172
+	COMPLEX p,39,1181
+	COMPLEX p, fxy,39,1181
+	COMPLEX p, fxy, fpxy,39,1181
+	COMPLEX p, fxy, fpxy, dp;39,1181
+	double den,40,1208
+	double den, rh,40,1208
+	double den, rh, z,40,1208
+	double den, rh, z, sinz,40,1208
+	double den, rh, z, sinz, cosz,40,1208
+	double den, rh, z, sinz, cosz, chi,40,1208
+	double den, rh, z, sinz, cosz, chi, phi,40,1208
+	double den, rh, z, sinz, cosz, chi, phi, dphi,40,1208
+	double den, rh, z, sinz, cosz, chi, phi, dphi, esphi;40,1208
+	p.r 42,1264
+	p.i 43,1277
+	for (nn = 20; nn 44,1290
+		lp.lam 82,2231
+FREEUP;85,2275
+setup(87,2319
+ENTRY0(101,2664
+	P->n 109,2783
+	P->lam0 110,2794
+	P->phi0 111,2823
+	P->zcoeff 112,2852
+	P->es 113,2869
+ENDENTRY(114,2882
+	P->n 123,3029
+	P->lam0 124,3040
+	P->phi0 125,3071
+	P->zcoeff 126,3101
+	P->es 127,3118
+ENDENTRY(128,3131
+	P->n 139,3281
+	P->lam0 140,3292
+	P->phi0 141,3322
+	P->zcoeff 142,3352
+	P->es 143,3369
+	P->a 144,3382
+ENDENTRY(145,3400
+ABs[155,3607
+	P->n 164,3765
+	P->lam0 165,3776
+	P->phi0 166,3807
+ENDENTRY(175,4004
+ABs[190,4298
+	P->n 203,4541
+	P->lam0 204,4552
+	P->phi0 205,4583
+
+PJ_merc.c,208
+static const char SCCSID[2,13
+#define PJ_LIB__4,85
+#define EPS10 7,183
+	xy.x 10,292
+	xy.y 11,316
+	xy.x 16,478
+	xy.y 17,502
+	lp.lam 22,675
+	lp.phi 26,750
+	lp.lam 27,800
+FREEUP;30,840
+ENTRY0(31,871
+
+PJ_lcc.c,302
+static const char SCCSID[2,13
+#define PROJ_PARMS__ 4,84
+#define PJ_LIB__12,210
+# define EPS10	16,344
+		P->rho 23,520
+	xy.x 25,642
+	xy.y 26,693
+SPECIAL(51,1272
+FREEUP;63,1673
+ENTRY0(64,1704
+	P->n 77,2027
+	cosphi 78,2058
+	secant 79,2082
+	P->inv 103,2924
+	P->fwd 104,2945
+	P->spc 105,2966
+
+PJ_gall.c,218
+static const char SCCSID[2,13
+#define PJ_LIB__4,85
+#define YF	7,185
+#define XF	8,219
+#define RYF	9,253
+#define RXF	10,288
+	xy.x 12,358
+	xy.y 13,379
+	lp.lam 17,461
+	lp.phi 18,483
+FREEUP;21,532
+ENTRY0(22,563
+
+pj_errno.c,51
+static const char SCCSID[3,63
+int pj_errno 6,137
+
+PJ_bacon.c,224
+static const char SCCSID[2,13
+# define HLFPI2	4,86
+# define EPS	5,125
+#define PROJ_PARMS__ 6,144
+#define PJ_LIB__9,191
+	double ax,15,446
+	double ax, f;15,446
+	xy.y 17,462
+		xy.x 27,773
+FREEUP;30,802
+ENTRY0(31,833
+
+pj_auth.c,216
+static const char SCCSID[3,61
+# define P00 6,155
+# define P01 7,190
+# define P02 8,225
+# define P10 9,260
+# define P11 10,295
+# define P20 11,330
+#define APA_SIZE 12,365
+pj_authset(14,394
+pj_authlat(30,673
+
+nad_init.c,88
+static const char SCCSID[3,63
+#define PJ_LIB__5,138
+nad_init(11,274
+nad_free(38,843
+
+aasincos.c,150
+static const char SCCSID[3,69
+#define ONE_TOL	6,164
+#define TOL	7,198
+#define ATOL 8,222
+aasin(10,249
+aacos(21,416
+asqrt(32,574
+aatan2(34,636
+
+emess.h,141
+#define EMESS_H3,59
+static char EMESS_H_ID[6,89
+struct EMESS EMESS9,160
+struct EMESS emess_dat 18,390
+#define strerror(strerror22,516
+
+pj_zpoly1.c,68
+static const char SCCSID[3,47
+pj_zpoly1(11,280
+pj_zpolyd1(26,603
+
+PJ_tmerc.c,1258
+static const char SCCSID[2,13
+#define PROJ_PARMS__ 4,86
+#define PJ_LIB__8,152
+#define EPS10	13,337
+#define aks0	14,358
+#define aks5	15,378
+#define FC1 16,398
+#define FC2 17,413
+#define FC3 18,428
+#define FC4 19,462
+#define FC5 20,496
+#define FC6 21,512
+#define FC7 22,546
+#define FC8 23,580
+	double al,25,648
+	double al, als,25,648
+	double al, als, n,25,648
+	double al, als, n, cosphi,25,648
+	double al, als, n, cosphi, sinphi,25,648
+	double al, als, n, cosphi, sinphi, t;25,648
+	sinphi 27,688
+	sinphi = sin(lp.phi); cosphi 27,688
+	t 28,733
+	t 29,781
+	al 30,790
+	als 31,813
+	n 33,872
+	xy.x 34,903
+	xy.y 39,1077
+	double b,48,1398
+	double b, cosphi;48,1398
+	b 50,1418
+	xy.x 52,1504
+		xy.y 57,1678
+	xy.y 59,1731
+	double n,63,1816
+	double n, con,63,1816
+	double n, con, cosphi,63,1816
+	double n, con, cosphi, d,63,1816
+	double n, con, cosphi, d, ds,63,1816
+	double n, con, cosphi, d, ds, sinphi,63,1816
+	double n, con, cosphi, d, ds, sinphi, t;63,1816
+	lp.phi 65,1859
+	double h,93,2720
+	double h, g;93,2720
+	h 95,2735
+	g 96,2758
+	h 97,2782
+	lp.phi 98,2815
+	lp.lam 100,2900
+FREEUP;103,2955
+setup(111,3041
+ENTRY1(127,3393
+	P->y0 133,3485
+	P->x0 134,3544
+	P->lam0 145,3871
+	P->k0 146,3911
+	P->phi0 147,3928
+
+PJ_rpoly.c,206
+static const char SCCSID[2,13
+#define PROJ_PARMS__ 4,86
+#define EPS	9,167
+#define PJ_LIB__10,184
+	double fa;15,340
+		fa 20,411
+FREEUP;31,659
+ENTRY0(32,690
+	P->es 37,840
+	P->es = 0.; P->fwd 37,840
+
+PJ_putp6.c,432
+static const char SCCSID[2,13
+#define PROJ_PARMS__ 4,86
+#define PJ_LIB__6,136
+#define EPS	10,277
+#define NITER	11,295
+#define CON_POLE 12,312
+	double p,14,382
+	double p, r,14,382
+	double p, r, V;14,382
+	int i;15,399
+	p 17,408
+	lp.phi 18,433
+	for (i = NITER; i 19,457
+	xy.x 28,688
+	xy.y 29,751
+	double r;33,827
+	lp.phi 35,839
+	r 36,864
+	lp.lam 37,897
+	lp.phi 38,937
+FREEUP;41,1021
+setup(43,1065
+ENTRY0(49,1148
+
+PJ_nell.c,354
+static const char SCCSID[2,13
+#define PJ_LIB__4,85
+#define MAX_ITER	7,167
+#define LOOP_TOL	8,187
+	double k,10,244
+	double k, V;10,244
+	int i;11,258
+	k 13,267
+	V 14,290
+	lp.phi 15,312
+	for (i = MAX_ITER; i 16,367
+	xy.x 22,505
+	xy.y 23,548
+	double th,27,615
+	double th, s;27,615
+	lp.lam 29,631
+	lp.phi 30,671
+FREEUP;33,730
+ENTRY0(34,761
+
+PJ_gnom.c,560
+static const char SCCSID[2,13
+#define PROJ_PARMS__ 4,85
+#define PJ_LIB__8,156
+#define EPS10 11,240
+#define N_POLE	12,261
+#define S_POLE 13,278
+#define EQUIT	14,295
+#define OBLIQ	15,311
+	double  coslam,17,362
+	double  coslam, cosphi,17,362
+	double  coslam, cosphi, sinphi;17,362
+	sinphi 19,396
+	cosphi 20,419
+	coslam 21,442
+	xy.x 37,728
+	double  rh,54,1060
+	double  rh, cosz,54,1060
+	double  rh, cosz, sinz;54,1060
+	rh 56,1086
+	sinz 57,1111
+	cosz 58,1143
+FREEUP;94,1908
+ENTRY0(95,1939
+	P->inv 105,2177
+	P->fwd 106,2198
+	P->es 107,2219
+
+pj_ell_set.c,149
+static const char SCCSID[3,53
+#define SIXTH 7,170
+#define RA4 8,215
+#define RA6 9,262
+#define RV4 10,310
+#define RV6 11,355
+pj_ell_set(13,453
+
+hypot.c,45
+static const char SCCSID[2,13
+hypot(23,966
+
+geodesic.h,520
+static char GEODESIC_H_ID[2,13
+struct geodesic geodesic5,113
+} GEODESIC;12,270
+# define a	13,282
+# define lam1	14,304
+# define phi1	15,332
+# define al12	16,360
+# define lam2	17,391
+# define phi2	18,419
+# define al21	19,447
+# define S	20,478
+# define f	21,503
+# define onef	22,528
+# define f2	23,556
+# define f4	24,583
+# define ff2	25,610
+# define f64	26,638
+# define ellipse 27,667
+n_alpha,29,706
+n_alpha, n_S;29,706
+to_meter,31,728
+to_meter, fr_meter,31,728
+to_meter, fr_meter, del_alpha;31,728
+
+PJ_vandg.c,1135
+static const char SCCSID[2,13
+#define PJ_LIB__4,86
+# define TOL	7,182
+# define THIRD	8,203
+# define TWO_THRD	9,241
+# define C2_27	10,281
+# define PI4_3	11,319
+# define PISQ	12,358
+# define TPISQ	13,396
+# define HPISQ	14,436
+	double  al,16,510
+	double  al, al2,16,510
+	double  al, al2, g,16,510
+	double  al, al2, g, g2,16,510
+	double  al, al2, g, g2, p2;16,510
+	p2 18,540
+	double t,49,1367
+	double t, c0,49,1367
+	double t, c0, c1,49,1367
+	double t, c0, c1, c2,49,1367
+	double t, c0, c1, c2, c3,49,1367
+	double t, c0, c1, c2, c3, al,49,1367
+	double t, c0, c1, c2, c3, al, r2,49,1367
+	double t, c0, c1, c2, c3, al, r2, r,49,1367
+	double t, c0, c1, c2, c3, al, r2, r, m,49,1367
+	double t, c0, c1, c2, c3, al, r2, r, m, d,49,1367
+	double t, c0, c1, c2, c3, al, r2, r, m, d, ay,49,1367
+	double t, c0, c1, c2, c3, al, r2, r, m, d, ay, x2,49,1367
+	double t, c0, c1, c2, c3, al, r2, r, m, d, ay, x2, y2;49,1367
+	x2 51,1424
+	y2 59,1622
+	r 60,1641
+	r = x2 + y2;	r2 60,1641
+	c1 61,1667
+	c3 62,1697
+	c2 63,1759
+	c0 64,1793
+	al 66,1819
+	m 67,1852
+	d 68,1881
+		I_ERROR;77,2276
+FREEUP;80,2303
+ENTRY0(81,2334
+
+PJ_vandg2.c,281
+static const char SCCSID[2,13
+# define TOL	4,87
+# define TWORPI	5,106
+#define PROJ_PARMS__ 6,145
+#define PJ_LIB__8,179
+	double x1,13,384
+	double x1, at,13,384
+	double x1, at, bt,13,384
+	double x1, at, bt, ct;13,384
+	bt 15,409
+		ct 19,486
+FREEUP;40,1018
+ENTRY0(41,1049
+
+pj_units.c,73
+static const char SCCSID[3,58
+#define PJ_UNITS__5,131
+pj_units[11,379
+
+pj_qsfn.c,70
+static const char SCCSID[3,37
+# define EPSILON 6,127
+pj_qsfn(8,159
+
+PJ_eck3.c,185
+static const char SCCSID[2,13
+#define PROJ_PARMS__ 4,85
+#define PJ_LIB__6,132
+	xy.y 13,401
+	xy.x 14,426
+	lp.phi 18,548
+	lp.lam 19,573
+FREEUP;22,662
+setup(24,706
+ENTRY0(30,789
+
+pj_deriv.c,70
+static const char SCCSID[3,53
+#define PJ_LIB__5,126
+pj_deriv(8,170
+
+PJ_crast.c,257
+static const char SCCSID[2,13
+#define PJ_LIB__4,94
+#define XM	8,204
+#define RXM	9,238
+#define YM	10,273
+#define RYM	11,307
+#define THIRD	12,342
+	lp.phi 14,412
+	xy.x 15,430
+	xy.y 16,486
+	lp.phi 20,563
+	lp.lam 21,596
+FREEUP;24,678
+ENTRY0(25,709
+
+PJ_airy.c,669
+static const char SCCSID[2,13
+#define PROJ_PARMS__ 4,85
+#define PJ_LIB__11,243
+# define EPS 14,348
+# define N_POLE	15,368
+# define S_POLE 16,386
+# define EQUIT	17,404
+# define OBLIQ	18,421
+	double  sinlam,20,473
+	double  sinlam, coslam,20,473
+	double  sinlam, coslam, cosphi,20,473
+	double  sinlam, coslam, cosphi, sinphi,20,473
+	double  sinlam, coslam, cosphi, sinphi, t,20,473
+	double  sinlam, coslam, cosphi, sinphi, t, s,20,473
+	double  sinlam, coslam, cosphi, sinphi, t, s, Krho,20,473
+	double  sinlam, coslam, cosphi, sinphi, t, s, Krho, cosz;20,473
+	sinlam 22,533
+	coslam 23,556
+FREEUP;63,1482
+ENTRY0(64,1513
+	P->fwd 92,2076
+	P->es 93,2097
+
+PJ_urmfps.c,240
+static const char SCCSID[2,13
+#define PROJ_PARMS__ 4,87
+#define PJ_LIB__6,126
+#define C_x 10,300
+#define Cy 11,325
+	lp.phi 13,384
+	xy.x 14,421
+	xy.y 15,457
+	lp.phi 20,548
+	lp.lam 21,583
+FREEUP;24,635
+setup(26,679
+ENTRY0(33,783
+
+PJ_urm5.c,179
+static const char SCCSID[2,13
+#define PROJ_PARMS__ 4,85
+#define PJ_LIB__6,131
+	double t;10,269
+	t 12,281
+	xy.x 13,322
+	t 14,359
+	xy.y 15,368
+FREEUP;18,426
+ENTRY0(19,457
+
+PJ_nell_h.c,284
+static const char SCCSID[2,13
+#define PJ_LIB__4,87
+#define NITER 7,179
+#define EPS 8,195
+	xy.x 10,247
+	xy.y 11,290
+	double V,15,384
+	double V, c,15,384
+	double V, c, p;15,384
+	int i;16,401
+	p 18,410
+	for (i = NITER; i 19,427
+		lp.lam 29,656
+FREEUP;32,715
+ENTRY0(33,746
+
+PJ_lask.c,402
+static const char SCCSID[2,13
+#define PROJ_PARMS__4,85
+#define PJ_LIB__5,106
+#define	a10	8,199
+#define	a12	9,221
+#define	a32	10,243
+#define	a14	11,266
+#define	b01	12,289
+#define	b21	13,310
+#define	b03	14,333
+#define	b41	15,356
+#define	b23	16,381
+#define	b05	17,404
+	double l2,19,460
+	double l2, p2;19,460
+	l2 21,477
+	p2 22,500
+	xy.x 23,523
+	xy.y 24,582
+FREEUP;28,683
+ENTRY0(29,714
+
+pj_init.c,159
+static const char SCCSID[3,57
+#define PJ_LIB__5,132
+*start;11,246
+get_opt(14,315
+get_defaults(36,930
+get_init(50,1243
+pj_init(68,1704
+pj_free(164,4458
+
+PJ_eqc.c,218
+static const char SCCSID[2,13
+#define PROJ_PARMS__ 4,84
+#define PJ_LIB__6,119
+	xy.x 11,278
+	xy.y 12,302
+	lp.phi 16,369
+	lp.lam 17,385
+FREEUP;20,425
+ENTRY0(21,456
+	P->inv 23,542
+	P->fwd 24,563
+	P->es 25,584
+
+PJ_chamb.c,665
+static const char SCCSID[2,13
+typedef struct { double r, Az; } VECT;VECT4,86
+#define PROJ_PARMS__ 5,125
+#define PJ_LIB__15,322
+#define THIRD 20,494
+#define TOL 21,529
+vect(23,610
+lc(42,1124
+	double sinphi,46,1249
+	double sinphi, cosphi,46,1249
+	double sinphi, cosphi, a;46,1249
+	VECT v[47,1276
+	int i,48,1288
+	int i, j;48,1288
+	sinphi 50,1300
+	cosphi 51,1323
+FREEUP;86,2232
+ENTRY0(87,2263
+	for (i = 0; i < 3; ++i)91,2305
+	P->beta_0 107,2978
+	P->beta_1 108,3034
+	P->beta_2 109,3090
+	P->p.y 110,3119
+	P->c[111,3194
+	P->c[2].p.y 111,3194
+	P->c[112,3213
+	P->c[0].p.x 112,3213
+	P->p.x 113,3265
+	P->es 114,3333
+	P->es = 0.; P->fwd 114,3333
+
+PJ_cc.c,192
+static const char SCCSID[2,13
+#define PROJ_PARMS__ 4,83
+#define PJ_LIB__6,118
+#define EPS10 9,210
+	xy.x 12,318
+	xy.y 13,334
+	lp.phi 17,406
+	lp.lam 18,428
+FREEUP;21,460
+ENTRY0(22,491
+
+PJ_bipc.c,1723
+static const char SCCSID[2,13
+#define PROJ_PARMS__ 4,85
+#define PJ_LIB__6,121
+# define EPS	10,235
+# define EPS10	11,254
+# define ONEEPS 12,275
+# define NITER	13,303
+# define lamB	14,321
+# define n	15,358
+# define F	16,391
+# define Azab	17,425
+# define Azba	18,461
+# define T	19,498
+# define rhoc	20,532
+# define cAzc	21,569
+# define sAzc	22,605
+# define C45	23,641
+# define S45	24,676
+# define C20	25,711
+# define S20	26,746
+# define R110	27,782
+# define R104	28,819
+	double cphi,30,891
+	double cphi, sphi,30,891
+	double cphi, sphi, tphi,30,891
+	double cphi, sphi, tphi, t,30,891
+	double cphi, sphi, tphi, t, al,30,891
+	double cphi, sphi, tphi, t, al, Az,30,891
+	double cphi, sphi, tphi, t, al, Az, z,30,891
+	double cphi, sphi, tphi, t, al, Az, z, Av,30,891
+	double cphi, sphi, tphi, t, al, Az, z, Av, cdlam,30,891
+	double cphi, sphi, tphi, t, al, Az, z, Av, cdlam, sdlam,30,891
+	double cphi, sphi, tphi, t, al, Az, z, Av, cdlam, sdlam, r;30,891
+	int tag;31,952
+	cphi 33,963
+	sphi 34,984
+	cdlam 35,1005
+	sdlam 36,1042
+	r 68,1783
+	al 70,1862
+		al 75,1985
+	xy.x 78,2070
+	double t,88,2281
+	double t, r,88,2281
+	double t, r, rp,88,2281
+	double t, r, rp, rl,88,2281
+	double t, r, rp, rl, al,88,2281
+	double t, r, rp, rl, al, z,88,2281
+	double t, r, rp, rl, al, z, fAz,88,2281
+	double t, r, rp, rl, al, z, fAz, Az,88,2281
+	double t, r, rp, rl, al, z, fAz, Az, s,88,2281
+	double t, r, rp, rl, al, z, fAz, Az, s, c,88,2281
+	double t, r, rp, rl, al, z, fAz, Az, s, c, Av;88,2281
+	int neg,89,2329
+	int neg, i;89,2329
+	rl 107,2596
+	fAz 108,2630
+	for (i = NITER; i 109,2667
+	Az 120,2930
+	lp.phi 121,2949
+	lp.lam 122,3000
+		lp.lam 126,3086
+FREEUP;129,3128
+ENTRY0(130,3159
+
+nad_cvt.c,110
+static const char SCCSID[2,13
+#define PJ_LIB__4,87
+#define MAX_TRY 6,126
+#define TOL 7,144
+nad_cvt(9,166
+
+nad2bin.c,110
+static const char SCCSID[3,85
+#define PJ_LIB__7,196
+#define U_SEC_TO_RAD 9,235
+*usage 11,303
+main(14,354
+
+D.c,287
+static const char SCCSID[2,13
+# define EPS10	4,84
+# define TOL7	5,106
+#define PROJ_PARMS__ 6,126
+#define PJ_LIB__18,309
+# define N_ITER 25,544
+# define EPSILON 26,563
+# define TOL 27,587
+phi1_(29,623
+	xy.x 53,1284
+	xy.y 54,1324
+FREEUP;83,2092
+setup(85,2169
+ENTRY0(124,3253
+
+adjlon.c,87
+static const char SCCSID[3,51
+#define SPI	9,213
+#define TWOPI	10,240
+adjlon 12,284
+
+PJ_sconics.c,471
+static const char SCCSID[2,13
+#define PROJ_PARMS__ 4,88
+#define PJ_LIB__11,203
+#define EULER 13,242
+#define MURD1 14,258
+#define MURD2 15,274
+#define MURD3 16,290
+#define PCONIC 17,306
+#define TISSOT 18,323
+#define VITK1 19,340
+#define EPS10	20,356
+#define EPS 21,377
+#define LINE2 22,395
+PROJ_HEAD(23,447
+	double rho;57,1205
+	xy.x 70,1413
+	xy.y 71,1450
+	double rho;75,1551
+	rho 77,1565
+	lp.lam 83,1679
+FREEUP;96,1925
+setup(98,1969
+ENTRY0(151,3258
+
+PJ_robin.c,536
+static const char SCCSID[2,13
+#define PJ_LIB__4,94
+#define V(V7,181
+#define DV(DV8,240
+static struct COEFS COEFS10,367
+} X[12,412
+#define FXC	52,2134
+#define FYC	53,2153
+#define C1	54,2172
+#define RC1	55,2207
+#define NODES	56,2242
+#define ONEEPS	57,2259
+#define EPS	58,2283
+	int i;60,2335
+	double dphi;61,2343
+	i 63,2358
+	dphi 65,2430
+	xy.x 66,2469
+	xy.y 67,2507
+	int i;72,2619
+	double t,73,2627
+	double t, t1;73,2627
+	struct COEFS T;74,2642
+	lp.lam 76,2660
+	lp.phi 77,2682
+FREEUP;107,3438
+ENTRY0(108,3469
+
+PJ_poly.c,427
+static const char SCCSID[2,13
+#define PROJ_PARMS__ 4,85
+#define PJ_LIB__7,136
+#define TOL	11,238
+#define CONV	12,256
+#define N_ITER	13,275
+#define I_ITER 14,293
+#define ITOL 15,311
+	double  ms,17,367
+	double  ms, sp,17,367
+	double  ms, sp, cp;17,367
+	double  cot,29,715
+	double  cot, E;29,715
+	double B,71,1847
+	double B, dphi,71,1847
+	double B, dphi, tp;71,1847
+	int i;72,1868
+FREEUP;90,2311
+ENTRY1(91,2375
+
+PJ_omerc.c,817
+static const char SCCSID[2,13
+#define PROJ_PARMS__ 4,86
+#define PJ_LIB__8,235
+#define TOL	13,418
+#define EPS	14,436
+#define TSFN0(TSFN015,455
+	double  con,17,544
+	double  con, q,17,544
+	double  con, q, s,17,544
+	double  con, q, s, ul,17,544
+	double  con, q, s, ul, us,17,544
+	double  con, q, s, ul, us, vl,17,544
+	double  con, q, s, ul, us, vl, vs;17,544
+	vl 19,581
+	vs 37,1176
+	double  q,49,1449
+	double  q, s,49,1449
+	double  q, s, ul,49,1449
+	double  q, s, ul, us,49,1449
+	double  q, s, ul, us, vl,49,1449
+	double  q, s, ul, us, vl, vs;49,1449
+	q 59,1640
+	s 60,1672
+	vl 61,1696
+	ul 62,1727
+FREEUP;78,2193
+ENTRY0(79,2224
+	com 102,3013
+	P->singam 158,4504
+	P->cosgam 159,4532
+	f 160,4560
+	P->sinrot 161,4623
+	P->cosrot 162,4644
+	P->u_0 163,4665
+	P->inv 167,4816
+	P->fwd 168,4837
+
+PJ_ob_tran.c,1000
+static char SCCSID[2,13
+#define PROJ_PARMS__ 4,82
+#define PJ_LIB__8,169
+#define TOL 15,438
+	double coslam,17,491
+	double coslam, sinphi,17,491
+	double coslam, sinphi, cosphi;17,491
+	coslam 19,524
+	sinphi 20,547
+	cosphi 21,570
+	lp.lam 22,593
+	lp.phi 24,701
+	double cosphi,28,840
+	double cosphi, coslam;28,840
+	cosphi 30,865
+	coslam 31,888
+	lp.lam 32,911
+	lp.phi 33,982
+	double coslam,37,1092
+	double coslam, sinphi,37,1092
+	double coslam, sinphi, cosphi;37,1092
+	lp 39,1125
+	double cosphi,51,1480
+	double cosphi, t;51,1480
+	lp 53,1500
+FREEUP;62,1713
+ENTRY1(69,1800
+	for (i = 0; (s 76,1972
+	for (i = 0; (s = pj_list[i].id) && strcmp(name, s) ; ++i)76,1972
+	P->es 79,2131
+	P->link->params 80,2169
+	P->link->over 81,2199
+	P->link->geoc 82,2225
+	P->link->a 83,2251
+	P->link->es 84,2271
+	P->link->ra 85,2293
+	P->link->lam0 86,2315
+	P->link->phi0 87,2341
+	P->link->x0 88,2367
+	P->link->y0 89,2389
+	P->link->k0 90,2411
+	P->link->one_es 92,2462
+	P->link->es 93,2504
+
+PJ_loxim.c,272
+static const char SCCSID[2,13
+#define PROJ_PARMS__ 4,94
+#define PJ_LIB__8,169
+#define EPS	11,255
+	xy.y 13,307
+	lp.phi 26,617
+			lp.lam 34,817
+FREEUP;37,893
+	P->phi1 39,939
+	P->tanphi1 41,1037
+	P->inv 42,1080
+	P->inv = s_inverse; P->fwd 42,1080
+	P->es 43,1121
+
+pj_list.c,56
+static const char SCCSID[2,13
+#define PJ_LIST_H 7,187
+
+pj_fwd.c,89
+static const char SCCSID[3,46
+#define PJ_LIB__5,117
+# define EPS 8,175
+pj_fwd(10,231
+
+PJ_fahey.c,161
+static const char SCCSID[2,13
+#define PJ_LIB__4,86
+#define TOL 7,170
+	xy.y 9,222
+	xy.x 10,271
+	lp.phi 14,374
+	lp.lam 15,413
+FREEUP;19,516
+ENTRY0(20,547
+
+nad2nad.c,383
+static const char SCCSID[3,67
+#define PJ_LIST_H 9,217
+#define MAX_LINE 13,290
+#define MAX_PARGS 14,311
+#define PJ_INVERS(PJ_INVERS15,333
+echoin 17,383
+*oform 20,494
+*ctab 28,735
+static struct TAG_LIST TAG_LIST30,757
+} ops_list[33,805
+static struct IO_CON IO_CON44,921
+} input 54,1281
+set_zone(64,1439
+setup(89,2160
+set_ops(110,2808
+process(145,3611
+main(229,5486
+
+geod_set.c,47
+static const char SCCSID[2,13
+geod_set(7,136
+
+gen_cheb.c,101
+static const char SCCSID[3,47
+#define PJ_LIB__5,120
+#define COEF_LINE_MAX 12,258
+gen_cheb(15,296
+
+projects.h,1902
+#define PROJECTS_H3,57
+static const char PROJECTS_H_ID[6,90
+#define MAX_PATH_FILENAME 13,296
+#define HALFPI	18,448
+#define FORTPI	19,483
+#define PI	20,519
+#define TWOPI	21,554
+#define RAD_TO_DEG	22,591
+#define DEG_TO_RAD	23,628
+#define PROJ_LIB 27,719
+#define ID_TAG_MAX 31,829
+#define DIR_CHAR 36,912
+#define DIR_CHAR 38,940
+typedef struct { double u, v; }	UV;UV41,969
+typedef struct { double r, i; }	COMPLEX;COMPLEX42,1005
+#define XY 45,1064
+#define LP 46,1078
+typedef struct { double x, y; }     XY;XY48,1098
+typedef struct { double lam, phi; } LP;LP49,1138
+typedef union { double  f; int  i; char *s; } PVALUE;PVALUE55,1241
+struct PJ_LIST PJ_LIST57,1296
+struct PJ_ELLPS PJ_ELLPS62,1446
+struct PJ_UNITS PJ_UNITS68,1601
+struct FACTORS FACTORS73,1736
+	struct DERIVS DERIVS74,1753
+#define IS_ANAL_XL_YL 85,2166
+#define IS_ANAL_XP_YP 86,2225
+#define IS_ANAL_HK	87,2284
+#define IS_ANAL_CONV 88,2330
+typedef struct ARG_list ARG_list90,2414
+	char param[1]; } paralist;paralist93,2476
+typedef struct PJconsts PJconsts95,2542
+} PJ;PJ118,3269
+#define PROJ_HEAD(PROJ_HEAD124,3396
+#define DO_PJ_LIST_ID127,3495
+#define PROJ_HEAD(PROJ_HEAD134,3601
+pj_list[136,3673
+#define PROJ_HEAD(PROJ_HEAD153,3931
+#define ENTRYA(ENTRYA154,3996
+#define ENTRYX 159,4218
+#define ENTRY0(ENTRY0160,4254
+#define ENTRY1(ENTRY1161,4295
+#define ENTRY2(ENTRY2162,4349
+#define ENDENTRY(ENDENTRY163,4416
+#define E_ERROR(E_ERROR164,4452
+#define E_ERROR_0 165,4515
+#define F_ERROR 166,4559
+#define I_ERROR 167,4607
+#define FORWARD(FORWARD168,4655
+#define INVERSE(INVERSE169,4714
+#define FREEUP 170,4773
+#define SPECIAL(SPECIAL171,4816
+#define MAX_TAB_ID 173,4897
+typedef struct { float lam, phi; } FLP;FLP174,4919
+typedef struct { int lam, phi; } ILP;ILP175,4959
+struct CTABLE CTABLE176,4997
+	struct PW_COEF PW_COEF218,6527
+} Tseries;Tseries224,6797
+
+PJ_wink2.c,355
+static const char SCCSID[2,13
+#define PROJ_PARMS__ 4,94
+#define PJ_LIB__6,134
+#define MAX_ITER 9,242
+#define LOOP_TOL 10,265
+#define TWO_D_PI 11,290
+	double k,13,363
+	double k, V;13,363
+	int i;14,377
+	xy.y 16,386
+	k 17,413
+	lp.phi 18,436
+	for (i = MAX_ITER; i 19,452
+		lp.phi 28,650
+	xy.x 29,667
+	xy.y 30,718
+FREEUP;33,773
+ENTRY0(34,804
+
+PJ_wag7.c,214
+static const char SCCSID[2,13
+#define PJ_LIB__4,85
+	double theta,8,212
+	double theta, ct,8,212
+	double theta, ct, D;8,212
+	theta 10,235
+	xy.x 11,292
+	xy.y 12,349
+	xy.x 13,414
+FREEUP;16,442
+ENTRY0(17,473
+
+PJ_ocea.c,429
+static const char SCCSID[2,13
+#define PROJ_PARMS__ 4,85
+#define PJ_LIB__11,208
+	double t;16,398
+	xy.y 18,410
+	t 22,512
+	xy.x 23,530
+	xy.x 26,621
+	xy.y 27,638
+	double t,31,766
+	double t, s;31,766
+	t 35,815
+	lp.phi 36,844
+	lp.lam 37,912
+FREEUP;41,1000
+ENTRY0(42,1031
+	P->lam0 63,1814
+	P->cosphi 64,1845
+	P->sinphi 65,1874
+	P->cosgam 66,1903
+	P->singam 67,1932
+	P->inv 68,1961
+	P->fwd 69,1982
+	P->es 70,2003
+
+PJ_mill.c,141
+static const char SCCSID[2,13
+#define PJ_LIB__4,85
+	xy.x 8,214
+	xy.y 9,230
+	lp.lam 13,328
+	lp.phi 14,344
+FREEUP;17,409
+ENTRY0(18,440
+
+PJ_mbtfpp.c,314
+static const char SCCSID[2,13
+#define PJ_LIB__4,95
+#define CS	7,209
+#define FXC	8,242
+#define FYC	9,276
+#define C23	10,311
+#define C13	11,345
+#define ONEEPS	12,379
+	lp.phi 14,439
+	xy.x 15,473
+	xy.y 16,527
+	lp.phi 20,611
+		lp.phi 25,755
+	lp.lam 26,780
+		lp.phi 31,987
+FREEUP;34,1028
+ENTRY0(35,1059
+
+PJ_labrd.c,2234
+static const char SCCSID[2,13
+#define PROJ_PARMS__ 4,86
+#define PJ_LIB__7,166
+#define EPS	10,275
+	double V1,12,314
+	double V1, V2,12,314
+	double V1, V2, ps,12,314
+	double V1, V2, ps, sinps,12,314
+	double V1, V2, ps, sinps, cosps,12,314
+	double V1, V2, ps, sinps, cosps, sinps2,12,314
+	double V1, V2, ps, sinps, cosps, sinps2, cosps2,12,314
+	double V1, V2, ps, sinps, cosps, sinps2, cosps2, I1,12,314
+	double V1, V2, ps, sinps, cosps, sinps2, cosps2, I1, I2,12,314
+	double V1, V2, ps, sinps, cosps, sinps2, cosps2, I1, I2, I3,12,314
+	double V1, V2, ps, sinps, cosps, sinps2, cosps2, I1, I2, I3, I4,12,314
+	double V1, V2, ps, sinps, cosps, sinps2, cosps2, I1, I2, I3, I4, I5,12,314
+	double V1, V2, ps, sinps, cosps, sinps2, cosps2, I1, I2, I3, I4, I5, I6,12,314
+		x2,13,388
+		x2, y2,13,388
+		x2, y2, t;13,388
+	V1 15,402
+	t 16,449
+	V2 17,474
+	ps 18,524
+	I1 19,573
+	cosps 20,592
+	cosps = cos(ps);	cosps2 20,592
+	sinps 21,634
+	sinps = sin(ps);	sinps2 21,634
+	I4 22,676
+	I2 23,696
+	I3 24,726
+	I6 25,781
+	I5 26,805
+	I6 27,840
+	t 29,929
+	xy.x 30,951
+	xy.y 31,1003
+	x2 32,1046
+	y2 33,1065
+	V1 34,1084
+	V2 35,1118
+	double x2,41,1283
+	double x2, y2,41,1283
+	double x2, y2, V1,41,1283
+	double x2, y2, V1, V2,41,1283
+	double x2, y2, V1, V2, V3,41,1283
+	double x2, y2, V1, V2, V3, V4,41,1283
+	double x2, y2, V1, V2, V3, V4, t,41,1283
+	double x2, y2, V1, V2, V3, V4, t, t2,41,1283
+	double x2, y2, V1, V2, V3, V4, t, t2, ps,41,1283
+	double x2, y2, V1, V2, V3, V4, t, t2, ps, pe,41,1283
+	double x2, y2, V1, V2, V3, V4, t, t2, ps, pe, tpe,41,1283
+	double x2, y2, V1, V2, V3, V4, t, t2, ps, pe, tpe, s,41,1283
+		I7,42,1338
+		I7, I8,42,1338
+		I7, I8, I9,42,1338
+		I7, I8, I9, I10,42,1338
+		I7, I8, I9, I10, I11,42,1338
+		I7, I8, I9, I10, I11, d,42,1338
+		I7, I8, I9, I10, I11, d, Re;42,1338
+	int i;43,1369
+	x2 45,1378
+	y2 46,1397
+	V1 47,1416
+	V2 48,1450
+	V3 49,1484
+	V4 50,1538
+	ps 53,1716
+	pe 54,1746
+	for ( i = 20; i;55,1775
+	t 69,2049
+	t 70,2070
+	Re 71,2087
+	t 72,2122
+	t2 73,2136
+	s 74,2149
+	d 75,2171
+	I7 76,2197
+	I8 77,2217
+	d 78,2259
+	I9 79,2289
+	d 80,2303
+	I10 81,2312
+	I11 82,2346
+	x2 83,2400
+	lp.phi 84,2419
+	lp.lam 85,2456
+FREEUP;88,2520
+ENTRY0(89,2551
+
+pj_ellps.c,72
+static const char SCCSID[3,49
+#define PJ_ELLPS__5,122
+pj_ellps[8,180
+
+PJ_eck1.c,179
+static const char SCCSID[2,13
+#define PJ_LIB__4,93
+#define FC	7,179
+#define RP	8,212
+	xy.x 10,280
+	xy.y 11,328
+	lp.phi 15,400
+	lp.lam 16,421
+FREEUP;19,487
+ENTRY0(20,518
+
+bch2bps.c,210
+static const char SCCSID[3,74
+clear(8,239
+bclear(10,360
+bmove(12,452
+submop(14,542
+subop(21,697
+dmult(28,852
+dadd(30,979
+rows(37,1127
+cols(66,1787
+rowshft(92,2430
+colshft(111,2829
+bch2bps(127,3153
+
+nad_list.h,16
+PROJ_HEAD(2,42
+
+strtod.c,106
+static const char SCCSID[2,13
+typedef int wchar_t;wchar_t34,1319
+#define NULL 36,1353
+strtod(40,1390
+
+rtodms.c,107
+static const char SCCSID[3,63
+RES 14,329
+format[18,410
+dolong 20,453
+set_rtodms(22,471
+rtodms(41,911
+
+PJ_wag2.c,254
+static const char SCCSID[2,13
+#define PJ_LIB__4,85
+#define C_x 7,173
+#define C_y 8,193
+#define C_p1 9,213
+#define C_p2 10,234
+	lp.phi 12,290
+	xy.x 13,334
+	xy.y 14,370
+	lp.phi 18,443
+	lp.lam 19,465
+	lp.phi 20,503
+FREEUP;23,563
+ENTRY0(24,594
+
+pj_pr_list.c,90
+static const char SCCSID[3,57
+#define LINE_LEN 8,195
+pr_list(10,227
+pj_pr_list(34,763
+
+PJ_ortho.c,546
+static const char SCCSID[2,13
+#define PROJ_PARMS__ 4,86
+#define PJ_LIB__8,157
+#define EPS10 11,246
+#define N_POLE	12,267
+#define S_POLE 13,284
+#define EQUIT	14,301
+#define OBLIQ	15,317
+	double  coslam,17,368
+	double  coslam, cosphi,17,368
+	double  coslam, cosphi, sinphi;17,368
+	cosphi 19,402
+	coslam 20,425
+	xy.x 38,874
+	double  rh,42,955
+	double  rh, cosc,42,955
+	double  rh, cosc, sinc;42,955
+	cosc 48,1080
+	lp.lam 75,1674
+FREEUP;79,1830
+ENTRY0(80,1861
+		P->mode 88,2081
+	P->inv 89,2100
+	P->fwd 90,2121
+	P->es 91,2142
+
+pj_open_lib.c,96
+static const char SCCSID[3,57
+#define PJ_LIB__5,135
+proj_lib_name 11,247
+pj_open_lib(18,313
+
+pj_malloc.c,67
+static const char SCCSID[3,50
+pj_malloc(10,324
+pj_dalloc(14,380
+
+PJ_fouc_s.c,344
+static const char SCCSID[2,13
+#define PROJ_PARMS__ 4,87
+#define PJ_LIB__6,125
+#define MAX_ITER 9,223
+#define LOOP_TOL 10,246
+	double t;12,306
+	t 14,318
+	xy.x 15,336
+	xy.y 16,377
+	double V;20,473
+	int i;21,484
+		lp.phi 34,756
+	V 35,780
+	lp.lam 36,798
+FREEUP;39,855
+ENTRY0(40,886
+	P->es 45,1002
+	P->inv 46,1014
+	P->fwd 47,1035
+
+PJ_aitoff.c,179
+static const char SCCSID[2,13
+#define PROJ_PARMS__ 4,87
+#define PJ_LIB__7,141
+	double c,12,319
+	double c, d;12,319
+		xy.x 18,505
+FREEUP;25,657
+setup(27,701
+ENTRY0(33,776
+
+geod_for.c,590
+static const char SCCSID[2,13
+# define MERI_TOL 6,132
+th1,8,170
+th1,costh1,8,170
+th1,costh1,sinth1,8,170
+th1,costh1,sinth1,sina12,8,170
+th1,costh1,sinth1,sina12,cosa12,8,170
+th1,costh1,sinth1,sina12,cosa12,M,8,170
+th1,costh1,sinth1,sina12,cosa12,M,N,8,170
+th1,costh1,sinth1,sina12,cosa12,M,N,c1,8,170
+th1,costh1,sinth1,sina12,cosa12,M,N,c1,c2,8,170
+th1,costh1,sinth1,sina12,cosa12,M,N,c1,c2,D,8,170
+th1,costh1,sinth1,sina12,cosa12,M,N,c1,c2,D,P,8,170
+th1,costh1,sinth1,sina12,cosa12,M,N,c1,c2,D,P,s1;8,170
+merid,10,232
+merid, signS;10,232
+geod_pre(12,252
+geod_for(49,1030
+
+PJ_sts.c,261
+static const char SCCSID[2,13
+#define PROJ_PARMS__ 4,84
+#define PJ_LIB__7,147
+	double c;14,454
+	xy.x 16,466
+	xy.y 17,505
+	lp.phi 18,521
+	c 19,540
+	double c;30,718
+	c 33,748
+	lp.lam 35,826
+		lp.lam 39,920
+FREEUP;42,951
+setup(44,995
+ENTRY0(54,1175
+
+PJ_putp2.c,473
+static const char SCCSID[2,13
+#define PJ_LIB__4,86
+#define C_x	7,175
+#define C_y	8,195
+#define C_p 9,215
+#define EPS	10,246
+#define NITER	11,264
+#define PI_DIV_3	12,281
+	double p,14,352
+	double p, c,14,352
+	double p, c, s,14,352
+	double p, c, s, V;14,352
+	int i;15,372
+	p 17,381
+	s 18,405
+	lp.phi 19,427
+	for (i = NITER; i 20,485
+	xy.x 30,719
+	xy.y 31,763
+	double c;35,841
+	lp.phi 37,853
+	lp.lam 38,882
+	lp.phi 39,934
+FREEUP;42,1008
+ENTRY0(43,1039
+
+PJ_oea.c,904
+static const char SCCSID[2,13
+#define PROJ_PARMS__ 4,84
+#define PJ_LIB__9,202
+	double Az,13,343
+	double Az, hz,13,343
+	double Az, hz, M,13,343
+	double Az, hz, M, N,13,343
+	double Az, hz, M, N, cp,13,343
+	double Az, hz, M, N, cp, sp,13,343
+	double Az, hz, M, N, cp, sp, cl,13,343
+	double Az, hz, M, N, cp, sp, cl, shz;13,343
+	cp 15,383
+	sp 16,402
+	cl 17,421
+	Az 18,440
+	shz 19,515
+	M 20,572
+	N 21,599
+	xy.y 22,657
+	xy.x 23,693
+	double N,27,809
+	double N, M,27,809
+	double N, M, xp,27,809
+	double N, M, xp, yp,27,809
+	double N, M, xp, yp, z,27,809
+	double N, M, xp, yp, z, Az,27,809
+	double N, M, xp, yp, z, Az, cz,27,809
+	double N, M, xp, yp, z, Az, cz, sz,27,809
+	double N, M, xp, yp, z, Az, cz, sz, cAz;27,809
+	N 29,852
+	M 30,886
+	xp 31,951
+	yp 32,970
+	cAz 33,1020
+	z 34,1064
+	sz 35,1102
+	cz 36,1116
+	lp.phi 37,1130
+	lp.lam 38,1180
+FREEUP;42,1263
+ENTRY0(43,1294
+
+PJ_hatano.c,570
+static const char SCCSID[2,13
+#define PJ_LIB__4,95
+#define NITER	7,204
+#define EPS	8,221
+#define ONETOL 9,238
+#define CN	10,262
+#define CS	11,281
+#define RCN	12,300
+#define RCS	13,335
+#define FYCN	14,370
+#define FYCS	15,391
+#define RYCN	16,412
+#define RYCS	17,448
+#define FXC	18,484
+#define RXC	19,501
+	double th1,21,571
+	double th1, c;21,571
+	int i;22,587
+	c 24,596
+	for (i = NITER; i;25,640
+	xy.x 29,767
+	xy.y 30,809
+	double th;34,911
+	th 36,924
+		th 41,1067
+	lp.lam 42,1084
+	lp.phi 44,1127
+		lp.phi 49,1297
+FREEUP;52,1338
+ENTRY0(53,1369
+
+PJ_eck4.c,580
+static const char SCCSID[2,13
+#define PJ_LIB__4,85
+#define C_x	7,171
+#define C_y	8,205
+#define RC_y	9,240
+#define C_p	10,275
+#define RC_p	11,310
+#define EPS	12,345
+#define NITER	13,362
+	double p,15,413
+	double p, V,15,413
+	double p, V, s,15,413
+	double p, V, s, c;15,413
+	int i;16,433
+	p 18,442
+	V 19,466
+	lp.phi 20,488
+	for (i = NITER; i 21,546
+	double c;39,929
+	lp.phi 41,941
+	lp.lam 42,970
+	lp.phi 43,1021
+FREEUP;46,1095
+ENTRY0(eck4); P->es 47,1126
+ENTRY0(eck4); P->es = 0.; P->inv 47,1126
+ENTRY0(eck4); P->es = 0.; P->inv = s_inverse; P->fwd 47,1126
+
+PJ_bonne.c,480
+static const char SCCSID[2,13
+#define PROJ_PARMS__ 4,86
+#define PJ_LIB__10,184
+#define EPS10	14,299
+	double rh,16,355
+	double rh, E,16,355
+	double rh, E, c;16,355
+	rh 18,374
+	E 19,455
+	xy.x 20,506
+	xy.y 21,527
+	double E,25,608
+	double E, rh;25,608
+	rh 27,624
+		xy.x 32,775
+	double rh;36,846
+	rh 38,859
+	lp.phi 39,902
+		lp.lam 44,1038
+	double s,48,1139
+	double s, rh;48,1139
+	rh 50,1155
+	lp.phi 51,1196
+	else I_ERROR;58,1444
+FREEUP;61,1475
+ENTRY1(68,1548
+
+nad_intr.c,70
+static const char SCCSID[3,56
+#define PJ_LIB__5,131
+nad_intr(8,174
+
+mk_cheby.c,74
+static const char SCCSID[2,13
+eval(6,158
+makeT(21,505
+mk_cheby(39,898
+
+geod_inv.c,68
+static const char SCCSID[2,13
+# define DTOL	6,132
+geod_inv(8,158
+
+PJ_tcea.c,228
+static const char SCCSID[2,13
+#define PROJ_PARMS__ 4,85
+#define PJ_LIB__6,121
+	xy.x 10,264
+	xy.y 11,308
+	double t;15,420
+	xy.y 17,432
+	xy.x 18,465
+	t 19,481
+	lp.phi 20,510
+	lp.lam 21,541
+FREEUP;24,595
+ENTRY0(25,626
+
+PJ_tcc.c,211
+static const char SCCSID[2,13
+#define PROJ_PARMS__ 4,84
+#define EPS10 6,119
+#define PJ_LIB__7,140
+	double b,11,288
+	double b, bt;11,288
+	b 13,304
+	xy.x 15,377
+	xy.y 16,399
+FREEUP;19,457
+ENTRY0(20,488
+
+PJ_stere.c,1574
+static const char SCCSID[2,13
+#define PROJ_PARMS__ 4,86
+#define PJ_LIB__10,187
+#define sinph0	14,368
+#define cosph0	15,392
+#define EPS10	16,416
+#define TOL	17,437
+#define NITER	18,455
+#define CONV	19,471
+#define S_POLE	20,491
+#define N_POLE	21,508
+#define OBLIQ	22,525
+#define EQUIT	23,541
+ssfn_(25,572
+	double coslam,31,769
+	double coslam, sinlam,31,769
+	double coslam, sinlam, sinX,31,769
+	double coslam, sinlam, sinX, cosX,31,769
+	double coslam, sinlam, sinX, cosX, X,31,769
+	double coslam, sinlam, sinX, cosX, X, A,31,769
+	double coslam, sinlam, sinX, cosX, X, A, sinphi;31,769
+	coslam 33,820
+	sinlam 34,843
+	sinphi 35,866
+	xy.x 61,1497
+	double  sinphi,65,1571
+	double  sinphi, cosphi,65,1571
+	double  sinphi, cosphi, coslam,65,1571
+	double  sinphi, cosphi, coslam, sinlam;65,1571
+	sinphi 67,1613
+	cosphi 68,1636
+	coslam 69,1659
+	sinlam 70,1682
+	double cosphi,95,2305
+	double cosphi, sinphi,95,2305
+	double cosphi, sinphi, tp,95,2305
+	double cosphi, sinphi, tp, phi_l,95,2305
+	double cosphi, sinphi, tp, phi_l, rho,95,2305
+	double cosphi, sinphi, tp, phi_l, rho, halfe,95,2305
+	double cosphi, sinphi, tp, phi_l, rho, halfe, halfpi;95,2305
+	int i;96,2360
+	rho 98,2369
+	for (i = NITER; i--; phi_l 119,2904
+	I_ERROR;130,3225
+	double  c,133,3272
+	double  c, rh,133,3272
+	double  c, rh, sinc,133,3272
+	double  c, rh, sinc, cosc;133,3272
+	sinc 135,3301
+	cosc 136,3365
+	lp.lam 137,3381
+FREEUP;167,4084
+setup(169,4128
+ENTRY0(227,5381
+	P->k0 235,5650
+	P->x0 236,5665
+	P->y0 237,5684
+	P->phits 238,5703
+	P->lam0 239,5723
+
+PJ_mpoly.c,111
+static const char SCCSID[2,13
+#define PROJ_PARMS__ 4,86
+#define PJ_LIB__6,124
+FREEUP;16,366
+ENTRY0(17,397
+
+PJ_lagrng.c,257
+static const char SCCSID[2,13
+#define PROJ_PARMS__ 4,87
+#define TOL	8,151
+#define PJ_LIB__9,169
+	double v,13,304
+	double v, c;13,304
+FREEUP;28,641
+ENTRY0(29,672
+	P->hrw 33,765
+	phi1 34,803
+	P->a1 36,904
+	P->es 37,951
+	P->es = 0.; P->fwd 37,951
+
+PJ_laea.c,1165
+static const char SCCSID[2,13
+#define PROJ_PARMS__ 4,85
+#define PJ_LIB__15,257
+#define sinph0	18,364
+#define cosph0	19,388
+#define EPS10	20,412
+#define NITER	21,433
+#define CONV	22,450
+#define N_POLE	23,470
+#define S_POLE	24,487
+#define EQUIT	25,504
+#define OBLIQ	26,520
+	double coslam,28,572
+	double coslam, sinlam,28,572
+	double coslam, sinlam, sinphi,28,572
+	double coslam, sinlam, sinphi, q,28,572
+	double coslam, sinlam, sinphi, q, sinb,28,572
+	double coslam, sinlam, sinphi, q, sinb, cosb,28,572
+	double coslam, sinlam, sinphi, q, sinb, cosb, b;28,572
+	coslam 30,623
+	sinlam 31,646
+	sinphi 32,669
+	q 33,692
+	double  coslam,78,1637
+	double  coslam, cosphi,78,1637
+	double  coslam, cosphi, sinphi;78,1637
+	sinphi 80,1671
+	cosphi 81,1694
+	coslam 82,1717
+	double cCe,108,2378
+	double cCe, sCe,108,2378
+	double cCe, sCe, q,108,2378
+	double cCe, sCe, q, rho,108,2378
+	double cCe, sCe, q, rho, ab;108,2378
+	lp.lam 144,3132
+	lp.phi 145,3161
+	double  cosz,149,3252
+	double  cosz, rh,149,3252
+	double  cosz, rh, sinz;149,3252
+	rh 151,3278
+	lp.phi 153,3343
+	lp.lam 178,3902
+FREEUP;182,4011
+ENTRY0(183,4042
+		P->mode 191,4212
+
+PJ_goode.c,191
+static const char SCCSID[2,13
+#define PROJ_PARMS__ 4,94
+#define PJ_LIB__7,167
+#define Y_COR	12,304
+#define PHI_LIM	13,327
+FREEUP;32,765
+ENTRY2(41,900
+	P->fwd 47,1091
+	P->inv 48,1112
+
+PJ_eqdc.c,297
+static const char SCCSID[2,13
+#define PROJ_PARMS__ 4,85
+#define PJ_LIB__13,226
+# define EPS10	17,342
+	P->rho 19,409
+	xy.x 21,501
+	xy.y 22,541
+SPECIAL(42,985
+FREEUP;52,1237
+ENTRY1(53,1301
+	P->n 62,1541
+	cosphi 63,1572
+	secant 64,1596
+	P->inv 86,2250
+	P->fwd 87,2271
+	P->spc 88,2292
+
+geod.c,249
+static const char SCCSID[2,13
+# define MAXLINE 12,250
+# define MAX_PARGS 13,271
+# define TAB 14,293
+fullout 16,332
+*oform 21,548
+printLL(27,771
+do_arc(37,1031
+do_geod(49,1299
+process(62,1595
+*pargv[129,3284
+pargc 131,3315
+main(134,3331
+
+bchgen.c,45
+static const char SCCSID[3,66
+bchgen(7,164
+
+pj_list.h,54
+static const char PJ_LIST_H_ID[2,21
+PROJ_HEAD(8,244
+
+vector1.c,77
+static const char SCCSID[3,70
+vector1(8,218
+freev2(10,318
+vector2(18,473
+
+pj_tsfn.c,68
+static const char SCCSID[3,37
+#define HALFPI	6,127
+pj_tsfn(8,170
+
+PJ_putp5.c,221
+static const char SCCSID[2,13
+#define PROJ_PARMS__ 4,86
+#define PJ_LIB__6,123
+#define C	10,265
+#define D	11,283
+	xy.x 13,338
+	xy.y 14,407
+	lp.phi 18,478
+	lp.lam 19,498
+FREEUP;22,585
+setup(24,629
+ENTRY0(28,710
+
+pj_phi2.c,110
+static const char SCCSID[3,50
+#define HALFPI	7,145
+#define TOL 8,180
+#define N_ITER 9,200
+pj_phi2(12,227
+
+pj_param.c,66
+static const char SCCSID[3,62
+pj_mkparam(9,242
+pj_param(22,520
+
+PJ_nsper.c,546
+static const char SCCSID[2,13
+#define PROJ_PARMS__ 4,86
+#define PJ_LIB__19,317
+# define EPS10 23,493
+# define N_POLE	24,515
+# define S_POLE 25,533
+# define EQUIT	26,551
+# define OBLIQ	27,568
+	double  coslam,29,620
+	double  coslam, cosphi,29,620
+	double  coslam, cosphi, sinphi;29,620
+	sinphi 31,654
+	cosphi 32,677
+	coslam 33,700
+	xy.y 49,985
+	xy.x 50,1017
+	double  rh,76,1527
+	double  rh, cosz,76,1527
+	double  rh, cosz, sinz;76,1527
+	rh 87,1759
+	sinz 89,1837
+	cosz 90,1896
+FREEUP;118,2457
+setup(120,2501
+ENTRY0(141,3025
+
+PJ_imw_p.c,518
+static const char SCCSID[2,13
+#define PROJ_PARMS__ 4,86
+#define PJ_LIB__9,284
+#define TOL 13,442
+#define EPS 14,460
+phi12(16,490
+loc_for(32,903
+	double yc;79,1932
+	xy 80,1944
+	XY t;84,2023
+	double yc;85,2030
+	lp.phi 87,2043
+	lp.lam 88,2063
+xy(97,2320
+FREEUP;106,2541
+ENTRY1(107,2605
+	P->mode 128,3181
+	m1 141,3430
+	m2 142,3488
+	t 143,3546
+	s 144,3560
+	y2 145,3574
+	P->C2 146,3606
+	t 147,3624
+	P->P 148,3637
+	P->Q 149,3670
+	P->Pp 150,3693
+	P->Qp 151,3727
+	P->fwd 152,3751
+	P->inv 153,3772
+
+PJ_gn_sinu.c,393
+static const char SCCSID[2,13
+#define PROJ_PARMS__ 4,88
+#define PJ_LIB__7,150
+#define EPS10	13,457
+#define MAX_ITER 14,477
+#define LOOP_TOL 15,496
+	double s,18,588
+	double s, c;18,588
+	xy.y 20,603
+	xy.x 21,669
+	double s;25,768
+	else I_ERROR;32,976
+	xy.y 54,1431
+	double s;58,1505
+	lp.phi 61,1534
+	lp.lam 63,1644
+FREEUP;66,1708
+setup(68,1809
+ENTRY1(74,1939
+ENDENTRY(86,2136
+
+PJ_gins8.c,209
+static const char SCCSID[2,13
+#define PJ_LIB__4,86
+#define	Cl 7,199
+#define	Cp 8,222
+#define	C12 9,242
+	double t 11,309
+	xy.y 13,339
+	xy.x 14,372
+	t 15,404
+	xy.x 16,426
+FREEUP;19,472
+ENTRY0(20,503
+
+PJ_cass.c,647
+static const char SCCSID[2,13
+#define PROJ_PARMS__ 4,85
+#define PJ_LIB__16,257
+# define EPS10	19,344
+# define C1	20,365
+# define C2	21,399
+# define C3	22,433
+# define C4	23,467
+# define C5	24,501
+	xy.y 26,571
+	P->n 27,643
+	P->tn 28,686
+	P->tn = tan(lp.phi); P->t 28,686
+	P->a1 29,730
+	P->c 30,754
+	P->a2 31,791
+	xy.x 32,815
+	xy.x 39,1045
+	xy.y 40,1086
+	double ph1;44,1190
+	ph1 46,1204
+	P->tn 47,1252
+	P->tn = tan(ph1); P->t 47,1252
+	P->n 48,1293
+	P->r 49,1311
+	P->n 50,1352
+	P->r 51,1372
+	P->dd 52,1402
+	P->d2 53,1424
+	lp.phi 54,1448
+	lp.lam 56,1536
+	lp.phi 61,1679
+	lp.lam 62,1736
+FREEUP;65,1792
+ENTRY1(72,1865
+
+PJ_boggs.c,357
+static const char SCCSID[2,13
+#define PJ_LIB__4,94
+# define NITER	7,198
+# define EPS	8,216
+# define ONETOL 9,234
+# define FXC	10,259
+# define FXC2	11,280
+# define FYC	12,302
+# define FYC2	13,323
+	double theta,15,395
+	double theta, th1,15,395
+	double theta, th1, c;15,395
+	int i;16,418
+	theta 18,427
+	xy.y 31,742
+FREEUP;34,802
+ENTRY0(35,833
+
+emess.c,74
+static const char SCCSID[3,44
+#define EMESS_ROUTINE11,213
+emess(15,292
+
+p_series.c,85
+static const char SCCSID[3,63
+#define NF 8,197
+#define CUT 9,247
+p_series(11,295
+
+proj.c,284
+static const char SCCSID[3,68
+#define MAX_LINE 13,276
+#define MAX_PARGS 14,297
+#define PJ_INVERS(PJ_INVERS15,319
+*Proj;17,368
+reversein 21,417
+*cheby_str,34,969
+*oform 35,1028
+facs;40,1262
+fscale 43,1357
+int_proj(45,1410
+process(53,1661
+vprocess(144,4192
+main(238,7186
+
+pj_strerrno.c,71
+static const char SCCSID[3,61
+pj_err_list[8,194
+pj_strerrno(54,2079
+
+PJ_somerc.c,943
+static const char SCCSID[2,13
+#define PROJ_PARMS__ 4,87
+#define PJ_LIB__6,149
+#define EPS	9,260
+#define NITER 10,279
+	double phip,12,315
+	double phip, lamp,12,315
+	double phip, lamp, phipp,12,315
+	double phip, lamp, phipp, lampp,12,315
+	double phip, lamp, phipp, lampp, sp,12,315
+	double phip, lamp, phipp, lampp, sp, cp;12,315
+	sp 14,358
+	phip 15,384
+	lamp 18,510
+	cp 19,533
+	phipp 20,550
+	lampp 21,616
+	xy.x 22,661
+	xy.y 23,684
+	double phip,27,795
+	double phip, lamp,27,795
+	double phip, lamp, phipp,27,795
+	double phip, lamp, phipp, lampp,27,795
+	double phip, lamp, phipp, lampp, cp,27,795
+	double phip, lamp, phipp, lampp, cp, esp,27,795
+	double phip, lamp, phipp, lampp, cp, esp, con,27,795
+	double phip, lamp, phipp, lampp, cp, esp, con, delp;27,795
+	int i;28,849
+	phipp 30,858
+	lampp 31,908
+	cp 32,931
+	phip 33,949
+	lamp 34,1016
+	con 35,1060
+	for (i = NITER; i 36,1112
+FREEUP;52,1443
+ENTRY0(53,1474
+
+pj_msfn.c,46
+static const char SCCSID[3,46
+pj_msfn(7,144
+
+PJ_moll.c,405
+static const char SCCSID[2,13
+#define PROJ_PARMS__ 4,85
+#define PJ_LIB__6,131
+#define MAX_ITER	11,313
+#define LOOP_TOL	12,333
+	double k,14,390
+	double k, V;14,390
+	int i;15,404
+	k 17,413
+	for (i = MAX_ITER; i 18,440
+		lp.phi 27,638
+	xy.x 28,655
+	xy.y 29,694
+	double th,33,775
+	double th, s;33,775
+	lp.phi 35,791
+	lp.lam 36,823
+	lp.phi 38,883
+FREEUP;41,949
+setup(43,993
+ENTRY0(56,1232
+
+PJ_mbt_fps.c,494
+static const char SCCSID[2,13
+#define PJ_LIB__4,88
+#define MAX_ITER	7,205
+#define LOOP_TOL	8,225
+#define C1 9,247
+#define C2 10,266
+#define C3 11,285
+#define C_x 12,304
+#define C_y 13,324
+#define C1_2 14,344
+	double k,16,421
+	double k, V,16,421
+	double k, V, t;16,421
+	int i;17,438
+	k 19,447
+	for (i = MAX_ITER; i 20,470
+	t 27,643
+	xy.x 28,661
+	xy.y 29,717
+	double t,33,790
+	double t, s;33,790
+	lp.phi 35,805
+	lp.lam 36,845
+	lp.phi 37,902
+FREEUP;40,969
+ENTRY0(41,1000
+
+PJ_mbtfpq.c,492
+static const char SCCSID[2,13
+#define PJ_LIB__4,95
+#define NITER	7,207
+#define EPS	8,224
+#define ONETOL 9,241
+#define C	10,265
+#define RC	11,298
+#define FYC	12,332
+#define RYC	13,367
+#define FXC	14,402
+#define RXC	15,437
+	double th1,17,507
+	double th1, c;17,507
+	int i;18,523
+	c 20,532
+	for (i = NITER; i;21,554
+	xy.x 26,708
+	xy.y 27,775
+	double t;31,859
+	lp.phi 33,871
+		lp.phi 39,1047
+	lp.lam 40,1081
+	lp.phi 41,1147
+		lp.phi 46,1298
+FREEUP;49,1339
+ENTRY0(50,1370
+
+PJ_larr.c,159
+static const char SCCSID[2,13
+#define PROJ_PARMS__4,85
+#define PJ_LIB__5,106
+#define SIXTH 8,198
+	xy.x 10,264
+	xy.y 11,313
+FREEUP;14,389
+ENTRY0(15,420
+
+PJ_eck2.c,355
+static const char SCCSID[2,13
+#define PJ_LIB__4,93
+#define FXC	7,180
+#define FYC	8,215
+#define C13	9,250
+#define ONEEPS	10,285
+	xy.x 12,345
+	xy.y 13,412
+	lp.lam 18,523
+	lp.phi 19,584
+		lp.phi 25,747
+FREEUP;30,823
+ENTRY0(eck2); P->es 31,854
+ENTRY0(eck2); P->es = 0.; P->inv 31,854
+ENTRY0(eck2); P->es = 0.; P->inv = s_inverse; P->fwd 31,854
+
+PJ_cea.c,262
+static const char SCCSID[2,13
+#define PROJ_PARMS__ 4,84
+#define PJ_LIB__7,135
+# define EPS	10,247
+	xy.x 12,301
+	xy.y 13,325
+	xy.x 17,436
+	xy.y 18,460
+	lp.phi 22,540
+	lp.lam 23,604
+	double t;27,679
+	} else I_ERROR;35,850
+FREEUP;38,883
+ENTRY1(45,958
+
+PJ_august.c,388
+static const char SCCSID[2,13
+#define PJ_LIB__4,87
+#define M 7,192
+	double t,9,255
+	double t, c1,9,255
+	double t, c1, c,9,255
+	double t, c1, c, x1,9,255
+	double t, c1, c, x1, x12,9,255
+	double t, c1, c, x1, x12, y1,9,255
+	double t, c1, c, x1, x12, y1, y12;9,255
+	t 11,292
+	c1 12,315
+	c 13,339
+	x1 14,373
+	y1 15,402
+	xy.x 16,416
+	xy.y 17,481
+FREEUP;20,537
+ENTRY0(21,568
+
+PJ_aeqd.c,1982
+static const char SCCSID[2,13
+#define EPS10 4,85
+#define TOL 5,106
+#define PROJ_PARMS__ 6,125
+#define PJ_LIB__16,280
+#define N_POLE	19,394
+#define S_POLE 20,411
+#define EQUIT	21,428
+#define OBLIQ	22,444
+	double  cosphi,24,503
+	double  cosphi, sinphi,24,503
+	double  cosphi, sinphi, t;24,503
+	cosphi 26,532
+	sinphi 27,555
+	t 28,578
+	xy.x 29,624
+	xy.y 30,653
+	double  coslam,35,809
+	double  coslam, cosphi,35,809
+	double  coslam, cosphi, sinphi,35,809
+	double  coslam, cosphi, sinphi, rho,35,809
+	double  coslam, cosphi, sinphi, rho, s,35,809
+	double  coslam, cosphi, sinphi, rho, s, H,35,809
+	double  coslam, cosphi, sinphi, rho, s, H, H2,35,809
+	double  coslam, cosphi, sinphi, rho, s, H, H2, c,35,809
+	double  coslam, cosphi, sinphi, rho, s, H, H2, c, Az,35,809
+	double  coslam, cosphi, sinphi, rho, s, H, H2, c, Az, t,35,809
+	double  coslam, cosphi, sinphi, rho, s, H, H2, c, Az, t, ct,35,809
+	double  coslam, cosphi, sinphi, rho, s, H, H2, c, Az, t, ct, st,35,809
+	double  coslam, cosphi, sinphi, rho, s, H, H2, c, Az, t, ct, st, cA,35,809
+	double  coslam, cosphi, sinphi, rho, s, H, H2, c, Az, t, ct, st, cA, sA;35,809
+	coslam 37,884
+	cosphi 38,907
+	sinphi 39,930
+	double  coslam,75,1953
+	double  coslam, cosphi,75,1953
+	double  coslam, cosphi, sinphi;75,1953
+	sinphi 77,1987
+	cosphi 78,2010
+	coslam 79,2033
+	double x2,112,2763
+	double x2, t;112,2763
+	int i;113,2778
+	x2 115,2787
+	lp.phi 116,2812
+	lp.lam 122,2986
+	double c,126,3073
+	double c, Az,126,3073
+	double c, Az, cosAz,126,3073
+	double c, Az, cosAz, A,126,3073
+	double c, Az, cosAz, A, B,126,3073
+	double c, Az, cosAz, A, B, D,126,3073
+	double c, Az, cosAz, A, B, D, E,126,3073
+	double c, Az, cosAz, A, B, D, E, F,126,3073
+	double c, Az, cosAz, A, B, D, E, F, psi,126,3073
+	double c, Az, cosAz, A, B, D, E, F, psi, t;126,3073
+	int i;127,3118
+	double cosc,160,4048
+	double cosc, c_rh,160,4048
+	double cosc, c_rh, sinc;160,4048
+FREEUP;193,4825
+ENTRY1(200,4901
+
+dmstor.c,95
+static const char SCCSID[3,49
+#define MAX_WORK 10,246
+*sym 12,285
+vm[14,325
+dmstor(20,413
+
+PJ_wag3.c,195
+static const char SCCSID[2,13
+#define PROJ_PARMS__ 4,85
+#define PJ_LIB__6,121
+#define TWOTHIRD 9,210
+	xy.x 11,287
+	xy.y 12,337
+	lp.phi 16,404
+	lp.lam 17,420
+FREEUP;20,488
+ENTRY0(21,519
+
+PJ_tpeqd.c,1190
+static const char SCCSID[2,13
+#define PROJ_PARMS__ 4,86
+#define PJ_LIB__7,215
+	double t,12,377
+	double t, z1,12,377
+	double t, z1, z2,12,377
+	double t, z1, z2, dl1,12,377
+	double t, z1, z2, dl1, dl2,12,377
+	double t, z1, z2, dl1, dl2, sp,12,377
+	double t, z1, z2, dl1, dl2, sp, cp;12,377
+	sp 14,415
+	cp 15,434
+	z1 16,453
+	z2 17,524
+	z1 18,595
+	z2 19,606
+	xy.x 20,617
+	t 21,650
+	xy.y 22,667
+	double cz1,28,851
+	double cz1, cz2,28,851
+	double cz1, cz2, s,28,851
+	double cz1, cz2, s, d,28,851
+	double cz1, cz2, s, d, cp,28,851
+	double cz1, cz2, s, d, cp, sp;28,851
+	cz1 30,884
+	cz2 31,924
+	s 32,964
+	d 33,980
+	lp.lam 34,996
+	lp.phi 35,1033
+	sp 39,1186
+	cp 40,1205
+	lp.phi 41,1224
+	lp.lam 42,1295
+FREEUP;45,1383
+ENTRY0(46,1414
+	P->lam0 55,1730
+	P->dlam2 56,1772
+	P->cp1 57,1807
+	P->cp2 58,1829
+	P->sp1 59,1851
+	P->sp2 60,1873
+	P->cs 61,1895
+	P->sc 62,1921
+	P->ccs 63,1947
+	P->z02 64,1990
+	P->hz0 65,2058
+	A12 66,2081
+	P->ca 68,2172
+	P->sa 69,2217
+	P->lp 70,2235
+	P->dlam2 71,2295
+	P->lamc 72,2312
+	P->thz0 73,2379
+	P->rhshz0 74,2403
+	P->r2z0 75,2434
+	P->z02 76,2459
+	P->inv 77,2478
+	P->inv = s_inverse; P->fwd 77,2478
+	P->es 78,2519
+
+PJ_nzmg.c,709
+static const char SCCSID[2,13
+#define PJ_LIB__5,144
+#define EPSLN 8,242
+#define SEC5_TO_RAD 9,262
+#define RAD_TO_SEC5 10,313
+bf[12,379
+tphi[20,552
+#define Nbf 24,783
+#define Ntpsi 25,797
+#define Ntphi 26,813
+	COMPLEX p;28,865
+	double *C;29,877
+	int i;30,889
+	lp.phi 32,898
+	for (p.r = *(C = tpsi + (i = Ntpsi)); i 33,942
+		p.r 34,990
+	p.r 35,1019
+	p.i 36,1035
+	p 37,1050
+	xy.x 38,1078
+	xy.y 39,1091
+	int nn,43,1154
+	int nn, i;43,1154
+	COMPLEX p,44,1166
+	COMPLEX p, f,44,1166
+	COMPLEX p, f, fp,44,1166
+	COMPLEX p, f, fp, dp;44,1166
+	double den,45,1189
+	double den, *C;45,1189
+	p.r 47,1207
+	p.i 48,1220
+	for (nn = 20; nn 49,1233
+		lp.lam 65,1684
+FREEUP;68,1728
+ENTRY0(69,1759
+
+PJ_lsat.c,2383
+static const char SCCSID[2,13
+#define PROJ_PARMS__ 5,129
+#define PJ_LIB__8,235
+#define TOL 12,355
+#define PI_HALFPI 13,372
+#define TWOPI_HALFPI 14,413
+seraz0(16,470
+    int l,36,1165
+    int l, nn;36,1165
+    double lamt,37,1180
+    double lamt, xlam,37,1180
+    double lamt, xlam, sdsq,37,1180
+    double lamt, xlam, sdsq, c,37,1180
+    double lamt, xlam, sdsq, c, d,37,1180
+    double lamt, xlam, sdsq, c, d, s,37,1180
+    double lamt, xlam, sdsq, c, d, s, lamdp,37,1180
+    double lamt, xlam, sdsq, c, d, s, lamdp, phidp,37,1180
+    double lamt, xlam, sdsq, c, d, s, lamdp, phidp, lampp,37,1180
+    double lamt, xlam, sdsq, c, d, s, lamdp, phidp, lampp, tanph,37,1180
+		lamtp,38,1246
+		lamtp, cl,38,1246
+		lamtp, cl, sd,38,1246
+		lamtp, cl, sd, sp,38,1246
+		lamtp, cl, sd, sp, fac,38,1246
+		lamtp, cl, sd, sp, fac, sav,38,1246
+		lamtp, cl, sd, sp, fac, sav, tanphi;38,1246
+	lampp 44,1381
+	tanphi 45,1425
+		sav 47,1466
+		lamtp 48,1481
+		cl 49,1516
+		fac 52,1577
+		for (l = 50; l;53,1636
+		xy.x 84,2628
+    int nn;88,2704
+    double lamt,89,2716
+    double lamt, sdsq,89,2716
+    double lamt, sdsq, s,89,2716
+    double lamt, sdsq, s, lamdp,89,2716
+    double lamt, sdsq, s, lamdp, phidp,89,2716
+    double lamt, sdsq, s, lamdp, phidp, sppsq,89,2716
+    double lamt, sdsq, s, lamdp, phidp, sppsq, dd,89,2716
+    double lamt, sdsq, s, lamdp, phidp, sppsq, dd, sd,89,2716
+    double lamt, sdsq, s, lamdp, phidp, sppsq, dd, sd, sl,89,2716
+    double lamt, sdsq, s, lamdp, phidp, sppsq, dd, sd, sl, fac,89,2716
+    double lamt, sdsq, s, lamdp, phidp, sppsq, dd, sd, sl, fac, scl,89,2716
+    double lamt, sdsq, s, lamdp, phidp, sppsq, dd, sd, sl, fac, scl, sav,89,2716
+    double lamt, sdsq, s, lamdp, phidp, sppsq, dd, sd, sl, fac, scl, sav, spp;89,2716
+	lamdp 91,2796
+	nn 92,2818
+	sl 104,3214
+	fac 105,3232
+	phidp 107,3329
+	dd 108,3365
+	spp 111,3428
+	sppsq 112,3447
+	lamt 113,3467
+	sl 117,3651
+	scl 118,3680
+	lp.lam 120,3750
+		lp.phi 124,3885
+FREEUP;128,3987
+ENTRY0(129,4018
+	path 135,4165
+	P->sa 147,4542
+	P->ca 148,4561
+	esc 151,4624
+	ess 152,4654
+	P->w 153,4684
+	P->w 154,4717
+	P->q 155,4743
+	P->t 156,4769
+	P->u 157,4823
+	P->xj 158,4849
+	P->rlm 159,4893
+	P->rlm2 160,4941
+    P->a2 161,4968
+	seraz0(0., 1., P)162,5015
+	seraz0(90., 1., P)167,5173
+	P->inv 173,5268
+	P->inv = e_inverse; P->fwd 173,5268
+
+PJ_aea.c,287
+static const char SCCSID[2,13
+# define EPS10	4,84
+# define TOL7	5,106
+#define PROJ_PARMS__ 6,126
+#define PJ_LIB__18,309
+# define N_ITER 25,544
+# define EPSILON 26,563
+# define TOL 27,587
+phi1_(29,623
+	xy.x 53,1284
+	xy.y 54,1324
+FREEUP;83,2092
+setup(85,2169
+ENTRY0(124,3253
+
+biveval.c,143
+static const char SCCSID[3,53
+# define NEAR_ONE	6,148
+w2,8,185
+w2, w;8,185
+ceval(10,250
+bcheval(37,881
+bpseval(54,1328
+biveval(81,1831

@@ -1,0 +1,22 @@
+print "tst_suite/tst-substitute.gre     ...";
+
+# First, test with $_
+
+$_ = "hellLo";
+s/l/X/;
+die " failed test 1\n" if ($_ ne "heXlLo");
+s/l/X/g;
+die " failed test 2\n" if ($_ ne "heXXLo");
+s/l/X/i;
+die " failed test 3\n" if ($_ ne "heXXXo");
+s/XXX/x/;
+die " failed test 4\n" if ($_ ne "hexo");
+
+# Now test with another variable.
+$d = "hello"; 
+$d =~ s/l/L/;
+die " failed test 5\n" if ($d ne "heLlo");
+$d = "hello"; 
+$d =~ s/l/L/g;
+die " failed test 6\n" if ($d ne "heLLo");
+print " passed\n";

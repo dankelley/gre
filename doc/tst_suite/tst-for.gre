@@ -1,0 +1,7 @@
+print "tst_suite/tst-for.gre            ...";
+$n = 5;
+for ($i=0; $i< $n; $i+=1) {
+    ;
+}
+die " failed\n" if ($i != $n);
+print " passed\n";

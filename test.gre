@@ -1,0 +1,6 @@
+sub prettify($) {
+    my $d = $_[0];
+    $d =~ s:g:GGG:;
+    return $d;
+}
+print "\tBEFORE\n\t", prettify("gre"), "\n\tAFTER\n";

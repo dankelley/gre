@@ -1,0 +1,56 @@
+<html>
+<!- Created Sun Jul 13 12:36:34 2003 by ../gre2html from birthday.gre -->
+<head>
+<title>birthday.gre</title>
+</head>
+<body>
+<i># Draw pattern for wrapping birthday gifts.</i><br>
+$year = <tt>"27"</tt>;                   <i># the year</i><br>
+$n = 2000; 
+<br>
+$w =  (8.5 * 2.54) ; 
+<br>
+$h =  (11 * 2.54) ; 
+<br>
+set color rgb  (245 / 255)   (222 / 255)   (179 / 255);
+<br>
+set x axis 0 10;
+<br>
+set y axis 0 10;
+<br>
+set x margin 0;
+<br>
+set y margin 0;
+<br>
+set x size $w;
+<br>
+set y size $h;
+<br>
+draw axes none;
+<br>
+set clip on;
+<br>
+draw box filled 0 0 $w $h;
+<br>
+<b>for</b> ($i = 0; $i < $n; $i++) {
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$s =  (rand() * 200) ; 
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set font size $s; 
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set color rgb  rand() rand() rand(); 
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;draw label $year centered 
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;at (rand() * $w) ((rand() * $h) - (pt_to_cm($s) / 2));
+<br>
+} 
+<br>
+
+<br>
+
+<br>
+
+<br>
+</body>
+</html>

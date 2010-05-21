@@ -1,0 +1,174 @@
+<html>
+<!- Created Sun Jul 13 17:03:27 2003 by ./../gre2html from TU_defn.gre.gre -->
+<head>
+<title>TU_defn.gre.gre</title>
+</head>
+<body>
+<i># Definition sketch for mid-depth insertion of tritium via</i><br>
+<i># isopycnal mixing/stirring along conduit provided by outcropping</i><br>
+<i># isopycnals of ventilated thermocline.</i><br>
+
+<br>
+<i># (Diagram constructed from hand-drawn sketch, units are therefore cm)</i><br>
+
+<br>
+<i># $Id: TU_defn.gre,v 1.2 2000/05/05 19:37:16 kelley Exp $</i><br>
+
+<br>
+set font size 9;
+<br>
+set x axis 0 10 1 .5;
+<br>
+set y axis 0 10 1 .5;
+<br>
+set y size 6;
+<br>
+draw axes none;
+<br>
+
+<br>
+<i># Downward pointing arrows indicate atmospheric source term, which</i><br>
+<i># increase greatly (factor of 4) from mid-gyre to the north-wall</i><br>
+<i># of ventilated isopycnals.</i><br>
+set line width rapidograph <tt>"00"</tt>;
+<br>
+<i>#set arrow size as 10 percent of length;</i><br>
+set arrow type 0;
+<br>
+$xl = 1;
+<br>
+$dx = 1;
+<br>
+$xr = 12;
+<br>
+$yt = 9;
+<br>
+$x = $xl;  draw arrow from $x $yt to $x ($yt-0.1);
+<br>
+$x += $dx; draw arrow from $x $yt to $x ($yt-0.25);
+<br>
+$x += $dx; draw arrow from $x $yt to $x ($yt-0.3);
+<br>
+$x += $dx; draw arrow from $x $yt to $x ($yt-0.4);
+<br>
+$x += $dx; draw arrow from $x $yt to $x ($yt-0.65);
+<br>
+$x += $dx; draw arrow from $x $yt to $x ($yt-0.8);
+<br>
+$x += $dx; draw arrow from $x $yt to $x ($yt-1.0);
+<br>
+$x += $dx; draw arrow from $x $yt to $x ($yt-1.3);
+<br>
+<i>#draw label <tt>"Atmospheric forcing fcn"</tt> at 2.5 ($yt+0.5);</i><br>
+set line width rapidograph <tt>"4x0"</tt>;
+<br>
+<i>#draw line from ($xl-0.5) $yt to ($x+0.5) $yt;</i><br>
+
+<br>
+<i># Draw water below.  First, geographical labels on surface ...</i><br>
+draw label <tt>"South"</tt> at 0.6 6.2;
+<br>
+draw label <tt>"North"</tt> at 7.6 6.2;
+<br>
+$ysurface = 6;
+<br>
+draw line from $xl $ysurface to $x $ysurface;
+<br>
+
+<br>
+<i># ... then draw isopycnals.  Kludgy, since didn't want to</i><br>
+<i># create a lot of files.  First draw 4 ventilated isopycnals ...</i><br>
+open (IN, <tt>"defn-1.dat"</tt>);
+<br>
+read columns IN x y;
+<br>
+close IN;
+<br>
+set line width rapidograph <tt>"0"</tt>;
+<br>
+draw curve;
+<br>
+<b>for</b> ($i = 0; $i <= $#_x; $i++) {$_x[$i] += 0.33;} draw curve;
+<br>
+<b>for</b> ($i = 0; $i <= $#_x; $i++) {$_x[$i] += 0.33 + $_x[$i]/80;} draw curve;
+<br>
+<b>for</b> ($i = 0; $i <= $#_x; $i++) {$_x[$i] += 0.33 + $_x[$i]/30;} draw curve;
+<br>
+
+<br>
+<i># ... then draw two unventilated isopycnals</i><br>
+set line width rapidograph <tt>"4x0"</tt>;
+<br>
+open(IN, <tt>"defn-2.dat"</tt>); read columns IN x y; close IN; draw curve;
+<br>
+open(IN, <tt>"defn-3.dat"</tt>); read columns IN x y; close IN; draw curve;
+<br>
+
+<br>
+draw label <tt>"Isopycnals"</tt> at 2 2.9;
+<br>
+
+<br>
+<i># Indicate mixing, isopycnal and diapycnal, with double-ended arrows.  </i><br>
+<i># White out under arrows to make prettier.</i><br>
+$x0 = 5.50; $x1 = 6.13;
+<br>
+$y0 = 4.80; $y1 = 5.50;
+<br>
+set color <tt>"white"</tt>;
+<br>
+<i>#set arrow size as 10 percent of length;</i><br>
+set line width 7.5;
+<br>
+draw arrow from $x0 $y0 to $x1 $y1;
+<br>
+draw arrow from $x1 $y1 to $x0 $y0;
+<br>
+set color <tt>"black"</tt>;
+<br>
+<i>#set arrow size as 10 percent of length;</i><br>
+set line width rapidograph <tt>"1"</tt>;
+<br>
+draw arrow from $x0 $y0 to $x1 $y1;
+<br>
+draw arrow from $x1 $y1 to $x0 $y0;
+<br>
+
+<br>
+
+<br>
+<i># diapycnal mixing</i><br>
+$x0 = 3.93; $x1 = 4.0;
+<br>
+$y0 = 4.25; $y1 = 3.6;
+<br>
+
+<br>
+set line width 5;<i>#rapidograph <tt>"4"</tt>;</i><br>
+set color <tt>"white"</tt>;
+<br>
+draw arrow from $x0 $y0 to $x1 $y1;
+<br>
+draw arrow from $x1 $y1 to $x0 $y0;
+<br>
+
+<br>
+set line width rapidograph <tt>"0"</tt>;
+<br>
+set color <tt>"black"</tt>;
+<br>
+draw arrow from $x0 $y0 to $x1 $y1;
+<br>
+draw arrow from $x1 $y1 to $x0 $y0;
+<br>
+
+<br>
+set color <tt>"black"</tt>;
+<br>
+
+<br>
+#draw axes;  <i># for debugging only</i><br>
+
+<br>
+</body>
+</html>

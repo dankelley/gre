@@ -1,0 +1,58 @@
+<html>
+<!- Created Sun Jul 13 12:36:34 2003 by ../gre2html from month-series.gre -->
+<head>
+<title>month-series.gre</title>
+</head>
+<body>
+<i># Illustrate timeseries against month-of-year.  The data</i><br>
+<i># are assumed to be centered on x-value of 0.5 for January,</i><br>
+<i># etc.</i><br>
+set y name <tt>"Monthly average of ... whatever"</tt>;
+<br>
+set y axis 0 1 0.1;
+<br>
+set x axis 0 12 1;
+<br>
+
+<br>
+<i># First, draw axes with no labels (to get all the tics) ...</i><br>
+set font size 0; 
+<br>
+draw axes;
+<br>
+<i># ... now draw y-axis again to get labels ...</i><br>
+set font size 10;
+<br>
+draw y axis;
+<br>
+<i># ... and, finally (laboriously!), draw x-labels, offset below bottom.</i><br>
+$off = 1.5 * pt_to_cm($_font_size);
+<br>
+print <tt>"$off off\n"</tt>;
+<br>
+draw label <tt>"Jan"</tt> centered at user_to_cm_x(0.5) (user_to_cm_y($_ybottom)-$off) cm;
+<br>
+draw label <tt>"Feb"</tt> centered at user_to_cm_x(1.5) (user_to_cm_y($_ybottom)-$off) cm;
+<br>
+draw label <tt>"Mar"</tt> centered at user_to_cm_x(2.5) (user_to_cm_y($_ybottom)-$off) cm;
+<br>
+draw label <tt>"Apr"</tt> centered at user_to_cm_x(3.5) (user_to_cm_y($_ybottom)-$off) cm;
+<br>
+draw label <tt>"May"</tt> centered at user_to_cm_x(4.5) (user_to_cm_y($_ybottom)-$off) cm;
+<br>
+draw label <tt>"Jun"</tt> centered at user_to_cm_x(5.5) (user_to_cm_y($_ybottom)-$off) cm;
+<br>
+draw label <tt>"Jul"</tt> centered at user_to_cm_x(6.5) (user_to_cm_y($_ybottom)-$off) cm;
+<br>
+draw label <tt>"Aug"</tt> centered at user_to_cm_x(7.5) (user_to_cm_y($_ybottom)-$off) cm;
+<br>
+draw label <tt>"Sep"</tt> centered at user_to_cm_x(8.5) (user_to_cm_y($_ybottom)-$off) cm;
+<br>
+draw label <tt>"Oct"</tt> centered at user_to_cm_x(9.5) (user_to_cm_y($_ybottom)-$off) cm;
+<br>
+draw label <tt>"Nov"</tt> centered at user_to_cm_x(10.5) (user_to_cm_y($_ybottom)-$off) cm;
+<br>
+draw label <tt>"Dec"</tt> centered at user_to_cm_x(11.5) (user_to_cm_y($_ybottom)-$off) cm;
+<br>
+</body>
+</html>

@@ -1,0 +1,55 @@
+#* Draw a TS diagram, possibly choosing isopycnals automatically
+#* @param $rho_inc (optional), density step between isopycnals
+cmd draw TS diagram (;$) {      # [$rho_inc]
+    my $rho; my $rho_min; my $rho_max; my $rho_inc; my $rho_inc_range;
+    my $S; my $dS;
+    set x name "Salinity, PSU";
+    set y name "Temperature, \(\circ\)C";
+    draw axes;
+    $rho_min = sw_density($_xleft, $_ytop, 0);     # min density on diagram
+    $rho_max = sw_density($_xright, $_ybottom, 0); # max density on diagram
+    if ($#_ == 0) {
+        # Use specified density increment.
+        $rho_inc = abs($_[0]);
+    } else {
+        # Didn't give an increment, so pick one, using 1-2-5 scaling
+        # to give of the order of 5 isopycnals in range of data.
+        $rho_inc = ($rho_max - $rho_min) / 5;
+        $rho_inc_range = exp10(floor(log10($rho_inc))); # a power of 10
+        if ($rho_inc / $rho_inc_range < 2) {
+            $rho_inc = $rho_inc_range;
+        } else {
+            if ($rho_inc / $rho_inc_range < 5) {
+                $rho_inc = $rho_inc_range * 2;
+            } else {
+                $rho_inc = $rho_inc_range * 5;
+            }
+        }
+    }
+    $rho_min = $rho_inc * floor($rho_min / $rho_inc);
+    $rho_max = $rho_inc * ceil($rho_max / $rho_inc);
+    #DEBUG: print "$rho_min $rho_max $rho_inc\n";
+    for ($rho = $rho_min; $rho <= $rho_max; $rho += $rho_inc) {
+        draw isopycnal $rho;
+    }
+    if (sw_freezing_temperature($_xleft, 0) > $_ybottom) {
+        draw line from $_xleft  sw_freezing_temperature($_xleft,  0) 
+                    to $_xright sw_freezing_temperature($_xright, 0);
+    }
+    set color blue;
+    set symbol size 0.05;
+    draw symbol bullet;
+    set color black;
+    # Draw freezing-point line
+    $dS = ($_xright - $_xleft) / 50;
+    for ($S = $_xleft; $S <= $_xright; $S += $dS) {
+        draw line from ($S-$dS) sw_freezing_temperature($S-$dS, 0)
+                    to      $S  sw_freezing_temperature($S,     0);
+    }
+}
+
+$file = "./TS-stn308.gz";		# from EUBEX dataset
+open(IN, "zcat $file |") or die "cannot access $file\n";
+read columns IN x=3 y=2;
+draw TS diagram;
+#draw TS diagram 1;

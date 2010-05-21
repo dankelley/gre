@@ -1,0 +1,19 @@
+print "tst_suite/tst-sw.gre             ...";
+$eps = 1e-4;
+$S  = 35;			# salinity, PSU
+$T  = 10;			# in-situ temperature, degC
+$p  = 100;			# in-situ pressure, dbar
+$pr = 50;			# reference pressure, dbar
+die " failed test  1\n" if (abs(1027.4044 - sw_density($S, $T, $p) > $eps));
+die " failed test  2\n" if (abs(-1.9976 - sw_freezing_temperature($S, $p) > $eps));
+die " failed test  3\n" if (abs(1.162e-04 - sw_lapse_rate($S, $T, $p) > $eps));
+die " failed test  4\n" if (abs(9.9885 - sw_potential_temperature($S, $T, $p, $pr) > $eps));
+die " failed test  5\n" if (abs(1.6859e-04 - sw_alpha($S, $T, $p) > $eps));
+die " failed test  6\n" if (abs(7.5960e-04 - sw_beta($S, $T, $p)  > $eps));
+die " failed test  7\n" if (abs(27.319 - sw_spice(35, 21, 0)  > $eps));
+
+# Ref: UNESCO technical papers in marine science, number 44 (1983), ratio 1.2,
+# temperature 20C, pressure 2000dbar.
+die " failed test  8\n" if (abs(37.245628 - sw_salinity(1.2, 20, 2000) > $eps));
+
+print " passed\n";

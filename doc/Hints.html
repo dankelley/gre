@@ -1,0 +1,331 @@
+<html>
+<head>
+<title>Gre: hints</title>
+</head>
+
+<body bgcolor="#ffffff" background="./resources/sm_bg.gif" link="#993333" vlink="#333399 alink="#cc3333">
+
+<!-- newfile Hints.html "Gre: hints" "Hints" --> 
+
+<!-- @node   Hints, C programmers, Example 9, Top -->
+<a name="Hints" >
+
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td colspan=2><img src="./resources/top_banner.gif" HEIGHT="28" WIDTH="604" usemap="#navigate_top" border="0"></td></tr>
+<tr>
+<td width="150" valign="top">
+<font size=+1>
+<i>Hints</i>
+</font>
+<font size=-1>
+<p>
+<clear>
+<a href="Introduction.html" ONMOUSEOVER="window.status='Beginners -- start reading here';return true">1: Introduction</a><br>
+<a href="Invoking.html" ONMOUSEOVER="window.status='Beginners -- start reading here';return true">2: Invoking Gre</a><br>
+<a href="Grammar.html" ONMOUSEOVER="window.status='Full description of Gre grammar';return true">3: Gre Grammar</a><br>
+<a href="BuiltinCommands.html" ONMOUSEOVER="window.status='Full list of Gre commands';return true">4: Commands</a><br>
+<a href="Cookbook.html" ONMOUSEOVER="window.status='Some complicated real-world applications';return true">5: Cookbook</a><br>
+<a href="Hints.html" ONMOUSEOVER="window.status='Some hints for Gre programming';return true">6: Hints</a><br>
+<a href="History.html" ONMOUSEOVER="window.status='How Gre has evolved (check here for updates)';return true">7: History</a><br>
+<a href="Plans.html" ONMOUSEOVER="window.status='Plans for Gre';return true">8: Plans</a><br>
+<a href="ConceptIndex.html" ONMOUSEOVER="window.status='Fully-linked index';return true"><b>9: Concept Index</a></b>
+</font></td>
+<td width="500" valign="top">
+<map name="navigate_top">
+<area shape="rect" coords="5,2,218,24" href="gre1.html#Top">
+<area shape="rect" coords="515,2,535,24" href="gre1.html#Top">
+<area shape="rect" coords="550,2,575,24" href="Cookbook.html">
+<area shape="rect" coords="580,2,600,24" href="History.html">
+</map>
+<map name="navigate_bottom">
+<area shape="rect" coords="5,2,218,24" href="gre1.html#Top">
+<area shape="rect" coords="580,2,600,24" href="History.html"></map>
+</map>
+<h1>6: Hints</h1>
+</a>
+
+
+<p>
+
+<UL>
+<LI><a href="Hints.html#Cprogrammers">C programmers</a>: 
+<LI><a href="Hints.html#Perlprogrammers">Perl programmers</a>: 
+<LI><a href="Hints.html#Awkprogrammers">Awk programmers</a>: 
+<LI><a href="Hints.html#Griprogrammers">Gri programmers</a>: 
+</UL>
+
+<!-- @node   C programmers, Perl programmers, Hints, Hints -->
+<a name="Cprogrammers" >
+<h2>6.1: Hints for C programmers</h2>
+</a>
+
+
+<p>
+<!-- latex: \index{c programmers, pitfalls} -->
+
+Users of the C language should note the following.
+<p>
+
+<ol>
+<p>
+
+<li> The contents of loops and conditionals must be enclosed in curly braces,
+even if they consist of just one line.  (As in the Perl language, this
+choice was made to simplify parsing of the grammar.)
+<p>
+
+</ol>
+<p>
+
+
+<!-- @node   Perl programmers, Awk programmers, C programmers, Hints -->
+<a name="Perlprogrammers" >
+<h2>6.2: Hints for Perl programmers</h2>
+</a>
+
+
+<p>
+<!-- latex: \index{perl programmers, pitfalls} -->
+
+`<code>gre</code>' is not Perl, although much of the underlying grammar is
+designed to match Perl.  Here are some things Perl programmers should
+bear in mind:
+<p>
+
+<ol>
+<p>
+
+<li> Most functions require parentheses in `<code>gre</code>',
+e.g. `<code>acos sin 3.14;</code>' will not parse; you must write it as
+`<code>acos(sin(3.14));</code>'.
+<p>
+
+<li> `<code>gre</code>' is not object-oriented, and lacks the recent enhancements 
+to Perl that attempt to make Perl object-oriented.  
+<p>
+
+<li> `<code>gre</code>' has no `<code>elsif</code>' statement.
+<p>
+
+<li> Lists are only barely functional in `<code>gre</code>'.  For example,
+One may not refer to a whole array using the `<code>@</code>' syntax, except in
+`<code>@F = split();</code>' see <a href="BuiltinCommands.html#Split">Split</a>.
+<p>
+
+<li> Hash arrays are not available in `<code>gre</code>'.
+<p>
+
+<li> Some functions that in Perl may take an expression or be called with no
+expression (e.g. `<code>warn</code>') are required to have an argument in
+`<code>gre</code>'.  This is to avoid ambiguities in the grammar design.  To
+maintain compatibility with Gri, `<code>gre</code>' allows space-separated
+(as opposed to comma-separated) expressions as arguments for a command.
+An example is provided by the three constant expressions in the command
+`<code>set x axis 0 1 0.1</code>'.  If one of these arguments were substituted
+with a function name, such as `<code>warn</code>', then an ambiguity would arise
+if `<code>warn</code>' were permitted to be called in an expressionless way.
+For example, if the first argument were the word `<code>warn</code>' instead of
+the constant `<code>0</code>', then the two possible meanings might be `<code>set x axis warn() 1 0.1</code>' or `<code>set x axis warn(1) 0.1</code>'.  Such ambiguities
+are avoided in Perl because it uses a comma to separate expression
+lists.
+<p>
+
+<li> You may not assign values in a `<code>my</code>' command
+see <a href="BuiltinCommands.html#My">My</a>.
+<p>
+
+<li> Variable interpolation within strings is not as powerful as in
+Perl.  Indices may not be expressions; only constants and scalars are
+allowed within the `<code>[]</code>' index see <a href="Grammar.html#Variables">Variables</a>.
+<p>
+
+<li> Subroutine prototypes are required in `<code>gre</code>', whereas they
+are optional in Perl.
+<p>
+
+<li> The `<code>use</code>' command refers only to `<code>gre</code>' modules, not the
+extensive list of Perl modules that you might be accustomed to.
+<p>
+
+<li> In a `<code>for</code>' loop, there are some limitations on the types of
+expressions one may have in the three-expression list see <a href="Grammar.html#For">For</a>.
+<p>
+
+<li> In `<code>gre</code>' subroutines, the return value <em>must</em> be
+indicated with a `<code>return</code>' statement, and cannot be implied by the
+last expression evaluated, as in Perl see <a href="BuiltinCommands.html#Sub">Sub</a>.
+<p>
+
+<li> A `<code>substr</code>' may not be used as an lvalue (that is, it may not
+be used to the left of an equals sign) see <a href="BuiltinCommands.html#Substr">Substr</a>.
+<p>
+
+</ol>
+<p>
+
+
+<!-- @node   Awk programmers, Gri programmers, Perl programmers, Hints -->
+<a name="Awkprogrammers" >
+<h2>6.3: Hints for Awk programmers</h2>
+</a>
+
+
+<p>
+
+<!-- latex: \index{awk programmers, hints and pitfalls} -->
+<!-- latex: \index{gawk programmers, hints and pitfalls} -->
+
+<ol>
+<li> Substrings start at offset zero, as in Perl and C, not at 1.  This
+affects commands such as `<code>substr</code>' see <a href="BuiltinCommands.html#Substr">Substr</a>, and `<code>index</code>'
+see <a href="BuiltinCommands.html#Index">Index</a>.
+<p>
+
+</ol>
+<p>
+
+
+<!-- @node   Gri programmers, History, Awk programmers, Hints -->
+<a name="Griprogrammers" >
+<h2>6.4: Hints for Gri programmers</h2>
+</a>
+
+
+<p>
+
+<!-- latex: \index{gri programmers, pitfalls} -->
+
+`<code>gre</code>' is not Gri, although it was born of Gri.
+<p>
+
+Gri programmers should bear in mind the following.
+<p>
+
+<ol>
+<li>
+The `<code>gri2gre</code>' program, provide with `<code>gre</code>', does a rough conversion
+from Gri programs to `<code>gre</code>' programs.  Although only about 75 percent
+of the available Gri commands are converted correctly by `<code>gri2gre</code>',
+warnings are given if a particular command cannot be converted.
+<p>
+
+<li>
+Semicolon is used to end commands, not newline.  (This will be familiar
+to C, Perl, and Awk users.)
+<p>
+
+<li>
+Negative arguments to commands should be enclosed in parentheses.  This
+is to prevent the `<code>gre</code>' parser from interpreting adjacent arguments as
+parts of a mathematial expression.  <a href="BuiltinCommands.html#CautionaryNotesOnSyntax">Cautionary Notes On Syntax</a>.
+<p>
+
+<li>
+<!-- latex: \index{drawing greek letters} -->
+<!-- latex: \index{drawing mathematical characters} -->
+<!-- latex: \index{greek letters, in strings} -->
+<!-- latex: \index{mathematical symbols} -->
+<!-- latex: \index{math mode, in strings} -->
+Math-mode in strings (e.g. labels, titles) uses `<code>\\(</code>' at the start
+and `<code>\\)</code>' at the end, instead of `<code>$</code>' at both places.  This is
+still in agreement with latex usage, but has the advantage that it
+allows perl-like variable interpolation into strings.  Besides, it is
+usually easier for the programmer to figure out.
+<p>
+
+<li>
+Newcommands are now done by an extended subroutine format, directly
+analogous to Perl see <a href="BuiltinCommands.html#Cmd">Cmd</a>.
+<p>
+
+<li>
+`<code>rpn</code>' mathematics is not available; use normal mathematical
+notation instead or let
+<A HREF="ftp://ftp.phys.ocean.dal.ca/users/kelley/gre/gri2gre"> 
+`<code>gri2gre</code>'
+</A> 
+handle the conversion.
+<p>
+
+<li>
+If-statements and loops end with curly braces, not `<code>end if</code>' and
+`<code>end while</code>'.  (This will be familiar to C, Perl, and Awk users.)
+<p>
+
+<li>
+Because file handles are now used in `<code>open</code>' and `<code>read</code>'
+commands, the `<code>read from "filename"</code>' command is no longer needed.
+<p>
+
+<li>
+The `<code>read</code>' commands may be used instead of conventional Perl syntax
+in almost every circumstance.
+<p>
+
+<li>
+`<code>draw isopycnal .value. unlabelled</code>' is now called
+`<code>draw isopycnal unlabelled $value</code>'.
+<p>
+
+<li>
+The `<code>set line cap</code>' and `<code>set line join</code>' commands now have
+English indications of the styles, instead of numerical codes.
+<p>
+
+<li>
+`<code>draw label whiteunder "\label" at .x. .y. [cm]</code>' is now written
+`<code>draw label "$label" whiteunder at $x $y [cm]</code>'.
+<p>
+
+<li>
+`<code>hsb</code>' color-space is  now called `<code>hsv</code>', in keeping with many
+graphics texts (and to make the 'v' not seem like a 'b' for blue) 
+<p>
+
+<li>
+The `<code>new</code>' and `<code>delete</code>' Gri commands are not available in Gre.
+Mostly, Gri users employed these commands to get the equivalent of the
+Gre command `<code>my</code>' see <a href="BuiltinCommands.html#My">My</a>, so that most Gri programs won't
+suffer upon conversion.  (Note: the conversion script 
+<A HREF="ftp://ftp.phys.ocean.dal.ca/users/kelley/gre/gri2gre"> 
+`<code>gri2gre</code>'
+</A> 
+does not handle `<code>new</code>' and `<code>delete</code>' properly.)
+<p>
+
+<li>
+Some internal variables have been renamed.  `<code>..linewidthaxis..</code>' and
+`<code>..linewidthsymbol..</code>' are now `<code>$_linewidth_axis</code>' and
+`<code>$_linewidth_symbol</code>'. 
+<p>
+
+<li>
+`<code>query</code>' does not accept restriction lists yet -- but it will
+someday.
+<p>
+
+<li>
+`<code>draw circle</code>' is not available, since it can be handled with the 
+command `<code>draw symbol circ</code>'; this conversion is done automatically
+by 
+<A HREF="ftp://ftp.phys.ocean.dal.ca/users/kelley/gre/gri2gre"> 
+`<code>gri2gre</code>'
+</A> 
+<p>
+
+</ol>
+<p>
+
+
+<p>
+(c) 1997-2000 Dan E. Kelley, email <a href="mailto:Dan.Kelley@Dal.Ca">
+Dan.Kelley@Dal.Ca</a>
+</tr>
+<p>
+</table>
+<img src="./resources/bottom_banner.gif" HEIGHT="26" WIDTH="603" usemap="#navigate_bottom" border="0">
+
+</table>
+</body>
+</html>

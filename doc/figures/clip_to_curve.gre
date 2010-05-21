@@ -1,0 +1,34 @@
+# Demonstrate `set clip to curve'
+
+# Clip to unit circle, approximates with polygon.
+$n = 100;
+for ($i = 0; $i < $n; $i++) {
+    $_x[$i] = cos($i * 2 * $_pi / ($n - 1));
+    $_y[$i] = sin($i * 2 * $_pi / ($n - 1));
+}
+draw axes;
+set clip to curve;
+
+# Draw some blue clipped lines ...
+set color blue;
+set line width 20;
+for ($x = -1; $x <= 1; $x += 0.5) {
+    draw line from $x $_ybottom to ($x + 0.33) $_ytop;
+}
+
+# ... then overlay some clipped graying-out text ...
+set font size 32;
+set graylevel 0.8;
+for ($y = -1; $y <= 1; $y += 0.2) {
+    draw label "clipped clipped clipped clipped clipped" at (-1) $y;
+    set graylevel 0.8 * $_graylevel;
+}
+
+
+# .. and then some unclipped lines.
+set clip off;
+set line width rapidograph "00";
+set color red;
+for ($y = -1.0; $y <= 1; $y += 0.2) {
+    draw line from $_xleft $y to $_xright $y;
+}

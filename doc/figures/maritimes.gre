@@ -1,0 +1,65 @@
+# Draw map of Maritime provinces of Canada, to demonstrate
+# 'set map projection' command.  (The data file used here 
+# is available upon request.)
+
+# Use lambert-conformal-conic (lcc) projection, with the Clark 1966
+# formula describing the ellipsoidal shape of the earth.  The projection
+# is centered at a longitude of 63.5 west (near Halifax, Nova Scotia).
+
+# This projection requires intersection latitudes (circles at which
+# the cone touches the earth surface).  Here I use 43N and 49N to
+# match Canadian Hydographic Service charts of the region.
+#
+# NB. The -m argument sets a scale factor of 0.001, so that the unit
+# will be kilometers rather than the default meters (see axis commands
+# below).
+
+set map projection "+proj=lcc +ellps=clrk66 +lon_0=63.5w +lat_0=44.6n +lat_1=43 +lat_2=49 -m 1/1000";
+
+# Set up axes to view rectangle 500 kilometers on a side.
+#
+# NB. It is crucial that the x and y ranges be identical or the
+# map will be distored.
+
+set x axis -300 400 100;
+set y axis -250 350 100;
+draw axes none;                 # Don't draw axes
+
+# Set clip on, so that coastline doesn't plot outside the 
+# box containing the map.
+set clip on;
+
+# The data file is in a weird format, with header lines that
+# have the letter "P" in them.  Compensate by passing 
+# data though a gawk script first.
+set missing value -999;
+open(IN, "gawk '{if(\$1 == \"P\"){print -999,-999}else{print}}' /users/dek/kelley/data/Coastline/NS_1.dat |") or die;
+
+read columns IN x=1 y=2;
+close(IN);
+
+# Draw a black coastline surrounding an 80-percent
+# gray land-mass.
+set graylevel 0.8;
+draw curve filled;
+set color black;
+draw curve;
+
+# Draw frame around box
+set clip off;
+draw axes frame;
+
+# Draw graticule crosses, with labels
+for ($lat = 43; $lat < 48; $lat += 1) {
+    for ($lon = -67; $lon < -58; $lon += 2) {
+        draw line from ($lon - 1/10) $lat to ($lon + 1/10) $lat;
+        draw line from  $lon ($lat - 1/10) to $lon ($lat + 1/10);
+    }
+}
+set font size 9;
+for ($lon = -67; $lon < -58; $lon += 2) { 
+    draw label (-$lon . "W") whiteunder at ($lon - 0.2) 42.7;
+}
+for ($lat = 43; $lat < 48; $lat += 2) {
+    draw label ($lat . "N") whiteunder at -58.8 ($lat - 0.04);
+}

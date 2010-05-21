@@ -1,0 +1,193 @@
+<html>
+<!- Created Sun Jul 13 12:36:34 2003 by ../gre2html from sound_speed.gre -->
+<head>
+<title>sound_speed.gre</title>
+</head>
+<body>
+<i># Diagram illustrating SOFAR channel (low sound-speed near 1km depth), drawn </i><br>
+<i># with nice background, large fonts, etc, suitable for overhead projection in</i><br>
+<i># class.</i><br>
+
+<br>
+<i>#* Speed of sound in seawater as function of temp, salinity and pressure</i><br>
+<b>sub</b> sound_speed ($$$;) { <i># T/degC, S/PSU, p/dbar</i><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my $T; my $S; my $p;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$T = $_[0];
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$S = $_[1];
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$p = $_[2];
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>return</b> (1449 
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ 4.6 * $T 
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- 0.055 * $T * $T + 0.0003 * $T * $T * $T
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ (1.39 - 0.012 * $T) * ($S - 25)
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ 0.017 * $p);
+<br>
+}
+<br>
+
+<br>
+<i>#* Canonical mid-latitude temperature profile, warm at top.</i><br>
+<b>sub</b> T_of_p ($;) { <i># p/dbar (1dbar = 1meter, approximately)</i><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my $z;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$z = $_[0];
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>return</b> (3 + 20 * exp(-$z / 300));
+<br>
+}
+<br>
+$fontsize = 16;
+<br>
+$linewidth_axis = 1.275;
+<br>
+
+<br>
+set font size $fontsize;
+<br>
+set x size 5;
+<br>
+set y name <tt>"Pressure, dbar"</tt>;
+<br>
+set x name <tt>"Temperature, \(\circ\)C"</tt>;
+<br>
+set x axis 0 25 10 5;
+<br>
+set y axis 4000 0 -1000 -100;
+<br>
+
+<br>
+<i># Draw blue underlay (looks nice on my printer, you may</i><br>
+<i># want to play with the rgb values though).</i><br>
+draw axes none;
+<br>
+set color rgb 0.5 0.7 1;
+<br>
+draw box filled $_xleft $_ybottom $_xright $_ytop;
+<br>
+
+<br>
+<i># Draw white guide-lines, which are useful for overhead</i><br>
+<i># projection since the viewgraph is often distorted</i><br>
+<i># so viewers cannot read off values easily.</i><br>
+set color white;
+<br>
+set line width $linewidth_axis / 1.25;
+<br>
+<b>for</b> ($x = $_xleft; $x <= $_xright; $x += $_xinc) {
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;draw line from $x $_ybottom to $x $_ytop;
+<br>
+}
+<br>
+<b>for</b> ($y = $_ybottom; $y >= $_ytop; $y += $_yinc) {
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;draw line from $_xleft $y to $_xright $y;
+<br>
+}
+<br>
+
+<br>
+<i># Return to black pen and draw axes</i><br>
+set color black;
+<br>
+set line width axis $linewidth_axis;
+<br>
+draw axes frame;
+<br>
+draw x axis at top;
+<br>
+draw y axis at left;
+<br>
+
+<br>
+
+<br>
+<i># Now for the data.</i><br>
+$i = 0;
+<br>
+<b>for</b> ($p = 0; $p < 4000; $p += 10) {
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$_y[$i] = $p;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$_x[$i] = T_of_p($p);
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$i++;
+<br>
+}
+<br>
+set color blue; set line width rapidograph 4; draw curve;
+<br>
+
+<br>
+<i># Second panel</i><br>
+set x margin $_xsize + $_xmargin + 3;
+<br>
+set y name <tt>"Pressure, dbar"</tt>;
+<br>
+set x name <tt>"Sound Speed, m/s"</tt>;
+<br>
+set x axis 1490 1550 20 10;
+<br>
+set y axis 4000 0 -1000 -100;
+<br>
+$i = 0;
+<br>
+<b>for</b> ($p = 0; $p < 4000; $p += 10) {
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$_y[$i] = $p;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$_x[$i] = sound_speed(T_of_p($p), 35, $p);
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$i++;
+<br>
+}
+<br>
+draw axes none;
+<br>
+set color rgb 0.5 0.7 1;
+<br>
+draw box filled $_xleft $_ybottom $_xright $_ytop;
+<br>
+set color white;
+<br>
+set line width $linewidth_axis / 1.25;
+<br>
+<b>for</b> ($x = 1500; $x <= 1540; $x += 20) {
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;draw line from $x $_ybottom to $x $_ytop;
+<br>
+}
+<br>
+<b>for</b> ($y = $_ybottom; $y >= $_ytop; $y += $_yinc) {
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;draw line from $_xleft $y to $_xright $y;
+<br>
+}
+<br>
+set color black;
+<br>
+set line width axis $linewidth_axis;
+<br>
+draw axes frame;
+<br>
+draw x axis at top;
+<br>
+draw y axis at left;
+<br>
+
+<br>
+set color blue; set line width rapidograph 4; draw curve;
+<br>
+
+<br>
+
+<br>
+</body>
+</html>

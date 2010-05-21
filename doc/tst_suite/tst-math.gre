@@ -1,0 +1,39 @@
+print "tst_suite/tst-math.gre           ...";
+$eps = 1e-4;
+sub nearly ($$) {
+    return 1 if (abs($_[0] - $_[1]) < 0.001);
+    return 0;
+}
+die " failed test 16\n" if (-2 - -2 != 0);
+die " failed test 17\n" if (abs(26 - (2 *3 + 10 * 2)) > $eps);
+die " failed test 18\n" if (abs(9 - (1+2**3)) > $eps);
+die " failed test 19\n" if (abs(1 - 10 % 3) > $eps);
+die " failed test 20\n" if (abs(0.1 - 10.1 % 1) > $eps);
+die " failed test 21\n" if (abs(1 - max(1,0)) > $eps);
+die " failed test 23\n" if (0 != (1 && 0));
+die " failed test 24\n" if (0 != (0 && 1));
+die " failed test 25\n" if (0 != (0 && 1));
+die " failed test 26\n" if (0 != (0 && 0));
+die " failed test 27\n" if (0 != (0 || 0));
+die " failed test 28\n" if (1 != (1 || 0));
+die " failed test 29\n" if (1 != (0 || 1));
+die " failed test 30\n" if (1 != (1 || 1));
+$a = 0; $a++; die " failed test 31\n" if ($a != 1);
+        $a--; die " failed test 32\n" if ($a != 0);
+die " failed test 33\n" if (100 != 1e2);
+die " failed test 34\n" if (100 != 1E2);
+die " failed test 35\n" if (100 != 1d2);
+die " failed test 36\n" if (100 != 1D2);
+die " failed test 37\n" if (abs(10**2 - 100) > $eps);
+# Test various assignment methods
+$a = 1;
+$a -= 1;	die " failed test 38\n" if (!(nearly($a, 0)));
+$a += 1;	die " failed test 39\n" if !(nearly($a, 1));
+$a *= 2;	die " failed test 40\n" if !(nearly($a, 2));
+$a *= 3;	die " failed test 41\n" if !(nearly($a, 6));
+$a **= 2;	die " failed test 42\n" if !(nearly($a, 36));
+$a /= 36;	die " failed test 43\n" if !(nearly($a, 1));
+$x[0] = 1;
+$x[0]++;	die " falied test 44\n" if !(nearly($x[0], 2));
+$x[0]--;	die " falied test 45\n" if !(nearly($x[0], 1));
+print " passed\n";

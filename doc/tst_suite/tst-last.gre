@@ -1,0 +1,21 @@
+print "tst_suite/tst-last.gre           ...";
+$j = 0;
+while ($j < 5) {
+    $i = 0;
+    while ($i < 5) {
+	last if ($i >= 3);
+	$i += 1;
+    }
+    $j += 1;
+    last if ($j >= 2);
+}
+die " failed test 1\n" if ($i != 3 || $j != 2);
+$j = 0;
+$sum = 0;
+while ($j < 5) {
+    $j++;
+    next if ($j>2);
+    $sum++;
+}
+die " failed test 2 (sum=$sum but should be 2)\n" if ($sum != 2);
+print " passed\n";

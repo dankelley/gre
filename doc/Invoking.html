@@ -1,0 +1,515 @@
+<html>
+<head>
+<title>Gre: invoking</title>
+</head>
+
+<body bgcolor="#ffffff" background="./resources/sm_bg.gif" link="#993333" vlink="#333399 alink="#cc3333">
+
+<!-- newfile Invoking.html "Gre: invoking" "Invoking" --> 
+
+<!-- @node   Invoking, Commandline options, Introduction, Top -->
+<a name="Invoking" >
+
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td colspan=2><img src="./resources/top_banner.gif" HEIGHT="28" WIDTH="604" usemap="#navigate_top" border="0"></td></tr>
+<tr>
+<td width="150" valign="top">
+<font size=+1>
+<i>Invoking</i>
+</font>
+<font size=-1>
+<p>
+<clear>
+<a href="Introduction.html" ONMOUSEOVER="window.status='Beginners -- start reading here';return true">1: Introduction</a><br>
+<a href="Invoking.html" ONMOUSEOVER="window.status='Beginners -- start reading here';return true">2: Invoking Gre</a><br>
+<a href="Grammar.html" ONMOUSEOVER="window.status='Full description of Gre grammar';return true">3: Gre Grammar</a><br>
+<a href="BuiltinCommands.html" ONMOUSEOVER="window.status='Full list of Gre commands';return true">4: Commands</a><br>
+<a href="Cookbook.html" ONMOUSEOVER="window.status='Some complicated real-world applications';return true">5: Cookbook</a><br>
+<a href="Hints.html" ONMOUSEOVER="window.status='Some hints for Gre programming';return true">6: Hints</a><br>
+<a href="History.html" ONMOUSEOVER="window.status='How Gre has evolved (check here for updates)';return true">7: History</a><br>
+<a href="Plans.html" ONMOUSEOVER="window.status='Plans for Gre';return true">8: Plans</a><br>
+<a href="ConceptIndex.html" ONMOUSEOVER="window.status='Fully-linked index';return true"><b>9: Concept Index</a></b>
+</font></td>
+<td width="500" valign="top">
+<map name="navigate_top">
+<area shape="rect" coords="5,2,218,24" href="gre1.html#Top">
+<area shape="rect" coords="515,2,535,24" href="gre1.html#Top">
+<area shape="rect" coords="550,2,575,24" href="Introduction.html">
+<area shape="rect" coords="580,2,600,24" href="Grammar.html">
+</map>
+<map name="navigate_bottom">
+<area shape="rect" coords="5,2,218,24" href="gre1.html#Top">
+<area shape="rect" coords="580,2,600,24" href="Grammar.html"></map>
+</map>
+<h1>2: Running `<code>gre</code>'</h1>
+</a>
+
+
+<p>
+
+<b>About this chapter</b>.
+This chapter tells the details of running `<code>gre</code>'.  If you read the end
+of the last chapter, you already know enough about running `<code>gre</code>' to
+skip ahead to the next chapter for now, planning to return here to read
+the gory details if/when you need them.
+<p>
+
+<UL>
+<LI><a href="Invoking.html#Commandlineoptions">Commandline options</a>: Options for invoking Gre
+<LI><a href="Invoking.html#Systemstartupfile">System startup file</a>: System ibrary file gre.cmd
+<LI><a href="Invoking.html#Userstartupfile">User startup file</a>: User library file .grerc
+</UL>
+
+
+<!-- @node   Commandline options, System startup file, Invoking, Invoking -->
+<a name="Commandlineoptions" >
+<h2>2.1: Command-line options</h2>
+</a>
+
+
+<p>
+<!-- latex: \index{commandline options} -->
+
+`<code>Gre</code>' usage is of the form:
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   gre OPTIONS ARGS
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+where `<code>ARGS</code>' often consists of just one argument, the name of a
+command file containing `<code>gre</code>' commands to be executed.
+<p>
+
+<h3>2.1.1: Command file</h3>
+Although it is normal (and recommended) to provide a command-file name,
+it is actually optional.  If no command-file is given, `<code>gre</code>' reads
+standard input for the commands to be done.  Thus, one might do
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   cat cmd.gre | gre
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+instead of
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   gre cmd.gre
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+If a PostScript file is created (i.e. if any drawing commands are done),
+it will be named something like `<samp>gre-00.ps</samp>', or `<samp>gre-01.ps</samp>',
+etc (see below).  One might also type `<code>gre</code>' at the unix prompt, and
+type commands in interactively.  This makes very little sense, however,
+since the commands won't be parsed until end-of-file (control-D) is
+typed, so you could type for minutes, get an error, and lose the work.
+<p>
+
+Usually the command file name ends in the suffix `<samp>.gre</samp>'.  Thus one
+might invoke `<code>gre</code>' as
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   gre foo.gre
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+to run the commands in the file `<samp>foo.gre</samp>'.  However, since the
+suffix is the expected one, in this case you may also run `<code>gre</code>' by the
+command 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   gre foo
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+and the default suffix will be assumed.
+<p>
+
+Most applications involve drawing something, and the result is a
+PostScript file.  The name of this file is normally derived from the
+command-file name by switching the suffix to `<samp>.ps</samp>', e.g. the
+example above creates a PostScript file called `<samp>foo.ps</samp>', although
+the use of the `<code>-p</code>' command-line argument permits the use of any
+file-name (see below).  If no command-file is given, then standard-input
+is used and the PostScript output is saved in a file called
+`<samp>gre-00.ps</samp>', or, if that file exists, `<samp>gre-01.ps</samp>', etc.
+<p>
+
+
+<h3>2.1.2: Extra arguments</h3>
+Any extra `<code>ARGS</code>' provided in addition to the command-file name are
+stored into the built-in vector `<code>$ARGV</code>'.  Thus, invoking `<code>gre</code>' as
+<p>
+
+<!-- latex: \index{@code{$ARGV}} -->
+<!-- latex: \index{@code{$ARGV} built-in variable} -->
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   gre foo.gre hi there
+</PRE>
+</TD>
+</TR>
+</TABLE>
+ 
+defines `<code>$ARGV[0]</code>' as the string `<code>hi</code>' and `<code>$ARGV[1]</code>' as
+the string `<code>there</code>'.  This is often useful in `<code>gre</code>' programs
+designed to work on a series of datafiles; for more information
+see <a href="Grammar.html#VectorSystemVariables">Vector System Variables</a>.
+<p>
+
+
+<h3>2.1.3: Options</h3>
+<!-- latex: \index{@code{-h} commandline option (get help)} -->
+<!-- latex: \index{@code{--help} commandline option (get help)} -->
+<!-- latex: \index{commandline option @code{-h} or @code{--help}} -->
+<!-- latex: \index{help, getting information on commandline options with @code{-h} flag} -->
+<!-- latex: \index{debugging, controlling with @code{-D} commandline options} -->
+<!-- latex: \index{@code{-d} commandline option (debugging)} -->
+<!-- latex: \index{@code{--debug} commandline option (debugging)} -->
+<!-- latex: \index{commandline option @code{-d} or @code{--debug}} -->
+<!-- latex: \index{postscript file, how to control name} -->
+<!-- latex: \index{name of postscript file, setting} -->
+<!-- latex: \index{@code{-p} commandline option (name postscript file)} -->
+<!-- latex: \index{@code{--postscript} commandline option (name postscript file)} -->
+<!-- latex: \index{commandline option @code{-p} or @code{--postscript}} -->
+<!-- latex: \index{optimization, controlling} -->
+<!-- latex: \index{@code{-O} commandline option (set optimization level)} -->
+<!-- latex: \index{@code{--Optimize} commandline option (set optimization level)} -->
+<!-- latex: \index{commandline option @code{-O} or @code{--Optimize}} -->
+<!-- latex: \index{tracing of program compilation} -->
+<!-- latex: \index{@code{-t} commandline option (tracing)} -->
+<!-- latex: \index{@code{--trace} commandline option (tracing)} -->
+<!-- latex: \index{commandline option @code{-t} or @code{--trace}} -->
+<!-- latex: \index{warnings, how to control with @code{-t} commandline option} -->
+<!-- latex: \index{@code{-w} commandline option (control warnings)} -->
+<!-- latex: \index{@code{--warning} commandline option (control warnings)} -->
+<!-- latex: \index{commandline option @code{-w} or @code{--warnings}} -->
+<!-- latex: \index{version, how to determine with @code{-v} commandline option} -->
+<!-- latex: \index{@code{-v} commandline option (print version)} -->
+<!-- latex: \index{@code{--version} commandline option (print version)} -->
+<!-- latex: \index{commandline option @code{-v} or @code{--version}} -->
+<!-- latex: \index{executing small programs with @code{-e} commandline option} -->
+<!-- latex: \index{@code{-e} commandline option (execute string)} -->
+<!-- latex: \index{@code{--execute} commandline option (execute string)} -->
+<!-- latex: \index{commandline option @code{-e} or @code{--execute}} -->
+<!-- latex: \index{options (general), setting with @code{-e} commandline option} -->
+<!-- latex: \index{@code{-o} commandline option (general options)} -->
+<!-- latex: \index{@code{--option} commandline option (general options)} -->
+<!-- latex: \index{commandline option @code{-o} or @code{--option}} -->
+<!-- latex: \index{@file{gre.cmd}, controlling with @code{-L} commandline option} -->
+<!-- latex: \index{startup file @file{gre.cmd}, controlling with @code{-L} commandline option} -->
+<!-- latex: \index{library directory, setting with commandline option} -->
+<!-- latex: \index{@code{-L} commandline option (sets library directory)} -->
+<!-- latex: \index{@code{--Library} commandline option} -->
+<!-- latex: \index{commandline option @code{--Library}} -->
+<!-- latex: \index{@code{--which_library} commandline option} -->
+<!-- latex: \index{commandline option @code{--which_library}} -->
+
+
+Each option has both a long form (double-dash) and a short form
+(single-dash).  The `<samp>OPTIONS</samp>' are as follows.
+<p>
+
+<dl>
+<dt> `<code>-h</code>'
+<dd><dt> `<code>--help</code>'
+<dd><p>
+Print a help message, mainly listing these commandline arguments.
+<p>
+<dt> `<code>-p psname</code>'
+<dd><dt> `<code>--postscript psname</code>'
+<dd>Name the PostScript output file.
+<p>
+<dt> `<code>-d D</code>'
+<dd><dt> `<code>--debug D</code>'
+<dd>Turn on various types of debugging:
+<p>
+`<code>1</code>' -> print information about commands as they are parsed
+<p>
+`<code>2</code>' -> print info when values are assigned to variables
+<p>
+`<code>4</code>' -> print info when the OS is used, e.g. to create temporary
+files 
+<p>
+`<code>8</code>' -> while parsing, print any comments that start with `<code>##</code>'
+<p>
+`<code>128</code>' -> used by developer only; meaning changes without warning
+<p>
+`<code>256</code>' -> output 'yacc' info during parsing; only the `<code>gre</code>'
+developer will find this useful
+<p>
+<p>
+The value of `<code>D</code>' may be the sum of some of the above, or the
+`<code>-d</code>' flag may be repeated, to yield several of the listed
+behaviors.
+<p>
+<dt> `<code>-O opt</code>'
+<dd><dt> `<code>--Optimize opt</code>'
+<dd><p>
+Set optimization level, `<code>opt</code>', as defined in the following list.
+<p>
+`<code>0</code>' -> no optimization (the default)
+<p>
+<dt> `<code>-t</code>'
+<dd><dt> `<code>--trace</code>'
+<dd>Turn on tracing during scanning (not during execution!).
+<p>
+<dt> `<code>-w</code>'
+<dd><dt> `<code>--warnings</code>'
+<dd>Turn on warnings.
+<p>
+<dt> `<code>-v</code>'
+<dd><dt> `<code>--version</code>'
+<dd>Display version information and exit successfully.
+<p>
+<dt> `<code>-e cmd</code>'
+<dd><dt> `<code>--execute cmd</code>'
+<dd><p>
+Add indicated command(s) to a list of things to be done instead of
+processing a command file.  Because the operating system will be reading
+this information, `<code>cmd</code>' is normally enclosed in quote marks.  If
+your command requires quote-marks, you will need to escape them,
+e.g. the following will print a greeting before doing anything else.
+<p>
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+gre -e "print \"HELLO\\n\";"
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+<dt> `<code>-o OPTION</code>'
+<dd><dt> `<code>--option OPTION</code>'
+<dd><p>
+Specify an OPTION chosen from this list:
+<p>
+`<code>no_startup</code>' -- do not use the system `<code>gre.cmd</code>' startup file
+(only the developer should use this flag)
+<p>
+`<code>no_grerc</code>' -- do not use `<samp>~/.grerc</samp>' user-startup file
+<p>
+<dt> `<code>-L dir</code>'
+<dd><dt> `<code>--Library dir</code>'
+<dd><p>
+Name directory where startup file `<samp>gre.cmd</samp>' is to be found,
+over-riding the system default of `<samp>/usr/share/gre-0.2.3</samp>'.
+NOTE: Multiple `<code>--Library</code>' commands are allowed, the last one being
+used and previous ones ignored.
+<p>
+<dt> `<code>--which_library</code>'
+<dd>Reports which directory stores the library files, as set by the
+`<code>--Library</code>' command or be default, and then exits.  This is
+normally used only by the gre-mode.el Emacs mode.
+</dl>
+
+<!-- latex: \index{aliases, commandline} -->
+<!-- latex: \index{commandline aliases} -->
+<!-- latex: \index{popt handling of commandline aliases} -->
+
+<em>Commandline aliases</em>: Following an invention of the linux
+community, `<code>gre</code>' allows user-derived aliasing of commandline options.
+Aliases may be stored in the user's `<samp>$HOME/.popt</samp>' file, or in a
+system file (by default, `<samp>/etc/popt</samp>' on linux machines -- presently
+unavailable on other machines).  See linux documentation for more on the
+technique.  For example, the following entry in a `<samp>$HOME/.popt</samp>'
+file might be used to set up large fonts and thick lines, for use in
+generating graphs for projected overhead transparencies:
+<p>
+
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   alias gre --overhead -e "set font size 24;" -e "set line width 3;"
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+With this, one need only to invoke `<code>gre</code>' as 
+<p>
+
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   gre --overhead slide1.gre
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+to get the desired effect.
+<p>
+
+
+
+<!-- @node   System startup file, User startup file, Commandline options, Invoking -->
+<a name="Systemstartupfile" >
+<h2>2.2: System startup file `<samp>gre.cmd</samp>'</h2>
+</a>
+
+
+<p>
+
+The `<code>gre</code>' grammar is defined ``on the fly'' in a system startup file
+named `<samp>gre.cmd</samp>'.  This file is used by `<code>gre</code>' at startup time, and
+it should not be edited by users.  It is normally located in directory
+named `<samp>/usr/share/gre-0.2.3</samp>'.
+<p>
+
+One may specify an alternate location of the `<samp>gre.cmd</samp>' file with
+the `<code>-L</code>' commandline option see <a href="Invoking.html#Commandlineoptions">Commandline options</a>.  If this is
+specified, then the indicated directory is searched instead of the
+default directory.
+<p>
+
+`<code>gre</code>' will die immediately if it cannot locate the `<code>gre.cmd</code>' file.
+<p>
+
+
+
+<!-- @node   User startup file, Grammar, System startup file, Invoking -->
+<a name="Userstartupfile" >
+<h2>2.3: User startup file `<samp>~/.grerc</samp>'</h2>
+</a>
+
+
+<p>
+
+Once the builtin grammar has been processed, `<code>gre</code>' looks for any
+additional enhancements the user may have created in his/her
+personalized startup file, named `<samp>~/.grerc</samp>'.
+<p>
+
+<!-- latex: \index{personal library in ~/.grerc file} -->
+<!-- latex: \index{resource file in ~/.grerc file} -->
+<!-- latex: \index{grerc file} -->
+<!-- latex: \index{~/.grerc file} -->
+
+Any commands you put in a file called `<samp>~/.grerc</samp>' will be parsed
+before `<code>gre</code>' parses your command file.  (This behaviour may be
+turned off with the command-line argument `<code>-o no_grerc</code>'
+(<a href="Invoking.html#Commandlineoptions">Commandline options</a>.)  Therefore `<samp>~/.grerc</samp>' is the place to
+put code that you use often: it is your personal library of extensions
+to `<code>gre</code>'.  Here is an example, from the author's `<samp>~/.grerc</samp>'
+file, which draws a pretty blue underlay in the graph area, then draws
+vertical and horizontal white lines at the labelled tic marks of the
+axes, laying out a grid.  This is nice for creating slides for
+projection in seminars.
+<p>
+
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   #* Draw color underlay for graph, with white grid lines
+   #* @param $style =0 for light blue underlay
+   cmd draw axes_underlay ($;) {  # $style
+       if ($_[0] == 0) {
+           draw axes none;
+           set color rgb 0.5 0.7 1;
+           draw box filled $_xleft $_ybottom $_xright $_ytop;
+           set color white;        
+           set line width $_linewidth_axis / 1.25;
+           for ($x = $_xleft; $x &lt;= $_xright; $x += $_xinc) {
+               draw line from $x $_ybottom to $x $_ytop;
+           }
+           for ($y = $_ybottom; $y &gt;= $_ytop; $y += $_yinc) {
+               draw line from $_xleft $y to $_xright $y;
+           }
+           set color black;
+       } else {
+           die "`draw axes underlay' style=$_[0] not allowed.";
+       }
+   }
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+Sample use:
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   # ... define the axes (perhaps by auto-scaling from data)
+   draw axes_underlay 0;
+   draw axes;
+   draw curve;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+<b>Caution</b>. The use of a startup file by `<code>gre</code>' is a bit of a
+missed blessing, as it is in other programs.  Compatibility problems can
+arise when you change how commands work in your `<samp>~/.grerc</samp>' file
+without changing all files that use these commands.  For example,
+suppose you've written a great new command `<code>draw whizbang</code>' and put
+it in your `<samp>~/.grerc</samp>' file.  If it's really useful, you'll probably
+refer to it in dozens of your `<code>gre</code>' programs.  But then, one day, you
+may decide to change `<code>draw whizbang</code>' in some way that makes sense
+for the work you're doing at the moment.  Unless you go back and change
+all the `<code>gre</code>' programs that were set up to use the old version of
+`<code>draw whizbang</code>', you'll find that the changes have broken old code.
+This sort of compatibility error is not unique to `<code>gre</code>'; it occurs
+with startup files of many programs.  The problem is that very few users
+keep track of dependencies from program to program.  For this reason,
+you should use caution when working with `<samp>~/.grerc</samp>'.  
+<p>
+
+For many purposes you'll find it better to work with numbered libraries
+that you maintain and use with the `<code>use</code>' command see <a href="BuiltinCommands.html#Use">Use</a>.
+<p>
+
+
+
+
+<p>
+(c) 1997-2000 Dan E. Kelley, email <a href="mailto:Dan.Kelley@Dal.Ca">
+Dan.Kelley@Dal.Ca</a>
+</tr>
+<p>
+</table>
+<img src="./resources/bottom_banner.gif" HEIGHT="26" WIDTH="603" usemap="#navigate_bottom" border="0">
+
+</table>
+</body>
+</html>

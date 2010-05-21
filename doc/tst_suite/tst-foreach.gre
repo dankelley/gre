@@ -1,0 +1,7 @@
+print "tst_suite/tst-foreach.gre        ...";
+$sum = 0;
+foreach $x (1, 2, 3, 4) {
+    $sum += $x;
+}
+die " failed\n" if ($sum != 10);
+print " passed\n";

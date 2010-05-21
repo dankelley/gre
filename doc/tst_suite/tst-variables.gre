@@ -1,0 +1,27 @@
+print "tst_suite/tst-variables.gre      ...";
+for($i = 0; $i < 3; $i += 1) {
+    $x[$i] = $i/10;
+}
+die " failed test 1\n" if ($i    !=  3);
+die " failed test 2\n" if ($x[2] !=  0.2);
+die " failed test 3\n" if ($#x   !=  2);
+die " failed test 4\n" if ($#i   != -1);
+# Scalar text, with various string comparisons
+$a = "hi";
+die " failed test 5\n" if ($a ne "hi");
+$a[0] = "HI";
+die " failed test 6\n" if ($#a != 0 or $a[0] ne "HI");
+$a = 1;
+die " failed test 7\n" if (1 != $a);
+$a = "hello" . "world";
+die " failed test 8\n" if ($a ne "helloworld");
+$a = 1_000;
+die " failed test 9\n" if $a != 1000;
+
+# Following only work in version 0.1.37 and up.
+$res = @t=(11,"hello",33);
+die " failed test 10" if $res ne 3;
+die " failed test 11" if $t[0] ne 11;
+die " failed test 12" if $t[1] ne "hello";
+die " failed test 13" if $t[2] ne 33;
+print " passed\n";

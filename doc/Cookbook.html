@@ -1,0 +1,301 @@
+<html>
+<head>
+<title>Gre: Cookbook</title>
+</head>
+
+<body bgcolor="#ffffff" background="./resources/sm_bg.gif" link="#993333" vlink="#333399 alink="#cc3333">
+
+<!-- newfile Cookbook.html "Gre: Cookbook" "Cookbook" --> 
+
+<!-- @node   Cookbook, Example 1, -X, Top -->
+<a name="Cookbook" >
+
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td colspan=2><img src="./resources/top_banner.gif" HEIGHT="28" WIDTH="604" usemap="#navigate_top" border="0"></td></tr>
+<tr>
+<td width="150" valign="top">
+<font size=+1>
+<i>Cookbook</i>
+</font>
+<font size=-1>
+<p>
+<clear>
+<a href="Introduction.html" ONMOUSEOVER="window.status='Beginners -- start reading here';return true">1: Introduction</a><br>
+<a href="Invoking.html" ONMOUSEOVER="window.status='Beginners -- start reading here';return true">2: Invoking Gre</a><br>
+<a href="Grammar.html" ONMOUSEOVER="window.status='Full description of Gre grammar';return true">3: Gre Grammar</a><br>
+<a href="BuiltinCommands.html" ONMOUSEOVER="window.status='Full list of Gre commands';return true">4: Commands</a><br>
+<a href="Cookbook.html" ONMOUSEOVER="window.status='Some complicated real-world applications';return true">5: Cookbook</a><br>
+<a href="Hints.html" ONMOUSEOVER="window.status='Some hints for Gre programming';return true">6: Hints</a><br>
+<a href="History.html" ONMOUSEOVER="window.status='How Gre has evolved (check here for updates)';return true">7: History</a><br>
+<a href="Plans.html" ONMOUSEOVER="window.status='Plans for Gre';return true">8: Plans</a><br>
+<a href="ConceptIndex.html" ONMOUSEOVER="window.status='Fully-linked index';return true"><b>9: Concept Index</a></b>
+</font></td>
+<td width="500" valign="top">
+<map name="navigate_top">
+<area shape="rect" coords="5,2,218,24" href="gre1.html#Top">
+<area shape="rect" coords="515,2,535,24" href="gre1.html#Top">
+<area shape="rect" coords="550,2,575,24" href="BuiltinCommands.html">
+<area shape="rect" coords="580,2,600,24" href="Hints.html">
+</map>
+<map name="navigate_bottom">
+<area shape="rect" coords="5,2,218,24" href="gre1.html#Top">
+<area shape="rect" coords="580,2,600,24" href="Hints.html"></map>
+</map>
+<h1>5: Cookbook</h1>
+</a>
+
+
+<p>
+
+<UL>
+<LI><a href="Cookbook.html#Example1">Example 1</a>: Filled-curves, dots, line-segments
+<LI><a href="Cookbook.html#Example2">Example 2</a>: Curves, arrows, labels
+<LI><a href="Cookbook.html#Example3">Example 3</a>: Color-coded dots, isopycnals on TS diagram
+<LI><a href="Cookbook.html#Example4">Example 4</a>: A cmd for TS diagrams
+<LI><a href="Cookbook.html#Example5">Example 5</a>: Timing test
+<LI><a href="Cookbook.html#Example6">Example 6</a>: Plotting theoretical functions
+<LI><a href="Cookbook.html#Example7">Example 7</a>: Map projection
+<LI><a href="Cookbook.html#Example8">Example 8</a>: Colored text
+<LI><a href="Cookbook.html#Example9">Example 9</a>: Month-of-year timeseries
+</UL>
+
+<!-- @node   Example 1, Example 2, Cookbook, Cookbook -->
+<a name="Example1" >
+<h2>5.1: Example 1 -- filled-curves, dots, line-segments</h2>
+</a>
+
+
+<p>
+
+-- to be filled in later --
+<p>
+
+
+<!-- @node   Example 2, Example 3, Example 1, Cookbook -->
+<a name="Example2" >
+<h2>5.2: Example 2 -- curves, arrows, labels</h2>
+</a>
+
+
+<p>
+
+
+Diagram illustrating x-y curves, arrows, text.  Since this is a
+definition sketch, no axes are drawn.  (From Kelley and Van Scoy, 1997)
+<p>
+
+<center> 
+<A HREF="./figures//TU_defn.html"> 
+<IMG SRC="./figures/TU_defn.gif" width=220 align=top>  
+</A> 
+</center> 
+
+
+<!-- @node   Example 3, Example 4, Example 2, Cookbook -->
+<a name="Example3" >
+<h2>5.3: Example 3 -- color-coded dots, isopycnals</h2>
+</a>
+
+
+<p>
+
+Diagram illustrating temperature-salinity plot, color-coded for a third
+variable (in this case, bug counts).  Data from bioness tows made by
+Dalhousie as part of the OPEN program.
+<p>
+
+<center> 
+<A HREF="./figures/TS-color.html"> 
+<IMG SRC="./figures/TS-color.gif" width=400 align=top>  
+</A> 
+</center> 
+
+
+<!-- @node   Example 4, Example 5, Example 3, Cookbook -->
+<a name="Example4" >
+<h2>5.4: Example 4 -- a cmd for TS diagrams</h2>
+</a>
+
+
+<p>
+
+The `<code>cmd</code>' created in this example draws TS diagrams, setting up
+axis names and drawing isopycnals automatically.
+<p>
+
+<center> 
+<A HREF="./figures//TS.html"> 
+<IMG SRC="./figures/TS.gif" width=336 align=top>  
+</A> 
+</center> 
+
+
+<!-- @node   Example 5, Example 6, Example 4, Cookbook -->
+<a name="Example5" >
+<h2>5.5: Example 5 -- timing test</h2>
+</a>
+
+
+<p>
+
+The following code tests the speed of programming a subroutine in gre,
+compared to using a builtin function.  To run it, do e.g.
+`<code>time gre test.gre</code>', then change the comment in the lines inside
+the loop, to use either builtin code or the user-defined function.
+<p>
+
+Depending on the speed of your machine, you may have to use a different
+value of `<code>$n</code>', in order to get times long enough to compare, using
+the unix `<code>time</code>' program.  Also, you may wish to duplicate the
+function call a few times, to see whether the loop overhead is
+significant.
+<p>
+
+My results, on a Sun Microsystems solaris machine, indicate that the
+gre-based `<code>my_sinh</code>' subroutine is 3.6 +/- 0.1 times slower than the
+internally coded `<code>sinh</code>' subroutine.  Because sinh is a slow
+function to calculate, the loop overhead is negligible -- that is,
+increasing the number of calls to the subroutine inside the loop changed
+results very little.
+<p>
+
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   # Test of timing
+   sub my_sinh ($) {  # hyperbolic sin
+       my $y;
+       $y = exp($_[0]);
+       return ($y - 1 / $y) / 2;
+   }
+   $n = 10000;
+   $dx = 1 / $n;
+   for ($x = 0; $x &lt; 1; $x += $dx) {
+       # Uncomment one of following two lines
+       #$sy = my_sinh($x);
+       $sy = sinh($x);
+   }
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+<!-- @node   Example 6, Example 7, Example 5, Cookbook -->
+<a name="Example6" >
+<h2>5.6: Example 6 -- plotting theoretical functions</h2>
+</a>
+
+
+<p>
+
+<!-- latex: \index{functions, how to plot} -->
+<!-- latex: \index{theoretical functions, how to plot} -->
+<!-- latex: \index{seawater sound-speed} -->
+<!-- latex: \index{sound-speed of seawater} -->
+<!-- latex: \index{speed of sound in seawater} -->
+<!-- latex: \index{overhead projection, example} -->
+
+Diagram from my introductory Physical Oceanography class, illustrating
+(a) large fonts and pretty colors, suitable for overhead projection and
+(b) display of theoretical curves as oppposed to data.
+<p>
+
+<center> 
+<A HREF="./figures/sound_speed.html"> 
+<IMG SRC="./figures/sound_speed.gif" width=438 align=top>  
+</A> 
+</center> 
+
+
+
+<!-- @node   Example 7, Example 8, Example 6, Cookbook -->
+<a name="Example7" >
+<h2>5.7: Example 7 -- drawing a coastline map with fancy projection</h2>
+</a>
+
+
+<p>
+
+<!-- latex: \index{maps, sample of drawing} -->
+<!-- latex: \index{charts, sample of drawing} -->
+<!-- latex: \index{drawing maps} -->
+
+Diagram shows Maritimes provinces of Canada, plotted using the 
+`<code>set map projection</code>' command with Lambert
+Conformal Conic projection see <a href="BuiltinCommands.html#Setmapprojection">Set map projection</a>.
+<p>
+
+<center> 
+<A HREF="./figures/maritimes.html"> 
+<IMG SRC="./figures/maritimes.gif" width=297 align=top>  
+</A> 
+</center> 
+
+
+<!-- @node   Example 8, Example 9, Example 7, Cookbook -->
+<a name="Example8" >
+<h2>5.8: Example 8 -- colored text</h2>
+</a>
+
+
+<p>
+
+<!-- latex: \index{birthday paper} -->
+
+Face it, people like/hate to be reminded of their age on birthdays.  So,
+the way to make them like/hate you is to wrap their present in paper
+that was generated as below.  Only a snippet of the 8.5x11" output is
+shown.  Click on the diagram to see the source code, and just change the
+`<code>$year = ...</code>'  line to customize for your friends.
+<p>
+
+<center> 
+<A HREF="./figures/birthday.html"> 
+<IMG SRC="./figures/birthday.gif" width=291 align=top>  
+</A> 
+</center> 
+
+
+<!-- @node   Example 9, Hints, Example 8, Cookbook -->
+<a name="Example9" >
+<h2>5.9: Example 9 -- month-of-year timeseries</h2>
+</a>
+
+
+<p>
+
+<!-- latex: \index{timeseries with month of year} -->
+<!-- latex: \index{month of year, timeseries} -->
+
+There is no builtin facility for plotting against month-of-the year, but
+you can get this sort of graph pretty easily.  For daily data you'll
+need to know the number of days in each month (as a function of whether
+it's a leap year or not), etc.  But for month-averaged data, the case is 
+simpler; you just need to write `<code>Jan</code>', `<code>Feb</code>', etc, along the
+x-axis.  The following example assumes that the January data will have
+x-value of 0.5, the February data will have 1.5, etc.
+<p>
+
+<center> 
+<A HREF="./figures/month-series.html"> 
+<IMG SRC="./figures/month-series.gif" width=332 align=top>  
+</A> 
+</center> 
+
+
+
+<p>
+(c) 1997-2000 Dan E. Kelley, email <a href="mailto:Dan.Kelley@Dal.Ca">
+Dan.Kelley@Dal.Ca</a>
+</tr>
+<p>
+</table>
+<img src="./resources/bottom_banner.gif" HEIGHT="26" WIDTH="603" usemap="#navigate_bottom" border="0">
+
+</table>
+</body>
+</html>

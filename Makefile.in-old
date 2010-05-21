@@ -1,0 +1,353 @@
+VERSION = 0.1.45
+
+## NOTE TO AUTHOR: To get good memory allocation checking, 
+## change the $LIBS line to read:
+##   LIBS = ... -lefence
+## to link with the electric-fence memory checker,
+## and then RUN INSIDE a debugger.
+
+#### Start of system configuration section. ####
+# Prototype Gre Makefile.  Developers: read first few lines for instructions.
+# $Id: Makefile.in,v 1.44 2000/05/04 12:49:24 kelley Exp $
+
+
+srcdir = .
+
+AWK = awk
+
+INSTALL = @INSTALL@
+INSTALL_PROGRAM = @INSTALL_PROGRAM@
+INSTALL_DATA = @INSTALL_DATA@
+
+LIBS = -L./proj -lproj @LIBS@
+
+
+DEFS = -DVERSION=\"$(VERSION)\" -DDEFAULT_GRE_DIR=\"$(libdir)\" -DAWK=\"gawk\" $(HAVE_LINUX) -DHAVE_PROJ=1 -DHAVE_POPTS=1 @DEFS@
+
+CFLAGS = @CFLAGS@
+CPPFLAGS = @CPPFLAGS@
+EXTRA_CFLAGS = @EXTRA_CFLAGS@ $(LINUX_EXTRA_CFLAGS)
+
+DEST_DIR = /var/ftp/users/kelley/gre
+
+# NOTE: used to have versions here ... may have them again!
+prefix = @prefix@
+bindir = $(prefix)/bin
+libdir = $(prefix)/share/gre
+old_gre_version = `gre -v | awk 'NR==1 {print $$3}'`
+
+#### End of system configuration section. ####
+
+# Update 'tags' also, when updating here
+OBJS = GriColor.o GriPath.o GriState.o convert.o delete.o draw.o endup.o file.o gr.o graxes.o grcntour.o gr_coll.o gre_main.o grstring.o image.o parser.o print.o read.o regress.o scalar.o scales.o set.o startup.o stats.o storage.o subs.o template.o utility.o popt.o
+
+all: gre
+
+# Here are a few explicit rules used by the author for debugging;
+# it is emphaticallyy *not* a complete list.  If you edit the
+# source files you must do
+#	make clean
+#	make
+# to compile using all the actual dependencies.
+
+CXX = @CXX@
+
+# Special rule for templates, so as not to use
+# -fno-implicit-templates (g++ weirdness)
+template.o: template.cpp parser.h
+	$(CXX) -c -Wall -Wno-unused $(CPPFLAGS) $(DEFS) -I$(srcdir) $<
+parser.o: parser.y parser.h scalar.h tags.h private.h subs.h
+	bison -v -o parser.cpp parser.y
+	$(CXX) -g -DYYDEBUG=1 $(DEFS) -c parser.cpp
+gre_main.o: gre_main.cpp parser.h
+	$(CXX) -c $(CFLAGS) $(EXTRA_CFLAGS) $(CPPFLAGS) $(DEFS) -DYYDEBUG=1 -I$(srcdir) $<
+
+
+.SUFFIXES: .cpp
+.cpp.o:
+	$(CXX) -c $(CFLAGS) $(EXTRA_CFLAGS) $(CPPFLAGS) $(DEFS) -I$(srcdir) $<
+
+
+# Install all relevant files, creating directories, destroying old
+# links and creating new links as necessary.
+install_later_version: all
+	echo "Installing into '$(prefix)' directory"
+	# make directories if nonexistent
+	if test ! -d $(prefix)/bin ; then mkdir -p $(prefix)/bin ; fi
+	if test ! -d $(prefix)/lib ; then mkdir -p $(prefix)/lib ; fi
+	if test ! -d $(bindir)     ; then mkdir -p $(bindir)     ; fi
+	if test ! -d $(libdir)     ; then mkdir -p $(libdir)     ; fi
+	# startup_message
+	cat startup.msg | sed -e s,VSN,${VERSION}, | sed -e "s/DATE/`date`/" > tmp
+	$(INSTALL_DATA) tmp $(libdir)/startup.msg
+	rm -f tmp
+	# put stuff in NUMBERED directories
+	$(INSTALL_PROGRAM)	gre		$(bindir)/gre
+#	$(INSTALL_DATA) 	logo.dat	$(libdir)/logo.dat
+	$(INSTALL_DATA) 	gre.cmd		$(libdir)/gre.cmd
+#	$(INSTALL_PROGRAM)	gri_merge	$(bindir)/gri_merge
+#	$(INSTALL_PROGRAM)	gri_unpage	$(bindir)/gri_unpage
+#	$(INSTALL_PROGRAM)	gri_indent	$(bindir)/gri_indent
+#	$(INSTALL_PROGRAM)	gri_update	$(bindir)/gri_update
+	# link back from numbered directories to unnumbered ones
+	rm -f		$(prefix)/bin/gre
+	rm -f		$(prefix)/lib/gre.cmd
+#	rm -f		$(prefix)/lib/startup.msg
+	ln -sf		$(bindir)/gre		$(prefix)/bin/gre
+	ln -sf		$(libdir)/gre.cmd 	$(prefix)/lib/gre.cmd
+#	ln -sf		$(libdir)/startup.msg	$(prefix)/lib/startup.msg
+	chmod og-w	$(prefix)/bin/gre
+	chmod a+rx	$(prefix)/bin/gre
+	chmod og-w	$(prefix)/lib/gre.cmd
+	chmod a-x	$(prefix)/lib/gre.cmd
+	chmod a+r	$(prefix)/lib/gre.cmd
+#	chmod og-w	$(prefix)/lib/startup.msg
+#	chmod a-x	$(prefix)/lib/startup.msg
+#	chmod a+r	$(prefix)/lib/startup.msg
+
+
+install-numbered:
+	rm -f /usr/local/bin/gre
+	rm -f /usr/local/bin/gre-$(VERSION)
+	ln -sf $(bindir)/gre                 /usr/local/bin/gre-$(VERSION)
+	ln -sf /usr/local/bin/gre-$(VERSION) /usr/local/bin/gre
+
+
+proj/libproj.a:
+	cd proj ; make libproj
+
+#gre: $(OBJS) proj/libproj.a
+gre: $(OBJS) proj/libproj.a
+	$(CXX) -o gre -g $(LDFLAGS) $(OBJS) $(LIBS)
+
+tags:
+	etags GriColor.cpp GriPath.cpp GriState.cpp convert.cpp delete.cpp draw.cpp endup.cpp file.cpp gr.cpp graxes.cpp grcntour.cpp gr_coll.cpp gre_main.cpp grstring.cpp image.cpp parser.y print.cpp read.cpp regress.cpp scales.cpp set.cpp startup.cpp stats.cpp storage.cpp subs.cpp template.cpp utility.cpp popt.cpp *.h
+
+clean:
+	rm -f parser.c parser.cpp parser.cpp.output parser.output
+	rm -f gre *.o core *.bak *.BAK *~ config.cache *.ps \#*
+	cd proj ; make clean
+
+distclean:
+	make clean
+	rm -f config.log config.cache Makefile
+
+GRE=gre-$(VERSION)
+
+SRC = Makefile gre.cmd parser.y *.cpp *.h
+
+visual_Cpp_source:
+	./prepare_VC++.pl
+
+install-ftp:
+	rm -Rf gre-$(VERSION)
+	mkdir gre-$(VERSION)
+	mkdir gre-$(VERSION)/proj
+	cp proj/*.c proj/*.h proj/Makefile gre-$(VERSION)/proj
+	cp install-sh configure Makefile.in $(SRC) gre-$(VERSION)
+	tar -cof gre-$(VERSION).tar gre-$(VERSION)
+	rm -fr gre-$(VERSION)
+	gzip gre-$(VERSION).tar
+	mv gre-$(VERSION).tar.gz gre-$(VERSION).tgz
+	$(INSTALL) -m 0644 gre-$(VERSION).tgz $(DEST_DIR)
+	rm -f gre-$(VERSION).tgz
+
+# Some known dependencies that come up a lot for the
+# developer, tweaking code.
+draw.o: parser.h
+gr.o: gr.cpp GriState.h
+gre_main.o: gre_main.cpp parser.h GriState.h
+GriState.o: GriState.cpp GriState.h
+print.o: parser.h
+read.o: parser.h
+set.o: set.cpp GriState.h
+subs.o: parser.h subs.cpp subs.h
+utility.o: private.h
+scalar.o: scalar.h
+parser.o: scalar.h
+convert.o: GMatrix.h
+grcntour.o: GMatrix.h
+template.o: GMatrix.h
+
+install: all
+	# create the needed dirs in the BuildRoot (this is what $(DESTDIR) is being
+	# used for)
+	mkdir -m 755 -p $(DESTDIR)$(prefix)/share/gre
+	mkdir -m 755 -p $(DESTDIR)$(prefix)/share/emacs/site-lisp
+	mkdir -m 755 -p $(DESTDIR)$(prefix)/bin
+	mkdir -m 755 -p $(DESTDIR)$(prefix)/man/man1
+	mkdir -m 755 -p $(DESTDIR)$(prefix)/info
+
+	/usr/bin/install -m 755  gre     $(DESTDIR)$(prefix)/bin/gre
+	/usr/bin/install -m 644  gre.cmd $(DESTDIR)$(prefix)/share/gre/gre.cmd
+
+	# gre mode (tweaked a bit for redhat since debian goes to web to see manual)
+	cp -f gre-mode.el tmp
+	sed -e 's,WWW-page "http://phys.ocean.dal.ca/~kelley/gre/gre1.html",WWW-page "file:$(prefix)/doc/gre-$(VERSION)/html/index.html",' tmp > gre-mode.el
+	/usr/bin/install -m 644  gre-mode.el                   $(DESTDIR)$(prefix)/share/emacs/site-lisp
+	mv tmp gre-mode.el
+
+	/usr/bin/install -m 644 doc/gre.l                     $(DESTDIR)$(prefix)/man/man1
+	mkdir -m 755 -p $(DESTDIR)$(prefix)/doc/gre-$(VERSION)/html
+	/usr/bin/install -m 644 doc/*.html                    $(DESTDIR)$(prefix)/doc/gre-$(VERSION)/html
+	mkdir -m 755 -p $(DESTDIR)$(prefix)/doc/gre-$(VERSION)/html/tst_suite
+	/usr/bin/install -m 644 doc/tst_suite/Makefile        $(DESTDIR)$(prefix)/doc/gre-$(VERSION)/html/tst_suite
+	/usr/bin/install -m 644 doc/tst_suite/*.gre           $(DESTDIR)$(prefix)/doc/gre-$(VERSION)/html/tst_suite
+	/usr/bin/install -m 644 doc/tst_suite/*.dat           $(DESTDIR)$(prefix)/doc/gre-$(VERSION)/html/tst_suite
+	mkdir -m 755 -p $(DESTDIR)$(prefix)/doc/gre-$(VERSION)/html/resources
+	/usr/bin/install -m 644 doc/resources/*               $(DESTDIR)$(prefix)/doc/gre-$(VERSION)/html/resources
+	mkdir -m 755 -p $(DESTDIR)$(prefix)/doc/gre-$(VERSION)/html/figures
+	/usr/bin/install -m 644 doc/figures/*                 $(DESTDIR)$(prefix)/doc/gre-$(VERSION)/html/figures
+	/usr/bin/install -m 644 doc/gre                       $(DESTDIR)$(prefix)/info
+	/usr/bin/install -m 644 doc/gre-[1-9]                 $(DESTDIR)$(prefix)/info
+
+
+install_linux_redhat:
+	# create the needed dirs in the BuildRoot (this is what $(DESTDIR) is being
+	# used for)
+	mkdir -m 755 -p $(DESTDIR)$(prefix)/share/gre
+	mkdir -m 755 -p $(DESTDIR)$(prefix)/share/emacs/site-lisp
+	mkdir -m 755 -p $(DESTDIR)$(prefix)/bin
+	mkdir -m 755 -p $(DESTDIR)$(prefix)/man/man1
+	mkdir -m 755 -p $(DESTDIR)$(prefix)/info
+
+	/usr/bin/install -m 755  gre         $(DESTDIR)$(prefix)/bin/gre
+	/usr/bin/install -m 644  gre.cmd     $(DESTDIR)$(prefix)/share/gre/gre.cmd
+
+	# gre mode (tweaked a bit for redhat since debian goes to web to see manual)
+	cp -f gre-mode.el tmp
+	sed -e 's,WWW-page "http://phys.ocean.dal.ca/~kelley/gre/gre1.html",WWW-page "file:$(prefix)/doc/gre-$(VERSION)/html/index.html",' tmp > gre-mode.el
+
+	/usr/bin/install -m 644  gre-mode.el                   $(DESTDIR)$(prefix)/share/emacs/site-lisp
+	mv tmp gre-mode.el
+
+	/usr/bin/install -m 644 doc/gre.l                     $(DESTDIR)$(prefix)/man/man1
+	mkdir -m 755 -p $(DESTDIR)$(prefix)/doc/gre-$(VERSION)/html
+	/usr/bin/install -m 644 doc/*.html                    $(DESTDIR)$(prefix)/doc/gre-$(VERSION)/html
+	mkdir -m 755 -p $(DESTDIR)$(prefix)/doc/gre-$(VERSION)/html/tst_suite
+	/usr/bin/install -m 644 doc/tst_suite/Makefile        $(DESTDIR)$(prefix)/doc/gre-$(VERSION)/html/tst_suite
+	/usr/bin/install -m 644 doc/tst_suite/*.gre           $(DESTDIR)$(prefix)/doc/gre-$(VERSION)/html/tst_suite
+	/usr/bin/install -m 644 doc/tst_suite/*.dat           $(DESTDIR)$(prefix)/doc/gre-$(VERSION)/html/tst_suite
+	mkdir -m 755 -p $(DESTDIR)$(prefix)/doc/gre-$(VERSION)/html/resources
+	/usr/bin/install -m 644 doc/resources/*               $(DESTDIR)$(prefix)/doc/gre-$(VERSION)/html/resources
+	mkdir -m 755 -p $(DESTDIR)$(prefix)/doc/gre-$(VERSION)/html/figures
+	/usr/bin/install -m 644 doc/figures/*                 $(DESTDIR)$(prefix)/doc/gre-$(VERSION)/html/figures
+	/usr/bin/install -m 644 doc/gre                       $(DESTDIR)$(prefix)/info
+	/usr/bin/install -m 644 doc/gre-[1-9]                 $(DESTDIR)$(prefix)/info
+
+
+TST_SUITE = ./doc/tst_suite
+test:
+	@cd doc/tst_suite ; ../../gre -L ../.. tst-match.gre
+	@./gre -L . $(TST_SUITE)/tst-nested-cmd.gre
+	@./gre -L . $(TST_SUITE)/tst-sub.gre
+	@./gre -L . $(TST_SUITE)/tst-my.gre
+	@./gre -L . $(TST_SUITE)/tst-for.gre
+	@./gre -L . $(TST_SUITE)/tst-foreach.gre
+	@./gre -L . $(TST_SUITE)/tst-do-while.gre
+	@./gre -L . $(TST_SUITE)/tst-last.gre
+	@./gre -L . $(TST_SUITE)/tst-variables.gre
+	@./gre -L . $(TST_SUITE)/tst-variables2.gre
+	@./gre -L . $(TST_SUITE)/tst-builtin.gre
+	@./gre -L . $(TST_SUITE)/tst-math.gre
+	@./gre -L . $(TST_SUITE)/tst-if.gre
+	@cd doc/tst_suite ; ../../gre -L ../.. tst-read.gre
+	@./gre -L . $(TST_SUITE)/tst-new-cmd.gre
+	@./gre -L . $(TST_SUITE)/tst-while.gre
+	@./gre -L . $(TST_SUITE)/tst-string-comp.gre
+	@./gre -L . $(TST_SUITE)/tst-substitute.gre
+
+test-extras:
+	-time ./gre $(TST_SUITE)/tst-while-time.gre
+	-./gre $(TST_SUITE)/tst-random.gre
+	-./gre $(TST_SUITE)/tst-die.gre
+	-/usr/bin/echo "1\n2\n3\n" | ./gre $(TST_SUITE)/tst-query.gre
+	-./gre $(TST_SUITE)/tst-C_command.gre
+	-./gre $(TST_SUITE)/tst-errors.gre
+	-./gre $(TST_SUITE)/tst-mean2.gre < $(TST_SUITE)/tst-mean.dat
+	-./gre $(TST_SUITE)/tst-mean.gre
+time_test:
+	time gre  tst-suite/tst-benchmark.gre
+	time perl tst-suite/tst-benchmark.gre
+help:
+	@echo "Things you can do here:"
+	@grep '^[^ ]*:' Makefile		\
+	 | sed -e "s/^/  make /" -e "s/://"	\
+	 | gawk '{print " ", $$1, $$2}'
+	@echo "Other useful facts:"
+	@echo "  cvs commit"
+	@echo "  cvs tag \"GRE_0_1_33\""
+	@echo "  cvs diff -r GRE_0_1_32 -r GRE_0_1_33 > patch-0.1.32-to-0.1.33"
+	@echo "  (put the above into ftp site)"
+
+# Source distribution
+        SOURCE_NAME = gre-$(VERSION)
+            SRC_DIR = .
+            DOC_DIR = ./doc
+           DEST_DIR = /home/kelley
+
+
+source:
+	# Clean directory, if existent.
+	rm -rf $(SOURCE_NAME)
+	mkdir -m 755 $(SOURCE_NAME)
+	#
+	# Copy source
+	cp $(SRC_DIR)/*.cpp $(SRC_DIR)/*.h $(SRC_DIR)/parser.y\
+           $(SRC_DIR)/gre.cmd $(SRC_DIR)/Makefile.in\
+           $(SRC_DIR)/configure $(SRC_DIR)/configure.in $(SRC_DIR)/Makefile.in\
+	   $(SRC_DIR)/install-sh $(SRC_DIR)/gri2gre\
+	   $(SRC_DIR)/copyright.txt $(SRC_DIR)/AUTHOR $(SRC_DIR)/README\
+           $(SRC_DIR)/gre-mode.el\
+           $(SRC_DIR)/gre-${VERSION}.spec\
+	   $(SOURCE_NAME)
+	chmod a+r $(SOURCE_NAME)/*
+	mkdir -m 755 $(SOURCE_NAME)/proj
+	cp $(SRC_DIR)/proj/*.c $(SRC_DIR)/proj/*.h $(SRC_DIR)/proj/Makefile $(SOURCE_NAME)/proj
+	chmod a+r $(SOURCE_NAME)/proj/*
+	# 
+	# Copy test suite, documentation, etc.
+	mkdir -m 755 $(SOURCE_NAME)/doc
+	mkdir -m 755 $(SOURCE_NAME)/doc/tst_suite
+	-cp doc/tst_suite/Makefile       $(SOURCE_NAME)/doc/tst_suite
+	-cp doc/tst_suite/*gre           $(SOURCE_NAME)/doc/tst_suite
+	-cp doc/tst_suite/*dat           $(SOURCE_NAME)/doc/tst_suite
+	-cp $(DOC_DIR)/Makefile          $(SOURCE_NAME)/doc
+	-cp $(DOC_DIR)/gre.l             $(SOURCE_NAME)/doc
+	-cp $(DOC_DIR)/gre.texim         $(SOURCE_NAME)/doc
+	-cp $(DOC_DIR)/HTML_subdivide    $(SOURCE_NAME)/doc
+	chmod a+rx $(SOURCE_NAME)/doc/HTML_subdivide
+	-cp $(DOC_DIR)/gre2html          $(SOURCE_NAME)/doc
+	chmod a+rx $(SOURCE_NAME)/doc/gre2html
+	-cp $(DOC_DIR)/gre2texi          $(SOURCE_NAME)/doc
+	chmod a+rx $(SOURCE_NAME)/doc/gre2texi
+	-cp $(DOC_DIR)/make_html_index   $(SOURCE_NAME)/doc
+	chmod a+rx $(SOURCE_NAME)/doc/make_html_index
+	-cp $(DOC_DIR)/texim2texi        $(SOURCE_NAME)/doc
+	chmod a+rx $(SOURCE_NAME)/doc/texim2texi
+	-cp $(DOC_DIR)/texinfo2HTML      $(SOURCE_NAME)/doc
+	chmod a+rx $(SOURCE_NAME)/doc/texinfo2HTML
+	mkdir -m 755 $(SOURCE_NAME)/doc/resources
+	chmod a+x $(SOURCE_NAME)/doc/resources
+	cp $(DOC_DIR)/resources/*.gif    $(SOURCE_NAME)/doc/resources
+#	cp $(DOC_DIR)/resources/logo.gre $(SOURCE_NAME)/doc/resources
+	chmod a+r $(SOURCE_NAME)/doc/resources/*
+	mkdir -m 755 $(SOURCE_NAME)/doc/figures
+	chmod a+x $(SOURCE_NAME)/doc/figures
+	-cp $(DOC_DIR)/figures/Makefile     $(SOURCE_NAME)/doc/figures
+	-cp $(DOC_DIR)/figures/*.txt        $(SOURCE_NAME)/doc/figures
+	-cp $(DOC_DIR)/figures/*.gif        $(SOURCE_NAME)/doc/figures
+	-cp $(DOC_DIR)/figures/*.gre        $(SOURCE_NAME)/doc/figures
+	-cp $(DOC_DIR)/figures/*.dat        $(SOURCE_NAME)/doc/figures
+	-cp $(DOC_DIR)/figures/*.html       $(SOURCE_NAME)/doc/figures
+	-cp $(DOC_DIR)/figures/TS-stn308.gz $(SOURCE_NAME)/doc/figures
+	chmod a+r $(SOURCE_NAME)/doc/figures/*
+	#
+	# Tar package, compress it, install it.
+	tar -c -f $(SOURCE_NAME).tar $(SOURCE_NAME)
+	rm -rf $(SOURCE_NAME)
+	gzip $(SOURCE_NAME).tar
+	mv $(SOURCE_NAME).tar.gz $(SOURCE_NAME).tgz
+	-cp $(SOURCE_NAME).tgz $(DEST_DIR)
+	chmod a+r $(DEST_DIR)/$(SOURCE_NAME).tgz
+	rm -f $(SOURCE_NAME).tgz

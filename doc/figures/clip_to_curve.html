@@ -1,0 +1,71 @@
+<html>
+<!- Created Sun Jul 13 12:36:33 2003 by ../gre2html from clip_to_curve.gre -->
+<head>
+<title>clip_to_curve.gre</title>
+</head>
+<body>
+<i># Demonstrate `set clip to curve'</i><br>
+
+<br>
+<i># Clip to unit circle, approximates with polygon.</i><br>
+$n = 100;
+<br>
+<b>for</b> ($i = 0; $i < $n; $i++) {
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$_x[$i] = cos($i * 2 * $_pi / ($n - 1));
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$_y[$i] = sin($i * 2 * $_pi / ($n - 1));
+<br>
+}
+<br>
+draw axes;
+<br>
+set clip to curve;
+<br>
+
+<br>
+<i># Draw some blue clipped lines ...</i><br>
+set color blue;
+<br>
+set line width 20;
+<br>
+<b>for</b> ($x = -1; $x <= 1; $x += 0.5) {
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;draw line from $x $_ybottom to ($x + 0.33) $_ytop;
+<br>
+}
+<br>
+
+<br>
+<i># ... then overlay some clipped graying-out text ...</i><br>
+set font size 32;
+<br>
+set graylevel 0.8;
+<br>
+<b>for</b> ($y = -1; $y <= 1; $y += 0.2) {
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;draw label <tt>"clipped clipped clipped clipped clipped"</tt> at (-1) $y;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set graylevel 0.8 * $_graylevel;
+<br>
+}
+<br>
+
+<br>
+
+<br>
+<i># .. and then some unclipped lines.</i><br>
+set clip off;
+<br>
+set line width rapidograph <tt>"00"</tt>;
+<br>
+set color red;
+<br>
+<b>for</b> ($y = -1.0; $y <= 1; $y += 0.2) {
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;draw line from $_xleft $y to $_xright $y;
+<br>
+}
+<br>
+</body>
+</html>

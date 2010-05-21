@@ -1,0 +1,19 @@
+$i  = 0;		# number of points
+$s  = 0;		# sum
+$ss = 0;		# sum of squares
+open "tst-mean.dat";
+while (1) {
+    read $x;
+    last if ($_eof);
+    $s  += $x;
+    $ss += $x^2;
+    $i += 1;
+}
+print "Number of points = $i\n";
+$mean   = $s / $i;
+$stddev = sqrt($ss / ($i-1) - $mean^2*$i/($i-1));
+$width = 1.96 * $stddev / sqrt($i);
+print "Mean = $mean\n";
+print "Standard deviation = $stddev\n";
+print "95% CI on mean, assuming normal distribution, is: ",
+    $mean - $width, " to ", $mean + $width, "\n";

@@ -1,0 +1,56 @@
+# Draw T-S plot for all data in bioness directory, color-coded for bug count.
+
+$dir = "/data/po/ocean/92-31/bioness"; # dir where data live
+
+set x name "Salinity, PSU";
+set y name "Temperature, \(\circ\)C";
+set y axis 7 10 1 0.5;
+set x axis 31 32.5 0.5 0.1;
+draw axes;
+draw title "hue: total particles ($_command_file on \dir/*.com)";
+
+# Indicate scale with labels along right-hand side of plot
+$bugmax = 200;
+$y = $_ybottom; $dy = ($_ytop - $_ybottom)/10;
+$v =   0; set color hsv ($v/$bugmax) 1 1; draw label "   $v particles" $_xright $y; $y += $dy;
+$v =  25; set color hsv ($v/$bugmax) 1 1; draw label "   $v particles" $_xright $y; $y += $dy;
+$v =  50; set color hsv ($v/$bugmax) 1 1; draw label "   $v particles" $_xright $y; $y += $dy;
+$v =  75; set color hsv ($v/$bugmax) 1 1; draw label "   $v particles" $_xright $y; $y += $dy;
+$v = 100; set color hsv ($v/$bugmax) 1 1; draw label "   $v particles" $_xright $y; $y += $dy;
+$v = 125; set color hsv ($v/$bugmax) 1 1; draw label "   $v particles" $_xright $y; $y += $dy;
+$v = 150; set color hsv ($v/$bugmax) 1 1; draw label "   $v particles" $_xright $y; $y += $dy;
+$v = 175; set color hsv ($v/$bugmax) 1 1; draw label "   $v particles" $_xright $y; $y += $dy;
+$v = 200; set color hsv ($v/$bugmax) 1 1; draw label "   $v particles" $_xright $y; $y += $dy;
+
+# Extract all data into one file, named 'tmp'.  Simply take all
+# the files ending in ".com".
+set clip on;
+set symbol size 0.025;
+system("rm -f tmp");
+foreach $f (glob("$dir/*.com")) {
+    system("gawk '{print \$5,\$4,\$9}' $f >> tmp");
+    print "Did file $f (hue max is $hue_max)\n";
+}
+
+# Read the file, then reorder the data so that points don't
+# overpaint by the order of sampling.
+open(IN, "tmp");
+read columns IN x y z;
+reorder columns randomly;
+for ($i = 0; $i <= $#_x; $i++) {
+    $hue = $_z[$i] / $bugmax;
+    set color hsv $hue 1 1;
+    draw symbol "bullet" $_x[$i] $_y[$i];
+}
+
+# Draw a few isopycnals.
+set color "black";
+draw isopycnal unlabelled 23.5;
+draw isopycnal 24;
+draw isopycnal unlabelled 24.5;
+draw isopycnal 25;
+draw isopycnal unlabelled 25.5;
+draw isopycnal 26;
+
+# Clean up.
+system("rm -f tmp");

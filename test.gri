@@ -1,0 +1,16 @@
+set x grid 0 1 0.5
+set y grid 0 1 0.5
+open TMP
+read grid data
+show grid
+show "1\n"
+set image range 0 10
+show "2\n"
+set image colorscale hsb 0 1 1 0 hsb .666 1 1 10
+show "3\n"
+convert grid to image
+show "4\n"
+show image
+show grid
+draw image
+draw contour

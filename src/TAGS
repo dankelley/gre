@@ -1,0 +1,1819 @@
+
+parser.h,9706
+#define _PARSER_H_4,41
+enum cmd_eval_code cmd_eval_code27,535
+enum cmd_eval_code {rval_error,27,535
+enum cmd_eval_code {rval_error, rval_okay,27,535
+enum cmd_eval_code {rval_error, rval_okay, rval_last,27,535
+enum cmd_eval_code {rval_error, rval_okay, rval_last, rval_return,27,535
+enum cmd_eval_code {rval_error, rval_okay, rval_last, rval_return, rval_next}27,535
+using namespace std;34,721
+class var var48,1025
+	var(var::var50,1045
+	var(var::var57,1182
+	var(var::var67,1444
+	void set_value(var::set_value77,1708
+	void set_value(var::set_value84,1886
+	void set_value(var::set_value91,2070
+	void set_value(var::set_value112,2739
+	const scalar& get_at_index(var::get_at_index132,3390
+	bool get_type(var::get_type143,3779
+	unsigned int get_size(var::get_size150,3966
+	int get_end_index(var::get_end_index151,4020
+	void resize(var::resize157,4126
+	unsigned int get_hash(var::get_hash173,4511
+	const string& get_name_string(var::get_name_string174,4565
+	const char *get_name(var::get_name175,4619
+	double get_numeric_scalar var::get_numeric_scalar180,4759
+	bool get_text_scalar var::get_text_scalar186,4893
+	double get_numeric_vector var::get_numeric_vector196,5143
+	const char* get_text_vector var::get_text_vector202,5291
+	~var(var::~var208,5438
+	void clear_vector(var::clear_vector213,5615
+	var(var::var217,5750
+	void erase_name(var::erase_name229,6234
+	bool operator< var::operator<233,6376
+	bool operator== var::operator==234,6436
+	var& operator=(var::operator=235,6496
+	unsigned int get_references(var::get_references249,7016
+	void increment_references(var::increment_references250,7076
+struct wnode wnode302,8811
+	enum w_type wnode::w_type303,8843
+	enum w_type {unknown,wnode::w_type::unknown303,8843
+	enum w_type {unknown, vname,wnode::w_type::vname303,8843
+	enum w_type {unknown, vname, word,wnode::w_type::word303,8843
+	enum w_type {unknown, vname, word, expr,wnode::w_type::expr303,8843
+	enum w_type {unknown, vname, word, expr, column_spec}wnode::w_type::column_spec303,8843
+class enode enode313,9040
+	enum type enode::type315,9062
+	enum type {empty,enode::type::empty315,9062
+		   assign_scalar,enode::type::assign_scalar316,9087
+		   assign_list_vector,enode::type::assign_list_vector317,9112
+		   assign_vector,enode::type::assign_vector318,9142
+		   resize_vector,enode::type::resize_vector319,9167
+		   text,enode::type::text321,9216
+		   text, text_dot,enode::type::text_dot321,9216
+		   text, text_dot, text_eq,enode::type::text_eq321,9216
+		   text, text_dot, text_eq, text_ne,enode::type::text_ne321,9216
+		   text, text_dot, text_eq, text_ne, text_glob,enode::type::text_glob321,9216
+		   eq,enode::type::eq323,9300
+		   eq, ne,enode::type::ne323,9300
+		   eq, ne, lt,enode::type::lt323,9300
+		   eq, ne, lt, le,enode::type::le323,9300
+		   eq, ne, lt, le, ge,enode::type::ge323,9300
+		   eq, ne, lt, le, ge, gt,enode::type::gt323,9300
+		   add,enode::type::add325,9364
+		   add, sub,enode::type::sub325,9364
+		   add, sub, mul,enode::type::mul325,9364
+		   add, sub, mul, div,enode::type::div325,9364
+		   add, sub, mul, div, remainder,enode::type::remainder325,9364
+		   add, sub, mul, div, remainder, negative,enode::type::negative325,9364
+		   add, sub, mul, div, remainder, negative,	power,enode::type::power325,9364
+		   boolean_not,enode::type::boolean_not327,9452
+		   boolean_not, boolean_and,enode::type::boolean_and327,9452
+		   boolean_not, boolean_and, boolean_or,enode::type::boolean_or327,9452
+		   function_builtin_numeric_0,enode::type::function_builtin_numeric_0329,9525
+		   function_builtin_numeric_1,enode::type::function_builtin_numeric_1330,9563
+		   function_builtin_numeric_2,enode::type::function_builtin_numeric_2331,9596
+		   function_builtin_numeric_3,enode::type::function_builtin_numeric_3332,9629
+		   function_builtin_numeric_4,enode::type::function_builtin_numeric_4333,9662
+		   function_builtin_text_0,enode::type::function_builtin_text_0334,9695
+		   function_builtin_text_1,enode::type::function_builtin_text_1335,9728
+		   function_builtin_text_2,enode::type::function_builtin_text_2336,9761
+		   function_user,enode::type::function_user337,9797
+		   constant,enode::type::constant339,9857
+		   pattern_variable,enode::type::pattern_variable340,9878
+		   variable,enode::type::variable341,9901
+		   variable_at_i,enode::type::variable_at_i342,9917
+		   variable_end,enode::type::variable_end343,9938
+		   scalar_postdec,enode::type::scalar_postdec344,9958
+		   scalar_postinc,enode::type::scalar_postinc345,9980
+		   vector_postdec,enode::type::vector_postdec346,10002
+		   vector_postinc,enode::type::vector_postinc347,10024
+		   file_test,enode::type::file_test349,10064
+		   close_file,enode::type::close_file351,10103
+		   die,enode::type::die352,10120
+		   exit_fcn,enode::type::exit_fcn353,10130
+		   warn,enode::type::warn354,10145
+		   open_file,enode::type::open_file355,10156
+		   rewind_file,enode::type::rewind_file356,10172
+		   skip_a_line,enode::type::skip_a_line357,10190
+		   system_call,enode::type::system_call358,10208
+		   string_from_file,enode::type::string_from_file360,10249
+		   text_index,enode::type::text_index361,10272
+		   text_chomp,enode::type::text_chomp362,10289
+		   text_chop,enode::type::text_chop363,10306
+		   text_sprintf,enode::type::text_sprintf364,10322
+		   text_substr,enode::type::text_substr365,10341
+		   question,enode::type::question366,10359
+		   match_a_string,enode::type::match_a_string367,10374
+		   change_a_string,enode::type::change_a_string368,10395
+		   unlink_filesenode::type::unlink_files369,10417
+	enode(enode::enode371,10439
+	enode(enode::enode375,10474
+	enode(enode::enode382,10668
+	enode* read_string_from_file(enode::read_string_from_file397,11193
+	enode* question_mark(enode::question_mark406,11456
+	enode* test_a_file(enode::test_a_file414,11665
+	enode* call_system(enode::call_system421,11827
+	enode* string_change(enode::string_change427,11948
+	enode* string_match(enode::string_match434,12163
+	enode* do_chop(enode::do_chop441,12337
+	enode* do_chomp(enode::do_chomp463,13025
+	enode* do_die(enode::do_die487,13830
+	enode* do_glob(enode::do_glob495,14035
+	enode* do_index(enode::do_index501,14150
+	enode* do_exit(enode::do_exit509,14344
+	enode* do_warn(enode::do_warn515,14466
+	enode* do_unlink(enode::do_unlink523,14673
+	enode* substr(enode::substr529,14839
+	enode* e_sprintf(enode::e_sprintf537,15054
+	enode* open_a_file(enode::open_a_file543,15192
+	enode* skip(enode::skip553,15564
+	enode* rewind_a_file(enode::rewind_a_file560,15753
+	enode* assign_to_scalar(enode::assign_to_scalar569,16062
+	enode* assign_to_known_scalar(enode::assign_to_known_scalar594,17142
+	enode* assign_list_to_vector(enode::assign_list_to_vector615,18082
+	enode* assign_to_vector(enode::assign_to_vector625,18388
+	enode* resize_a_vector(enode::resize_a_vector652,19601
+	enode* pattern_match_variable(enode::pattern_match_variable678,20686
+	enode* close_a_file(enode::close_a_file686,20928
+	enode(enode::enode696,21330
+	enode(enode::enode767,23862
+	enode(enode::enode775,24044
+	enode* concatenate_text(enode::concatenate_text910,28708
+	~enode(enode::~enode927,29081
+	scalar eval_as_text(enode::eval_as_text933,29237
+	char *get_vname(enode::get_vname1130,34943
+	int  get_variable_position_scalar(enode::get_variable_position_scalar1131,35000
+	int  get_variable_position_vector(enode::get_variable_position_vector1132,35074
+	type get_type(enode::get_type1133,35148
+	enode *get_left(enode::get_left1134,35206
+	bool is_textual(enode::is_textual1135,35279
+struct cmdnode cmdnode1216,38463
+	enum type_val cmdnode::type_val1220,38669
+	enum type_val {blank	cmdnode::type_val::blank1220,38669
+		       unknown	cmdnode::type_val::unknown1221,38699
+		       assign_text_vector cmdnode::type_val::assign_text_vector1222,38724
+		       last_block	cmdnode::type_val::last_block1223,38761
+		       next_block	cmdnode::type_val::next_block1224,38789
+		       C_command cmdnode::type_val::C_command1225,38817
+		       delete_var_list cmdnode::type_val::delete_var_list1226,38854
+		       do_while_block	cmdnode::type_val::do_while_block1227,38891
+		       my_var_list cmdnode::type_val::my_var_list1228,38922
+		       expression cmdnode::type_val::expression1229,38959
+		       for_block	cmdnode::type_val::for_block1230,38997
+		       foreach_block cmdnode::type_val::foreach_block1231,39025
+		       if_block cmdnode::type_val::if_block1232,39063
+		       user_cmd cmdnode::type_val::user_cmd1233,39101
+		       new_var cmdnode::type_val::new_var1234,39132
+		       print cmdnode::type_val::print1235,39170
+		       printf cmdnode::type_val::printf1236,39208
+		       proj cmdnode::type_val::proj1237,39246
+		       query	cmdnode::type_val::query1238,39273
+		       read_var_list	cmdnode::type_val::read_var_list1239,39297
+		       return_block cmdnode::type_val::return_block1240,39328
+		       skip cmdnode::type_val::skip1241,39360
+		       split cmdnode::type_val::split1242,39398
+		       sub_block cmdnode::type_val::sub_block1243,39436
+		       while_block	cmdnode::type_val::while_block1244,39474
+		       chop cmdnode::type_val::chop1245,39504
+		       read_columns cmdnode::type_val::read_columns1246,39542
+		       read_grid_data cmdnode::type_val::read_grid_data1247,39580
+		       read_grid_x cmdnode::type_val::read_grid_x1248,39618
+		       read_grid_y cmdnode::type_val::read_grid_y1249,39656
+		       use cmdnode::type_val::use1251,39732
+
+GriPath.h,309
+#define _GriPath_hh_4,114
+class GriPathGriPath6,154
+	enum type GriPath::type9,179
+	enum type {moveto,GriPath::type::moveto9,179
+	enum type {moveto, lineto}GriPath::type::lineto9,179
+	void closepath(GriPath::closepath13,262
+	double get_x(GriPath::get_x26,985
+	double get_y(GriPath::get_y27,1056
+
+GMatrix.h,317
+#define _GMatrix_h_7,177
+class GriMatrixGriMatrix10,217
+	T  operator()(GriMatrix::operator()18,413
+GriMatrix<T>::~GriMatrix(34,718
+void GriMatrix<T>::set_size(41,807
+void GriMatrix<T>::set_value(63,1352
+T& GriMatrix<T>::operator()(71,1548
+T GriMatrix<T>::operator()(89,2013
+void GriMatrix<T>::err(108,2485
+
+defaults.h,755
+#define _defaults_h_5,85
+#define ARROWSIZE_DEFAULT 7,107
+#define COLUMN_LEN_DEFAULT 8,160
+#define CONTOUR_FMT_DEFAULT 9,229
+#define FONT_DEFAULT 10,306
+#define FONTSIZE_PT_DEFAULT 11,356
+#define IMAGE_SIZE_WHEN_CONVERTING 12,409
+#define LINEWIDTHAXIS_DEFAULT 15,543
+#define LINEWIDTH_DEFAULT 16,617
+#define LINEWIDTHSYMBOL_DEFAULT 17,691
+#define MISSING_VALUE 20,767
+#define SYMBOLSIZE_DEFAULT 21,834
+#define TICSIZE_DEFAULT 22,897
+#define X_FMT_DEFAULT 23,950
+#define XMARGIN_DEFAULT 24,995
+#define XSIZE_DEFAULT 25,1048
+#define Y_FMT_DEFAULT 26,1101
+#define YMARGIN_DEFAULT 27,1146
+#define YSIZE_DEFAULT 28,1199
+#define OFFPAGE_LEFT 31,1268
+#define OFFPAGE_RIGHT 32,1297
+#define OFFPAGE_BOTTOM 33,1326
+#define OFFPAGE_TOP 34,1355
+
+set.cpp,3784
+bool            postscript_clipping_on 32,605
+static bool     already_landscape 50,1318
+double          _input_data_window_x_min 53,1399
+double          _input_data_window_x_max 54,1447
+double          _input_data_window_y_min 55,1496
+double          _input_data_window_y_max 56,1544
+bool            _input_data_window_x_exists 57,1593
+bool            _input_data_window_y_exists 58,1646
+static double   tmp,59,1699
+static double   tmp, tmp2,59,1699
+static double   tmp, tmp2, xpt,59,1699
+static double   tmp, tmp2, xpt, ypt;59,1699
+static inline bool between(61,1738
+reset_top_of_plot(72,1920
+static bool     ignore_initial_newline_flag 78,2025
+set_ignore_initial_newlineCmd(80,2083
+ignore_initial_newline(101,2445
+set_axes_styleCmd(107,2537
+set_arrow_sizeCmd(179,4252
+set_arrow_typeCmd(234,6029
+set_bounding_boxCmd(246,6260
+set_grid_clipping_on(282,7406
+set_grid_clipping_off(297,7878
+set_clipCmd(310,8229
+set_clipCmd(496,13376
+#define CHECK_RGB_RANGE(CHECK_RGB_RANGE622,17019
+set_colorCmd(636,17411
+set_x_type_linearCmd(693,19169
+set_x_type_logCmd(700,19260
+set_x_typeCmd(723,19854
+set_y_type_logCmd(762,20574
+set_y_typeCmd(785,21168
+	typedef enum { above,::above822,21901
+	typedef enum { above, below,::below822,21901
+	typedef enum { above, below, dont_know ::dont_know822,21901
+	typedef enum { above, below, dont_know } WHERE;WHERE822,21901
+set_font_colorCmd(878,23013
+set_font_sizeCmd(970,25843
+set_font_toCmd(992,26363
+set_dashCmd(1029,27513
+set_ignoreCmd(1099,29096
+set_input_data_windowCmd(1121,29488
+set_contour_formatCmd(1205,31723
+set_contour_labelCmd(1232,32427
+set_contour_label_positionCmd(1274,33654
+set_contour_labelsCmd(1287,33997
+#define NFLAG 1309,34654
+} FLAG;FLAG1313,34718
+FLAG flag[1314,34726
+unsigned int num_flags 1315,34744
+set_flagCmd(1318,34778
+get_flag(1363,35897
+show_flags(1372,36064
+set_error_actionCmd(1388,36380
+set_graylevelCmd(1408,36739
+tweak_to_limit(1433,37375
+set_image_colorscaleCmd(1446,37692
+set_image_grayscaleCmd(1637,44971
+set_image_grayscale_using_hist(1741,48310
+set_image_missingCmd(1807,50344
+set_image_rangeCmd(1872,52466
+set_grid_missingCmd(1886,52871
+	typedef enum { above,::above1889,52921
+	typedef enum { above, below,::below1889,52921
+	typedef enum { above, below, inside,::inside1889,52921
+	typedef enum { above, below, inside, outside,::outside1889,52921
+	typedef enum { above, below, inside, outside, dont_know ::dont_know1889,52921
+	typedef enum { above, below, inside, outside, dont_know } WHERE;WHERE1889,52921
+set_grid_missing_curve(1946,54254
+mask_an_island(1975,54928
+width_rapidograph(2024,56284
+#define NUM_RAPIDOGRAPH 2028,56419
+	} r;r2032,56555
+set_line_capCmd(2062,57234
+set_line_joinCmd(2095,58256
+set_line_widthCmd(2118,59002
+	typedef enum {axis,::axis2124,59183
+	typedef enum {axis, symbol,::symbol2124,59183
+	typedef enum {axis, symbol, all,::all2124,59183
+	typedef enum {axis, symbol, all, not_given}::not_given2124,59183
+	typedef enum {axis, symbol, all, not_given} WHICH;WHICH2124,59183
+set_map_projectionCmd(2249,63239
+set_missing_valueCmd(2314,65263
+set_pageCmd(2324,65453
+set_postscript_filenameCmd(2369,66639
+set_pageCmd(2385,66953
+set_symbol_sizeCmd(2410,67549
+set_tic_sizeCmd(2433,68082
+set_ticsCmd(2440,68169
+set_u_scaleCmd(2460,68659
+set_v_scaleCmd(2512,70110
+set_traceCmd(2564,71533
+well_ordered(2585,71834
+set_x_axisCmd(2594,72062
+set_x_formatCmd(2730,75855
+set_x_gridCmd(2738,75954
+set_y_gridCmd(2778,77163
+set_x_marginCmd(2819,78396
+set_x_nameCmd(2876,79775
+set_x_sizeCmd(2884,79907
+set_y_axisCmd(2893,80033
+set_y_axis_labelCmd(3033,83876
+set_y_formatCmd(3045,84129
+set_y_marginCmd(3053,84228
+set_y_nameCmd(3108,85608
+set_y_sizeCmd(3117,85783
+assign_synonym(3130,86039
+
+subs.cpp,1395
+#define PT_PER_CM 13,181
+#define DEG_PER_RAD	14,211
+#define MATH_E	15,269
+double deg_per_rad 18,352
+static double proj_fwd_old_lat 28,659
+static double proj_fwd_old_lon 29,697
+static double proj_fwd_old_x 30,735
+static double proj_fwd_old_y 31,773
+proj_lonlat_to_x(34,819
+proj_lonlat_to_y(50,1142
+double text_ascent(65,1459
+double text_descent(72,1669
+double text_width(79,1881
+double string_length0(86,2089
+double string_length1(90,2134
+double tagged_value(94,2202
+static double gsrand(100,2349
+static double grand(109,2492
+double gint(119,2663
+double gmax(120,2710
+double gmin(121,2768
+double gsin(122,2826
+double gasin(123,2879
+double gcos(124,2934
+double gacos(125,2987
+double gtan(126,3042
+double gatan(127,3095
+double gatan2(128,3150
+double gexp(129,3220
+double gexp10(130,3267
+double pt_to_cm(131,3314
+rand_gaussian(144,3805
+double user_to_cm_x(170,4254
+double user_to_cm_y(177,4429
+double cm_to_pt(184,4603
+sw_freezing_temperature(196,5095
+sw_salinity 216,5746
+sw_spice(299,7391
+sw_alpha(329,8204
+sw_beta(338,8448
+sw_density(347,8691
+sw_lapse_rate(407,10228
+sw_potential_temperature(436,10985
+pgm_version(466,11637
+SUB0_TEXT sub0_text[490,12217
+SUB1_TEXT sub1_text[494,12283
+SUB2_TEXT sub2_text[501,12476
+SUB0 sub0[506,12563
+SUB1 sub1[516,12774
+SUB2 sub2[553,13708
+SUB3 sub3[563,14092
+SUB4 sub4[572,14347
+user_sub::user_sub(578,14466
+
+scalar.cpp,391
+void scalar::free_storage(12,209
+scalar::~scalar(27,396
+void scalar::expand(36,486
+scalar::scalar(79,1875
+scalar::scalar(97,2464
+scalar::scalar(115,3107
+scalar::scalar(133,3777
+scalar& scalar::operator=(155,4818
+void scalar::set_numeric(178,5836
+void scalar::set_text(192,6124
+char* scalar::get_text(211,6498
+double scalar::get_numeric(221,6600
+bool scalar::is_numeric(237,6796
+
+delete.cpp,116
+deleteCmd(20,459
+delete_columns_randomly(104,3346
+delete_columns_where_missing(201,5675
+delete_gridCmd(269,7582
+
+parser.cpp,11308
+#define YYBISON 4,65
+# define	NUM	6,115
+# define	ARRAY	7,132
+# define	PATTERN_VARIABLE	8,151
+# define	VARIABLE	9,181
+# define	VARIABLE_END	10,203
+# define	COLUMN_IDENT	11,229
+# define	ASSIGNOP	12,255
+# define	END_MATCH_STRING	13,277
+# define	BOOL	14,307
+# define	CMD	15,325
+# define	DIE	16,342
+# define	EXIT	17,359
+# define	WARN	18,377
+# define	DO	19,395
+# define	ELSE	20,411
+# define	EXECUTE	21,429
+# define	FOR	22,450
+# define	FOREACH	23,467
+# define	FILE_TEST	24,488
+# define	GLOB	25,511
+# define	IF	26,529
+# define	INDEX	27,545
+# define	LAST	28,564
+# define	NEXT	29,582
+# define	RETURN	30,600
+# define	CHOMP	31,620
+# define	CHOP	32,639
+# define	READ_GRID	33,657
+# define	COLUMNS	34,680
+# define	MY	35,701
+# define	GREPACKAGE	36,717
+# define	USE	37,741
+# define	SKIP	38,758
+# define	SPLIT	39,776
+# define	STRING_EQ	40,795
+# define	STRING_NE	41,818
+# define	SUB	42,841
+# define	SUBSTR	43,858
+# define	SPRINTF	44,878
+# define	SYSTEM	45,899
+# define	UNLESS	46,919
+# define	UNLINK	47,939
+# define	WHILE	48,959
+# define	UNTIL	49,978
+# define	PRINT	50,997
+# define	PRINTF	51,1016
+# define	OPEN	52,1036
+# define	REWIND	53,1054
+# define	CLOSE	54,1074
+# define	QUERY	55,1093
+# define	READ	56,1112
+# define	DOT	57,1130
+# define	EQ	58,1147
+# define	LE	59,1163
+# define	GE	60,1179
+# define	NOT	61,1195
+# define	AND	62,1212
+# define	OR	63,1229
+# define	WORD	64,1245
+# define	CMDWORD	65,1263
+# define	PROTOTYPE	66,1284
+# define	FUNCTION_BUILTIN_NUMERIC	67,1307
+# define	FUNCTION_BUILTIN_TEXT	68,1345
+# define	FUNCTION_USER	69,1380
+# define	STRING	70,1407
+# define	MATCH_STRING	71,1427
+# define	S_FROM	72,1453
+# define	S_TO	73,1473
+# define	NE	74,1491
+# define	MULOP	75,1507
+# define	UNARY	76,1526
+# define	POWOP	77,1545
+# define	POSTINC	78,1564
+# define	POSTDEC	79,1585
+bool save_string 102,1931
+bool print_comments=113,2117
+char s_delimiter 114,2143
+bool in_my 116,2168
+string trace_buffer 117,2188
+vector<bool>   file_input;119,2246
+vector<string> file_handle;120,2273
+vector<string> file_name;121,2301
+vector<FILE*>  file_pointer;122,2327
+vector<string> pipe_tmpfile;123,2356
+#define NP 125,2409
+vector<int> function_takes_min_arg;132,2595
+vector<int> function_takes_max_arg;133,2631
+vector<int> function_which;134,2667
+static FILE *cmdfile_fp 137,2737
+static vector<FILE*> cmdfile_fp_save;138,2769
+static char *cmdfile_name 139,2807
+static vector<char*> cmdfile_name_save;140,2873
+static unsigned int cmdfile_line 141,2913
+static vector<int> cmdfile_line_save;142,2951
+static int cmdfile_line_position 143,2989
+static vector<int> cmdfile_line_position_save;144,3027
+static int cmdfile_parse_where 145,3074
+static vector<int> cmdfile_parse_where_save;146,3139
+bool at_eof 147,3184
+static string use_name 148,3204
+char *filename_runtime 151,3304
+unsigned int fileline_runtime 152,3336
+vector<string> _word;160,3637
+static bool expecting_matchstring 162,3660
+static bool expecting_prototype 163,3703
+static bool defining_sub_or_cmd 164,3744
+unsigned int debug 165,3785
+const unsigned int error_countMAX 167,3810
+fatal_error(170,3855
+fatal_error(177,3987
+fatal_error(184,4145
+fatal_error(191,4329
+fatal_error(197,4538
+runtime_warning(206,4733
+runtime_warning(214,4913
+name_of_cmd(222,5133
+#define TRACE 261,6262
+scalar enode::eval(266,6395
+#define SUBEXP_MAX 650,19192
+#define SUBEXP_MAX 990,30903
+#define SUBEXP_MAX 1041,32561
+print_command(1106,35041
+int cmd_matches_to 1130,35798
+unsigned int cmd_num_matches 1131,35823
+static unsigned int cmd_word_index 1132,35857
+static bool cmd_is_expected_next 1133,35897
+cmd_expected_next(1135,35943
+cmd_not_expected_next(1145,36176
+look_up_file_handle(1157,36493
+vector<var> scalar_vars;1186,37178
+vector<var> vector_vars;1187,37203
+vector<user_sub> user_sub_stack;1188,37228
+ensure_variable_known(1192,37269
+show_var_stack(1206,37721
+put_var(1261,39333
+clear_vector_var(1279,39904
+put_var(1293,40278
+put_var(1322,41153
+put_var(1344,41857
+get_scalar_var_index(1370,42798
+get_vector_var_index(1397,43673
+get_var_vector(1416,44097
+get_var_scalar(1432,44537
+get_var_scalar_numeric_at(1448,44969
+get_var_scalar_text_at(1456,45148
+get_var_vector_numeric_at(1466,45422
+get_var_vector_text_at(1475,45693
+get_var_vector_end(1483,45877
+put_var_vector_size(1491,46046
+put_var_scalar_numeric_at(1498,46193
+put_var_scalar_text_at(1512,46620
+clear_var_vector_at(1526,47047
+put_var_vector_numeric_at(1536,47306
+put_var_vector_text_at(1546,47657
+delete_scalar_var(1558,48022
+delete_vector_var(1571,48415
+length_of_wnode_list(1584,48810
+class newcommand newcommand1598,48957
+    newcommand(newcommand::newcommand1600,48984
+    void set_action(newcommand::set_action1607,49114
+    newcommand(newcommand::newcommand1608,49160
+    newcommand(newcommand::newcommand1643,50079
+    bool operator< newcommand::operator<1651,50340
+    bool operator== newcommand::operator==1652,50410
+    newcommand& operator=(newcommand::operator=1653,50480
+    ~newcommand(newcommand::~newcommand1662,50751
+    int get_min_args(newcommand::get_min_args1663,50807
+    int get_max_args(newcommand::get_max_args1664,50858
+    unsigned int get_syntax_length(newcommand::get_syntax_length1665,50909
+    wnode* get_syntax(newcommand::get_syntax1666,50986
+    wnode* get_syntax(newcommand::get_syntax1667,51035
+    cmdnode* get_action(newcommand::get_action1668,51084
+    cmdnode* get_action(newcommand::get_action1669,51133
+    char *get_prototype(newcommand::get_prototype1670,51182
+    bool empty_action(newcommand::empty_action1671,51234
+vector<newcommand> cmd_stack;1679,51455
+vector<bool>       cmd_may_match;1680,51485
+static int block_level 1684,51523
+static vector<string> my_var;1685,51551
+static vector<int>    my_var_bl;1686,51606
+vector<var>    pattern_match;1690,51730
+static vector<int>    pattern_match_length;1691,51778
+reduce_block_level(1694,51846
+increase_block_level(1759,54171
+get_block_level(1764,54221
+enum next_item_expected_to_be next_item_expected_to_be1777,54390
+enum next_item_expected_to_be {a_word,next_item_expected_to_be::a_word1777,54390
+enum next_item_expected_to_be {a_word, a_cmdword,next_item_expected_to_be::a_cmdword1777,54390
+enum next_item_expected_to_be {a_word, a_cmdword, a_expr,next_item_expected_to_be::a_expr1777,54390
+enum next_item_expected_to_be {a_word, a_cmdword, a_expr, s_from,next_item_expected_to_be::s_from1777,54390
+enum next_item_expected_to_be {a_word, a_cmdword, a_expr, s_from, s_to}next_item_expected_to_be::s_to1777,54390
+next_item_expected_to_be expect 1778,54463
+} KW_LIST;KW_LIST1784,54609
+KW_LIST kw_list[1787,54688
+unsigned int error_count 1836,55825
+cmdnode *the_pgm;1837,55855
+} yystype;yystype1848,56104
+# define YYSTYPE 1849,56115
+# define YYSTYPE_IS_TRIVIAL 1850,56140
+# define YYDEBUG 1853,56193
+#define	YYFINAL	1858,56222
+#define	YYFLAG	1859,56243
+#define	YYNTBASE	1860,56266
+#define YYTRANSLATE(YYTRANSLATE1863,56358
+static const char yytranslate[1866,56499
+static const short yyprhs[1905,58969
+static const short yyrhs[1928,60435
+static const short yyrline[2006,65661
+static const char *const yytname[2035,67243
+static const short yyr1[2065,69020
+static const short yyr2[2090,70561
+static const short yydefact[2117,72180
+static const short yydefgoto[2159,74942
+static const short yypact[2169,75362
+static const short yypgoto[2211,78122
+#define	YYLAST	2222,78541
+static const short yytable[2225,78564
+static const short yycheck[2481,96996
+#  define YYSTACK_ALLOC 2781,117390
+#    define YYSTACK_ALLOC 2785,117504
+#     define YYSTACK_ALLOC 2788,117566
+#  define YYSTACK_FREE(YYSTACK_FREE2796,117718
+#   define YYSIZE_T 2800,117891
+#  define YYSTACK_ALLOC 2802,117927
+#  define YYSTACK_FREE 2803,117958
+union yyallocyyalloc2813,118238
+# define YYSTACK_GAP_MAX 2823,118405
+#  define YYSTACK_BYTES(YYSTACK_BYTES2828,118567
+#  define YYSTACK_BYTES(YYSTACK_BYTES2832,118701
+#   define YYCOPY(YYCOPY2841,118942
+#   define YYCOPY(YYCOPY2844,119049
+# define YYSTACK_RELOCATE(YYSTACK_RELOCATE2860,119540
+# define YYSIZE_T 2875,119923
+# define YYSIZE_T 2878,120007
+#  define YYSIZE_T 2883,120170
+# define YYSIZE_T 2887,120236
+#define yyerrok	2890,120275
+#define yyclearin	2891,120310
+#define YYEMPTY	2892,120347
+#define YYEOF	2893,120367
+#define YYACCEPT	2894,120384
+#define YYABORT 2895,120418
+#define YYERROR	2896,120451
+#define YYFAIL	2900,120685
+#define YYRECOVERING(YYRECOVERING2901,120715
+#define YYBACKUP(YYBACKUP2902,120755
+#define YYTERROR	2919,121169
+#define YYERRCODE	2920,121188
+# define YYLLOC_DEFAULT(YYLLOC_DEFAULT2931,121492
+#   define YYLEX	2942,121750
+#   define YYLEX	2944,121814
+#   define YYLEX	2948,121914
+#   define YYLEX	2950,121969
+# define YYLEX	2954,122060
+#  define YYFPRINTF 2963,122235
+# define YYDPRINTF(YYDPRINTF2966,122272
+int yydebug;2973,122478
+# define YYDPRINTF(YYDPRINTF2975,122512
+# define YYINITDEPTH 2980,122639
+# define YYMAXDEPTH 2995,123029
+#   define yystrlen 3002,123155
+yystrlen 3007,123292
+#   define yystpcpy 3025,123598
+yystpcpy 3031,123787
+#  define YYPARSE_PARAM_ARG 3061,124466
+#  define YYPARSE_PARAM_DECL3062,124514
+#  define YYPARSE_PARAM_ARG 3064,124550
+#  define YYPARSE_PARAM_DECL 3065,124592
+# define YYPARSE_PARAM_ARG3068,124677
+# define YYPARSE_PARAM_DECL3069,124704
+#define YY_DECL_NON_LSP_VARIABLES	3084,125026
+# define YY_DECL_VARIABLES	3095,125283
+# define YY_DECL_VARIABLES	3101,125423
+yyparse 3113,125599
+# define YYPOPSTACK 3155,126607
+# define YYPOPSTACK 3157,126663
+  *++yyvsp 4980,177424
+  *++yylsp 4982,177461
+  yyn 4989,177655
+  yystate 4991,177675
+    yystate 4995,177831
+  goto yynewstate;4997,177873
+  goto yyerrlab1;5057,179466
+  yyerrstatus 5080,180072
+  goto yyerrhandle;5082,180139
+  yyn 5095,180631
+  yystate 5109,181021
+  yyn 5129,181378
+  yyn 5137,181550
+  *++yyvsp 5153,181808
+  *++yylsp 5155,181846
+  yystate 5158,181875
+  goto yynewstate;5159,181892
+  yyresult 5166,182049
+  goto yyreturn;5167,182065
+  yyresult 5173,182212
+  goto yyreturn;5174,182228
+  yyresult 5181,182445
+GriString line_buffer;5195,182614
+next_char(5197,182641
+last_char(5243,184536
+pop_char(5254,184789
+bad_char_in_prototype(5265,185174
+yylex(5282,185591
+insert_variable_links(6122,208723
+yyerror(6192,210649
+compile_warning(6225,211707
+logical_negation(6240,212075
+new_wnode_string(6245,212166
+new_wnode_vname(6255,212378
+new_wnode_expr(6265,212590
+new_wnode_columns_spec(6274,212760
+append_right(6295,213327
+new_cmdnode_package(6313,213715
+new_cmdnode_use(6322,213953
+new_user_cmd(6332,214138
+new_if_block(6390,215783
+new_do_while_block(6401,216056
+new_while_block(6411,216285
+new_newcommand(6422,216527
+new_read_grid_cmd(6445,217237
+new_read_columns_cmd(6477,218291
+new_cmdnode(6548,220289
+new_cmdnode(6560,220534
+new_cmdnode(6573,220786
+append_right(6585,221059
+scalar the_return_value;6611,221815
+string_as_boolean(6614,221891
+evaluate_cmd(6629,222259
+new_for_block(6945,233038
+new_foreach_block_list(6958,233333
+new_foreach_block_array(6970,233678
+#define BUFLEN 7005,234840
+char buf[7006,234860
+interpolate_var_in_string(7008,234885
+push_cmdfile(7241,241433
+pop_cmdfile(7280,242868
+create_a_new_cmd(7317,244300
+
+tags.h,92
+#define _TAGS_H_2,23
+}               C_FCN;C_FCN180,4500
+C_FCN           c_fcn[182,4524
+
+GriColor.h,877
+#define  _gricolor_h_3,73
+class GriColorGriColor6,133
+	enum type GriColor::type9,159
+	enum type {rgb,GriColor::type::rgb9,159
+	enum type {rgb, hsv}GriColor::type::hsv9,159
+	GriColor(GriColor::GriColor10,182
+	~GriColor(GriColor::~GriColor12,254
+	bool operator< GriColor::operator<13,271
+	bool operator== GriColor::operator==14,336
+	bool isRGB(GriColor::isRGB18,530
+	void set_type(GriColor::set_type19,569
+	type get_type(GriColor::get_type20,603
+	void getRGB(GriColor::getRGB21,638
+	double getG(GriColor::getG23,724
+	double getB(GriColor::getB24,757
+	double getH(GriColor::getH25,790
+	double getS(GriColor::getS26,823
+	double getV(GriColor::getV27,856
+class GriNamedColor GriNamedColor34,1014
+	bool operator< GriNamedColor::operator<41,1202
+	bool operator== GriNamedColor::operator==42,1272
+	char *getName(GriNamedColor::getName45,1456
+
+startup.cpp,216
+static vector<GriNamedColor> colorStack;18,366
+bool _contour_label_rotated 20,408
+bool _contour_label_whiteunder 21,467
+look_up_color(27,599
+create_color(42,950
+create_builtin_colors(51,1103
+start_up(101,2430
+
+types.h,4681
+#define _GRI_TYPES_HH_3,51
+enum gr_textStyle gr_textStyle8,113
+	TEXT_LJUST,9,158
+	TEXT_RJUST,10,171
+	TEXT_CENTERED11,184
+enum units units14,203
+	units_cm,15,239
+	units_user16,250
+enum data_file_type data_file_type19,266
+	FILE_FROM_CMDFILE,20,310
+	FILE_ASCII,21,330
+	FILE_BIN_UCHAR,22,343
+	FILE_BIN_INT,23,360
+	FILE_BIN_FLOAT,24,375
+	FILE_BIN_DOUBLE,25,392
+	FILE_BIN_NETCDF26,410
+static inline double min4(30,433
+static inline double max4(37,601
+class rectangle rectangle45,770
+	rectangle(rectangle::rectangle47,838
+	rectangle(rectangle::rectangle53,958
+	void clear(rectangle::clear54,1012
+	~rectangle(rectangle::~rectangle55,1063
+	void set(rectangle::set56,1080
+	double llx(rectangle::llx62,1199
+	double lly(rectangle::lly63,1240
+	double urx(rectangle::urx64,1281
+	double ury(rectangle::ury65,1322
+	void set_llx(rectangle::set_llx66,1363
+	void set_lly(rectangle::set_lly67,1405
+	void set_urx(rectangle::set_urx68,1447
+	void set_ury(rectangle::set_ury69,1489
+	void shift_x(rectangle::shift_x70,1531
+	void shift_y(rectangle::shift_y71,1584
+	void rotate(rectangle::rotate72,1637
+	double get_llx(rectangle::get_llx89,2179
+	double get_lly(rectangle::get_lly90,2214
+	double get_urx(rectangle::get_urx91,2249
+	double get_ury(rectangle::get_ury92,2284
+	gr_font_Courier ::gr_font_Courier105,2728
+	gr_font_CourierOblique,::gr_font_CourierOblique106,2761
+	gr_font_CourierBold,::gr_font_CourierBold107,2805
+	gr_font_CourierBoldOblique,::gr_font_CourierBoldOblique108,2843
+	gr_font_Helvetica,::gr_font_Helvetica109,2895
+	gr_font_HelveticaOblique,::gr_font_HelveticaOblique110,2929
+	gr_font_HelveticaBold,::gr_font_HelveticaBold111,2977
+	gr_font_HelveticaBoldOblique,::gr_font_HelveticaBoldOblique112,3019
+	gr_font_PalatinoRoman,::gr_font_PalatinoRoman113,3075
+	gr_font_PalatinoItalic,::gr_font_PalatinoItalic114,3117
+	gr_font_PalatinoBold,::gr_font_PalatinoBold115,3161
+	gr_font_PalatinoBoldItalic,::gr_font_PalatinoBoldItalic116,3201
+	gr_font_Symbol,::gr_font_Symbol117,3253
+	gr_font_TimesRoman,::gr_font_TimesRoman118,3281
+	gr_font_TimesItalic,::gr_font_TimesItalic119,3318
+	gr_font_TimesBold,::gr_font_TimesBold120,3356
+	gr_font_TimesBoldItalic,::gr_font_TimesBoldItalic121,3391
+	gr_font_ZapfChancery,::gr_font_ZapfChancery122,3437
+	gr_font_ZapfChanceryMediumItalic,::gr_font_ZapfChanceryMediumItalic123,3477
+	gr_font_end_of_list::gr_font_end_of_list124,3529
+}               gr_fontID;gr_fontID125,3550
+}               gr_font_info;gr_font_info130,3639
+}               gr_font;gr_font135,3770
+enum gr_symbol_type gr_symbol_type138,3814
+	gr_unknown_symbol gr_symbol_type::gr_unknown_symbol139,3836
+	gr_plus_symbol,gr_symbol_type::gr_plus_symbol140,3861
+	gr_times_symbol,gr_symbol_type::gr_times_symbol141,3887
+	gr_box_symbol,gr_symbol_type::gr_box_symbol142,3914
+	gr_circ_symbol,gr_symbol_type::gr_circ_symbol143,3939
+	gr_diamond_symbol,gr_symbol_type::gr_diamond_symbol144,3965
+	gr_triangleup_symbol,gr_symbol_type::gr_triangleup_symbol145,3994
+	gr_triangleright_symbol,gr_symbol_type::gr_triangleright_symbol146,4025
+	gr_triangledown_symbol,gr_symbol_type::gr_triangledown_symbol147,4059
+	gr_triangleleft_symbol,gr_symbol_type::gr_triangleleft_symbol148,4092
+	gr_asterisk_symbol,gr_symbol_type::gr_asterisk_symbol149,4125
+	gr_star_symbol,gr_symbol_type::gr_star_symbol150,4155
+	gr_filledbox_symbol,gr_symbol_type::gr_filledbox_symbol151,4182
+	gr_bullet_symbol,gr_symbol_type::gr_bullet_symbol152,4213
+	gr_filleddiamond_symbol,gr_symbol_type::gr_filleddiamond_symbol153,4242
+	gr_filledtriangleup_symbol,gr_symbol_type::gr_filledtriangleup_symbol154,4277
+	gr_filledtriangleright_symbol,gr_symbol_type::gr_filledtriangleright_symbol155,4315
+	gr_filledtriangledown_symbol,gr_symbol_type::gr_filledtriangledown_symbol156,4356
+	gr_filledtriangleleft_symbol,gr_symbol_type::gr_filledtriangleleft_symbol157,4396
+	gr_filledhalfmoonup_symbol,gr_symbol_type::gr_filledhalfmoonup_symbol158,4436
+	gr_filledhalfmoondown_symbol gr_symbol_type::gr_filledhalfmoondown_symbol159,4474
+	bw_model,::bw_model164,4558
+	bw_model, rgb_model,::rgb_model164,4558
+	bw_model, rgb_model, hsb_model::hsb_model164,4558
+}               gr_color_model;gr_color_model165,4590
+}               gr_color;gr_color175,4819
+	gr_axis_BOTTOM ::gr_axis_BOTTOM179,4881
+	gr_axis_TOP ::gr_axis_TOP180,4902
+	gr_axis_LEFT ::gr_axis_LEFT181,4920
+	gr_axis_RIGHT ::gr_axis_RIGHT182,4939
+	gr_axis_LOG ::gr_axis_LOG183,4959
+	gr_axis_LINEAR ::gr_axis_LINEAR184,4977
+}               gr_axis_properties;gr_axis_properties185,4997
+}               gr_pen;gr_pen189,5098
+
+scalar.h,465
+#define _SCALAR_H_5,110
+class scalar scalar12,209
+	unsigned int get_len(scalar::get_len27,504
+	unsigned int get_capacity(scalar::get_capacity28,549
+	bool is_numeric(scalar::is_numeric29,604
+	char *get_text(scalar::get_text31,693
+	double get_numeric(scalar::get_numeric33,778
+	double get_numeric(scalar::get_numeric34,831
+	void set_text(scalar::set_text38,1043
+	bool operator< scalar::operator<39,1105
+	bool operator== scalar::operator==42,1189
+
+postscpt.h,495
+#define _postscpt_5,155
+#define PS_break_path 7,175
+#define	PS_closepath	8,239
+#define	PS_comment	9,267
+#define	PS_fill	10,296
+#define	PS_fillrect	11,320
+#define	PS_lineto	12,368
+#define	PS_rlineto	13,403
+#define	PS_moveto	14,440
+#define	PS_rmoveto	15,475
+#define	PS_weak_newpath	16,512
+#define	PS_newpath	17,543
+#define	PS_setgray	18,575
+#define	PS_setlinewidth	19,606
+#define	PS_showc	20,642
+#define	PS_showpage	21,672
+#define	PS_stroke	22,706
+static char    *PS_dict[26,816
+
+image_ex.h,39
+#define         _image_extern_h_4,150
+
+debug.h,217
+#define _debug_22,607
+#define DEBUG_TRACE 23,623
+#define DEBUG_VARIABLES 24,672
+#define DEBUG_OS_CALLS 25,721
+#define DEBUG_PARSE_COMMENT 26,770
+#define DEBUG_TEMPORARY 27,819
+#define DEBUG_YACC_PARSING 28,868
+
+scales.cpp,46
+create_x_scale(8,119
+create_y_scale(72,1874
+
+subs.h,781
+#define _SUBS_H_2,23
+using namespace std;7,80
+class user_subuser_sub12,129
+	user_sub(user_sub::user_sub15,155
+	user_sub(user_sub::user_sub20,287
+	bool operator< user_sub::operator<26,455
+	bool operator== user_sub::operator==27,520
+	user_sub& operator=(user_sub::operator=28,585
+	~user_sub(user_sub::~user_sub35,781
+	string   get_name(user_sub::get_name36,798
+	cmdnode*     get_action(user_sub::get_action37,845
+	cmdnode*     get_action(user_sub::get_action38,895
+	int get_min_args(user_sub::get_min_args39,945
+	int get_max_args(user_sub::get_max_args40,993
+} SUB0;SUB050,1166
+} SUB1;SUB154,1233
+} SUB0_TEXT;SUB0_TEXT58,1294
+} SUB1_TEXT;SUB1_TEXT62,1372
+} SUB2_TEXT;SUB2_TEXT66,1464
+} SUB2;SUB270,1544
+} SUB3;SUB374,1627
+} SUB4;SUB478,1718
+
+GriState.h,1316
+#define _GriState_h_5,96
+class GriStateGriState16,338
+	void set_separate_text_color(GriState::set_separate_text_color24,503
+	void set_fontsize(GriState::set_fontsize25,575
+	void set_font(GriState::set_font26,636
+	void set_line_cap(GriState::set_line_cap27,692
+	void set_line_join(GriState::set_line_join28,753
+	void set_linewidth_axis(GriState::set_linewidth_axis29,815
+	void set_linewidth_line(GriState::set_linewidth_line30,879
+	void set_linewidth_symbol(GriState::set_linewidth_symbol31,943
+	void set_superuser(GriState::set_superuser32,1009
+	void set_trace(GriState::set_trace33,1065
+	const GriColor& color_line(GriState::color_line34,1115
+	const GriColor& color_text(GriState::color_text35,1174
+	bool separate_text_color(GriState::separate_text_color36,1232
+	gr_font	font(GriState::font37,1300
+	int	line_cap(GriState::line_cap38,1345
+	int	line_join(GriState::line_join39,1402
+	double	linewidth_axis(GriState::linewidth_axis40,1460
+	double	linewidth_line(GriState::linewidth_line41,1522
+	double	linewidth_symbol(GriState::linewidth_symbol42,1584
+	int	superuser(GriState::superuser43,1649
+	bool	trace(GriState::trace44,1699
+	const vector<double>& dash(GriState::dash46,1755
+	bool operator< GriState::operator<48,1824
+	bool operator== GriState::operator==49,1889
+
+storage.cpp,119
+create_arrays(14,208
+allocate_image_storage(26,464
+allocate_imageMask_storage(46,956
+allocate_grid_storage(67,1540
+
+regress.cpp,365
+static char     sccsid[1,0
+regressCmd(25,933
+regress_linear(66,2099
+R_linear(116,3705
+rms_deviation(149,4486
+static double   sqrarg;166,4877
+#define SQR(SQR167,4901
+fit(169,4954
+gammln(258,6885
+gammq(277,7266
+#define ITMAX 293,7564
+#define EPS 294,7582
+gcf(297,7615
+#define ITMAX 329,8293
+#define EPS 330,8311
+gser(332,8342
+student_t_025(367,8969
+
+print.cpp,360
+#define GRID_MAX_WIDTH_TO_SHOW 13,202
+#define IMAGE_MAX_WIDTH_TO_SHOW 14,236
+#define MISSING 15,271
+do_sprintf_internal(19,329
+print_buf(130,3731
+print_image(147,4080
+print_grid(217,6381
+#define MACRO1(MACRO1301,8481
+#define MACRO2(MACRO2311,8699
+print_columns(320,8923
+do_printf_command(359,9805
+do_print_command(393,10783
+do_sprintf(467,13042
+
+gr_coll.cpp,58
+GriString::line_from_FILE(20,441
+GriString::draw(49,993
+
+grcntour.cpp,1181
+#define DEBUG_CONTOUR 1,0
+static double   Contour_space_first;15,262
+static double   Contour_space_later;16,299
+static double   Contour_minlength;17,336
+static bool     Center_labels;18,371
+static bool     Whiteunder_labels 20,403
+static bool     Label_contours 21,466
+static bool     Rotate_labels 22,527
+static int      nx_1,23,588
+static int      nx_1, ny_1,23,588
+static int      nx_1, ny_1, iGT,23,588
+static int      nx_1, ny_1, iGT, jGT,23,588
+static int      nx_1, ny_1, iGT, jGT, iLE,23,588
+static int      nx_1, ny_1, iGT, jGT, iLE, jLE;23,588
+static double  *xcurve,49,1561
+static double  *xcurve, *ycurve;49,1561
+static bool *legitcurve;50,1594
+#define INITIAL_CURVE_SIZE 51,1619
+static int      num_in_curve,52,1650
+static int      num_in_curve, max_in_curve;52,1650
+static bool     curve_storage_exists 53,1694
+free_space_for_curve(57,1748
+get_space_for_curve(69,1929
+gr_contour(101,3131
+trace_contour(304,9047
+static double   xplot_last,496,14390
+static double   xplot_last, yplot_last;496,14390
+append_segment(498,14441
+which_side(568,16956
+#define FACTOR 602,17984
+draw_the_contour(604,18065
+#define	NBITS	839,25779
+FLAG(841,25808
+
+stats.cpp,60
+moment(15,297
+array_at_i(49,1125
+histogram_stats(67,1490
+
+GriColor.cpp,391
+GriColor& GriColor::operator=(9,133
+GriColor::GriColor(29,490
+GriColor::setRGB(49,825
+void GriColor::setHSV(56,934
+GriNamedColor::GriNamedColor(64,1050
+GriNamedColor::GriNamedColor(73,1181
+GriNamedColor::GriNamedColor(84,1374
+GriNamedColor::~GriNamedColor(107,1854
+GriNamedColor& GriNamedColor::operator=(112,1909
+void GriNamedColor::setNameRGB(139,2472
+GriColor::getRGB(153,2774
+
+file.cpp,210
+push_cmd_file(13,261
+push_data_file(41,936
+data_file_index(89,2104
+push_data_file_to_top(108,2592
+pop_data_file(122,2879
+display_data_stack(175,4316
+display_cmd_stack(189,4710
+close_data_files(198,4934
+
+popt.h,621
+#define H_POPT2,15
+#define POPT_OPTION_DEPTH	4,31
+#define POPT_ARG_NONE	6,61
+#define POPT_ARG_STRING	7,86
+#define POPT_ARG_INT	8,113
+#define POPT_ARG_LONG	9,137
+#define POPT_ERROR_NOARG	11,163
+#define POPT_ERROR_BADOPT	12,192
+#define POPT_ERROR_OPTSTOODEEP	13,222
+#define POPT_ERROR_BADQUOTE	14,257
+#define POPT_ERROR_ERRNO	15,326
+#define POPT_ERROR_BADNUMBER	16,392
+#define POPT_ERROR_OVERFLOW	17,425
+#define POPT_BADOPTION_NOALIAS 20,487
+#define POPT_KEEP_FIRST	21,558
+struct poptOption poptOption23,625
+struct poptAlias poptAlias31,836
+typedef struct poptContext_s * poptContext;poptContext38,983
+
+utility.cpp,1436
+cmd_parameters(28,488
+cmd_parameter_is_n(34,578
+cmd_parameter_n(39,677
+cmd_parameter_s(58,1061
+file_in_path(78,1576
+swap(118,2642
+getdnum(127,2790
+is_var(166,3761
+err(177,3978
+gr_textput(209,4587
+warning(230,5161
+#define BETWEEN(BETWEEN293,6650
+extrema_of_matrix(296,6759
+chop_into_words(329,7517
+set_ps_color(361,8130
+demonstrate_command_usage(388,8844
+draw_axes_if_needed(403,9124
+set_environment(412,9314
+vector_min(452,10844
+vector_max(461,11025
+inside_box(475,11408
+check_psfile(505,12185
+scales_defined(515,12336
+bounding_box_update(533,12779
+gre_exit(563,13637
+extrema_of_xcol(570,13701
+extrema_of_ycol(594,14307
+extremal_values(618,14912
+gr_scale125(650,15721
+pwd(688,16711
+egetenv(726,17521
+#define NP 780,18503
+first_unwhite(782,18551
+#define NP 790,18688
+last_unwhite(792,18736
+tmp_file_name(804,18990
+#define SWAP(SWAP833,19602
+reorder_columns_randomlyCmd(839,19863
+intersection(906,21818
+char itoa_buf[952,22906
+itoa(954,22937
+char dtoa_buf[960,23002
+dtoa(962,23033
+grid_exists(970,23164
+using_proj(982,23430
+proj_lonlat_to_xy(992,23560
+hash(1021,24316
+static char getenv_buffer[1031,24463
+call_getenv(1033,24501
+call_the_OS(1050,24898
+call_popen(1058,25108
+call_OS_unlink(1074,25545
+string_to_pager(1093,25970
+regexp_match(1112,26294
+create_gre_regexp(1168,28043
+decode_regexp_error(1198,29038
+new_pageCmd(1244,30441
+pscommentCmd(1254,30611
+quantize(1273,31040
+
+template.cpp,0
+
+read.cpp,256
+nonopen_filehandle_error(13,188
+rewind_data_file(29,501
+file_exists(42,784
+open_data_file(53,1008
+execute_read_columns(164,4350
+execute_read_var_list(300,8200
+execute_read_grid_data(331,8959
+vector_repeats(401,11282
+execute_read_grid_xy(416,11550
+
+grstring.cpp,1640
+#define	default_fontsize_pt	15,301
+#define	default_fontID	16,334
+static gr_font  CurrentFont 17,376
+enum position position25,441
+enum position {Superscript,position::Superscript25,441
+enum position {Superscript, Subscript}position::Subscript25,441
+static const double SubSize 29,611
+static const double SuperSize 30,686
+static const double SuperMoveUp 31,766
+static const double SubMoveDown 32,833
+#define PS_showpage 36,905
+#define PS_stroke 37,942
+gr_font_info    font_list[56,1629
+gr_show_at(79,2411
+#define START_NEW_TEXT 159,4942
+#define STOP_OLD_TEXT 160,5024
+static position pstack[162,5111
+static int      istack 163,5140
+gr_drawstring(165,5180
+gr_setfontsize_pt(470,13473
+gr_currentfont(485,13856
+gr_currentfontsize_pt(494,13981
+gr_setfont(507,14304
+gr_setfont_fontsize(513,14379
+#define NCODES 548,15331
+static char    *symbol_code[552,15555
+symbol_in_math(794,21306
+PopStack(811,21660
+ClearStack(821,21837
+MoveHorizontally(828,21932
+MoveUp(839,22187
+MoveDown(858,22825
+gr_DrawChar(876,23402
+gr_show_in_box(920,24310
+gr_rotate_xy(984,26001
+gr_stringwidth(997,26390
+index_for_math_symbol(1085,29300
+gr_thinspace_cm(1096,29625
+gr_quad_cm(1103,29800
+struct font_metric font_metric1111,29988
+struct font_metric Courier 1123,30313
+struct font_metric Helvetica 1162,32182
+struct font_metric Helvetica_Oblique 1201,34061
+struct font_metric Helvetica_Bold 1240,35945
+struct font_metric Palatino_Roman 1279,37826
+struct font_metric Symbol 1318,39699
+struct font_metric Times_Roman 1357,41568
+gr_charwidth_cm(1403,43613
+gr_current_descender(1430,44374
+gr_currentCapHeight_cm(1450,44935
+
+graxes.cpp,364
+#define TIC_RATIO	8,114
+#define	round_down_to_10(round_down_to_1025,740
+#define	round_to_1(round_to_126,805
+#define AXIS_TWIDDLE 29,870
+#define SMALLNUM 30,937
+#define SMALLERNUM 31,1003
+#define SMALLFONTSIZE 32,1069
+same_decimals(46,1642
+next_tic(79,2528
+gr_drawxyaxes(126,3732
+gr_drawxaxis(142,4374
+#define FACTOR 383,12884
+gr_drawyaxis(386,12955
+
+gr.cpp,3365
+#define NEW_TRANSFORM 1,0
+static char     creator_name[34,899
+static char     ps_filename[35,939
+static char     ps_filename_used[36,999
+static bool     user_gave_ps_filename 37,1066
+static int      which_page 38,1143
+bool            _no_bounding_box 40,1196
+gr_multiple(51,1368
+#define	default_linewidth	66,1668
+#define	LEN_num	67,1698
+#define	LEN_lab	68,1719
+gr_pen          _grCurrentPen;69,1741
+char            grTempString[74,2085
+char            grTempString2[75,2158
+FBUFFER         stdin_buffer 80,2255
+char            _grTempString[84,2359
+char            _grTempString2[85,2408
+_grCmPerUser_y 87,2465
+double _ll_x_pt,115,3675
+double _ll_x_pt, _ll_y_pt,115,3675
+double _ll_x_pt, _ll_y_pt, _ur_x_pt,115,3675
+double _ll_x_pt, _ll_y_pt, _ur_x_pt, _ur_y_pt;115,3675
+double _ll_x_us,116,3750
+double _ll_x_us, _ll_y_us,116,3750
+double _ll_x_us, _ll_y_us, _ur_x_us,116,3750
+double _ll_x_us, _ll_y_us, _ur_x_us, _ur_y_us;116,3750
+gr_axis_properties _grTransform_x 118,3826
+gr_axis_properties _grTransform_y 119,3878
+bool            _grTicsPointIn 121,3931
+int             _grAxisStyle_x 122,3971
+int             _grAxisStyle_y 123,4022
+bool            _grDrawingDash 124,4100
+bool            _grPS_Landscape 125,4180
+int             _grSpecifications 126,4246
+int             _grNumSubDiv_x;127,4318
+int             _grNumSubDiv_y;128,4389
+bool            _grNeedBegin 129,4460
+bool            _grPathExists 130,4528
+bool            _grWritePS 131,4605
+FILE           *_grPS;133,4679
+gr_textsave(140,4833
+gr_textget(167,5566
+gr_buffgets(201,6295
+gr_textput(223,6839
+gr_textput2(242,7202
+gr_begin(263,7609
+static void set_page_characteristics(324,9395
+insert_ps_header(348,10077
+handle_landscape_scale(386,11124
+gr_cmtouser(397,11480
+gr_comment(431,12330
+gr_currentPSfilename(443,12595
+gr_currentPSFILEpointer(454,12832
+gr_current_ps_landscape(464,12996
+gr_currentmissingvalue(474,13134
+gr_currentsymbolsize_pt(483,13273
+gr_currentticsize_cm(493,13411
+gr_drawarrow_cm(503,13648
+gr_drawarrow2_cm(530,14473
+gr_drawarrow3_cm(561,15591
+gr_drawerrorbars(619,17441
+gr_drawsymbol(639,17916
+gr_end(738,21916
+#define POS(POS784,23147
+close_ps_file(828,24443
+gr_error(836,24564
+abort_gri(844,24694
+gr_hsv2rgb(867,25277
+gr_missing(917,25987
+gr_missingx(932,26309
+gr_missingy(952,26684
+gr_moveto_cm(972,27084
+gr_onxpage_cm(995,27672
+gr_onypage_cm(1002,27808
+gr_record_handle(1010,28024
+gr_record_scale(1020,28341
+gr_rgb2hsb(1059,29531
+gr_rmoveto_cm(1098,30216
+gr_rmoveto_pt(1107,30385
+gr_reopen_postscript(1124,30732
+gr_save_postscript(1159,31699
+skip_ps_header(1194,32674
+gr_setmissingvalue(1233,33619
+gr_setxaxisstyle(1244,33850
+gr_setyaxisstyle(1255,34101
+gr_setscale(1264,34219
+gr_setsymbolsize_pt(1273,34383
+gr_setticdirection(1280,34492
+gr_setticsize_cm(1291,34770
+gr_settranslate(1301,34916
+gr_setup_creatorname(1309,35117
+gr_setup_ps_filename(1321,35551
+gr_setup_ps_landscape(1338,35875
+gr_setup_ps_scale(1356,36422
+gr_setxpagesize_cm(1384,37238
+gr_setxscale(1400,37588
+gr_setxsubdivisions(1448,38898
+gr_setxtransform(1458,39070
+gr_setypagesize_cm(1480,39691
+gr_setyscale(1496,40043
+gr_setysubdivisions(1548,41370
+gr_setytransform(1558,41542
+gr_showpage(1565,41680
+gr_usertocm(1575,41899
+gr_usertocm_x(1582,42044
+gr_usertocm_y(1589,42171
+gr_usertopt(1612,42655
+
+macro.h,701
+#define _macro_h_5,71
+#define NEAREST_INT(NEAREST_INT7,90
+#define INTERNAL_ERROR(INTERNAL_ERROR9,138
+#define OUT_OF_MEMORY 11,207
+#define GRI_ABS(GRI_ABS13,281
+#define Require(Require16,389
+#define Require2(Require223,604
+#define gre_assert(gre_assert29,755
+#define	ShowStr(ShowStr36,930
+#define strEQ(strEQ40,990
+#define strNE(strNE41,1033
+#define expecting_numeric(expecting_numeric44,1146
+#define expecting_the_keyword(expecting_the_keyword54,1512
+#define expecting_a_keyword(expecting_a_keyword69,2163
+#define expecting_an_exp(expecting_an_exp78,2521
+#define STRING_ERASE 91,3006
+#define STRING_NPOS 92,3034
+#define STRING_ERASE 94,3065
+#define STRING_NPOS 95,3092
+
+files.h,173
+#define _files_h_4,50
+#define GRE_TMP_FILE 6,69
+#define GRERC_FILE 7,119
+#define GRE_COMMANDS_FILE 8,161
+#define DEFAULT_GRE_DIR 12,257
+#define DEFAULT_GRE_DIR 14,309
+
+popt.cpp,788
+struct optionStackEntry optionStackEntry17,245
+struct poptContext_s poptContext_s26,381
+poptContext poptGetContext(51,914
+void poptResetContext(84,1720
+int poptGetNextOpt(97,2059
+char * poptGetOptArg(273,6575
+char * poptGetArg(279,6689
+char * poptPeekArg(284,6834
+char ** poptGetArgs(289,6978
+void poptFreeContext(298,7233
+int poptAddAlias(312,7507
+int poptParseArgvString(334,8103
+static void configLine(415,9615
+int poptReadConfigFile(454,10589
+int poptReadDefaultConfig(513,11640
+char * poptBadOption(584,13170
+#define POPT_ERROR_NOARG	595,13373
+#define POPT_ERROR_BADOPT	596,13402
+#define POPT_ERROR_OPTSTOODEEP	597,13432
+#define POPT_ERROR_BADQUOTE	598,13467
+#define POPT_ERROR_ERRNO	599,13536
+const char * poptStrerror(601,13603
+int poptStuffArgs(622,14127
+
+gre_main.cpp,4032
+char *gre_version 1,0
+#define gettext(gettext20,361
+PJ *_proj_pj 43,746
+double _proj_scale_factor 46,775
+static bool user_set_lib_dir 48,809
+static vector<char*> argv_list;49,847
+GriState _griState;50,879
+FILE	*cmd_file 52,919
+char    *cmd_file_name 53,942
+char    *ps_file_name 54,973
+bool	 _trace 55,1003
+int      _optimization 56,1025
+bool     _give_warnings 57,1053
+string   lib_dir 58,1086
+string   _proj_command 59,1122
+unsigned int _gre_debug 60,1151
+char *usage 64,1205
+char *usage 66,1265
+bool no_startup 175,4977
+bool no_grerc 176,5002
+bool gave_e_arguments 177,5025
+FILE *e_file 178,5056
+char *e_file_name 179,5114
+string          _contourFmt;181,5181
+string          _current_directory;182,5210
+int             _error_action 183,5246
+char            _errorMsg[184,5331
+string          _lib_directory;185,5398
+string          _margin;186,5430
+string          _prompt;187,5455
+double          _clipxleft,191,5592
+double          _clipxleft, _clipxright,191,5592
+double          _clipxleft, _clipxright, _clipybottom,191,5592
+double          _clipxleft, _clipxright, _clipybottom, _clipytop;191,5592
+double          _cm_per_u,192,5658
+double          _cm_per_u, _cm_per_v;192,5658
+double         *_dstack;193,5696
+double          _gri_eof 194,5721
+double          _top_of_plot;195,5753
+GriMatrix<double>  _f_xy;196,5783
+double          _f_min,197,5809
+double          _f_min, _f_max;197,5809
+double          _xleft 204,5936
+double          _xright 205,5966
+double          _xinc;206,6007
+string          _xFmt;207,6030
+bool            _xFmt_set_by_user 208,6053
+vector<double>  _xmatrix;209,6096
+bool            _xatbottom 210,6122
+bool            _xincreasing 211,6157
+int             _xsubdiv 212,6194
+gr_axis_properties _xtype 213,6224
+char            _xtype_map 214,6268
+bool            _xgrid_exists;215,6322
+bool            _xgrid_increasing;216,6353
+bool            _xscale_exists;217,6388
+bool            _user_set_x_axis 218,6420
+bool            _need_x_axis 219,6462
+double          _ybottom 223,6534
+double          _ytop 224,6566
+double          _yinc;225,6605
+string          _yFmt;226,6628
+bool            _yFmt_set_by_user 227,6651
+vector<double>  _ymatrix;228,6694
+bool            _yatleft 229,6720
+bool            _yincreasing 230,6753
+int             _ysubdiv 231,6790
+gr_axis_properties _ytype 232,6820
+char            _ytype_map 233,6864
+bool            _ygrid_exists;234,6918
+bool            _ygrid_increasing;235,6949
+bool            _user_set_y_axis 236,6984
+bool            _need_y_axis 237,7026
+double          _zinc;239,7065
+double          _axes_offset 240,7088
+int             _axesStyle;241,7124
+bool            _user_gave_bounding_box 242,7152
+rectangle       _bounding_box_user;243,7201
+rectangle       _bounding_box;244,7237
+int             _braceLevel 245,7285
+int             _chatty;246,7318
+int             _clipData 247,7343
+int             _debugFlag 248,7374
+int             _done 249,7434
+bool            _drawingstarted 250,7492
+bool            _error_in_cmd 251,7533
+int             _exit_value 252,7572
+gr_font         _font;253,7605
+bool            _first 254,7628
+bool            _ignore_eof 255,7659
+bool            _ignore_error 256,7696
+int             _arrow_type 257,7735
+bool            _warn_offpage 258,7768
+vector<double>  _dash;259,7806
+GriMatrix<bool>  _legit_xy;261,7830
+int             _nword 262,7858
+int             _num_command 264,7918
+double          _version;266,7988
+double          _version_expected 267,8033
+bool            _columns_exist;269,8156
+bool            _grid_exists;270,8188
+bool            _uscale_exists;271,8218
+bool            _vscale_exists;272,8250
+bool            _yscale_exists;273,8282
+bool            _use_default_for_query 274,8314
+static unsigned int debug_requested 279,8441
+main(283,8489
+#define GETOPT_WHICH_LIBRARY 302,8914
+bool word_is(709,20499
+void initialize_variables(721,20866
+make_in_local_directory(807,23611
+
+endup.cpp,39
+clean_io_files(13,263
+end_up(49,1659
+
+convert.cpp,1099
+static char sccsid[1,0
+#define USE_APPROX_EXP18,350
+inline double exp_approx(25,620
+convert_col_fro_rec_to_polCmd(79,2870
+convert_col_fro_pol_to_recCmd(106,3454
+static void display_f_xy(131,3987
+#define DEFAULT_GRID_LENGTH 142,4225
+create_default_xgrid(144,4261
+create_default_ygrid(163,4745
+convert_columns_to_gridCmd(185,5342
+	enum convert_style convert_style253,7973
+	enum convert_style { neighbor,convert_style::neighbor253,7973
+	enum convert_style { neighbor, barnes}convert_style::barnes253,7973
+static inline double  dmin(500,16199
+int interv(508,16295
+double ppvalu(657,19967
+int tautsp(729,22095
+convert_col_to_splineCmd(1205,38363
+nearest(1283,40904
+create_grid_neighborCmd(1331,41991
+convert_grid_to_columnsCmd(1375,43572
+convert_grid_to_imageCmd(1401,44146
+convert_image_to_gridCmd(1528,47905
+value_i_j(1604,50087
+locate_i_j(1636,51374
+create_grid_objectiveCmd(1698,52623
+create_grid_boxcarCmd(1762,54239
+interpolate_barnes(1824,55773
+create_grid_barnes(1874,57028
+interpolate_barnes2(1971,59983
+create_grid_barnes_cv(1995,60570
+grid_interp(2099,63854
+
+superus.h,152
+#define FLAG_SYN 10,196
+#define FLAG_RPN 11,266
+#define FLAG_NEW 12,331
+#define FLAG_SYS 13,394
+#define FLAG_AUT2 14,461
+#define FLAG_AUT1 15,515
+
+gr.h,2655
+#define         _grh_7,185
+using namespace std;10,226
+#define	_grTempStringLEN	60,1263
+#define PASTE_CHAR 63,1300
+#define GR_POINTS_IN_PS_PATH 67,1362
+#define PT_PER_IN 68,1424
+#define PT_PER_CM 69,1468
+#define DEG_PER_RAD 70,1518
+}               FBUFFER;FBUFFER79,1912
+	gr_axis_BOTTOM 84,1979
+	gr_axis_TOP 85,2000
+	gr_axis_LEFT 86,2018
+	gr_axis_RIGHT 87,2037
+	gr_axis_LOG 88,2057
+	gr_axis_LINEAR 89,2075
+}               gr_axis_properties;gr_axis_properties90,2095
+}               gr_pen;gr_pen96,2209
+	gr_font_Courier 104,2544
+	gr_font_CourierOblique,105,2577
+	gr_font_CourierBold,106,2621
+	gr_font_CourierBoldOblique,107,2659
+	gr_font_Helvetica,108,2711
+	gr_font_HelveticaOblique,109,2745
+	gr_font_HelveticaBold,110,2793
+	gr_font_HelveticaBoldOblique,111,2835
+	gr_font_PalatinoRoman,112,2891
+	gr_font_PalatinoItalic,113,2933
+	gr_font_PalatinoBold,114,2977
+	gr_font_PalatinoBoldItalic,115,3017
+	gr_font_Symbol,116,3069
+	gr_font_TimesRoman,117,3097
+	gr_font_TimesItalic,118,3134
+	gr_font_TimesBold,119,3172
+	gr_font_TimesBoldItalic,120,3207
+	gr_font_ZapfChancery,121,3253
+	gr_font_ZapfChanceryMediumItalic,122,3293
+	gr_font_end_of_list123,3345
+}               gr_fontID;gr_fontID124,3366
+}               gr_font_info;gr_font_info129,3455
+}               gr_font;gr_font134,3586
+enum gr_symbol_type gr_symbol_type137,3630
+	gr_unknown_symbol 138,3652
+	gr_plus_symbol,139,3677
+	gr_times_symbol,140,3694
+	gr_box_symbol,141,3712
+	gr_circ_symbol,142,3728
+	gr_diamond_symbol,143,3745
+	gr_triangleup_symbol,144,3765
+	gr_triangleright_symbol,145,3788
+	gr_triangledown_symbol,146,3814
+	gr_triangleleft_symbol,147,3839
+	gr_asterisk_symbol,148,3864
+	gr_star_symbol,149,3885
+	gr_filledbox_symbol,150,3902
+	gr_bullet_symbol,151,3924
+	gr_filleddiamond_symbol,152,3943
+	gr_filledtriangleup_symbol,153,3969
+	gr_filledtriangleright_symbol,154,3998
+	gr_filledtriangledown_symbol,155,4030
+	gr_filledtriangleleft_symbol,156,4061
+	gr_filledhalfmoonup_symbol,157,4092
+	gr_filledhalfmoondown_symbol158,4121
+	bw_model,163,4196
+	bw_model, rgb_model,163,4196
+	bw_model, rgb_model, hsb_model163,4196
+}               gr_color_model;gr_color_model164,4228
+}               gr_color;gr_color174,4457
+#define gr_currentfontsize_cm(gr_currentfontsize_cm212,5734
+#define gr_currentsymbolsize_cm(gr_currentsymbolsize_cm220,6048
+#define gr_setfontsize_cm(gr_setfontsize_cm270,8826
+#define gr_setsymbolsize_cm(gr_setsymbolsize_cm277,9081
+#define pin0_1(pin0_1328,11596
+#define pin0_255(pin0_255331,11680
+#define GET_STORAGE(GET_STORAGE336,11818
+#define interpolate_linear(interpolate_linear348,12139
+
+errors.h,300
+#define _errors_h_3,26
+#define gr_Error(gr_Error25,734
+#define READ_WORD_ERROR(READ_WORD_ERROR39,1140
+#define NUMBER_WORDS_ERROR 41,1215
+#define MISSING_WORD_ERROR(MISSING_WORD_ERROR43,1286
+#define NO_NEGATIVE_ERROR(NO_NEGATIVE_ERROR45,1369
+#define NO_COLUMN_ERROR(NO_COLUMN_ERROR47,1465
+
+image.cpp,1085
+double          _image0 8,127
+double          _image_missing_color_red 10,218
+double          _image_missing_color_green 11,289
+double          _image_missing_color_blue 12,362
+double          _image_llx,13,434
+double          _image_llx, _image_lly,13,434
+double          _image_llx, _image_lly, _image_urx,13,434
+double          _image_llx, _image_lly, _image_urx, _image_ury;13,434
+double         *_imageHist;14,511
+int             _image_color_model 15,539
+bool            _imageTransform_exists 16,596
+bool            _imageHist_exists 17,644
+IMAGE           _image,18,687
+IMAGE           _image, _imageMask;18,687
+unsigned char *_imageTransform 19,723
+static bool     x_image_scale_defined 21,764
+static bool     y_image_scale_defined 22,811
+show_image_transform(26,930
+define_image_scales(40,1208
+image_scales_defined(56,1489
+blank_image(65,1651
+blank_imageMask(88,2252
+image_range_exists(96,2436
+image_exists(102,2531
+imageMask_exists(108,2607
+#define NUM 121,3050
+calculate_image_histogram(123,3106
+image_to_value(164,3946
+value_to_image(174,4153
+
+draw.cpp,1809
+double          _contour_space_first 22,311
+double          _contour_space_later 23,373
+bool            _contour_space_centered 24,432
+double          _contour_minlength 25,494
+#define OFFSET_AFTER_TITLE 29,589
+set_line_width_symbol(72,1795
+set_line_width_curve(79,1960
+set_line_width_axis(86,2113
+no_scales_error(93,2270
+draw_boxCmd(100,2526
+draw_symbolCmd(170,4298
+draw_symbols(236,6026
+determine_symbol_code(328,8637
+draw_circleCmd(383,10338
+draw_contour(411,10994
+draw_filled_contourCmd(727,20191
+draw_contourCmd(732,20253
+draw_arrowsCmd(738,20311
+draw_arcCmd(829,23066
+draw_arrowCmd(887,24811
+draw_axesCmd(969,27090
+draw_outline_frame(1003,28113
+draw_axes(1021,28608
+draw_curveCmd(1199,34999
+draw_curve(1269,37320
+draw_curve_filled_to_value(1388,40381
+draw_gridCmd(1466,42566
+draw_image_histogramCmd(1502,43423
+draw_image_paletteCmd(1595,46200
+draw_imageCmd(1792,51933
+draw_labelCmd(1841,53491
+	typedef enum where where1848,53771
+	typedef enum where {leftjustified,where::leftjustified1848,53771
+	typedef enum where {leftjustified, centered,where::centered1848,53771
+	typedef enum where {leftjustified, centered, rightjustified}where::rightjustified1848,53771
+	typedef enum where {leftjustified, centered, rightjustified} WHERE;WHERE1848,53771
+draw_line_fromCmd(1988,57754
+draw_linesCmd(2053,59578
+draw_patchesCmd(2100,60624
+draw_polygonCmd(2203,63190
+draw_titleCmd(2274,65042
+draw_valuesCmd(2293,65485
+draw_x_axisCmd(2386,67934
+draw_y_axisCmd(2463,70365
+draw_x_box_plotCmd(2539,72767
+draw_y_box_plotCmd(2669,77047
+draw_zero_lineCmd(2802,81297
+draw_zeroline_horizontally(2833,81856
+draw_zeroline_vertically(2849,82152
+set_x_scale(2866,82455
+set_y_scale(2877,82693
+draw_gri_logoCmd(2891,83073
+draw_isopycnalCmd(3014,86876
+gr_drawimage(3277,94799
+
+gr_coll.h,95
+#define _gr_coll_hh_5,73
+class GriString GriString13,227
+	void draw(GriString::draw15,269
+
+GriPath.cpp,605
+static const int CAPACITY_DEFAULT 17,277
+double missing_value 18,317
+GriPath::GriPath(24,520
+GriPath::GriPath(33,774
+GriPath::~GriPath(42,1020
+void GriPath::clear(48,1091
+void GriPath::expand(53,1146
+void GriPath::push_back(82,1734
+unsigned GriPath::size(101,2067
+ps_begin_path(107,2125
+void GriPath::stroke(125,2598
+void GriPath::fill(131,2743
+void GriPath::stroke_or_fill(137,2865
+straighten_curve(271,7054
+void GriPath::print(330,8504
+void GriPath::translate(337,8672
+void GriPath::scale(344,8797
+void GriPath::rotate(352,8977
+GriPath::trim(365,9249
+GriPath::bounding_box(415,10637
+
+private.h,418
+#define		_private_4,46
+#define         cmd_being_done_LEN 22,336
+#define		LineLength	23,394
+#define		LineLength_1	24,449
+#define		MAX_cmd_word	25,511
+#define		MAX_nword	26,556
+#define		_num_dstackMAX	27,595
+#define		_imageBLANK	32,672
+}               IMAGE;IMAGE44,1278
+#define	RAS_MAGIC	47,1342
+#define RT_STANDARD	48,1371
+#define RMT_NONE 49,1393
+#define RMT_EQUAL_RGB 50,1419
+#define RMT_RAW 51,1445
+
+extern.h,197
+#define _extern_h_3,46
+#define AXES_RECTANGULAR	21,326
+#define AXES_POLAR	22,381
+#define IMAGE_MAX 25,421
+#define	COMMAND_STACK_SIZE	136,3733
+}               GRI_COMMAND;GRI_COMMAND143,4005
+
+GriState.cpp,201
+GriState::GriState(11,197
+GriState::GriState(25,613
+GriState& GriState::operator=(58,1677
+GriState::~GriState(93,2769
+void GriState::set_color_line(99,2845
+void GriState::set_color_text(104,2916
+
+/home/kelley/src/gre/src/proj/TAGS,include

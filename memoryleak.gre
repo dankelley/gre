@@ -1,0 +1,4 @@
+#OKAY while(1) { ; }
+#OKAY $n=1e10;for($i=0;$i<$n;$i++){$x=$i/10;}
+#OKAY $n=1e10;for($i=0;$i<$n;$i++){print $i,"\n";}
+

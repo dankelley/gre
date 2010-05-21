@@ -1,0 +1,4 @@
+open(IN, "a") or die;
+while(<IN>) {
+    print if /^d/;
+}

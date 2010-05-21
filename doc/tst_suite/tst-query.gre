@@ -1,0 +1,7 @@
+print "test query ...\n";
+query $v;
+print $v, "\n";
+query $v "hi dan: ";
+print $v, "\n";
+query $v "hi dan: " ("me", "you");
+print $v, "\n";

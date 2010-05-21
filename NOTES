@@ -1,0 +1,9 @@
+Program received signal SIGSEGV, Segmentation fault.
+0x808b703 in interpolate_var_in_string (s=0x4232affc "") at parser.y:4989
+4989	    } while (s[i] != '\0');
+(gdb) p i
+$1 = 4
+(gdb) p s
+$2 = 0x4232affc ""
+
+i = 4 but s is ""

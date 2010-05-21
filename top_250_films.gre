@@ -1,0 +1,46 @@
+$source = "http://us.imdb.com/top_250_films";
+$bin = 0.1;			# the resolution at this site
+
+set x name "Score, out of 10";
+set y name "Fraction per score-differential of $bin";
+open(IN, "$source") or die "cannot open $source";
+$score_min = 10;
+$score_max =  0;
+for ($s = 0; $s < 100; $s++) {
+    $sum[$s] = 0.0;
+}
+$total = 0;
+while<IN> {
+    chop;
+    if (/10\s*\(/) {
+	$score = $_;
+	$score =~ s:^.*\) ::;
+	$score =~ s:/10.*::;
+	$score_max = $score if ($score > $score_max);
+	$score_min = $score if ($score < $score_min);
+    	$sum[$score/$bin]++;
+	$total++;
+    }
+}
+for ($s = 0; $s < 100; $s++) {
+    $sum[$s] /= $total;
+}
+
+$i = 0;
+for ($s = $score_min / $bin; $s < $score_max / $bin; $s++) {
+    $_x[$i] = ($s - 0.5) * $bin;
+    $_y[$i] = $sum[$s];
+    $i++;
+    $_x[$i] = ($s + 0.5) * $bin;
+    $_y[$i] = $sum[$s];
+    $i++;
+}
+draw axes;
+set color rgb 1 .84 .60;
+draw curve filled to y 0;
+set color black;
+draw curve;
+set font size 10;
+draw title "Source: $source";
+set font size 14;
+draw title "Score of top 250 films";

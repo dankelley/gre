@@ -1,0 +1,104 @@
+<html>
+<head>
+<title>Gre: Bugs</title>
+</head>
+
+<body bgcolor="#ffffff" background="./resources/sm_bg.gif" link="#993333" vlink="#333399 alink="#cc3333">
+
+<!-- newfile Bugs.html "Gre: Bugs" "Bugs" --> 
+<!-- @node   Bugs, Concept Index, Plans, Top -->
+<a name="Bugs" >
+
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td colspan=2><img src="./resources/top_banner.gif" HEIGHT="28" WIDTH="604" usemap="#navigate_top" border="0"></td></tr>
+<tr>
+<td width="150" valign="top">
+<font size=+1>
+<i>Bugs</i>
+</font>
+<font size=-1>
+<p>
+<clear>
+<a href="Introduction.html" ONMOUSEOVER="window.status='Beginners -- start reading here';return true">1: Introduction</a><br>
+<a href="Invoking.html" ONMOUSEOVER="window.status='Beginners -- start reading here';return true">2: Invoking Gre</a><br>
+<a href="Grammar.html" ONMOUSEOVER="window.status='Full description of Gre grammar';return true">3: Gre Grammar</a><br>
+<a href="BuiltinCommands.html" ONMOUSEOVER="window.status='Full list of Gre commands';return true">4: Commands</a><br>
+<a href="Cookbook.html" ONMOUSEOVER="window.status='Some complicated real-world applications';return true">5: Cookbook</a><br>
+<a href="Hints.html" ONMOUSEOVER="window.status='Some hints for Gre programming';return true">6: Hints</a><br>
+<a href="History.html" ONMOUSEOVER="window.status='How Gre has evolved (check here for updates)';return true">7: History</a><br>
+<a href="Plans.html" ONMOUSEOVER="window.status='Plans for Gre';return true">8: Plans</a><br>
+<a href="ConceptIndex.html" ONMOUSEOVER="window.status='Fully-linked index';return true"><b>9: Concept Index</a></b>
+</font></td>
+<td width="500" valign="top">
+<map name="navigate_top">
+<area shape="rect" coords="5,2,218,24" href="gre1.html#Top">
+<area shape="rect" coords="515,2,535,24" href="gre1.html#Top">
+<area shape="rect" coords="550,2,575,24" href="Plans.html">
+<area shape="rect" coords="580,2,600,24" href="ConceptIndex.html">
+</map>
+<map name="navigate_bottom">
+<area shape="rect" coords="5,2,218,24" href="gre1.html#Top">
+<area shape="rect" coords="580,2,600,24" href="ConceptIndex.html"></map>
+</map>
+<h1>9: Bugs</h1>
+</a>
+
+
+<p>
+<!-- latex: \index{reporting bugs} -->
+<!-- latex: \index{bugs, how to report} -->
+<!-- latex: \index{bugs, list of} -->
+
+Please report `<code>gre</code>' bugs to the author, Dan Kelley
+<A HREF="mailto:Dan.Kelley@Dal.CA">  
+&lt;Dan.Kelley@Dal.CA&gt;.
+</A> 
+<p>
+
+Known bugs include the following.  The name of the bug is taken from the
+date, in year/month/day format, followed by a digit (0, 1, 2, ...)
+indicating sequence number, in case more than one bug was found on that
+day.  (I'm presuming that no day has more than 10 bugs!!)
+<p>
+
+<ul>
+<li>
+<em>199905010</em> (1999-May-1) line numbers for errors are sometimes wrong.
+<p>
+
+<li>
+<em>199907040</em> (1999-July-4) `<code>print variables</code>' is inaccurate if
+`<code>my</code>' variables are used.
+<p>
+
+<li>
+<em>199907031</em> (1999-July-3) Sometimes -- but not always -- the
+message `<code>sh:: command not found</code>' is printed by `<code>gre</code>'.  This
+appears to have no bad effects.  The author has learned, by trial and
+error, that it occurs when trying to run a commandfile with implied
+suffix, instead of naming the commandfile in full.
+<p>
+
+<li>
+<em>199907030</em> (1999-July-3): `<code>print variables</code>' is confused about
+scope-resolution for `<code>my</code>' variables.  This may indicate a deeper
+bug.
+<p>
+
+</ul>
+<p>
+
+
+
+<p>
+(c) 1997-2000 Dan E. Kelley, email <a href="mailto:Dan.Kelley@Dal.Ca">
+Dan.Kelley@Dal.Ca</a>
+</tr>
+<p>
+</table>
+<img src="./resources/bottom_banner.gif" HEIGHT="26" WIDTH="603" usemap="#navigate_bottom" border="0">
+
+</table>
+</body>
+</html>

@@ -1,0 +1,100 @@
+# Diagram illustrating SOFAR channel (low sound-speed near 1km depth), drawn 
+# with nice background, large fonts, etc, suitable for overhead projection in
+# class.
+
+#* Speed of sound in seawater as function of temp, salinity and pressure
+sub sound_speed ($$$;) { # T/degC, S/PSU, p/dbar
+    my $T; my $S; my $p;
+    $T = $_[0];
+    $S = $_[1];
+    $p = $_[2];
+    return (1449 
+            + 4.6 * $T 
+            - 0.055 * $T * $T + 0.0003 * $T * $T * $T
+            + (1.39 - 0.012 * $T) * ($S - 25)
+            + 0.017 * $p);
+}
+
+#* Canonical mid-latitude temperature profile, warm at top.
+sub T_of_p ($;) { # p/dbar (1dbar = 1meter, approximately)
+    my $z;
+    $z = $_[0];
+    return (3 + 20 * exp(-$z / 300));
+}
+$fontsize = 16;
+$linewidth_axis = 1.275;
+
+set font size $fontsize;
+set x size 5;
+set y name "Pressure, dbar";
+set x name "Temperature, \(\circ\)C";
+set x axis 0 25 10 5;
+set y axis 4000 0 -1000 -100;
+
+# Draw blue underlay (looks nice on my printer, you may
+# want to play with the rgb values though).
+draw axes none;
+set color rgb 0.5 0.7 1;
+draw box filled $_xleft $_ybottom $_xright $_ytop;
+
+# Draw white guide-lines, which are useful for overhead
+# projection since the viewgraph is often distorted
+# so viewers cannot read off values easily.
+set color white;
+set line width $linewidth_axis / 1.25;
+for ($x = $_xleft; $x <= $_xright; $x += $_xinc) {
+    draw line from $x $_ybottom to $x $_ytop;
+}
+for ($y = $_ybottom; $y >= $_ytop; $y += $_yinc) {
+    draw line from $_xleft $y to $_xright $y;
+}
+
+# Return to black pen and draw axes
+set color black;
+set line width axis $linewidth_axis;
+draw axes frame;
+draw x axis at top;
+draw y axis at left;
+
+
+# Now for the data.
+$i = 0;
+for ($p = 0; $p < 4000; $p += 10) {
+    $_y[$i] = $p;
+    $_x[$i] = T_of_p($p);
+    $i++;
+}
+set color blue; set line width rapidograph 4; draw curve;
+
+# Second panel
+set x margin $_xsize + $_xmargin + 3;
+set y name "Pressure, dbar";
+set x name "Sound Speed, m/s";
+set x axis 1490 1550 20 10;
+set y axis 4000 0 -1000 -100;
+$i = 0;
+for ($p = 0; $p < 4000; $p += 10) {
+    $_y[$i] = $p;
+    $_x[$i] = sound_speed(T_of_p($p), 35, $p);
+    $i++;
+}
+draw axes none;
+set color rgb 0.5 0.7 1;
+draw box filled $_xleft $_ybottom $_xright $_ytop;
+set color white;
+set line width $linewidth_axis / 1.25;
+for ($x = 1500; $x <= 1540; $x += 20) {
+    draw line from $x $_ybottom to $x $_ytop;
+}
+for ($y = $_ybottom; $y >= $_ytop; $y += $_yinc) {
+    draw line from $_xleft $y to $_xright $y;
+}
+set color black;
+set line width axis $linewidth_axis;
+draw axes frame;
+draw x axis at top;
+draw y axis at left;
+
+set color blue; set line width rapidograph 4; draw curve;
+
+

@@ -1,0 +1,8 @@
+print "ok\n";
+print "bad" , "because of comma\n";
+print 1+2 " ok again\n";
+print 1,2 "\n";
+print 1 + 2,3"\n";
+print 1 + 2 + -3"\n";
+print 1:2"\n";
+print -2 -2 "\n";

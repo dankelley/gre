@@ -1,0 +1,13 @@
+sub a_sub ($) {
+#    local $x;
+    $x = $_[0];
+    $y = $x + 1;
+}
+$n = 100000;
+print "before\n";
+for ($i = 0; $i < $n; $i += 1) {
+    a_sub($i);
+    #print "did $i\n" if (1000 * floor($i / 1000) == $i);
+}
+print "after\n";
+

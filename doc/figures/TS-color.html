@@ -1,0 +1,111 @@
+<html>
+<!- Created Sun Jul 13 12:36:33 2003 by ../gre2html from TS-color.gre -->
+<head>
+<title>TS-color.gre</title>
+</head>
+<body>
+<i># Draw T-S plot for all data in bioness directory, color-coded for bug count.</i><br>
+
+<br>
+$dir = <tt>"/data/po/ocean/92-31/bioness"</tt>; <i># dir where data live</i><br>
+
+<br>
+set x name <tt>"Salinity, PSU"</tt>;
+<br>
+set y name <tt>"Temperature, \(\circ\)C"</tt>;
+<br>
+set y axis 7 10 1 0.5;
+<br>
+set x axis 31 32.5 0.5 0.1;
+<br>
+draw axes;
+<br>
+draw title <tt>"hue: total particles ($_command_file on \dir/*.com)"</tt>;
+<br>
+
+<br>
+<i># Indicate scale with labels along right-hand side of plot</i><br>
+$bugmax = 200;
+<br>
+$y = $_ybottom; $dy = ($_ytop - $_ybottom)/10;
+<br>
+$v =   0; set color hsv ($v/$bugmax) 1 1; draw label <tt>"   $v particles"</tt> $_xright $y; $y += $dy;
+<br>
+$v =  25; set color hsv ($v/$bugmax) 1 1; draw label <tt>"   $v particles"</tt> $_xright $y; $y += $dy;
+<br>
+$v =  50; set color hsv ($v/$bugmax) 1 1; draw label <tt>"   $v particles"</tt> $_xright $y; $y += $dy;
+<br>
+$v =  75; set color hsv ($v/$bugmax) 1 1; draw label <tt>"   $v particles"</tt> $_xright $y; $y += $dy;
+<br>
+$v = 100; set color hsv ($v/$bugmax) 1 1; draw label <tt>"   $v particles"</tt> $_xright $y; $y += $dy;
+<br>
+$v = 125; set color hsv ($v/$bugmax) 1 1; draw label <tt>"   $v particles"</tt> $_xright $y; $y += $dy;
+<br>
+$v = 150; set color hsv ($v/$bugmax) 1 1; draw label <tt>"   $v particles"</tt> $_xright $y; $y += $dy;
+<br>
+$v = 175; set color hsv ($v/$bugmax) 1 1; draw label <tt>"   $v particles"</tt> $_xright $y; $y += $dy;
+<br>
+$v = 200; set color hsv ($v/$bugmax) 1 1; draw label <tt>"   $v particles"</tt> $_xright $y; $y += $dy;
+<br>
+
+<br>
+<i># Extract all data into one file, named 'tmp'.  Simply take all</i><br>
+<i># the files ending in <tt>".com"</tt>.</i><br>
+set clip on;
+<br>
+set symbol size 0.025;
+<br>
+system(<tt>"rm -f tmp"</tt>);
+<br>
+<b>foreach</b> $f (glob(<tt>"$dir/*.com"</tt>)) {
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;system(<tt>"gawk '{print \$5,\$4,\$9}' $f >> tmp"</tt>);
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print <tt>"Did file $f (hue max is $hue_max)\n"</tt>;
+<br>
+}
+<br>
+
+<br>
+<i># Read the file, then reorder the data so that points don't</i><br>
+<i># overpaint by the order of sampling.</i><br>
+open(IN, <tt>"tmp"</tt>);
+<br>
+read columns IN x y z;
+<br>
+reorder columns randomly;
+<br>
+<b>for</b> ($i = 0; $i <= $#_x; $i++) {
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$hue = $_z[$i] / $bugmax;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set color hsv $hue 1 1;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;draw symbol <tt>"bullet"</tt> $_x[$i] $_y[$i];
+<br>
+}
+<br>
+
+<br>
+<i># Draw a few isopycnals.</i><br>
+set color <tt>"black"</tt>;
+<br>
+draw isopycnal unlabelled 23.5;
+<br>
+draw isopycnal 24;
+<br>
+draw isopycnal unlabelled 24.5;
+<br>
+draw isopycnal 25;
+<br>
+draw isopycnal unlabelled 25.5;
+<br>
+draw isopycnal 26;
+<br>
+
+<br>
+<i># Clean up.</i><br>
+system(<tt>"rm -f tmp"</tt>);
+<br>
+</body>
+</html>

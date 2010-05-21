@@ -1,0 +1,236 @@
+<html>
+<head>
+<title>Gre: introduction</title>
+</head>
+
+<body bgcolor="#ffffff" background="./resources/sm_bg.gif" link="#993333" vlink="#333399 alink="#cc3333">
+
+<!-- newfile Introduction.html "Gre: introduction" "Introduction" --> 
+
+<!-- @node   Introduction, Invoking, Top, Top -->
+<a name="Introduction" >
+
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td colspan=2><img src="./resources/top_banner.gif" HEIGHT="28" WIDTH="604" usemap="#navigate_top" border="0"></td></tr>
+<tr>
+<td width="150" valign="top">
+<font size=+1>
+<i>Introduction</i>
+</font>
+<font size=-1>
+<p>
+<clear>
+<a href="Introduction.html" ONMOUSEOVER="window.status='Beginners -- start reading here';return true">1: Introduction</a><br>
+<a href="Invoking.html" ONMOUSEOVER="window.status='Beginners -- start reading here';return true">2: Invoking Gre</a><br>
+<a href="Grammar.html" ONMOUSEOVER="window.status='Full description of Gre grammar';return true">3: Gre Grammar</a><br>
+<a href="BuiltinCommands.html" ONMOUSEOVER="window.status='Full list of Gre commands';return true">4: Commands</a><br>
+<a href="Cookbook.html" ONMOUSEOVER="window.status='Some complicated real-world applications';return true">5: Cookbook</a><br>
+<a href="Hints.html" ONMOUSEOVER="window.status='Some hints for Gre programming';return true">6: Hints</a><br>
+<a href="History.html" ONMOUSEOVER="window.status='How Gre has evolved (check here for updates)';return true">7: History</a><br>
+<a href="Plans.html" ONMOUSEOVER="window.status='Plans for Gre';return true">8: Plans</a><br>
+<a href="ConceptIndex.html" ONMOUSEOVER="window.status='Fully-linked index';return true"><b>9: Concept Index</a></b>
+</font></td>
+<td width="500" valign="top">
+<map name="navigate_top">
+<area shape="rect" coords="5,2,218,24" href="gre1.html#Top">
+<area shape="rect" coords="515,2,535,24" href="gre1.html#Top">
+<area shape="rect" coords="550,2,575,24" href="gre1.html">
+<area shape="rect" coords="580,2,600,24" href="Invoking.html">
+</map>
+<map name="navigate_bottom">
+<area shape="rect" coords="5,2,218,24" href="gre1.html#Top">
+<area shape="rect" coords="580,2,600,24" href="Invoking.html"></map>
+</map>
+<h1>1: Introduction</h1>
+</a>
+
+
+<p>
+
+<h2>1.1: What `<code>gre</code>' is</h2>
+
+`<code>Gre</code>' is a program for making science graphs.  It is a programming
+language, not a GUI-based application.  `<code>Gre</code>' is analagous to
+textual markup languages, such as TeX, LaTeX, HTML, etc.  This
+analogy points out the pros and cons of `<code>gre</code>'.  <em>Pro</em>: users get
+good control over the output graphs.  <em>Con</em>: users must climb a
+learning curve before using `<code>gre</code>'.
+<p>
+
+`<code>Gre</code>' is based on the `<code>Gri</code>'
+<a href="http://www.phys.ocean.dal.ca/~kelley/gri"> 
+`<code>Gri</code>'
+</a> 
+language.  The main differences between the two are that `<code>gre</code>' is
+faster that `<code>gre</code>' has a simpler, more powerful, syntax.  `<code>Gre</code>'
+syntax is based on the Perl language (<a href="Hints.html#Perlprogrammers">Perl programmers</a>).
+<p>
+
+<h2>1.2: A simple example</h2>
+
+<center> 
+<IMG SRC="./figures/example1.gif" width=327 align=top> 
+</center> 
+
+To try `<code>gre</code>', do the following.
+<p>
+
+<ol>
+<p>
+
+<li>
+<p>
+
+<em>Create a datafile</em> by inserting the following text into a file
+called `<samp>example1.dat</samp>':
+<p>
+
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   0.05 12.5
+   0.25 19
+   0.5  15
+   0.75 15
+   0.95 13
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+This is a datafile.  Each line has an `<code>(x,y)</code>' pair.  If you don't
+know what an `<code>(x,y)</code>' pair is, `<code>gre</code>' may not be what you need for
+your work!
+<p>
+
+<li>
+<em>Create a command-file</em> by inserting the following text into in a
+file called `<samp>example1.gre</samp>':
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   open example1.dat;
+   read columns x=1 y=2;
+   draw curve;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+This is a `<code>gre</code>' program with three commands.  Commands are separated
+by semicolons; in this case they are also separated by line separators,
+but these are optional, as is all whitespace in a `<code>gre</code>' program.  The
+commands do the following things.
+<p>
+
+<ol>
+<li>
+The first command opens the indicated data-file.
+<p>
+
+<li>
+The second command reads `<code>x</code>' data from the first column and
+`<code>y</code>' data from the second column.
+<p>
+
+<li>
+The third command indicates to draw the ``curve'' formed by the
+`<code>(x,y)</code>' points provided in the data-file.  The curve comprises
+connected line segments -- it is not smoothed, although the word
+``curve'' might fool you that it is!
+<p>
+
+</ol>
+<p>
+
+Before the curve is drawn, axes will also be drawn (see below).
+<p>
+
+<li>
+<em>Run</em> `<code>gre</code>' by typing
+<p>
+
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   gre example1
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+to the operating system.  `<code>Gre</code>' assumes the commandfile has suffix
+`<samp>.gre</samp>', so there is no need to supply the suffix, although nothing
+is lost if you do supply it.
+<p>
+
+</ol>
+<p>
+
+The three-line program makes use of many default `<code>gre</code>' actions,
+e.g. automatic drawing of axes and automatic selection of scales.  All
+defaults may be overridden.  The following example illustrates how to
+get `<code>gre</code>' to call the y-axis `<code>foo</code>' instead of `<code>y</code>', and to
+make this axis range from `<code>0</code>' to `<code>20</code>', labelled at intervals
+of `<code>10</code>', instead of `<code>12</code>' to `<code>19</code>' labelled at unit
+intervals (the x-axis still being selected automatically by `<code>gre</code>'):
+<p>
+
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   open example1.dat;
+   read columns x=1 y=2;
+   set y name "foo";
+   set y axis 0 20 10;
+   draw curve;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+For more on `<code>set y axis</code>', see <a href="BuiltinCommands.html#Setyaxis">Set y axis</a>.
+<p>
+
+<b>A note on execution order</b>.  Notice that these axis-control
+commands were placed <em>before</em> the `<code>draw curve</code>' command.  This
+illustrates an important point: `<code>gre</code>' executes the commands in a
+command-file sequentially, starting at the top.  If, for example, the
+commands for controlling the y-axis were placed <em>after</em> the
+`<code>draw curve</code>' command, they would have <em>no</em> effect on this
+graph.
+<p>
+
+<em>Note for Matlab users:</em> The `<code>gre</code>' convention of executing
+commands in sequence agrees with most programming languages
+<em>except</em> Matlab.  In matlab, some commands work non-sequentially,
+e.g.  an `<code>axis</code>' command can change an existing graph.  However,
+other Matlab commands (basically, all non-drawing commands) act
+sequentially ... imagine how confusing it would be if arithmetic
+commands acted out of sequence, as some Matlab graphics commands do!
+<p>
+
+<img src="./figures/example1.gif" border="1">
+
+
+<p>
+(c) 1997-2000 Dan E. Kelley, email <a href="mailto:Dan.Kelley@Dal.Ca">
+Dan.Kelley@Dal.Ca</a>
+</tr>
+<p>
+</table>
+<img src="./resources/bottom_banner.gif" HEIGHT="26" WIDTH="603" usemap="#navigate_bottom" border="0">
+
+</table>
+</body>
+</html>

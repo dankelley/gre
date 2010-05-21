@@ -1,0 +1,25 @@
+# Draw pattern for wrapping birthday gifts.
+$year = "27";                   # the year
+$n = 2000; 
+$w =  (8.5 * 2.54) ; 
+$h =  (11 * 2.54) ; 
+set color rgb  (245 / 255)   (222 / 255)   (179 / 255);
+set x axis 0 10;
+set y axis 0 10;
+set x margin 0;
+set y margin 0;
+set x size $w;
+set y size $h;
+draw axes none;
+set clip on;
+draw box filled 0 0 $w $h;
+for ($i = 0; $i < $n; $i++) {
+    $s =  (rand() * 200) ; 
+    set font size $s; 
+    set color rgb  rand() rand() rand(); 
+    draw label $year centered 
+        at (rand() * $w) ((rand() * $h) - (pt_to_cm($s) / 2));
+} 
+
+
+

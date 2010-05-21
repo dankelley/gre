@@ -1,0 +1,10 @@
+$y = 3.0; $dy = 1.2;
+set font size 40;
+draw label "fff"          at 3 $y cm; $y += $dy;
+draw label "f0f"          at 3 $y cm; $y += $dy;
+draw label "f\(0\)f"      at 3 $y cm; $y += $dy;
+draw label "f\(f0\)f"     at 3 $y cm; $y += $dy;
+draw label "f\(\alpha\)f" at 3 $y cm; $y += $dy;
+draw label "f\(f\)f"      at 3 $y cm; $y += $dy;
+draw label "f\(3*(f)\)f"  at 3 $y cm; $y += $dy;
+draw label "f3*(f)f"      at 3 $y cm; $y += $dy;

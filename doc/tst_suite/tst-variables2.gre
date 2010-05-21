@@ -1,0 +1,11 @@
+print "tst_suite/tst-variables2.gre     ...";
+$a = "hi dan";
+die " failed test 1\n" if ($#a != -1);
+$a[0] = "HI";
+$a[1] = "DANNY";
+die " failed test 2\n" if ($#a != 1);
+die " failed test 3\n" if ("$a" ne "hi dan");
+die " failed test 4\n" if ($a[0] ne "HI");
+die " failed test 5\n" if ($a[1] ne "DANNY");
+print " passed\n";
+

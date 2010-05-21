@@ -1,0 +1,4 @@
+open example1.dat;
+read columns x=1 y=2;
+draw curve;
+

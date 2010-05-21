@@ -1,0 +1,7 @@
+open (IN,"example1.dat") or die;
+read columns IN x=1 y=2;
+set y name "foo";
+set y axis 0 20 10;
+#draw curve;
+print columns;
+draw y box plot at 0.5;

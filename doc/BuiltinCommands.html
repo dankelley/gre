@@ -1,0 +1,6523 @@
+<html>
+<head>
+<title>Gre: commands</title>
+</head>
+
+<body bgcolor="#ffffff" background="./resources/sm_bg.gif" link="#993333" vlink="#333399 alink="#cc3333">
+
+<!-- newfile BuiltinCommands.html "Gre: commands" " Commands" --> 
+
+<!-- @node   Commands in Gre, Cautionary Notes On Syntax, Foreach, Top -->
+<a name="CommandsinGre" >
+
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td colspan=2><img src="./resources/top_banner.gif" HEIGHT="28" WIDTH="604" usemap="#navigate_top" border="0"></td></tr>
+<tr>
+<td width="150" valign="top">
+<font size=+1>
+<i> Commands</i>
+</font>
+<font size=-1>
+<p>
+<clear>
+<a href="Introduction.html" ONMOUSEOVER="window.status='Beginners -- start reading here';return true">1: Introduction</a><br>
+<a href="Invoking.html" ONMOUSEOVER="window.status='Beginners -- start reading here';return true">2: Invoking Gre</a><br>
+<a href="Grammar.html" ONMOUSEOVER="window.status='Full description of Gre grammar';return true">3: Gre Grammar</a><br>
+<a href="BuiltinCommands.html" ONMOUSEOVER="window.status='Full list of Gre commands';return true">4: Commands</a><br>
+<a href="Cookbook.html" ONMOUSEOVER="window.status='Some complicated real-world applications';return true">5: Cookbook</a><br>
+<a href="Hints.html" ONMOUSEOVER="window.status='Some hints for Gre programming';return true">6: Hints</a><br>
+<a href="History.html" ONMOUSEOVER="window.status='How Gre has evolved (check here for updates)';return true">7: History</a><br>
+<a href="Plans.html" ONMOUSEOVER="window.status='Plans for Gre';return true">8: Plans</a><br>
+<a href="ConceptIndex.html" ONMOUSEOVER="window.status='Fully-linked index';return true"><b>9: Concept Index</a></b>
+</font></td>
+<td width="500" valign="top">
+<map name="navigate_top">
+<area shape="rect" coords="5,2,218,24" href="gre1.html#Top">
+<area shape="rect" coords="515,2,535,24" href="gre1.html#Top">
+<area shape="rect" coords="550,2,575,24" href="Grammar.html">
+<area shape="rect" coords="580,2,600,24" href="Cookbook.html">
+</map>
+<map name="navigate_bottom">
+<area shape="rect" coords="5,2,218,24" href="gre1.html#Top">
+<area shape="rect" coords="580,2,600,24" href="Cookbook.html"></map>
+</map>
+<h1>4: Commands in the `<code>gre</code>' language</h1>
+</a>
+
+
+<p>
+
+<b>About this chapter</b>.  This is the ``meat'' of the document (or
+the ``tofu,'' if you prefer).  Here you'll find out all the gory details
+of the `<code>gre</code>' commands.  You'll not need to read this chapter in detail
+now, but you'll want to return to it often as you delve deeper into
+`<code>gre</code>'.  <em>Recommendation</em>: read the next section, ``cautionary
+notes on syntax,'' (<a href="BuiltinCommands.html#CautionaryNotesOnSyntax">Cautionary Notes On Syntax</a>) and then skip to
+the cookbook chapter (<a href="Cookbook.html#Cookbook">Cookbook</a>).
+<p>
+
+<center> 
+<IMG SRC="./figures/diamonds.gif" width=396 align=top> 
+<A HREF="./figures/diamonds.html"> 
+<b>diamonds.gre</b> 
+</a> 
+</center> 
+
+<UL>
+<LI><a href="BuiltinCommands.html#CautionaryNotesOnSyntax">Cautionary Notes On Syntax</a>: How to read syntax
+<LI><a href="BuiltinCommands.html#Commands">Commands</a>: List of commands
+</UL>
+
+<!-- @node   Cautionary Notes On Syntax, Commands, Commands in Gre, Commands in Gre -->
+<a name="CautionaryNotesOnSyntax" >
+<h2>4.1: Cautionary Notes on Syntax</h2>
+</a>
+
+
+<p>
+<!-- latex: \index{syntax} -->
+
+<h3>4.1.1: Wrap negative command arguments in parentheses</h3>
+
+This is necessary because `<code>gre</code>' uses whitespace to separate
+arguments to commands, but `<code>gre</code>' also insists on simplifying
+mathematical expressions.  Thus, when `<code>gre</code>' scans
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   set x axis -2 -3 -1;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+it will interpret the three numbers on the end as being part of a
+mathematical expression, and thus convert the command to
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   set x axis -6;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+(which will generate an error since it makes no sense in `<code>gre</code>'.)
+<p>
+
+
+To prevent the simplification, simply enclose negative arguments in
+parentheses, e.g.
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   set x axis (-2) (-3) (-1);
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+Note: Astute users will realize that the first number need not be
+enclosed in parentheses since there preceding item (the keyword
+`<code>axis</code>') will not be construed as a component of a numerical
+expression.  Still, it's not a bad idea to develop the habit of
+enclosing all all negative arguments in parentheses, as illustrated
+above.
+<p>
+
+
+<h3>4.1.2: Command may not contain punctuation characters, e.g. `<code>[</code>'.</h3>
+
+Don't be fooled by the characters `<code>{</code>', `<code>}</code>', `<code>[</code>',
+`<code>]</code>', and `<code>|</code>' in syntax descriptions.  These characters are
+used to indicate the general forms of syntax, not specific ways to write
+`<code>gre</code>' code.  Here are the meanings of the symbols: (1) optional
+arguments are enclosed in square brackets (`<code>[]</code>').  (2) alternatives
+are separated by vertical lines (`<code>|</code>').  (3) groups are enclosed in
+braces (`<code>{}</code>').
+<p>
+
+
+
+<!-- @node   Commands, Cd, Cautionary Notes On Syntax, Commands in Gre -->
+<a name="Commands" >
+
+<h2>4.2: List of builtin commands</h2>
+</a>
+
+
+<p>
+
+In addition to the built-in commands listed below, you should also check
+out the list of built-in subroutines see <a href="Grammar.html#Mathematicalsubroutines">Mathematical subroutines</a>,
+since it many commands (e.g. `<code>sin</code>') are defined there also.
+<p>
+
+
+<UL>
+<LI><a href="BuiltinCommands.html#Cd">Cd</a>: Change directory
+<LI><a href="BuiltinCommands.html#Chop">Chop</a>: Chop last character from $_ or string
+<LI><a href="BuiltinCommands.html#Chomp">Chomp</a>: Remove last character if it's newline
+<LI><a href="BuiltinCommands.html#Close">Close</a>: Close a file
+<LI><a href="BuiltinCommands.html#Cmd">Cmd</a>: Define a new Gre command
+<LI><a href="BuiltinCommands.html#Convert">Convert</a>: Convert something (e.g. columns to grid)
+<LI><a href="BuiltinCommands.html#Delete">Delete</a>: Delete something
+<LI><a href="BuiltinCommands.html#Die">Die</a>: Quit the program
+<LI><a href="BuiltinCommands.html#Draw">Draw</a>: Draw something
+<LI><a href="BuiltinCommands.html#Exit">Exit</a>: Exit program
+<LI><a href="BuiltinCommands.html#Glob">Glob</a>: Do filename expansion
+<LI><a href="BuiltinCommands.html#Index">Index</a>: Index of substring in string
+<LI><a href="BuiltinCommands.html#Last">Last</a>: Jump out of a loop from the middle
+<LI><a href="BuiltinCommands.html#Ls">Ls</a>: List contents of current directory
+<LI><a href="BuiltinCommands.html#My">My</a>: Make a variable local to a block
+<LI><a href="BuiltinCommands.html#NewPage">New Page</a>: Start a new page of PostScript output
+<LI><a href="BuiltinCommands.html#Pscomment">Pscomment</a>: Insert comment into PostScript file
+<LI><a href="BuiltinCommands.html#Open">Open</a>: Open data file
+<LI><a href="BuiltinCommands.html#Package">Package</a>: Set namespace
+<LI><a href="BuiltinCommands.html#Print">Print</a>: Print something
+<LI><a href="BuiltinCommands.html#Printf">Printf</a>: Print something, formatted
+<LI><a href="BuiltinCommands.html#Pwd">Pwd</a>: Print current working directory
+<LI><a href="BuiltinCommands.html#Query">Query</a>: Ask question and receive reply
+<LI><a href="BuiltinCommands.html#Read">Read</a>: Read something
+<LI><a href="BuiltinCommands.html#Regress">Regress</a>: Perform regression on column data
+<LI><a href="BuiltinCommands.html#Reorder">Reorder</a>: Reorder items (e.g. columns)
+<LI><a href="BuiltinCommands.html#Return">Return</a>: Return from subroutine
+<LI><a href="BuiltinCommands.html#Rewind">Rewind</a>: Rewind a datafile
+<LI><a href="BuiltinCommands.html#Set">Set</a>: Set something
+<LI><a href="BuiltinCommands.html#Split">Split</a>: Split string into substring array
+<LI><a href="BuiltinCommands.html#Sub">Sub</a>: Create subroutine
+<LI><a href="BuiltinCommands.html#Substr">Substr</a>: Extract substring
+<LI><a href="BuiltinCommands.html#System">System</a>: Call the operating system
+<LI><a href="BuiltinCommands.html#Use">Use</a>: Use a module
+<LI><a href="BuiltinCommands.html#Warn">Warn</a>: Print a warning
+<LI><a href="BuiltinCommands.html#-X">-X</a>: Various tests on files
+</UL>
+
+
+
+<!-- @node   Cd, Chop, Commands, Commands -->
+<a name="Cd" >
+<h2>4.3: `<code>cd</code>' command</h2>
+</a>
+
+
+<p>
+<!-- latex: \index{cd} -->
+<!-- latex: \index{@code{cd} command} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   cd;                                 # style 1
+   cd $dir;                            # style 2
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+<em>Style 1</em> ---
+change to home (top) directory.
+<p>
+
+
+<em>Style 2</em> ---
+change to indicated directory, which may be provided in a double-quoted
+string or an expression which evaluates to a string.
+<p>
+
+Unix filenames are used, in the C-shell convention; thus `<code>cd "~";</code>'
+moves to the home directory, and `<code>cd "~/Mail";</code>' moves to a unix
+Mail directory at the home level.
+<p>
+
+
+<!-- @node   Chop, Chomp, Cd, Commands -->
+<a name="Chop" >
+<h2>4.4: `<code>chop</code>' subroutine</h2>
+</a>
+
+
+<p>
+<!-- latex: \index{chop} -->
+<!-- latex: \index{@code{chop} subroutine} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   chop                                # style 1
+   chop $VARIABLE                      # style 2
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+<em>Style 1</em> ---
+remove the last character from the `<code>$_</code>' string, returning
+the character chopped.
+<p>
+
+
+<em>Style 2</em> ---
+Remove the last character from the string-value of the
+indicated variable, returning the character chopped.  This is often done
+for lines read by the `<code>&lt;&gt;</code>' operator, and therefore it is often
+assumed that the character will be a newline.  For example here is how
+you might slurp a whole file into a variable called `<code>$a</code>':
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   $a = "";
+   while (&lt;&gt;) {
+       chop;
+       $a = $a . $_;
+   }
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+You should be using `<code>chomp</code>' if you don't know for sure that the
+last character will be a newline, or if there might be several newlines.
+Neither will be the case as `<code>&lt;&gt;</code>' reads a file, provided that the
+file has a newline at the very end, so `<code>chop</code>' will work most of the
+time.
+<p>
+
+
+<!-- @node   Chomp, Close, Chop, Commands -->
+<a name="Chomp" >
+<h2>4.5: `<code>chomp</code>' subroutine</h2>
+</a>
+
+
+<p>
+<!-- latex: \index{chomp} -->
+<!-- latex: \index{@code{chomp} subroutine} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   chomp                               # style 1
+   chomp $VARIABLE                     # style 2
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+A safer version of `<code>chop</code>', that only removes newlines from the end
+of the variable `<code>$_</code>' or the indicated string-valued variable.
+Returns the number of trailing newlines that were removed.
+<p>
+
+
+
+<!-- @node   Close, Cmd, Chomp, Commands -->
+<a name="Close" >
+<h2>4.6: `<code>close</code>' subroutine</h2>
+</a>
+
+
+<p>
+<!-- latex: \index{close} -->
+<!-- latex: \index{@code{close} subroutine} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   close
+   close FILEHANDLE
+   close(FILEHANDLE)
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+Close data file with named file handle, the latter having been specified
+in the `<code>open</code>' statement see <a href="BuiltinCommands.html#Open">Open</a>.  If no filehandle is
+provided, closes an `<code>ANONYMOUS</code>' filehandle, i.e. corresponding to a
+file which was opened without specifying a filehandle.
+<p>
+
+Once a file is closed, its contents may not be read unless it is opened
+again.
+<p>
+
+`<code>close</code>' returns 1 if the file was open and 0 if not.
+<p>
+
+
+
+<!-- @node   Cmd, Convert, Close, Commands -->
+<a name="Cmd" >
+<h2>4.7: `<code>cmd</code>' command</h2>
+</a>
+
+
+<p>
+
+<!-- latex: \index{cmd} -->
+<!-- latex: \index{@code{cmd} command} -->
+<!-- latex: \index{defining new Gre commands} -->
+
+<h3>4.7.1: `<code>cmd</code>' -- introduction</h3>
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   cmd WORDS (PROTOTYPE) {
+    COMMANDS
+   }
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+This creates a new Gre command.  One or more words can be used in the
+name of the command (denoted `<code>WORDS</code>' here).  The `<code>PROTOTYPE</code>'
+(see next paragraph) indicates the arguments to the command, with the
+same syntax as in the Perl language.  Above, `<code>COMMANDS</code>' stands for
+a block of one or more commands within the curly braces.  The command is
+called by naming it, optionally with a space-separated list of arguments
+(according to the prototype).  These arguments are passed to the
+`<code>cmd</code>' as the variables `<code>$_[0]</code>', `<code>$_[1]</code>', etc, and the
+number of arguments that were supplied is `<code>1 + $#_</code>'.  This
+convention is just as in subroutines see <a href="BuiltinCommands.html#Sub">Sub</a>.
+<p>
+
+Example:
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   #* Print a morning greeting
+   cmd hi there sleepy head (;) {
+       print "Good morning sweetie\n";
+   }
+   hi there sleepy head;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+Example 2:
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   #* Print twice a given number
+   #* @param $value number to be doubled and printed
+   cmd double ($;) { # $value
+       print 2 * $_[0], "\n";
+   }
+   double 10;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+<h3>4.7.2: `<code>cmd</code>' prototypes and arguments</h3>
+The arguments may be quoted strings, constants, or mathematical
+expressions.  These are the differences between `<code>cmd</code>' and
+`<code>sub</code>': (1) a `<code>cmd</code>' may have more than one word in its name;
+(2) a `<code>cmd</code>' does not return a value and therefore cannot be used in
+a mathematical expression; and (3) parameters to a `<code>cmd</code>' are
+separated by spaces, not by commas.
+<p>
+
+<!-- latex: \index{prototype, in cmd} -->
+The PROTOTYPE is a list of zero or more characters indicating the
+expected arguments to the command, in the same format as for Perl
+`<code>sub</code>'-style subroutines.  An example prototype is `<code>$$</code>', which
+would indicate that the cmd takes two arguments.  The allowed characters
+in a prototype are dollar-sign (`<code>$</code>'), ampersand (`<code>@</code>'), and
+semicolon (`<code>;</code>').  A semicolon is optional, and indicates a
+separation between a list of required arguments and a list of optional
+arguments.  A dollarsign indicates a single scalar parameters (or
+mathematical expression), and an ampersand indicate a list of one or
+more scalars separated by spaces.  Items before a semicolon are required
+and items after a semicolon are optional.
+<p>
+
+
+<em>Example:</em>
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   cmd none ()           { # takes no arguments
+   cmd one only ($)      { # takes a single argument
+   cmd two only ($$)     { # takes two arguments
+   cmd two_three ($$;$)  { # takes two or three arguments
+   cmd any number (@)    { # takes any number of args (incl zero)
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+At compile-time, calls to a cmd are checked to ensure that they have the
+correct number of arguments.
+<p>
+
+
+<em>Example:</em>
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   none;                   # okay
+   none 10;                # error -- should be no arguments
+   any number;             # okay
+   any number 1 1/10;      # okay
+   any number 1, 1/10;     # error -- cannot use comma between arguments
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+It is conventional to list argument names, if any, in a comment after
+the opening brace, e.g.
+<p>
+
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   cmd display value of ($) { # $variable_name
+       print $_[0], "\n";
+   }
+   $pi = 2 * asin(1);
+   display value of $pi;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+The `<code>gre</code>' scanner works by matching words it sees against known
+commands, i.e. against builtin syntax such as `<code>while</code>' loops, etc,
+and against a list of `<code>cmd</code>' defined in a system startup file and
+possibly in a user-defined startup file named `<samp>~/.grerc</samp>' --
+see <a href="Invoking.html#Userstartupfile">User startup file</a>.  If it sees a match, then it considers all the
+items following the matched words to be arguments.  A special rule then
+applies: bare words are treated as if they had been enclosed in
+double-quote marks -- that is, they are treated as if they were text
+strings.  Thus, for example, the following two calls to the `<code>cmd</code>'
+named `<code>display</code>' will have the same effect:
+<p>
+
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   cmd display ($) { print $_[0]; }
+   display "hello";
+   display hello;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+The purpose of this bare word convention is so that arguments may be
+keywords, as in the possible command
+<p>
+
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   cmd draw stuff at ($$;$) { # $x $y [cm] ...
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+Commands may be nested -- you may call one command inside another, as
+illustrated in the test file.
+<p>
+
+
+
+<a href="tst_suite/tst-nested-cmd.html">Test file `<tt>tst-nested-cmd.gre</tt>':</a><p> 
+
+
+<h3>4.7.3: `<code>cmd</code>' documentation</h3>
+
+Gre also has a facility for formatting documentation for cmds.  It
+closely parallels the Java-language convention for documentation,
+employing a block of comment lines occurring before the `<code>cmd</code>' line.
+The purpose is so that gre-mode, an Emacs editing mode for Gre, may help
+you to program in Gri.  The rules for `<code>cmd</code>' documentation are:
+<p>
+
+<ol>
+<li> The block consists of comments that begin with `<code>#*</code>' instead
+of the normal `<code>#</code>' character.
+<li> A block may not have any blank lines -- the block is recognized as
+the list of `<code>#*</code>' comment lines preceeding a `<code>cmd</code>' line.
+<li> At the bottom of the block, one may (optionally) document
+individual parameters to the `<code>cmd</code>', using keys called
+`<code>@param</code>' and `<code>@default</code>'.  After the `<code>@param</code>' keyword,
+the name of the variable is given (with the dollar-sign specified).  Any
+words after that are taken to be the documentation for the indicated
+variable.  Optionally, one may also specify a default value with the
+`<code>@default</code>' keyword; for builtin commands, the default value is
+also stored in a builtin variable, and this may be listed after the
+actual value, separated by the word `<code>in</code>'.
+</ol>
+<p>
+
+Here is an example:
+<p>
+
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   #* Indicate personal preference in foods.
+   #* @param $food_item the favorite food
+   cmd tastes good ($) { # $food_item
+       print "$_[0] tastes yummy!\n";
+   }
+   
+   #* Indicate a more universal preference in foods.
+   #* @param $food_item the favorite food @default "apple pie"
+   cmd tastes really good (;$) { # $food_item
+       if ($#_ == 0) {
+           print "$_[0] tastes really yummy to everybody!\n";
+       } else {
+           print "apple pie tastes really yummy to everybody!\n";
+       }
+   }
+   
+   tastes good "candy";
+   tastes really good;
+   tastes really good "candy";
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+Following these documentation conventions makes it easier for others to
+read and understand your program.  Furthermore, it allows the
+`<code>gre-mode</code>' Emacs editing mode to parse your program better.
+<p>
+
+
+
+
+<a href="tst_suite/tst-new-cmd.html">Test file `<tt>tst-new-cmd.gre</tt>':</a><p> 
+
+
+<!-- @node   Convert, Convert columns to grid, Cmd, Commands -->
+<a name="Convert" >
+<h2>4.8: `<code>convert</code>' command</h2>
+</a>
+
+
+<p>
+
+<!-- latex: \index{convert} -->
+<!-- latex: \index{@code{convert} command} -->
+
+The `<code>convert</code>' commands are:
+<UL>
+<LI><a href="BuiltinCommands.html#Convertcolumnstogrid">Convert columns to grid</a>: Create grid, for contouring
+<LI><a href="BuiltinCommands.html#Convertgridtoimage">Convert grid to image</a>: Create image
+</UL>
+<p>
+
+
+<!-- @node   Convert columns to grid, Convert grid to image, Convert, Convert -->
+<a name="Convertcolumnstogrid" >
+<h2>4.9: `<code>convert columns to grid</code>' command</h2>
+</a>
+
+
+<p>
+<!-- latex: \index{convert columns to grid} -->
+<!-- latex: \index{@code{convert columns to grid} command} -->
+
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   convert columns to grid;                                   # style 1
+   convert columns to grid barnes;                            # style 2
+   convert columns to grid barnes $xr $yr $gamma $iterations; # style 3
+   convert columns to grid neighbor;                          # style 4
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+<em>Style 1-3</em> ---
+Use the Barnes method of interpolation.  Each point on the grid is
+determined from the data using a distance-weighted gaussian averaging
+procedure.  The procedure is iterative, starting out at large smoothing
+scales and moving to smaller scales gradually.  It has the effect of
+smoothing over gaps in the data while at the same time providing detail
+in regions where data exist to constrain the interpolation.  The
+parameters `<code>$xr</code>', `<code>$yr</code>', `<code>$gamma</code>', and `<code>$iterations</code>'
+determine the weighting function.  If they are not provided, `<code>$xr</code>'
+defaults to 1.4 times the range in x-values, divided by the square-root
+of the number of non-missing data, `<code>$yr</code>' defaults to the
+corresponding value in the y-direction, `<code>$gamma</code>' defaults to 0.5
+and `<code>$iterations</code>' defaults to 2.  For details of the algorithm, see
+below.
+<p>
+
+
+<em>Style 4</em> ---
+Use nearest-neighbors to calculate values at each point in the grid.
+This is done by scanning the (x,y,z) data from start to finish,
+assigning each to the grid point which is nearest.  Nearness is measured
+as Cartesian distance, with scale factors in x and y being given by the
+spacing between the first and second grid points.  In other words,
+distance is given by D=sqrt(dx*dx+dy*dy) where dx is ratio of distance
+from data point to nearest grid point, in x-units, divided by the
+difference between the first two elements of the x-grid, and dy is
+similarly defined.  Once the grid point nearest the data point is
+determined, Gri adds the z-value to a list of possible values to store
+in the grid.  Once the entire data set has been scanned, Gri then goes
+back to each grid point, and chooses the z-value of the data point that
+was nearest to the grid point -- that is, it stores the z value of the
+(x,y,z) data triplet which has minimal D value.  Note that this scheme
+is independent of the order of the data within the columns.
+<p>
+
+
+<b>Selecting a method</b>:
+<p>
+
+The `<code>barnes</code>' method is preferred (that's why it's the default).  It
+generally produces fields that are close to what a human would draw.  A
+real advantage is that in regions with no data, the contour lines are
+smooth (being based on averaging over large scales), while in regions
+with data the contour lines will become more detailed, as appropriate
+(since then the local data will alter the grid).
+<p>
+
+The `<code>neighbor</code>' method is much faster than the `<code>barnes</code>' method,
+but is really only useful when the data are already pre-gridded -- i.e.
+when the (x,y,z) triplets have x and y values which are already aligned
+with the grid.
+<p>
+
+
+<b>Performance considerations</b>:
+<p>
+
+For `<code>P</code>' data points, `<code>X</code>' x-grid points, and `<code>Y</code>' y-grid
+points, the `<code>neighbor</code>' calculation cost is proportional to
+`<code>P*[log2(X)+log2(Y)]</code>' where `<code>log2</code>' is logarithm base 2.  The
+`<code>barnes</code>' cost is much higher, with each iteration cost being
+proportional to `<code>P*X*Y)</code>'.  For small datasets (e.g. a few thousand
+points) the difference is trivial, but for large datasets the
+`<code>barnes</code>' method is quite slow.  It should be noted that
+`<code>gre</code>' makes every effort at efficiency.  For example, the
+exponential function is expensive to calculate, so `<code>gre</code>' uses a
+fifth-order polynomial approximation; this speeds executation by a
+factor of 3, incurring difference of less than 1/10-th of a percent on
+the grid values.
+<p>
+
+
+<b>References</b>: (1) Section 3.6 in Roger Daley, 1991, ``Atmospheric
+data analysis,'' Cambridge Press, New York. (2) S. E. Koch and
+M. DesJardins and P. J. Kocin, 1983.  ``An interactive Barnes objective
+map anlaysis scheme for use with satellite and conventional data,'',
+J. Climate Appl.  Met., vol 22, p. 1487-1503.
+<p>
+
+<b>Details of Barnes method</b>:
+<p>
+
+@tex
+The gridded field is estimated iteratively.  Successive iterations
+retain largescale features from previous iterations, while adding
+details at smaller scales.
+<p>
+
+The first estimate of the gridded field, here denoted $G_{ij}^{(0)}$
+(the parenthetic superscript indicating the order of the iteration) is
+given by a weighted sum of the input data, with $z_k$ denoting the
+k-th $z$ value.
+<p>
+
+$$
+G_{ij}^{(0)}
+=
+{ {\sum_1^{n_k} W_{ijk}^{(0)} z_k} \over {\sum_1^{n_k} W_{ijk}^{(0)}} }
+$$
+<p>
+
+The weights $W_{ijk}^{(0)}$ are defined in terms of a Guassian
+function decaying with distance from observation point to grid point:
+<p>
+
+$$
+W_{ijk}^{(0)}
+=
+\exp \left[ - { {(x_k-X_i)^2} \over {L_x^2} }
+            - { {(y_k-Y_j)^2} \over {L_y^2} } \right]
+$$
+<p>
+
+\noindent
+Here $L_x$ and $L_y$ are lengths which define the smallest
+$(x,y)$ scales over which the gridded field will have significant
+variations (for details of the spectral response see Koch et al. 1983).
+<p>
+
+Note: if the user has supplied weights see <a href="BuiltinCommands.html#Readcolumns">Read columns</a>, then these
+are multiplied into the normal distance-based weights; i.e. $w_i
+W_{ijk}$ is used instead of $W_{ijk}$.
+<p>
+
+The second iteration derives a grid $G_{ij}^{(1)}$ in terms of the first
+grid $G_{ij}^{(0)}$ and ``analysis values'' $f_k^{(0)}$ calculated at
+the $(x_k,y_k)$ using a formula analogous to the above.
+(Interpolation based on the first estimate of the grid $G_{ij}^{(0)}$
+can also be used to calculate $f_k^{(0)}$, with equivalent results for a
+grid of sufficiently fine mesh.)  In this iteration, however, the
+weighted average is based on the difference between the data and the
+gridded field, so that no further adjustment of the gridded field is
+done in regions where it is already close to through the observed
+values.  The second estimate of the gridded field is given by
+<p>
+
+$$
+G_{ij}^{(1)}
+=
+G_{ij}^{(0)} 
++ 
+{ {\sum_1^{n_k} W_{ijk}^{(1)} (f_k - f_k^{(0)})} \over {\sum_1^{n_k} W_{ijk}^{(1)}}
+}
+$$
+<p>
+
+\noindent
+where the weights $w_{ik,1}$ are defined by analogy with
+$W_{ik}^{(0)}$ except that $L_x$ and $L_y$ are replaced by
+$\gamma^{1/2}L_x$ and $\gamma^{1/2}L_y$.  The nondimensional parameter
+$\gamma$ ($0&lt;\gamma&lt;1$) controls the degree to which the focus is
+improved on the second iteration.  Just as the weighting function
+forced the gridded field to be smooth over scales smaller than $L_x$
+and $L_y$ on the first iteration, so it forces the second estimate of
+the gridded field to be smooth over the smaller scales
+$\gamma^{1/2}L_x$ and $\gamma^{1/2}L_y$.
+<p>
+
+The first iteration yields a gridded field which represents the
+observations over scales larger than $(L_x,L_y)$, while successive
+iterations fill in details at smaller scales, without greatly
+modifying the larger scale field.
+<p>
+
+In principle, the iterative process may be continued an arbitrary
+number of times, each time reducing the scale of variation in the
+gridded field by the factor $\gamma^{1/2}$.  Koch et al. 1983
+suggest that there is little utility in performing more than two
+iterations, providing an appropriate choice of the focussing parameter
+$\gamma$ has been made.  Thus the gridding procedure defines a gridded
+field based on three tunable parameters: $(L_x,L_y,\gamma)$.
+<p>
+
+@end tex
+<p>
+
+
+The gridded field is estimated iteratively.  Successive iterations
+retain largescale features from previous iterations, while adding
+details at smaller scales.
+<p>
+
+The first estimate of the gridded field, here denoted
+`<code>G_(ij)^0</code>' (the superscript indicating the order of the
+iteration) is given by a weighted sum of the input data, with
+`<code>z_k</code>' denoting the k-th `<code>z</code>' value.
+<p>
+
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+                sum_1^n W_(ijk)^0 z_k
+   G_(ij)^(0) = ----------------------
+                  sum_1^n W_(ijk)0
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+where the notation `<code>sum_1^n</code>' means to sum the elements
+for the `<code>k</code>' index ranging from 1 to `<code>n</code>'.
+<p>
+
+The weights `<code>W_(ijk)^0</code>' are defined in terms of a Guassian
+function decaying with distance from observation point to grid point:
+<p>
+
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+                  (   (x_k - X_i)^2       (y_k - Y_j)^2  )
+   W_(ijk)^0 = exp(-  --------------  -  --------------- )
+                  (      L_x^2                L_y^2      )
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+Here `<code>L_x</code>' and `<code>L_y</code>' are lengths which define the smallest
+`<code>(x,y)</code>' scales over which the gridded field will have significant
+variations (for details of the spectral response see Koch et al. 1983).
+<p>
+
+Note: if the user has supplied weights see <a href="BuiltinCommands.html#Readcolumns">Read columns</a>, then these
+are applied in addition to the distance-based weights.  That is,
+`<code>w_i W_(ijk)</code>' is used instead of `<code>W_(ijk)</code>'.
+<p>
+
+The second iteration derives a grid `<code>G_(ij)^1</code>' in terms of the
+first grid `<code>G_(ij)^0</code>' and ``analysis values'' `<code>f_k^0</code>'
+calculated at the `<code>(x_k,y_k)</code>' using a formula analogous to that
+above.  (Interpolation based on the first estimate of the grid
+`<code>G_(ij)^0</code>' can also be used to calculate `<code>f_k^0</code>', with
+equivalent results for a grid of sufficiently fine mesh.)  In this
+iteration, however, the weighted average is based on the difference
+between the data and the gridded field, so that no further adjustment
+of the gridded field is done in regions where it is already close to
+through the observed values.  The second estimate of the gridded field
+is given by
+<p>
+
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+                          sum_1^n W_(ijk)^1 (f_k - f_k^0)
+   G_(ij)^1 = G_(ij)^0 +  -------------------------------
+                                 sum_1^n W_(ijk)^1
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+ where the weights `<code>w_{ik,1}</code>' are defined by analogy
+with `<code>W_{ik}^0</code>' except that `<code>L_x</code>' and `<code>L_y</code>' are
+replaced by `<code>gamma^{1/2}L_x</code>' and `<code>gamma^{1/2}L_y</code>'.  The
+nondimensional parameter `<code>gamma</code>' (`<code>0&lt;gamma&lt;1</code>') controls the
+degree to which the focus is improved on the second iteration.  Just
+as the weighting function forced the gridded field to be smooth over
+scales smaller than `<code>L_x</code>' and `<code>L_y</code>' on the first iteration,
+so it forces the second estimate of the gridded field to be smooth
+over the smaller scales `<code>gamma^{1/2}L_x</code>' and
+`<code>gamma^{1/2}L_y</code>'.
+<p>
+
+The first iteration yields a gridded field which represents the
+observations over scales larger than `<code>(L_x,L_y)</code>', while successive
+iterations fill in details at smaller scales, without greatly
+modifying the larger scale field.
+<p>
+
+In principle, the iterative process may be continued an arbitrary number
+of times, each time reducing the scale of variation in the gridded field
+by the factor `<code>gamma^{1/2}</code>'.  Koch et al. 1983 suggest that there
+is little utility in performing more than two iterations, providing an
+appropriate choice of the focussing parameter `<code>gamma</code>' has been made.
+Thus the gridding procedure defines a gridded field based on three
+tunable parameters: `<code>(L_x,L_y,gamma)</code>'.
+<p>
+
+
+
+
+<!-- @node   Convert grid to image, Delete, Convert columns to grid,  Convert -->
+<a name="Convertgridtoimage" >
+<h2>4.10: `<code>convert grid to image</code>' command</h2>
+</a>
+
+
+<p>
+<!-- latex: \index{convert grid to image} -->
+<!-- latex: \index{@code{convert grid to image} command} -->
+
+<em>BUG -- COMMAND NOT IMPLEMENTED YET</em>
+<p>
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   convert grid to image;                                     # style 1
+   convert grid to image size $w $h;                          # style 2
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+<em>Style 1</em> ---
+Convert grid to an image that is 128 by 128 pixels.  If the image range
+has not been set by `<code>set image range</code>' see <a href="BuiltinCommands.html#Setimagerange">Set image range</a>,
+define it to be the range of the grid.
+<p>
+
+
+<em>Style 2</em> ---
+The width is specified to be `<code>$w</code>' pixels wide and `<code>$h</code>' pixels
+high.
+<p>
+
+
+<!-- latex: \index{image, interpolation from grid} -->
+<!-- latex: \index{interpolation, from grid to image} -->
+
+<b>Interpolation method:</b> The interpolation scheme is the same used for
+contouring.  Image points that lie outside the grid domain are
+considered missing.  For points within the grid, the first step is to
+locate the patch of the grid upon which the pixel lies.  Then the 4
+neighboring grid points are examined, and one of the following cases
+holds.
+<ol>
+<li>
+If 3 or more of them are missing, the pixel is considered missing.
+<li>
+If just one of the neighboring grid points is missing, then the image
+pixel value is determined by bilinear interpolation on the remaining 3
+non-missing grid points.  (This amounts to fitting a plane to three
+measurements of height.)
+<li>
+If all 4 of the grid points are non-missing, then the rectangle defined
+by the grid patch is subdivided into four triangles.  The triangles are
+defined by the two diagonal lines joining opposite corners of the
+rectangle.  An ``image point'' is constructed at the center of the grid
+patch, with f(x,y) value taken to be the average of the values of the
+four neighbors.  This value is taken to be the value at the common
+vertex of the four triangles, and then bilinear interpolation is used to
+calculate the image pixel value.
+</ol>
+<p>
+
+With the `<code>size</code>' options `<code>$width</code>' and `<code>$height</code>'
+specified, they set the number of rectanglular patches in the image.
+<p>
+
+With the `<code>box</code>' options specified, they set the bounding box for the
+image.  If `<code>box</code>' is not given, the image spans the same bounding
+box as the grid as set by `<code>set x grid</code>' and `<code>set y grid</code>'.
+<p>
+
+Normally, missing values in the grid become white in the image, but this
+can be changed using the `<code>set image missing value color to</code>'...
+command.
+<p>
+
+
+
+
+
+<!-- @node   Delete, Die, Convert grid to image, Commands -->
+<a name="Delete" >
+<h2>4.11: `<code>delete</code>' command</h2>
+</a>
+
+
+<p>
+
+<!-- latex: \index{delete} -->
+<!-- latex: \index{@code{delete} command} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   delete columns randomly $fraction;  # style 1
+   delete columns where missing;       # style 2
+   delete grid;                        # style 3
+   delete [x|y] scale;                 # style 4
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+
+<em>Style 1</em> ---
+delete indicated fraction (from 0 to 1) of the column data.  This is
+sometimes done to make datasets smaller and sometimes done for
+monte-carlo analysis of data.
+<p>
+
+
+<em>Style 2</em> ---
+delete column data which have any one of the variables missing.  Thus,
+if an (x,y) pair has `<code>x</code>' missing, delete the whole pair; if a
+(x,y,u,v) quadruplet has `<code>u</code>' mising, delete that quadruplet.
+<p>
+
+
+<em>Style 3</em> ---
+delete grid data
+<p>
+
+
+<em>Style 4</em> ---
+delete either `<code>x</code>' scale, or `<code>y</code>' scale, as indicated.  This is
+used to autoscale multiple datasets, one after another, since if the
+scale is deleted a new one will be created upon reading a dataset with
+`<code>read columns</code>'.  If neither `<code>x</code>' nor `<code>y</code>' is indicated,
+delete both scales.
+<p>
+
+
+
+
+<!-- @node   Die, Draw, Delete, Commands -->
+<a name="Die" >
+<h2>4.12: `<code>die</code>' subroutine</h2>
+</a>
+
+
+<p>
+
+<!-- latex: \index{die} -->
+<!-- latex: \index{@code{die} subroutine} -->
+<!-- latex: \index{program termination} -->
+<!-- latex: \index{exiting the program with @code{die}} -->
+<!-- latex: \index{stopping program execution} -->
+<!-- latex: \index{quiting the program} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   die                                 # style 1
+   die "a message to be printed"'      # style 2
+   die EXPR                            # style 3
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+`<code>die</code>' quits the program, optionally printing a message or value.
+Formally, `<code>die</code>' is a subroutine, so it may be used in any
+expression.  However, it never returns a value if it is executed, since
+it terminates program execution.
+<p>
+
+
+<em>Style 1</em> ---
+print a message of the form `<code>Died at a.gre line 5.</code>', where e.g.
+`<samp>a.gre</samp>' is the commandfile and the `<code>die</code>' command was on the
+fifth line.  Then exit from `<code>gre</code>'.
+<p>
+
+
+<em>Style 2</em> ---
+print the indicated text string.  If the string ends in a newline
+character (e.g. `<code>die "Cannot locate file\n";</code>') then the string is
+printed, with the newline, and then `<code>@code{gre</code>'} exits.  If a newline
+character is not present at the end of the string, then the string is
+printed, followed by an indication of the name of the commandfile and
+the line number (as in Style 1).  Since this information is helpful,
+most users leave out the newline.
+<p>
+
+
+<em>Style 3</em> ---
+print the value of the indicated expression, followed by a newline, and
+then exit.
+<p>
+
+It is a good idea to use `<code>die</code>' liberally to check for conditions
+that could lead to problems.  A common example is to test that a file
+has been opened correctly.  Following are some ways to do that.
+<p>
+
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   # Next three produce (the same) minimal error message ...
+   open(IN, "file.dat") or die;
+   die if !open(IN, "file.dat");
+   if !open(IN, "file.dat") { die; }
+   
+   # ... next three produce (the same) more informative message
+   open(IN, "file.dat") or die "Cannot open file.dat";
+   die "Cannot open file.dat" if !open(IN, "file.dat");
+   if !open(IN, "file.dat") { die "Cannot open file.dat"; }
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+
+
+<a href="tst_suite/tst-die.html">Test file `<tt>tst-die.gre</tt>':</a><p> 
+
+
+
+<!-- @node   Draw, Draw arc, Die, Commands -->
+<a name="Draw" >
+<h2>4.13: `<code>draw</code>' commands</h2>
+</a>
+
+
+<p>
+
+The `<code>draw</code>' commands are used to draw various items.  Parameters for
+the various items (e.g. linewidth, for `<code>draw curve</code>') are set by
+related `<code>set</code>' commands.
+<p>
+
+Each `<code>draw</code>' command checks to see whether axes have been drawn
+already, and it will draw them if not.  It will also draw axes if the
+existing axes correspond to different scales.  For example, if the
+x-margin had been changed since the last axes were drawn, `<code>gre</code>'
+will draw the appropriate new axes as well.  To prevent drawing axes,
+you may do `<code>draw axes none</code>' before any other draw commands.
+<p>
+
+
+<UL>
+<LI><a href="BuiltinCommands.html#Drawarc">Draw arc</a>: Draw a portion of a circle
+<LI><a href="BuiltinCommands.html#Drawarrow">Draw arrow</a>: Draw arrow between two points
+<LI><a href="BuiltinCommands.html#Drawarrows">Draw arrows</a>: Draw (u,v) arrows at (x,y) locations
+<LI><a href="BuiltinCommands.html#Drawaxes">Draw axes</a>: Draw axes
+<LI><a href="BuiltinCommands.html#Drawbox">Draw box</a>: Draw a rectangular box
+<LI><a href="BuiltinCommands.html#Drawcontour">Draw contour</a>: Draw contour(s)
+<LI><a href="BuiltinCommands.html#Drawcurve">Draw curve</a>: Draw curve through x-y points
+<LI><a href="BuiltinCommands.html#Drawgrid">Draw grid</a>: Draw contour grid
+<LI><a href="BuiltinCommands.html#Drawimage">Draw image</a>: Draw color or black/white image
+<LI><a href="BuiltinCommands.html#Drawisopycnal">Draw isopycnal</a>: Draw curve of constant seawater density
+<LI><a href="BuiltinCommands.html#Drawlabel">Draw label</a>: Draw text
+<LI><a href="BuiltinCommands.html#Drawlinefrom">Draw line from</a>: Draw line segment between 2 points
+<LI><a href="BuiltinCommands.html#Drawpolygon">Draw polygon</a>: Draw a polygon, possibly filled
+<LI><a href="BuiltinCommands.html#Drawsymbol">Draw symbol</a>: Draw symbol at point or at column data
+<LI><a href="BuiltinCommands.html#Drawtitle">Draw title</a>: Draw title above plot
+<LI><a href="BuiltinCommands.html#Drawxaxis">Draw x axis</a>: Draw an x-axis
+<LI><a href="BuiltinCommands.html#Drawxboxplotat">Draw x box plot at</a>: Draw a horizontal Tukey box plot
+<LI><a href="BuiltinCommands.html#Drawyaxis">Draw y axis</a>: Draw a  y-axis
+<LI><a href="BuiltinCommands.html#Drawyboxplotat">Draw y box plot at</a>: Draw a vertical Tukey box plot
+</UL>
+
+
+
+<!-- @node   Draw arc, Draw arrow, Draw, Draw -->
+<a name="Drawarc" >
+<h3>4.13.1: `<code>draw arc</code>' command</h3>
+</a>
+
+
+<p>
+
+<!-- latex: \index{@code{draw arc} command} -->
+<!-- latex: \index{@code{draw arc} command} -->
+<!-- latex: \index{arc, drawing} -->
+<!-- latex: \index{drawing arcs} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   draw arc [filled] $xc $yc $r $angle1 $angle2;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+Draw an arc (i.e. a fraction of a circle), with the current pen color
+and current linewidth.  The center of the circle is at
+(`<code>$xc</code>',`<code>$yc</code>'), a coordinate specified in centimeters on the
+page.  The circle radius is `<code>$r</code>' centimeters.  The drawing starts
+at an angle of `<code>$angle1</code>' degrees counterclockwise from "east" (the
+line of the positive x-axis) on the page, and stops at angle
+`<code>$angle2</code>'.
+<p>
+
+For example, to draw the top half of a circle centered at (5cm,5cm),
+with radius 1cm, use `<code>draw arc 5 5 1 0 180</code>'.
+<p>
+
+If the `<code>filled</code>' keyword is given, the arc is filled.  That makes
+sense mostly for circles.
+<p>
+
+
+
+<!-- @node   Draw arrow, Draw arrows, Draw arc, Draw -->
+<a name="Drawarrow" >
+<h3>4.13.2: `<code>draw arrow</code>' command</h3>
+</a>
+
+
+<p>
+
+<!-- latex: \index{@code{draw arrow} command} -->
+<!-- latex: \index{@code{draw arrow} command} -->
+<!-- latex: \index{arrows, drawing single one} -->
+<!-- latex: \index{drawing arrow between two points} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   draw arrow from $x0 $y0 to $x1 $y1 [cm];
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+Draw an arrow between the two indicated points, pointing towards
+(`<code>$x1</code>',`<code>$y1</code>').  If the keyword `<code>cm</code>' is not given, the
+points are in user-coordinates.  If `<code>cm</code>' is given, the coordinates
+are in centimeters on the page.
+<p>
+
+
+<!-- @node   Draw arrows, Draw axes, Draw arrow, Draw -->
+<a name="Drawarrows" >
+<h3>4.13.3: `<code>draw arrows</code>' command</h3>
+</a>
+
+
+<p>
+
+<!-- latex: \index{@code{draw arrows} command} -->
+<!-- latex: \index{@code{draw arrows} command} -->
+<!-- latex: \index{arrows, drawing several} -->
+<!-- latex: \index{drawing arrows at column data} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   draw arrows;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+Draw a vector field consisting of arrows emanating from the coordinates
+stored in the (x, y) columns.  The lengths and orientations of the
+arrows are stored in the (u, v) columns, and the scale for the (u,v)
+columns is set by the commands `<code>set u scale</code>' see <a href="BuiltinCommands.html#Setuscale">Set u scale</a>, and
+`<code>set v scale</code>' see <a href="BuiltinCommands.html#Setvscale">Set v scale</a>.  By default the
+arrowheads are all of halfwidth 0.2 cm, but this may be changed, or the
+arrowhead width may be made proportional to arrow length, by the command
+`<code>set arrow size</code>' see <a href="BuiltinCommands.html#Setarrowsize">Set arrow size</a>.
+<p>
+
+NB To get a single arrow, instead use `<code>draw arrow</code>' see <a href="BuiltinCommands.html#Drawarrow">Draw arrow</a>.
+<p>
+
+
+
+
+<!-- @node   Draw axes, Draw box, Draw arrows, Draw -->
+<a name="Drawaxes" >
+<h3>4.13.4: `<code>draw axes</code>' command</h3>
+</a>
+
+
+<p>
+
+<!-- latex: \index{@code{draw axes} command} -->
+<!-- latex: \index{@code{draw axes} command} -->
+<!-- latex: \index{axes, drawing} -->
+<!-- latex: \index{drawing axes} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   draw axes;              # style 1
+   draw axes none;         # style 2
+   draw axes 0;            # style 3
+   draw axes 1;            # style 4
+   draw axes 2;            # style 5
+   draw axes frame;        # style 6
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+<em>Style 1</em> ---
+draw x and y axes using the margins, scales, etc., presently active.
+<p>
+
+
+<em>Style 2</em> ---
+draw no axes, but trick future `<code>draw</code>' commands into
+thinking they have been drawn.
+<p>
+
+
+<em>Style 3</em> ---
+draw x-y axes frame labelled at left and bottom
+<p>
+
+
+<em>Style 4</em> ---
+draw axes without tics at top and right
+<p>
+
+
+<em>Style 5</em> ---
+draw axes frame with no tics or labels
+<p>
+
+
+<em>Style 6</em> ---
+same as Style 5
+<p>
+
+
+<!-- @node   Draw box, Draw contour, Draw axes, Draw -->
+<a name="Drawbox" >
+<h3>4.13.5: `<code>draw box</code>' command</h3>
+</a>
+
+
+<p>
+
+<!-- latex: \index{@code{draw box} command} -->
+<!-- latex: \index{@code{draw box} command} -->
+<!-- latex: \index{rectangles, drawing} -->
+<!-- latex: \index{boxes, drawing} -->
+<!-- latex: \index{drawing boxes} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   draw box [filled] $ll_x $ll_y $ur_x $ur_y [cm]
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+Draw rectangular box connecting the given coordinates of the lower-left
+corner (`<code>$ll_x</code>', `<code>$ll_y</code>') and upper-right corner
+(`<code>$ur_x</code>', `<code>$ur_y</code>').  If the `<code>filled</code>' keyword is given,
+the rectangle is filled with the current color of the pen; otherwise
+only the outline is drawn.  If the `<code>cm</code>' keyword is given, the
+coordinates are taken to mean centimeters on the page; otherwise they
+are taken to be in user-coordinates.  If user-coordinates are employed,
+then axes will be drawn automatically, if they haven't already been
+drawn.
+<p>
+
+
+<!-- @node   Draw contour, Draw curve, Draw box, Draw -->
+<a name="Drawcontour" >
+<h3>4.13.6: `<code>draw contour</code>' command</h3>
+</a>
+
+
+<p>
+
+<!-- latex: \index{@code{draw contour} command} -->
+<!-- latex: \index{@code{draw contour} command} -->
+<!-- latex: \index{contours, drawing} -->
+<!-- latex: \index{drawing contours} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   draw contour                                             # style 1
+   draw contour $c                                          # style 2a
+   draw contour $c unlabelled                               # style 2b
+   draw contour $c labelled $lab                            # style 2c
+   draw contour $min $max $inc                              # style 3a
+   draw contour $min $max $inc unlabelled                   # style 3b
+   draw contour $min $max $inc $inc_unlabelled              # style 4a
+   draw contour $min $max $inc $inc_unlabelled unlabelled   # style 4b
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+Draw contour(s) of gridded data.
+<p>
+
+
+<em>Style 1</em> ---
+draw contours at an interval and over a range that is selected
+automatically from scanning the grid data
+<p>
+
+
+<em>Style 2</em> ---
+draw a single contour, which is labelled with its
+numerical value by default, but which may also be unlabelled, or
+labelled with an arbitrary text string
+<p>
+
+
+<em>Style 3</em> ---
+draw contours for values ranging from `<code>$min</code>' to
+`<code>$max</code>', stepping by `<code>$inc</code>'.  In style (3a), numerical labels
+are drawn on each contour line.  In style 3b, the contours are
+unlabelled.
+<p>
+
+
+<em>Style 4</em> ---
+draw contours for values ranging from `<code>$min</code>' to
+`<code>$max</code>', stepping by `<code>$inc_unlabelled</code>'.  In style (4a),
+numerical labels are drawn on only those contour lines at the interval
+`<code>$inc</code>', with intervening contours being unlabelled.  In style 4b,
+none of the contours are unlabelled.
+<p>
+
+
+<!-- @node   Draw curve, Draw grid, Draw contour, Draw -->
+<a name="Drawcurve" >
+<h3>4.13.7: `<code>draw curve</code>' command</h3>
+</a>
+
+
+<p>
+
+<!-- latex: \index{@code{draw curve} command} -->
+<!-- latex: \index{@code{draw curve} command} -->
+<!-- latex: \index{curves, drawing} -->
+<!-- latex: \index{drawing curves} -->
+<!-- latex: \index{x-y graphs} -->
+<!-- latex: \index{linegraphs} -->
+<!-- latex: \index{overlying lines} -->
+<!-- latex: \index{filled curves} -->
+
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   draw curve;                       # style 1
+   draw curve overlying;             # style 2
+   draw curve filled;                # style 3
+   draw curve filled to x $xvalue;   # style 4
+   draw curve filled to y $yvalue;   # style 5
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+<em>Style 1</em> ---
+draw curve, with line segments between each pair of (x,y) data,
+ignoring any pairs in which either x or y is missing.  (Axes are drawn
+first, if they are required.)
+<p>
+
+
+<em>Style 2</em> ---
+as style 1, but first set pen color to white and draw a wider
+curve; this makes it easier to discern one curve drawn on top of another
+<p>
+
+
+<em>Style 3</em> ---
+draw the curve, filling in the region defined by the curve
+(connecting first and last points)
+<p>
+
+
+<em>Style 4</em> ---
+draw the curve, filling in to the indicated value of x.  A
+common value for `<code>$xvalue</code>' is zero, yielding a curve filled to the
+x-axis ... although the `<code>draw curve filled to y</code>' form is used much
+more than this one.
+<p>
+
+
+<em>Style 5</em> ---
+draw the curve, filling in to the indicated value of y.  A
+common value for `<code>$yvalue</code>' is zero, yielding a curve filled to the
+y-axis.
+<p>
+
+
+
+<!-- @node   Draw grid, Draw image, Draw curve, Draw -->
+<a name="Drawgrid" >
+<h3>4.13.8: `<code>draw grid</code>' command</h3>
+</a>
+
+
+<p>
+
+<!-- latex: \index{@code{draw grid} command} -->
+<!-- latex: \index{@code{draw grid} command} -->
+<!-- latex: \index{grid, drawing} -->
+<!-- latex: \index{drawing grid} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   draw grid;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+Draw plus-signs at locations where grid data are non-missing.
+<p>
+
+
+
+<!-- @node   Draw image, Draw isopycnal, Draw grid, Draw -->
+<a name="Drawimage" >
+<h3>4.13.9: `<code>draw image</code>' command</h3>
+</a>
+
+
+<p>
+
+<!-- latex: \index{@code{draw image} command} -->
+<!-- latex: \index{@code{draw image} command} -->
+<!-- latex: \index{image, drawing} -->
+<!-- latex: \index{drawing images} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   draw image;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+Draw image, in either color or black/white, as instructed by previous
+call to `<code>set image colorscale</code>' see <a href="BuiltinCommands.html#Setimagecolorscale">Set image colorscale</a>.
+<p>
+
+
+<!-- @node   Draw isopycnal, Draw label, Draw image, Draw -->
+<a name="Drawisopycnal" >
+<h3>4.13.10: `<code>draw isopycnal</code>' command</h3>
+</a>
+
+
+<p>
+
+<!-- latex: \index{@code{draw isopycnal} command} -->
+<!-- latex: \index{@code{draw isopycnal} command} -->
+<!-- latex: \index{TS diagrams, isopycnals} -->
+<!-- latex: \index{isopycnals on TS diagrams} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   draw isopycnal $density [$P_sigma [$P_theta]]            # style 1
+   draw isopycnal unlabelled $density [$P_sigma [$P_theta]] # style 2
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+Draw isopycnal curve, with or without label.  This curve is the locus of
+temperature and salinity values which yield seawater of the indicated
+density, at the indicated pressure.  The UNESCO equation of state is
+used.
+<p>
+
+For the results to make sense, the x-axis should be salinity and the
+y-axis should be either in-situ temperature or potential temperature.
+<p>
+
+The `<code>$density</code>' unit is kg/m^3.  If the supplied value exceeds 100
+then it will be taken to indicate the actual density; otherwise it will
+be taken to indicate density minus 1000 kg/m^3.  (The deciding value of
+100 kg/m^3 was chosen since water never has this density; the more
+intuitive value of 1000 kg/m^3 would be inappropriate since water can
+have that density at some temperatures.)  Thus, 1020 and 20 each
+correspond to an actual density of 1020 kg/m^3.
+<p>
+
+The reference pressure for density, `<code>$P_sigma</code>', is in decibars
+(roughly corresponding to meters of water depth).  If no value is
+supplied, a pressure of 0 dbar (i.e. atmospheric pressure) is used.
+<p>
+
+The reference pressure for theta, `<code>$P_theta</code>', is in decibars, and
+defaults to zero (i.e. atmospheric pressure) if not supplied.  This
+option is used if the y-axis is potential temperature referenced to a
+pressure other than the surface.  Normally the potential temperature is,
+however, referenced to the surface, so that specifying a value for
+`<code>$P_theta</code>'' is uncommon.
+<p>
+
+By default, labels will be drawn on the isopycnal curve; this may be
+prevented by supplying the keyword `<code>unlabelled</code>'.  If labels are
+drawn, they will be of order 1000, or of order 10 to 30, according to
+the value of `<code>$density</code>' supplied (see above).  The label format
+defaults to `<code>"%g"</code>' in the C-language format notation, and may be
+controlled by `<code>set contour format</code>'.  The label position may be
+controlled by `<code>set contour label position</code>' command (bug: only
+non-centered style works).  Setting label position is useful if labels
+collide with data points.  Labels are drawn in the whiteunder mode, so
+they can white-out data below.  For this reason it is common to draw
+data points after drawing isopycnals.
+<p>
+
+If the y-axis is in-situ temperature, the command should be called
+without specifying `<code>$P_sigma</code>', or, equivalently, with
+`<code>$P_sigma = 0</code>'.
+<p>
+
+That is, the resultant curve will correspond to the (S,T) solution to
+the equation
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   $density = RHO(S, T, 0)
+</PRE>
+</TD>
+</TR>
+</TABLE>
+where `<code>RHO=RHO(S,T,p)</code>'' is the UNESCO equation of state for
+seawater.  This is a curve of constant sigma_T.
+<p>
+
+If the y-axis is potential temperature referenced to the surface,
+`<code>$P_theta</code>' should not be specified, or should be specified to be
+zero.  The resultant curve corresponds to a constant value of potential
+density referenced to pressure `<code>$P_sigma</code>', i.e. the (S,theta)
+solution to the equation
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   $density = RHO(S, theta, $P_sigma)
+</PRE>
+</TD>
+</TR>
+</TABLE>
+For example, with `<code>$P_sigma=0</code>' (the default), the result is a curve
+of constant sigma_theta.
+<p>
+
+If the y-axis is potential temperature referenced to some pressure other
+than that at the surface, `<code>$P_theta</code>' should be supplied.  The
+resultant curve will be the (S,theta) solution to the equation
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   $density = RHO(S, T', $P_sigma)
+</PRE>
+</TD>
+</TR>
+</TABLE>
+where
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   T'=THETA(S, theta, $P_theta, $P_sigma)
+</PRE>
+</TD>
+</TR>
+</TABLE>
+where `<code>THETA=THETA(S,T,P,Pref)</code>' is the UNESCO formula for potential
+temperature of a water-parcel moved to a reference pressure of
+`<code>Pref</code>'.  Note that `<code>theta</code>', potential temperature referenced
+to pressure ``<code>$P_theta</code>', is the variable assumed to exist on the
+y-axis.
+<p>
+
+
+<!-- @node   Draw label, Draw line from, Draw isopycnal, Draw -->
+<a name="Drawlabel" >
+<h3>4.13.11: `<code>draw label</code>' command</h3>
+</a>
+
+
+<p>
+
+<!-- latex: \index{@code{draw label} command} -->
+<!-- latex: \index{@code{draw label} command} -->
+<!-- latex: \index{text, drawing} -->
+<!-- latex: \index{drawing text} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   draw label $label [centered|rightjustified|whiteunder] at $x $y [cm] [rotated $deg];
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+Draw text string, stored in `<code>$label</code>' (a double-quoted or
+string-valued expression), at the indicated location.  The location may
+be in user coordinates (default) or centimeters on the page (if keyword
+`<code>cm</code>' is given).
+<p>
+
+The text is normally left-justified, but may be centered or
+right-justified by use of the keyword `<code>centered</code>' or
+`<code>rightjustified</code>'.
+<p>
+
+The keyword `<code>whiteunder</code>' indicates that a white underlay box should
+be drawn under the text -- this makes labels stand out over non-white
+backgrounds.
+<p>
+
+The text is normally written horizontally, but may be written at an
+angle if the keyword `<code>rotated</code>' is present, along with an angle
+(`<code>$deg</code>') measured in degrees counterclockwise of horizontal.
+<p>
+
+
+
+
+<!-- @node   Draw line from, Draw polygon, Draw label, Draw -->
+<a name="Drawlinefrom" >
+<h3>4.13.12: `<code>draw line from</code>' command</h3>
+</a>
+
+
+<p>
+
+<!-- latex: \index{@code{draw line from} command} -->
+<!-- latex: \index{@code{draw line from} command} -->
+<!-- latex: \index{drawing line segments} -->
+
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   draw line from $x0 $y0 to $x1 $y1 [cm];
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+Draw line connecting (`<code>$x0</code>',`<code>$y0</code>') and
+(`<code>$x1</code>',`<code>$y1</code>'), each specified in the user coordinate system.
+<p>
+
+
+
+<!-- @node   Draw polygon, Draw symbol, Draw line from, Draw -->
+<a name="Drawpolygon" >
+<h3>4.13.13: `<code>draw polygon</code>' command</h3>
+</a>
+
+
+<p>
+
+<!-- latex: \index{@code{draw polygon} command} -->
+<!-- latex: \index{@code{draw polygon} command} -->
+<!-- latex: \index{drawing polygons} -->
+
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   draw polygon [filled] ... [cm];
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+ 
+Draw polygon connecting a list of pairs of points.  Normally the polygon
+is not filled, and the points are specified in user coordinates, but the
+keywords indicated above may be used to cause `<code>gre</code>' to fill the
+polygon, or to interpret the coordinates as being in centimeters on the
+page.
+<p>
+
+
+
+<!-- @node   Draw symbol, Draw title, Draw polygon, Draw -->
+<a name="Drawsymbol" >
+<h3>4.13.14: `<code>draw symbol</code>' command</h3>
+</a>
+
+
+<p>
+
+<!-- latex: \index{@code{draw symbol} command} -->
+<!-- latex: \index{@code{draw symbol} command} -->
+<!-- latex: \index{drawing axes} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   draw symbol;                        # style 1
+   draw symbol $type;                  # style 2
+   draw symbol $type at $x $y;         # style 3
+   draw symbol $type at $x $y [cm];    # style 4
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+<em>Style 1</em> ---
+draw a bullet-type symbol at each (`<code>$x</code>',`<code>$y</code>') in the
+column data.
+<p>
+
+
+<em>Style 2</em> ---
+as style 1, but use indicated symbol type (see table below).
+<p>
+
+
+<em>Style 3</em> ---
+draw indicated symbol type at indicate user coordinate.
+<p>
+
+
+<em>Style 4</em> ---
+draw indicated symbol type at indicate coordinate on the page.
+<p>
+
+Symbols may be specified with a number or a name from the list below.
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   NUMBER          NAME
+   ------    ------------------
+      0      "plus"
+      1      "times"
+      2      "box"
+      3      "circ"
+      4      "diamond"
+      5      "triangleup"
+      6      "triangleright"
+      7      "triangledown"
+      8      "triangleleft"
+      9      "asterisk"
+      10     "star"
+      11     "filledbox"
+      12     "bullet"
+      13     "filleddiamond"
+      14     "filledtriangleup"
+      15     "filledtriangleright"
+      16     "filledtriangledown"
+      17     "filledtriangleleft"
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+For an example see <a href="Cookbook.html#Example1">Example 1</a> 
+and <a href="Cookbook.html#Example3">Example 3</a>.
+<p>
+
+
+<!-- @node   Draw title, Draw x axis, Draw symbol, Draw -->
+<a name="Drawtitle" >
+<h2>4.14: `<code>draw title</code>' command</h2>
+</a>
+
+
+<p>
+
+<!-- latex: \index{@code{draw title} command} -->
+<!-- latex: \index{exiting the program with @code{draw title}} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   draw title $title;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+Draw title above plot.  `<code>$title</code>', a double-quoted string or
+expression evaluating to a string, is the text to be used for the title.
+<p>
+
+Hint: to get a title which indicates the commandfile used to create the
+graph and the date on which it was created, use:
+<!-- latex: \index{command-file name, using as a title} -->
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   draw title "`pwd`/$_command_file (`date`)";
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+<!-- @node   Draw x axis, Draw x box plot at, Draw title, Draw -->
+<a name="Drawxaxis" >
+<h2>4.15: `<code>draw x axis</code>' command</h2>
+</a>
+
+
+<p>
+
+<!-- latex: \index{@code{draw x axis} command} -->
+<!-- latex: \index{axes, drawing manually} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   draw x axis [at bottom|top|{$y [cm]} [lower|upper]];
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+Draw an x-axis, optionally at a specified location and of a specified
+style.
+<p>
+
+The location may be specified by the words `<code>bottom</code>' or `<code>top</code>',
+or by specifying the desired y-location (either in user-units, or, if
+the keyword `<code>cm</code>' is present, in centimeters on the page).  The
+`<code>bottom</code>' and `<code>top</code>' styles result in the labels going below and
+above the axis, respectively (appropriate for axes at bottom and top of
+an axis frame).  If the location is specified, however, the labels are
+drawn below the axis, unless the trailing keyword `<code>upper</code>' is
+specified.  In general, the trailing optional keywords `<code>lower</code>' and
+`<code>upper</code>' allow one to specify that labels should appear below the
+axis or above it, respectively.
+<p>
+
+
+<!-- @node   Draw x box plot at, Draw y axis, Draw x axis, Draw -->
+<a name="Drawxboxplotat" >
+<h2>4.16: `<code>draw x box plot at</code>' command</h2>
+</a>
+
+
+<p>
+
+<!-- latex: \index{@code{draw x box plot at} command} -->
+<!-- latex: \index{statistics, Tukey box-plots} -->
+<!-- latex: \index{Tukey box-plots} -->
+<!-- latex: \index{box-plots} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   draw x box plot at $y [size $cm];
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+Draw a Tukey box plot horizontally, indicating graphically the
+statistical properties of the x-column.  They are in the form of
+horizontally-oriented box with line segments (``whiskers'') hanging off
+opposite ends.  Somewhere within the box is a vertical line indicating
+the median x-value.  The ends of the boxes indicate the first and third
+quartiles of the x-values, q1 and q3.  The value of q3 minus q1 is
+called the inter-quartile range.  The whiskers (i.e., the lines with
+crosses at the end) extend from q1 and q3 to the furthest data points
+which are still within a distance of 1.5 inter-quartile ranges from q1
+and q3.  Beyond the whiskers, all outliers are shown: open circles are
+used for data within a distance of 3 inter-quartile ranges beyond q1 and
+q3, and in closed circles beyond that.
+<p>
+
+
+
+<!-- @node   Draw y axis, Draw y box plot at, Draw x box plot at, Draw -->
+<a name="Drawyaxis" >
+<h2>4.17: `<code>draw y axis</code>' command</h2>
+</a>
+
+
+<p>
+
+<!-- latex: \index{@code{draw y axis} command} -->
+<!-- latex: \index{axes, drawing manually} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   draw y axis [at left|right|{$x [cm]} [left|right]];
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+Draw a y-axis, optionally at a specified location and of a specified
+style.
+<p>
+
+The location may be specified by the words `<code>left</code>' or `<code>right</code>',
+or by specifying the desired x-location (either in user-units, or, if
+the keyword `<code>cm</code>' is present, in centimeters on the page).  The
+`<code>left</code>' and `<code>right</code>' styles result in the labels going to the
+left of and the right of the axis, respectively (appropriate for axes at
+left and right of an axis frame).  If the location is specified,
+however, the labels are drawn to the left of the axis, unless the
+trailing keyword `<code>right</code>' is specified.  In general, the trailing
+optional keywords `<code>left</code>' and `<code>right</code>' allow one to specify that
+labels should appear to the left of the axis or the the right of it,
+respectively.
+<p>
+
+
+<!-- @node   Draw y box plot at, Exit, Draw y axis, Draw -->
+<a name="Drawyboxplotat" >
+<h2>4.18: `<code>draw y box plot at</code>' command</h2>
+</a>
+
+
+<p>
+
+<!-- latex: \index{@code{draw y box plot at} command} -->
+<!-- latex: \index{statistics, Tukey box-plots} -->
+<!-- latex: \index{Tukey box-plots} -->
+<!-- latex: \index{box-plots} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   draw y box plot at $x [size $cm];
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+Draw a Tukey box plot vertically, indicating graphically the statistical
+properties of the y-column.  They are in the form of vertically-oriented
+box with line segments (``whiskers'') hanging off opposite ends.
+Somewhere within the box is a horizontal line indicating the median
+y-value.  The ends of the boxes indicate the first and third quartiles
+of the y-values, q1 and q3.  The value of q3 minus q1 is called the
+inter-quartile range.  The whiskers (i.e., the lines with crosses at the
+end) extend from q1 and q3 to the furthest data points which are still
+within a distance of 1.5 inter-quartile ranges from q1 and q3.  Beyond
+the whiskers, all outliers are shown: open circles are used for data
+within a distance of 3 inter-quartile ranges beyond q1 and q3, and in
+closed circles beyond that.
+<p>
+
+
+
+<!-- @node   Exit, Glob, Draw y box plot at, Commands -->
+<a name="Exit" >
+<h2>4.19: `<code>exit</code>' command</h2>
+</a>
+
+
+<p>
+
+<!-- latex: \index{exit subroutine} -->
+<!-- latex: \index{@code{exit} command} -->
+<!-- latex: \index{exiting the program with @code{exit}} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   exit EXPR
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+Exit the program.  On operating systems which permit exit codes, this
+exits with an exit code given by the integer part of the indicated
+expression.
+<p>
+
+The expression should be numerical, not textual.  Expressions that can
+be recognized as textual at compile-time (e.g. quoted strings) result in
+compilation errors.  Expressions that are determined to be textual at
+run-time are converted to numerical values in the usual way -- if the
+string would be read as a number by a human, `<code>gre</code>' will use that
+numerical value.
+<p>
+
+
+<!-- @node   Glob, Index, Exit, Commands -->
+<a name="Glob" >
+<h2>4.20: `<code>glob</code>' subroutine</h2>
+</a>
+
+
+<p>
+
+<!-- latex: \index{index} -->
+<!-- latex: \index{@code{glob} subroutine} -->
+<!-- latex: \index{filename, expansion} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   glob(EXPR)
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+Return a list of filenames that result from expanding `<code>EXPR</code>', which
+is either a double-quoted string or a string-valued expression.  For
+example, to print a list of files ending in `<code>.gre</code>', you could do:
+<p>
+
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   foreach $f (glob("*.gre")) {
+       print "$f\n";
+   }
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+
+
+<!-- @node   Index, Last, Glob, Commands -->
+<a name="Index" >
+<h2>4.21: `<code>index</code>' subroutine</h2>
+</a>
+
+
+<p>
+
+<!-- latex: \index{index} -->
+<!-- latex: \index{@code{index} subroutine} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   index(STR, SUBSTR)
+   index(STR, SUBSTR, OFFSET)
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+Return position of string `<code>SUBSTR</code>' within source string `<code>STR</code>',
+measured by the offset from the start of `<code>STR</code>'.  If `<code>OFFSET</code>'
+is provided, the search commences at `<code>OFFSET</code>' characters from the
+start of `<code>STR</code>'.  A negative or zero value for `<code>OFFSET</code>' means
+to begin searching at the start of `<code>STR</code>', just as if no
+`<code>OFFSET</code>' were given.  If `<code>OFFSET</code>' is greater than the length
+of `<code>STR</code>', or if `<code>SUBSTR</code>' is not found, the value `<code>-1</code>' is
+returned.
+<p>
+
+Awk users should note that the returned offset starts at zero, not at
+one.
+<p>
+
+For example, the following code indicates that the substring is found at
+offsets of 2, 12, and 22.
+<p>
+
+
+<em>Example:</em>
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   $str = "a rose is a rose is a rose";
+   $substr = "rose";
+   $off = -1;			# start at beginning
+   while (-1 != ($off = index($str, $substr, $off))) {
+       print "'$substr' found in '$str' at offset $off\n";
+       $off++;			# move past
+   }
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+
+<!-- @node   Last, Ls, Index, Commands -->
+<a name="Last" >
+<h2>4.22: `<code>last</code>' command</h2>
+</a>
+
+
+<p>
+<!-- latex: \index{last} -->
+<!-- latex: \index{@code{last} command} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   last;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+Jump out of the enclosing loop, landing just after the end of the loop.
+Almost always this is associated with an `<code>if</code>' statement of some
+form, e.g. 
+<p>
+
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   # some code to define a vector $x[0], $x[1], ... $x[$n-1].
+   for ($i = 0; $i &lt; $n; $i += 1) {
+       last if ($x[$i] &lt; 0);
+   }
+   print "Index of first negative x is $i\n";
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+ (The `<code>last</code>' command in `<code>gre</code>' acts in a similar way to that
+in Perl, except that one cannot jump to a named location as one can, as
+an option, in Perl.  C users will recognize that `<code>last</code>' in `<code>gre</code>'
+works just like <em>break</em> in C.)
+<p>
+
+
+
+
+<a href="tst_suite/tst-last.html">Test file `<tt>tst-last.gre</tt>':</a><p> 
+
+
+<!-- @node   Ls, My, Last, Commands -->
+<a name="Ls" >
+<h2>4.23: `<code>ls</code>' command</h2>
+</a>
+
+
+<p>
+<!-- latex: \index{ls} -->
+<!-- latex: \index{@code{ls} command} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   ls;      # style 1
+   ls $dir; # style 2
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+<em>Style 1</em> ---
+list files in current directory.
+<p>
+
+
+<em>Style 2</em> ---
+list files in the directory named `<code>$dir</code>'.
+<p>
+
+C-shell unix conventions are used in the directory name see <a href="BuiltinCommands.html#Cd">Cd</a>.
+The current directory can be printed by `<code>pwd</code>' and can be set by
+`<code>cd</code>'.
+<p>
+
+
+
+<!-- @node   My, New Page, Ls, Commands -->
+<a name="My" >
+<h2>4.24: `<code>my</code>' command</h2>
+</a>
+
+
+<p>
+
+<!-- latex: \index{my} -->
+<!-- latex: \index{@code{my} command, making variables local to block} -->
+<!-- latex: \index{variables, making local to a block} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   my $scalar;                         # style 1a
+   my $scalar1, $scalar2;              # style 1b
+   my ($scalar1, $scalar2);            # style 1c
+   my $scalar = EXPRESSION;            # style 2
+   my @array;                          # style 3
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+Make indicated scalar or vector variable local to the enclosing block of
+code.  (A block is a list of commands inside curly braces, such as a
+part of an if statement, a loop, or a cmd.)
+<p>
+
+Upon exit from the block, the previous value of the variable (if there
+was one) is recovered.
+<p>
+
+
+<em>Style 1</em> ---
+the scalar variable/variables is/are initialized to
+numerical value of zero and string value of an empty string.  
+Any number of scalars may be given, separated by commas and optionally 
+enclosed in parentheses.
+<p>
+
+
+<em>Style 2</em> ---
+the scalar variable is assigned the value of the indicated expression.  
+BUG: Perl users should note that this only works for the case in 
+which single scalars are named.  This is more readible anyway.
+<p>
+
+
+<em>Style 3</em> ---
+the vector variable is created but has no content unless you assign to
+it in the normal way
+<p>
+
+
+
+
+<a href="tst_suite/tst-my.html">Test file `<tt>tst-my.gre</tt>':</a><p> 
+
+
+<!-- @node   New Page, Pscomment, My, Commands -->
+<a name="NewPage" >
+
+<h2>4.25: `<code>new page</code>' command</h2>
+</a>
+
+
+<p>
+<!-- latex: \index{@code{new page} command} -->
+
+Finish the present page, and start a new page.  All settings (of
+linewidth, axes, landscape/portrait, etc) are retained on the new page.
+<p>
+
+
+<!-- @node   Pscomment, Open, New Page, Commands -->
+<a name="Pscomment" >
+
+<h2>4.26: `<code>pscomment</code>' command</h2>
+</a>
+
+
+<p>
+<!-- latex: \index{@code{pscomment} command} -->
+<!-- latex: \index{PostScript file, inserting comments} -->
+<!-- latex: \index{debugging, inserting comments in PostScript file} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   pscomment expr;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+Insert the result of executing the indicated expression as a comment in
+the PostScript file.  Normally, `<code>expr</code>' is a double-quoted string.
+This command is mostly used by the `<code>gre</code>' developer.
+<p>
+
+
+
+<!-- @node   Open, Package, Pscomment, Commands -->
+<a name="Open" >
+
+<h2>4.27: `<code>open</code>' subroutine</h2>
+</a>
+
+
+<p>
+
+<!-- latex: \index{open} -->
+<!-- latex: \index{@code{open} subroutine} -->
+<!-- latex: \index{file handles} -->
+<!-- latex: \index{i/o, opening files} -->
+<!-- latex: \index{file handles} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   open(FILEHANDLE, $name) # style 1
+   open($name)             # style 2
+   open $name              # style 3
+   open WORD               # style 4
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+In the first form, open file with indicated handle and name, for later
+reading/writing by various `<code>read</code>' commands see <a href="BuiltinCommands.html#Read">Read</a>.
+`<code>$name</code>' is the filename, either in a double-quoted string or in a
+string-valued expression, e.g.
+<p>
+
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   open(IN, "in.dat") or die "Cannot open in.dat\n";
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   $f = "in.dat";
+   open(IN, "in.dat") or die "Cannot open in.dat\n";
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+Forms 2 and 3 illustrate that the filename expression need not be
+enclosed in parentheses if the file handle is not given.  Style 4
+indicates that quotes are not required on the filename.  The `<code>WORD</code>'
+in Style 4 stands for text that is not enclosed in quotes; this text may
+contain periods and underlines (but not spaces or commas, or
+mathematical operators)
+<p>
+
+
+<em>Example:</em>
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   open "in.dat" or die "Cannot open in.dat\n";
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+In the forms (2-4) in which a file handle is not supplied, the file is
+opened with default handle `<code>"ANONYMOUS"</code>'.  This is the default
+handlename in `<code>read</code>' commands if no handle is supplied
+see <a href="BuiltinCommands.html#Read">Read</a>.
+<p>
+
+
+`<code>open</code>' is a function which returns `<code>1</code>' if the file can be
+opened and `<code>0</code>' otherwise.  It's a good idea to check the return
+value, as in:
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   open(IN, "in.dat") || die "Cannot open in.dat.\n";
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+The FILEHANDLE must be a bare word, without quotes.  In particular, it
+may not be a variable name.  Furthermore, the handle name may <em>not</em>
+contain any lower-case letters.  (Perl users will note that this is also
+recommended in Perl, but not required there.)
+<p>
+
+Normally the file is open for input only -- writing is not permitted on
+such a file.  But if the filename as given begins with the greater-than
+character (`<code>&gt;</code>') then that character is skipped, and the resultant
+filename is opened for output only.  If the filename begins with the
+less-than character (`<code>&lt;</code>') then the indicated file is opened for
+reading only -- but this leading character is not required since it is
+the default.
+<p>
+
+<em>Pipes</em>: If the last character in the filename is `<code>|</code>', then
+the name is interpreted as a command to pass to the operating system,
+and input will be from the result of this command.  (This option is not
+compatible with the `<code>&lt;</code>' and `<code>&gt;</code>' options of last paragraph.)
+For example, to only work on the first 10 lines of a file you might do
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   open(IN, "head -10 in.dat |") or die "Cannot open\n";
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+If you wish to send a dollarsign to the operating system, you must
+protect it with a backslash so that `<code>gre</code>' doesn't try to interpolate
+it as a variable.  For example, the following makes `<code>IN</code>' contain
+two columns, that `<code>awk</code>' has extracted from the first and tenth
+columns from the file `<samp>in.dat</samp>'
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   open(IN, "awk '{print \$1,\$10}' in.dat |");
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+<!-- latex: \index{URL, using in names of data/command files} -->
+<!-- latex: \index{web-based file access} -->
+<!-- latex: \index{internet file access} -->
+<!-- latex: \index{files, given as URL names} -->
+
+<em>Web-delivered files</em>: If the filename begins with `<samp>http://</samp>',
+`<samp>ftp://</samp>', or `<samp>file://</samp>', then the file is considered to be a
+web address, and the operating-system command `<code>lynx</code>' is used to get
+a copy of the file.  For example:
+<p>
+
+<!-- latex: \index{compressed files} -->
+<!-- latex: \index{gzipped files} -->
+<!-- latex: \index{files, compressed} -->
+<!-- latex: \index{@code{.Z} suffix in filenames} -->
+<!-- latex: \index{@code{.gz} suffix in filenames} -->
+<em>Compressed files</em>: If the filename ends in `<samp>.Z</samp>', then it will
+first be uncompressed with the unix `<code>uncompress</code>' program.  If the
+filename ends in `<samp>.gz</samp>', it will first be uncompressed with the GNU
+`<code>gunzip</code>' program.
+<p>
+
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   $url = "file://www.phys.ocean.dal.ca/~kelley/gri/examples/example1.dat";
+   open(IN, $url) or die "Cannot open the URL $url";
+   read columns x=1 y=2;
+   draw curve;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+For pipe-accessed and web-accessed files, the input comes from a
+temporary file that is erased exit time.  (Running `<code>gre</code>' with the flag
+`<code>-d 4</code>' will reveal what system command is used, and where the
+temporary file is put.
+<p>
+
+
+<!-- @node   Package, Print, Open, Commands -->
+<a name="Package" >
+
+<h2>4.28: `<code>package</code>' command</h2>
+</a>
+
+
+<p>
+
+<!-- latex: \index{package} -->
+<!-- latex: \index{@code{package} command} -->
+<!-- latex: \index{namespaces, controlling with @code{package} command} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   package NAMESPACE
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+Set namespace to `<code>NAMESPACE</code>', as in Perl.  This is often used
+inside of modules, which are called with the `<code>use</code>' command
+see <a href="BuiltinCommands.html#Use">Use</a>.
+<p>
+
+<em>BUG: This documentation is not complete</em>
+<p>
+
+<em>BUG: This does not work yet (98-dec-21, version 0.1.17)</em>
+<p>
+
+
+
+
+
+<!-- @node   Print, Printf, Package, Commands -->
+<a name="Print" >
+
+<h2>4.29: `<code>print</code>' commands</h2>
+</a>
+
+
+<p>
+
+<!-- latex: \index{print} -->
+<!-- latex: \index{@code{print} commands} -->
+<!-- latex: \index{@code{$_} variable, implicit printing of} -->
+
+<!-- latex: \index{@code{$_}, implicit printing of} -->
+
+There are several varieties of `<code>print</code>' command.
+<p>
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   print                    # 1
+   print FILEHANDLE         # 2
+   print ITEMS              # 3
+   print FILEHANDLE ITEMS   # 4
+   print variables          # 5
+   print columns            # 6
+   print grid               # 7
+   print image              # 8
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+With no file handle specified, output is to the standard output file
+(also available as the handle `<code>STDOUT</code>').  If a file handle is
+specified, a check is first done that the file was opened as an output
+file -- if not, an error results.
+<p>
+
+`<code>ITEMS</code>' is a comma-separated list of items.
+<p>
+
+
+<ul>
+<li>
+Forms 1 and 2: with no mention of the item to print, causes
+`<code>gre</code>' to print the value of the variable `<code>$_</code>'.  This is
+most often used in the Perl-like syntax, in which `<code>$_</code>' will have
+been defined by a file input in a `<code>while</code>' statement.  For an
+example, see <a href="Grammar.html#WhileandUntil">While and Until</a>.
+<p>
+
+<li>
+<p>
+
+<em>Style 3-4</em> ---
+(`<code>print ... ITEMS</code>'): print a comma-separated list of
+items, each of which may be a variable name, a numerical expression, or
+a string, e.g.
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   $i = 0;
+   print $i, " ", $i + 1, "\n";
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+<!-- latex: \index{newline character} -->
+<!-- latex: \index{tab character} -->
+<!-- latex: \index{escape code for newline} -->
+<!-- latex: \index{escape code for tab} -->
+This produces the output `<code>0 1</code>' followed by a newline.  The newline
+is indicated by the character sequence `<code>\n</code>', just as it is in
+C-like languages.  Similarly, `<code>\t</code>' indicates a tab.
+<p>
+
+Note that <em>no space</em> is printed between numeric items (such as the
+variable names in this example), and that a newline is <em>not</em>
+printed unless you tell it to be printed.
+<p>
+
+<li>
+<p>
+
+<em>Style 5</em> ---
+`<code>print variables</code>': print a list of all existing variables.  This is
+quite useful for learning about `<code>gre</code>', but seldom is used in real
+programs.  <em>BUG: this command produces inaccurate results for 'my' variables'</em>.  (Note to author: I'll fix this by (1) allowing variables
+to be 'hidden', and hiding them instead of unnaming them, when they go
+out of scope and then (2) storing a wnode-list of currently-unhidden
+variable indices in a tree associated with the command.  This affects
+parser.y/reduce_block_level, parser.h/erase_name.)
+<p>
+
+<li>
+<p>
+
+<em>Style 6</em> ---
+`<code>print columns</code>': print list of column data, normally as
+created by the command `<code>read columns</code>' see <a href="BuiltinCommands.html#Readcolumns">Read columns</a>.  This
+is quite useful in developing and debugging `<code>gre</code>' programs.
+<p>
+
+<li>
+<p>
+
+<em>Style 7</em> ---
+`<code>print grid</code>': print information about the current grid.
+<p>
+
+
+<li>
+<p>
+
+<em>Style 8</em> ---
+`<code>print image</code>': print information about the current image.
+</ul>
+<p>
+
+
+
+<a href="tst_suite/tst-print.html">Test file `<tt>tst-print.gre</tt>':</a><p> 
+
+
+<!-- @node   Printf, Pwd, Print, Commands -->
+<a name="Printf" >
+
+<h2>4.30: `<code>printf</code>' command</h2>
+</a>
+
+
+<p>
+
+<!-- latex: \index{printf} -->
+<!-- latex: \index{@code{printf} commands} -->
+<!-- latex: \index{formatted printing, with @code{printf}} -->
+<!-- latex: \index{printing with format control, with @code{printf}} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   printf FORMAT, LIST;               # style 1
+   printf FILEHANDLE FORMAT, LIST;    # style 2
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+<em>Style 1</em> ---
+print to STDOUT the items in the comma-separated list, using
+the indicated format (see below).
+<p>
+
+
+<em>Style 2</em> ---
+as style 1, but print to named filehandle.
+<p>
+
+There are several varieties of `<code>printf</code>' command, which is used to
+print formatted information to a file (or to the standard output I/O
+stream).  To save the results into a string, instead of printing them,
+use `<code>sprintf</code>' see <a href="Grammar.html#PrintingIntoStrings">Printing Into Strings</a>.
+<p>
+
+The format is in the style of the C language (also used by many other
+languages, such as perl).  Special tags are used in the format to
+indicate how to print the information stored in each of the items in the
+list.  There is normally one tag for each item in the list; if the list
+is exhausted before the tags are used up, then the tags are considered
+to be normal text and are simply reproduced.  All items that are not
+tags are simply reproduced exactly, with the special escape codes
+`<code>\n</code>' and `<code>\t</code>' being used to indicate newlines and tabs,
+respectively.
+<p>
+
+Formatting tags begin with the character `<code>%</code>' and end with a single
+character telling the type of the item.  In between there may be
+optional indicators for the field width and, for floating point items,
+the number of decimal places to use.
+<p>
+
+The tag `<code>%s</code>' is used for textual items.  The tags `<code>%f</code>',
+`<code>%g</code>' and `<code>%e</code>' for floating-point numerical items.  The tag
+`<code>%d</code>' is used for integral numerical items; when it is used, only
+the integer part of the item is printed.
+<p>
+
+Each of the tag types accepts an optional field-width designator, given
+in an integer that may follow the `<code>%</code>' character.  The three
+floating-point tags may also have an additional designator for number of
+decimal places, given after a period between the `<code>%</code>' and the
+`<code>f</code>', `<code>g</code>' or `<code>e</code>'.
+<p>
+
+Examples:
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   printf "%f\n",     1/9; # prints  0.111111    
+   printf "%.2f\n",   1/9; # prints  0.11        
+   printf "%10.2f\n", 1/9; # prints        0.11  
+   printf "%.2g\n",   1/9; # prints  0.11        
+   printf "%e\n",     1/9; # prints  1.111111e-01
+   printf "%.2e\n",   1/9; # prints  1.11e-01    
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+<!-- @node   Pwd, Query, Printf, Commands -->
+<a name="Pwd" >
+
+<h2>4.31: `<code>pwd</code>' command</h2>
+</a>
+
+
+<p>
+
+<!-- latex: \index{pwd} -->
+<!-- latex: \index{@code{pwd} command} -->
+<!-- latex: \index{directory, printing current} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   pwd;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+Print current working directory, as set by `<code>cd</code>'.
+<p>
+
+
+
+<!-- @node   Query, Read, Pwd, Commands -->
+<a name="Query" >
+
+<h2>4.32: `<code>query</code>' command</h2>
+</a>
+
+
+<p>
+
+<!-- latex: \index{query} -->
+<!-- latex: \index{@code{query} command} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   query $var;                         # style 1
+   query $var "prompt"                 # style 2
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+<em>Style 1</em> ---
+print a message asking user to type in a value for the
+named variable.  The value received from the user's keyboard, which may
+be textual or numerical, is then stored in the named variable.
+<p>
+
+
+<em>Style 2</em> ---
+print indicated prompt and then accept the value for the
+variable.  Note that no blank space or newline is inserted after the
+prompt; if you want that you must put it in the prompt string.
+<p>
+
+
+<!-- @node   Read, Read grid x, Query, Commands -->
+<a name="Read" >
+
+<h2>4.33: `<code>read</code>' commands</h2>
+</a>
+
+
+<p>
+
+<!-- latex: \index{read} -->
+<!-- latex: \index{@code{read} command} -->
+
+There are several varieties of `<code>read</code>' commands.  Each reads
+something, either from a datafile opened by the `<code>open</code>' statement
+or from the command file see <a href="BuiltinCommands.html#Open">Open</a>.
+<p>
+
+
+<UL>
+<LI><a href="BuiltinCommands.html#Readgridx">Read grid x</a>: Read x-component of grid
+<LI><a href="BuiltinCommands.html#Readgridy">Read grid y</a>: Read y-component of grid
+<LI><a href="BuiltinCommands.html#Readgriddata">Read grid data</a>: Read data (matrix) of grid
+<LI><a href="BuiltinCommands.html#Readvariable">Read variable</a>: Reading individual variables
+<LI><a href="BuiltinCommands.html#Readcolumns">Read columns</a>: Reading column data
+</UL>
+
+
+<!-- @node   Read grid x, Read grid y, Read, Read -->
+<a name="Readgridx" >
+<h3>4.33.1: Reading grid x-component</h3>
+</a>
+
+
+<p>
+<!-- latex: \index{reading x-component of grid} -->
+<!-- latex: \index{reading grid x-component} -->
+<!-- latex: \index{grid, reading x-component} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   read grid x;                        # style 1
+   read grid x $columns;               # style 2
+   read grid x HANDLE;                 # style 3
+   read grid x $columns HANDLE;        # style 4
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+<em>Style 1</em> ---
+read x-component of grid (that is, the x-coordinates of
+the column locations) from the `<code>ANONYMOUS</code>' filehandle, stopping
+when a blank line or end of file is encountered.
+<p>
+
+
+<em>Style 2</em> ---
+as style 1, except that reading ceases when
+`<code>$columns</code>' line have been read.
+<p>
+
+
+<em>Style 3</em> ---
+as style 1, except that reading is from indicated
+file-handle.
+<p>
+
+
+<em>Style 4</em> ---
+as style 2, except that reading is from indicated
+file-handle. 
+<p>
+
+
+
+<!-- @node   Read grid y, Read grid data, Read grid x, Read -->
+<a name="Readgridy" >
+<h3>4.33.2: Reading grid y-component</h3>
+</a>
+
+
+<p>
+<!-- latex: \index{reading y-component of grid} -->
+<!-- latex: \index{reading grid y-component} -->
+<!-- latex: \index{grid, reading y-component} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   read grid y;                        # style 1
+   read grid y $rows;                  # style 2
+   read grid y HANDLE;                 # style 3
+   read grid y $rows HANDLE;           # style 4
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+<em>Style 1</em> ---
+read y-component of grid (that is, the x-coordinates of
+the row locations) from the `<code>ANONYMOUS</code>' filehandle, stopping when a
+blank line or end of file is encountered.
+<p>
+
+
+<em>Style 2</em> ---
+as style 1, except that reading ceases when `<code>$rows</code>'
+line have been read.
+<p>
+
+
+<em>Style 3</em> ---
+as style 1, except that reading is from indicated
+file-handle.
+<p>
+
+
+<em>Style 4</em> ---
+as style 2, except that reading is from indicated
+file-handle. 
+<p>
+
+In all styles, the grid locations are one per line in the file.  The
+first number in the file yields the y-value for the first line in the
+grid datafile.
+<p>
+
+
+<!-- @node   Read grid data, Read variable, Read grid y, Read -->
+<a name="Readgriddata" >
+<h3>4.33.3: Reading grid data</h3>
+</a>
+
+
+<p>
+<!-- latex: \index{reading grid data} -->
+<!-- latex: \index{grid, reading data} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   read grid data;                       # style 1
+   read grid data $rows $columns;        # style 2
+   read grid data HANDLE;                # style 3
+   read grid data $rows $columns HANDLE; # style 4
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+<em>Style 1</em> ---
+read grid data from `<code>ANONYMOUS</code>' filehandle,
+assuming that the grid width and height are known, from previous calls
+to `<code>set x grid</code>' (or `<code>read grid x</code>') and `<code>set y grid</code>' (or
+`<code>read grid y</code>').
+<p>
+
+
+<em>Style 2</em> ---
+as style 1, but specifying the grid width
+(`<code>$columns</code>') and height (`<code>$rows</code>').  If the geometry has
+already been specified with `<code>set x grid</code>' (or `<code>read grid x</code>')
+and `<code>set y grid</code>' (or `<code>read grid y</code>'), then the values given
+here must agree.
+<p>
+
+
+<em>Style 3</em> ---
+as style 1, except that reading is from indicated
+file-handle.
+<p>
+
+
+<em>Style 4</em> ---
+as style 2, except that reading is from indicated
+file-handle.
+<p>
+
+
+
+
+<!-- @node   Read variable, Read columns, Read grid data, Read -->
+<a name="Readvariable" >
+<h3>4.33.4: Reading a single variable, or list of variables</h3>
+</a>
+
+
+<p>
+<!-- latex: \index{reading variables} -->
+<!-- latex: \index{variables, reading} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   read FILEHANDLE $var;
+   read FILEHANDLE $var_1, $var_2, ..., $var_N;
+   read $var;
+   read $var_1, $var_2, ..., $var_N;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+In the first two forms, read one or more variables, as named, from the
+named file handle see <a href="BuiltinCommands.html#Open">Open</a>.
+<p>
+
+In the second form, read from a default file handle.  If a file had
+previously been opened using the anonymous-handle method see <a href="BuiltinCommands.html#Open">Open</a>,
+then read from that file.  Otherwise, read from standard input, that is
+from the handle `<code>STDIN</code>'.
+<p>
+
+
+
+
+<a href="tst_suite/tst-read.html">Test file `<tt>tst-read.gre</tt>':</a><p> 
+
+
+
+
+<!-- @node   Read columns, Regress, Read variable, Read -->
+<a name="Readcolumns" >
+
+<h3>4.33.5: Reading column data</h3>
+</a>
+
+
+<p>
+<!-- latex: \index{read columns} -->
+<!-- latex: \index{@code{read columns} command} -->
+<!-- latex: \index{column data, how to read with @code{read columns} command} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   read columns HANDLE ...;      # style 1
+   read columns HANDLE ... ROWS; # style 2
+   read columns ...;             # style 3
+   read columns ... ROWS;        # style 4
+   
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+In styles 1 and 2, columnar data are to be read from the indicated
+filehandle.  In styles 3 and 4, the input is to be from an anonymous
+file handle, either `<code>ANONYMOUS</code>', if a file is open and was created
+with the anonymous opening mechanism see <a href="BuiltinCommands.html#Open">Open</a>, or from standard
+input, i.e. with handle `<code>STDIN</code>'.
+<p>
+
+The available column names are `<code>y</code>', `<code>z</code>',
+`<code>u</code>', and `<code>v</code>'.  For x-y plots, `<code>x</code>' and `<code>y</code>' are used.
+For contouring, `<code>z</code>' is used in addition.  For vector-plots,
+`<code>u</code>' and `<code>v</code>' are used in addition to `<code>x</code>' and `<code>y</code>'.
+<p>
+
+The ellipses (`<code>...</code>') in the code samples above stands for a
+description of the column placement in the data file.  During reading,
+the file is processed line by line.  The number of lines to be read may
+be specifiec with the `<code>ROWS</code>' number; if this is not given, `<code>gre</code>'
+reads until either a blank line is encountered or the end of the input
+file is encountered.
+<p>
+
+During reading, each line is broken up into items separated by
+whitespace (one or more space or tab characters).  These items are
+internally numbered 1, 2, etc.  There are two ways to assign particular
+items in the data file to columns, the first being satisfactory for
+simple cases, the second being more powerful.
+<p>
+
+Method 1: simply present the desired column in the order they appear in
+the data file.  If the first item is to be `<code>x</code>' and the second
+`<code>y</code>', use `<code>read columns x y</code>'; if the columns were reversed in
+the file you'd use `<code>read columns y x</code>'.
+<p>
+
+Method 2: for each column, specify the a numerical value for the column
+sequence number.  Sequence numbers commence at unity.  Thus, the command
+`<code>read columns x=1 y=2</code>' indicates that x is in the first column and
+y in the second, and is equivalent to `<code>read columns x y</code>'.
+<p>
+
+Here is an example of how to let the datafile indicate which column is
+which.  In the file `<samp>in.dat</samp>', the first line contains two numbers,
+indicating the columns in the succeeding lines which contain the
+`<code>x</code>' and `<code>y</code>' data, respectively.
+<p>
+
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   open(IN, "in.dat") or die "cannot open in.dat\n";
+   read IN $xcol, $ycol; # header tells which col is x, which y
+   read columns IN x=$xcol y=$ycol;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+The existing column data may be seen by the `<code>print columns</code>' command
+see <a href="BuiltinCommands.html#Print">Print</a>.
+<p>
+
+
+<!-- @node   Regress, Reorder, Read columns, Commands -->
+<a name="Regress" >
+
+<h2>4.34: `<code>regress</code>' command</h2>
+</a>
+
+
+<p>
+
+<!-- latex: \index{regress} -->
+<!-- latex: \index{@code{regress} command} -->
+<!-- latex: \index{statistics, regression on columns} -->
+<!-- latex: \index{columns, regression} -->
+<!-- latex: \index{linear regression} -->
+<!-- latex: \index{curve-fitting} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   regress y vs x;         # style 1
+   regress x vs y;         # style 2
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+<em>Style 1</em> ---
+Perform linear regression of column data, with `<code>y</code>' as a
+linear function of `<code>x</code>'.
+<p>
+
+
+<em>Style 2</em> ---
+Perform linear regression of column data, with `<code>x</code>' as a
+linear function of `<code>y</code>'.
+<p>
+
+In both styles, the calculated intercept and its 5 percent confidence
+interval are stored in `<code>$_coeff0</code>' and `<code>$_coeff0_sig</code>'.  The
+slope and its 95 percent confidence interval are stored in
+`<code>$_coeff1</code>' and `<code>$_coeff1_sig</code>'.  The deviation of regression
+(unexplained variance) is stored in `<code>$_regression_deviation</code>'.  The
+example below shows how to read data and draw a regression line over the
+points.
+<p>
+
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   open test.dat;
+   read columns x=1 y=2;
+   close;
+   set symbol size 0.2;
+   draw symbols bullet;
+   regress y vs x;
+   draw line from $_xleft ($_coeff0 + $_xleft * $_coeff1)
+       to $_xright ($_coeff0 + $_xright * $_coeff1);
+   
+   print "REGRESSION RESULTS:\n";
+   print "Intercept: ", $_coeff0, " +/-", $_coeff0_sig, "\n";
+   print "Slope:     ", $_coeff1, " +/-", $_coeff1_sig, "\n";
+   print "Squared correlation coefficient = ", $_R2, "\n";
+   print "Model misfit = ", $_regression_deviation, "\n";
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+
+
+<!-- @node   Reorder, Return, Regress, Commands -->
+<a name="Reorder" >
+
+<h2>4.35: `<code>reorder</code>' command</h2>
+</a>
+
+
+<p>
+
+<!-- latex: \index{reorder} -->
+<!-- latex: \index{@code{reorder} command} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   reorder columns randomly;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+Reorder column data randomly, by swapping values at indices.  The x, y,
+etc, columns are swapped together, maintaining connectivity of data
+points.  This command is useful when drawing colored symbols at data
+points, e.g. with hue determined by the value of the z-column.
+Reordering randomly prevents the most-recently drawn data points from
+obscuring the color below.  The seed for the random number generator is
+controlled by the PID (process-id) of the job, and therefore the
+reordering will be different every time the `<code>gre</code>' script is
+executed.
+<p>
+
+
+
+
+<!-- @node   Return, Rewind, Reorder, Commands -->
+<a name="Return" >
+
+<h2>4.36: `<code>return</code>' command</h2>
+</a>
+
+
+<p>
+
+<!-- latex: \index{return} -->
+<!-- latex: \index{@code{return} command} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   return;
+   return EXPR;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+Return from subroutine.  If a value is supplied, in an expression,
+constant, or variable, then return that value; otherwise return 0.
+see <a href="BuiltinCommands.html#Sub">Sub</a>.
+<p>
+
+
+
+
+<!-- @node   Rewind, Set, Return, Commands -->
+<a name="Rewind" >
+
+<h2>4.37: `<code>rewind</code>' subroutine</h2>
+</a>
+
+
+<p>
+
+<!-- latex: \index{rewind} -->
+<!-- latex: \index{@code{rewind} subroutine} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   rewind                              # style 1
+   rewind()                            # style 2
+   rewind HANDLE                       # style 3
+   rewind(HANDLE)                      # style 4
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+Rewind a file.  If no handle is supplied (styles 1 and 2), the ANONYMOUS
+filehandle is rewound.  If a handle is supplied (styles 3 and 4), then
+the file with the indicated handle is rewound.  For more on filehandles
+see <a href="BuiltinCommands.html#Open">Open</a>.The subroutine always returns a numerical value of `<code>1</code>'.
+<p>
+
+
+
+<!-- @node   Set, Set arrow size, Rewind, Commands -->
+<a name="Set" >
+<h2>4.38: `<code>set</code>' commands</h2>
+</a>
+
+
+<p>
+
+<em>THIS SECTION UNDER CONSTRUCTION.</em>  Gri users will note that some
+things are missing, e.g.  map-type axes, contours, etc.  These will come
+gradually as I get time to code them in and as I need them for my own
+scientific research.  If you are a Gri user who is trying out
+`<code>gre</code>', feel free to email me your requests for the Gri commands
+you need most, so I can put them further up on my 'to-do' list.  My
+email is
+<A HREF="mailto:Dan.Kelley@Dal.CA">  
+&lt;Dan.Kelley@Dal.CA&gt;
+</A> 
+<p>
+
+
+
+`<code>set</code>' commands are used to set various parameters for drawing.
+They apply <em>only</em> to drawing that is done after execution of the
+`<code>set</code>' command.  For example, the code
+<p>
+
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   open "my.dat";
+   read columns x y;
+   draw axes;
+   draw curve;
+   set color red
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+will draw a black curve, not a red curve.  To get black axes and a red
+curve, you could do this:
+<p>
+
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   open "my.dat";
+   read columns x y;
+   draw axes;
+   set color red
+   draw curve;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+The `<code>set</code>' commands are:
+<UL>
+<LI><a href="BuiltinCommands.html#Setarrowsize">Set arrow size</a>: Set size of arrowheads
+<LI><a href="BuiltinCommands.html#Setarrowtype">Set arrow type</a>: Set type of arrowheads
+<LI><a href="BuiltinCommands.html#Setclip">Set clip</a>: Set to clip outside axes range
+<LI><a href="BuiltinCommands.html#Setcolor">Set color</a>: Set color for drawing
+<LI><a href="BuiltinCommands.html#Setcontourformat">Set contour format</a>: Set format for numbers on contours
+<LI><a href="BuiltinCommands.html#Setcontourlabelposition">Set contour label position</a>: Set labelling for contours
+<LI><a href="BuiltinCommands.html#Setdash">Set dash</a>: Set dash characteristics of lines
+<LI><a href="BuiltinCommands.html#Setflag">Set flag</a>: Set a flag
+<LI><a href="BuiltinCommands.html#Setfontencoding">Set font encoding</a>: Set encoding vector for fonts
+<LI><a href="BuiltinCommands.html#Setfontsize">Set font size</a>: Set size of text
+<LI><a href="BuiltinCommands.html#Setfontto">Set font to</a>: Set text font family
+<LI><a href="BuiltinCommands.html#Setgraylevel">Set graylevel</a>: Set brightness of b/w pen
+<LI><a href="BuiltinCommands.html#Setimagecolorscale">Set image colorscale</a>: Set colorscale for color or b/w image
+<LI><a href="BuiltinCommands.html#Setimagerange">Set image range</a>: Set range of user-units in image
+<LI><a href="BuiltinCommands.html#Setlinecap">Set line cap</a>: Set cap for line ends
+<LI><a href="BuiltinCommands.html#Setlinejoin">Set line join</a>: Set join for line intersections
+<LI><a href="BuiltinCommands.html#Setlinewidth">Set line width</a>: Set width of lines
+<LI><a href="BuiltinCommands.html#Setmapprojection">Set map projection</a>: Set map projection
+<LI><a href="BuiltinCommands.html#Setmissingvalue">Set missing value</a>: Set data value to consider "missing"
+<LI><a href="BuiltinCommands.html#Setpage">Set page</a>: Set page orientation
+<LI><a href="BuiltinCommands.html#Setsymbolsize">Set symbol size</a>: Set diameter of symbols
+<LI><a href="BuiltinCommands.html#Setticsize">Set tic size</a>: Set length of major tics on axes
+<LI><a href="BuiltinCommands.html#Settics">Set tics</a>: Set whether axis tics point in or out
+<LI><a href="BuiltinCommands.html#Setuscale">Set u scale</a>: Set scale for x-component of arrows
+<LI><a href="BuiltinCommands.html#Setvscale">Set v scale</a>: Set scale for y-component of arrows
+<LI><a href="BuiltinCommands.html#Setxaxis">Set x axis</a>: Set range and tics on x-axis
+<LI><a href="BuiltinCommands.html#Setxformat">Set x format</a>: Set format for numbers on x-axis
+<LI><a href="BuiltinCommands.html#Setxgrid">Set x grid</a>: Set x characteristics of grid (for contours)
+<LI><a href="BuiltinCommands.html#Setxmargin">Set x margin</a>: Set space to left of axes frame
+<LI><a href="BuiltinCommands.html#Setxname">Set x name</a>: Set name of x variable for axis
+<LI><a href="BuiltinCommands.html#Setxsize">Set x size</a>: Set length of x-axis
+<LI><a href="BuiltinCommands.html#Setxtype">Set x type</a>: Set type of x-axis (linear, log, etc)
+<LI><a href="BuiltinCommands.html#Setyaxis">Set y axis</a>: Set range and tics on y-axis
+<LI><a href="BuiltinCommands.html#Setyformat">Set y format</a>: Set format for numbers on y-axis
+<LI><a href="BuiltinCommands.html#Setygrid">Set y grid</a>: Set y characteristics of grid (for contours)
+<LI><a href="BuiltinCommands.html#Setymargin">Set y margin</a>: Set space below axes frame
+<LI><a href="BuiltinCommands.html#Setyname">Set y name</a>: Set name of y variable for axis
+<LI><a href="BuiltinCommands.html#Setysize">Set y size</a>: Set length of y-axis
+<LI><a href="BuiltinCommands.html#Setytype">Set y type</a>: Set type of y-axis (linear, log, etc)
+</UL>
+<p>
+
+
+
+<!-- @node   Set arrow size, Set arrow type, Set, Set -->
+<a name="Setarrowsize" >
+<h3>4.38.1: `<code>set arrow size</code>' command</h3>
+</a>
+
+
+<p>
+<!-- latex: \index{@code{set arrow size} command} -->
+<!-- latex: \index{@code{set arrow size} command} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   set arrow size $size;                     # style 1
+   set arrow size as $p percent of length;   # style 2
+   set arrow size default;                   # style 3
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+<em>Style 1</em> ---
+set halfwidth of arrowheads (in cm), independent of arrow length.
+<p>
+
+
+<em>Style 2</em> ---
+set so that halfwidth is given percentage of arrow length.
+<p>
+
+
+<em>Style 3</em> ---
+set to default halfwidth of 0.2 cm.
+<p>
+
+
+<!-- @node   Set arrow type, Set clip, Set arrow size, Set -->
+<a name="Setarrowtype" >
+<h3>4.38.2: `<code>set arrow size</code>' command</h3>
+</a>
+
+
+<p>
+<!-- latex: \index{@code{set arrow type} command} -->
+<!-- latex: \index{@code{set arrow type} command} -->
+<!-- latex: \index{@code{arrow, setting type of head}} -->
+<!-- latex: \index{@code{arrow heads, setting type of}} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   set arrow type $t;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+Set type of arrow, according to the value of `<code>$t</code>', rounded to the
+nearest integer.  A rounded `<code>$t</code>' value of 0 yields the default
+arrows, drawn with three line strokes.  Value 1 yields outlined arrows,
+sometimes used on definition sketches.  Value 2 yields filled,
+swept-back arrow heads.
+<p>
+
+This command uses the ``line join'' parameters that are presently active
+see <a href="BuiltinCommands.html#Setlinejoin">Set line join</a>.  So, by default, the arrow ends are rounded
+(because the default line-join parameter is 1).  To get pointy ends,
+first set the line join parameter to 0.
+<p>
+
+
+
+<!-- @node   Set clip, Set color, Set arrow type, Set -->
+<a name="Setclip" >
+<h3>4.38.3: `<code>set clip</code>' command</h3>
+</a>
+
+
+<p>
+<!-- latex: \index{@code{set clip} command} -->
+<!-- latex: \index{@code{set clip} command} -->
+<!-- latex: \index{clipping data} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   set clip on;                        # style 1
+   set clip off;                       # style 2
+   set clip rectangle $xl $xr $yb $yt; # style 3
+   set clip to curve;                  # style 4
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+<em>Style 1</em> ---
+set clip region to axes frame, preventing all drawing commands
+from producing marks outside the frame.  (NOTE: this prevents drawing
+tics, etc, on axes, so be sure to draw axes first if you want them.)
+<p>
+
+
+<em>Style 2</em> ---
+turn clipping off, allowing all non-missing data to be
+drawn.
+<p>
+
+
+<em>Style 3</em> ---
+set to indicated clip rectangle.  The lower-left corner
+is at `<code>$xl,$yb</code>' and the upper-right corner is at `<code>$xr,$yt</code>'.
+<p>
+
+
+<em>Style 4</em> ---
+set clipping path to equal the current curve (as would have been read
+by `<code>read columns</code>' see <a href="BuiltinCommands.html#Readcolumns">Read columns</a>, for example).
+<p>
+
+(Click figure below to see the code that generated it.) 
+
+
+<!-- @node   Set color, Set contour format, Set clip, Set -->
+<a name="Setcolor" >
+<h3>4.38.4: `<code>set color</code>' command</h3>
+</a>
+
+
+<p>
+<!-- latex: \index{@code{set color} command} -->
+<!-- latex: \index{@code{set color} command} -->
+<!-- latex: \index{color, setting} -->
+<!-- latex: \index{rgb, setting color} -->
+<!-- latex: \index{hsv, setting color} -->
+<!-- latex: \index{x11 colordatabase} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   set color $name;                       # style 1
+   set color rgb $red $green $blue;       # style 2
+   set color hsv $hue $saturation $value; # style 3
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+Set color of pen for future drawing, to be used for text, axes, curves,
+contours, etc -- that is, to be used for all items except images.
+<p>
+
+
+<em>Style 1</em> ---
+`<code>$name</code>' is a double-quoted string, or a string-valued
+expression naming the desired color.  This may be a built-in color or one
+defined by a `<code>read colornames</code>' command.  Built-In colors are:
+`<code>white</code>', `<code>LightGray</code>', `<code>darkslategray</code>', `<code>black</code>',
+`<code>red</code>', `<code>brown</code>', `<code>tan</code>', `<code>orange</code>', `<code>yellow</code>',
+`<code>green</code>', `<code>ForestGreen</code>', `<code>cyan</code>', `<code>blue</code>',
+`<code>skyblue</code>', and `<code>magenta</code>'.
+<p>
+
+
+<em>Style 2</em> ---
+the value of `<code>$hue</code>' specifies the color to use,
+`<code>$saturation</code>' the saturation (or purity, or cleanness) of the
+color, and `<code>$value</code>' the value (or brightness).  Each of these
+numbers should be specified within the range of 0 to 1, and are clipped
+to these endpoints if not.  A hue of 0 means red, 1/3 means green, 2/3
+means blue.  Values between 2/3 and 1 blend from magenta back to red,
+and folks find these colors so similar to pure red that a hue range of 0
+to 2/3 is a common choice.  A `<code>$saturation</code>' of 0 means that none of
+the hue is present in the color, and a saturation of 1 means that the
+color is a pure match to the indicated hue.  In painterly terms, one may
+think of `<code>1-$saturation</code>' as indicating the fraction of black paint
+mixed with the chosen hue.  Similarly, in painterly terms, one may think
+of the `<code>$value</code>' parameter as the brightness of the light shone upon
+the chosen color.  A `<code>$value</code>' of 0 is black, regardless of the hue,
+and a value of 1 is as bright as the color can be.  A conventional
+spectrum results with `<code>$hue</code>' varies smoothly between 0 and 1, with
+`<code>$saturation</code>' and `<code>$value</code>' set to 1.
+<p>
+
+
+<em>Style 3</em> ---
+the values of `<code>$red</code>', `<code>$green</code>', and `<code>$blue</code>'
+represent the components of the color, in a so-called additive mixing
+scheme.  (The values are expected to range between 0 and 1 and are
+clipped to these limits if not.)  This scheme is <em>not</em> the
+intuitive scheme corresponding to painting, but rather a somewhat
+counter-intuitive scheme corresponding to mixing light.  Thus, combining
+red and green in equal parts yields yellow (as it does when combining
+filtered lights), not grey (as it does when mixing paints).
+<p>
+
+Many tools are available to help you define colors, including computer
+programs, graphics textbooks, and code-books available at artists shops.
+Note that computer screens and printers often represent colors somewhat
+differently, so if you're after printed output you should do test cases
+on the printer you plan to use.
+<p>
+
+Demonstration of meaning of Hue, Saturation and Value 
+<p> 
+<IMG SRC="./figures/hue_demo.gif" width=459 align=top> 
+<A HREF="./figures/hue_demo.html">hue_demo.gre</A> 
+<p><p> 
+
+Brightness and saturation results for hue of 0.1.<p> 
+<IMG SRC="./figures/HSV_0.1.gif" width=333 align=top> 
+<p><p> 
+
+Brightness and saturation results for hue of 0.666.<p> 
+<IMG SRC="./figures/HSV_0.666.gif" width=333 align=top> 
+<p><p> 
+
+
+<!-- @node   Set contour format, Set contour label position, Set color, Set -->
+<a name="Setcontourformat" >
+<h3>4.38.5: `<code>set contour format</code>' command</h3>
+</a>
+
+
+<p>
+<!-- latex: \index{@code{set contour format} command} -->
+<!-- latex: \index{@code{set contour format} command} -->
+<!-- latex: \index{contours, setting format for numbers} -->
+<!-- latex: \index{format for numbers on contours} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   set contour format $fmt;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+Set format for numbers on contours.  `<code>$fmt</code>' is a double-quoted
+string, or a string-valued expression, specifying the format in C
+notation.  For example `<code>set contour format "%.2f";</code>' means to use
+floating-point notation, with two digits after the decimal point.
+<p>
+
+The default format is `<code>"%g"</code>', which avoids printing unneccessary zeros
+after the decimal point, and switches to exponential notation for very
+large or very small numbers.
+<p>
+
+
+
+
+<!-- @node   Set contour label position, Set dash, Set contour format, Set -->
+<a name="Setcontourlabelposition" >
+<h3>4.38.6: `<code>set contour label position</code>' command</h3>
+</a>
+
+
+<p>
+<!-- latex: \index{@code{set contour label position} command} -->
+<!-- latex: \index{@code{set contour label position} command} -->
+<!-- latex: \index{isopycnals, labelling} -->
+<!-- latex: \index{contours, labelling} -->
+<!-- latex: \index{labelling of contours and isopycnals} -->
+
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   set contour label position $start_cm $between_cm;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+By default, labels on contours are drawn near the location where they
+start (e.g., the boundary), and then at a uniform distance along the
+contour line.  By default, this uniform distance is the average
+dimension of the plotting area inside the axes.  However, if
+`<code>$start_cm</code>' and `<code>$between_cm</code>' are specified, the first label
+is drawn at a distance `<code>start_cm</code>' from the start of the contour,
+and thereafter at a separation of `<code>$between_cm</code>'.
+<p>
+
+The command also controls labelling for the `<code>draw isopycnal</code>'
+command.
+<p>
+
+
+
+<!-- @node   Set dash, Set flag, Set contour label position, Set -->
+<a name="Setdash" >
+<h3>4.38.7: `<code>set dash</code>' command</h3>
+</a>
+
+
+<p>
+<!-- latex: \index{@code{set dash} command} -->
+<!-- latex: \index{@code{set dash} command} -->
+<!-- latex: \index{lines, dashed} -->
+<!-- latex: \index{dashed lines} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   set dash;               # style 1
+   set dash on;            # style 2
+   set dash $type;         # style 3
+   set dash LIST;          # style 4
+   set dash off;           # style 5
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+Control whether lines (for curves, contours, etc) are solid or dashed.
+<p>
+
+
+<em>Style 1</em> ---
+set dash for future line-drawing to 0.4 cm dashes interlaced
+with 0.1 cm blanks.
+<p>
+
+
+<em>Style 2</em> ---
+a synonym for style 1, provided as an easily guessed opposite
+to the style 5.
+<p>
+
+
+<em>Style 3</em> ---
+set to indicated dash type, from list:
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   $type   dash/cm blank/cm
+      0        -        -   ... (Solid line)
+      1      0.2      0.1
+      2      0.4      0.1
+      3      0.6      0.1
+      4      0.8      0.1
+      5      1.0      0.1
+      10      w        w
+      11      w        2w
+      12      w        3w
+      13      w        4w
+      14      w        5w
+      15      w        6w
+</PRE>
+</TD>
+</TR>
+</TABLE>
+In this table `<code>w</code>' indicates the current linewidth.  Thus, types 10
+through 15 give square-dotted lines.
+<p>
+
+
+<em>Style 4</em> ---
+`<code>LIST</code>' is a space-separated list of dash-length and
+blank-length pairs, each in value being measured in centimeters.  For
+example, `<code>set dash 0.5 0.2 0.05 0.2;</code>' creates a dash-and-dot line
+type.  The list may be of any length, although aesthetic considerations
+suggest limiting the length to 4 or 6.
+<p>
+
+
+<em>Style 5</em> ---
+revert to a solid line.
+<p>
+
+
+<!-- @node   Set flag, Set font encoding, Set dash, Set -->
+<a name="Setflag" >
+<h3>4.38.8: `<code>set flag</code>' command</h3>
+</a>
+
+
+<p>
+<!-- latex: \index{@code{set flag} command} -->
+<!-- latex: \index{@code{set flag} command} -->
+<!-- latex: \index{flags, setting} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   set flag $name;         # style 1
+   set dash $name on;      # style 2
+   set dash $name off;     # style 2
+   
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+<em>Style 1</em> ---
+set indicated flag on, e.g. `<code>set flag "kelley";</code>'.
+<p>
+
+<em>Style 2</em> ---
+set indicated flag on.
+<p>
+
+<em>Style 3</em> ---
+set indicated flag off.
+<p>
+
+NOTE: flags are used mainly by the author for internal debugging.
+<p>
+
+
+<!-- @node   Set font encoding, Set font size, Set flag, Set -->
+<a name="Setfontencoding" >
+<h3>4.38.9: `<code>set font encoding</code>' command</h3>
+</a>
+
+
+<p>
+<!-- latex: \index{@code{set font encoding} command} -->
+<!-- latex: \index{@code{set font encoding} command} -->
+<!-- latex: \index{font encoding vector } -->
+<!-- latex: \index{accented characters in text} -->
+<!-- latex: \index{non-English languages} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   set font encoding standard|isolatin1
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+Permits one to control the so-called ``font encoding'' used in text.
+The default encoding, `<code>isolatin1</code>', for the ISO-Latin-1 encoding, is
+preferred for almost all applications.  It permits Gri to handle both
+English text and various European-based languages which use accents.
+<p>
+
+The default font encoding is ISO-Latin-1.  This is ideal for English and
+other European languages.  To learn how to enter accents in a text
+editor, and for a very brief overview of font encodings 
+see <a href="Grammar.html#EnteringText">Entering Text</a>.
+<p>
+
+If the so-called ``standard'' font encoding is required, this command
+permits changing the encoding.
+<p>
+
+Note: very few users will ever need this command.  If you don't even
+know what ``font encoding'' is about, ignore this command!
+<p>
+
+
+
+
+<!-- @node   Set font size, Set font to, Set font encoding, Set -->
+<a name="Setfontsize" >
+<h3>4.38.10: `<code>set font size</code>' command</h3>
+</a>
+
+
+<p>
+<!-- latex: \index{@code{set font size} command} -->
+<!-- latex: \index{@code{set font size} command} -->
+<!-- latex: \index{text, setting font size} -->
+<!-- latex: \index{setting font size} -->
+<!-- latex: \index{font size, setting} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   set font size $size|default;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+Set to indicated font size, in pt, and store this value in the built-in
+variable `<code>$_font_size</code>'.  If this command is not executed, or if the
+keyword `<code>default</code>' is given, the default font size of 12 pt is used.
+<p>
+
+The metrics for a given string are accessible with the functions
+`<code>text_ascent</code>', `<code>text_descent</code>', and `<code>text_width</code>'
+see <a href="Grammar.html#Builtinfunctionsthattakeoneargument">Builtin functions that take one argument</a>.
+<p>
+
+<!-- @node   Set font to, Set graylevel, Set font size, Set -->
+<a name="Setfontto" >
+<h3>4.38.11: `<code>set font to</code>' command</h3>
+</a>
+
+
+<p>
+<!-- latex: \index{@code{set font to} command} -->
+<!-- latex: \index{@code{set font to} command} -->
+<!-- latex: \index{setting font} -->
+<!-- latex: \index{font, setting} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   set font to $name;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+
+Set to the indicated font family indicated by `<code>$name</code>', which may be
+either a double-quoted string or an expression that evaluates to a
+string.  Available fonts:
+<!-- latex: \index{fonts, list of available} -->
+<!-- latex: \index{courier font} -->
+<!-- latex: \index{helvetica font} -->
+<!-- latex: \index{timesRoman font} -->
+<!-- latex: \index{palatino font} -->
+<!-- latex: \index{symbol font} -->
+<!-- latex: \index{zapfChancery font} -->
+`<code>Courier</code>', a typewriter font (and the only monospaced font in Gri);
+`<code>Helvetica</code>' (the default), a sans-serif font commonly used in drafting scientific graphs;
+`<code>HelveticaBold</code>', a bold version of Helvetica;
+`<code>Times</code>' (also called `<code>TimesRoman</code>'), a font used in most newspapers;
+`<code>TimesBold</code>', a bold version of Times;
+`<code>Palatino</code>' (also called `<code>PalatinoRoman</code>'), similar to Times;
+`<code>PalatinoRoman</code>' (same as `<code>Palatino</code>');
+`<code>PalatinoBold</code>' (bold version of `<code>Palatino</code>');
+`<code>ZapfChancery</code>', similar to the TeX caligraphic font;
+`<code>Symbol</code>', included for completeness, is a
+mathematical font in which "a" becomes $\alpha$ of the math mode, etc.
+For reference on these fonts see any book on PostScript or typesetting.
+<p>
+
+If this command is not executed, the default font of `<code>Helvetica</code>' is
+used for all text.
+<p>
+
+
+
+<!-- @node   Set graylevel, Set image colorscale, Set font to, Set -->
+<a name="Setgraylevel" >
+<h3>4.38.12: `<code>set graylevel</code>' command</h3>
+</a>
+
+
+<p>
+<!-- latex: \index{@code{set graylevel} command} -->
+<!-- latex: \index{@code{set graylevel} command} -->
+<!-- latex: \index{pen color, setting in black/white} -->
+<!-- latex: \index{graylevel of pen} -->
+<!-- latex: \index{color of pen, in black/white} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   set graylevel $brightness;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+Set the brightness of the black/white pen to the indicated value, 0
+meaning a black pen (no brightness) and 1 meaning a white pen.  This
+applies to text, lines, symbols, axes, etc, but not to images.
+<p>
+
+Also, store indicated brightness in built-in variable
+`<code>$_graylevel</code>'.
+<p>
+
+Note: if your diagram is to be reproduced by a journal, it is unlikely
+that the reproduction will be able to distinguish between any two
+graylevels which differ by less than 0.2.  Also, graylevels less than
+0.2 may appear as pure black, while those of 0.8 or more may appear as
+pure white.  These guidelines are as specified by American Geophysical
+Union (publishers of J. Geophysical Res.), as of 1997.
+<p>
+
+
+
+<!-- @node   Set image colorscale, Set image range, Set graylevel, Set -->
+<a name="Setimagecolorscale" >
+<h3>4.38.13: `<code>set image colorscale</code>' command</h3>
+</a>
+
+
+<p>
+<!-- latex: \index{@code{set image colorscale} command} -->
+<!-- latex: \index{image, colorscale} -->
+<!-- latex: \index{colorscale of image} -->
+<!-- latex: \index{setting image colorscale} -->
+<!-- latex: \index{setting colorscale of image} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   set image colorscale hsv $h $s $v $low hsv $h $s $v $high
+   set image colorscale hsv $h $s $v $low hsv $h $s $v $high [increment $inc]
+   set image colorscale rgb $r $g $b $low rgb $r $g $b $high
+   set image colorscale rgb $r $g $b $low rgb $r $g $b $high [increment $inc]
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+(Actually, you can mix and match `<code>hsv</code>' (hue, saturation, value)
+and `<code>rgb</code>' (red, green, blue) color specifications, but most users
+stick to one or the other, as illustrated above.)
+<p>
+
+
+Set colorscale mapping for image, using HSB (hue, saturation,
+brightness) specification, RGB (red, green, blue) color specification,
+or named colors.  The image range must have previously have been set by
+`<code>set image range</code>', so that the `<code>.im_value.</code>' values will have
+meaning.  Two pairs of (color, image-value) are given, and possibly an
+increment.  Normally the colors are smoothly blended between the
+endpoints, but if an increment is supplied, the colors are quantized.
+The HSB method allows creation of spectral palettes, while the other two
+methods create simple blending between the two endpoints.
+<p>
+
+EG: To get a spectrum ranging between pure red (H=0) for image value of
+-10.0, and pure blue (H=2/3) for image value of 10.0, do this:
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   set image colorscale hsb 0 1 1 -10 hsb .666 1 1 10;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+To do the above, but with 10 quantized colors, do
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   set image colorscale hsb 0 1 1 -10 hsb .666 1 1 10 increment 2;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+<!-- @node   Set image range, Set line cap, Set image colorscale, Set -->
+<a name="Setimagerange" >
+<h3>4.38.14: `<code>set image range</code>' command</h3>
+</a>
+
+
+<p>
+<!-- latex: \index{@code{set image range} command} -->
+<!-- latex: \index{@code{set image range} command} -->
+<!-- latex: \index{image, setting range} -->
+<!-- latex: \index{range of images, setting} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   set image range $min $max;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+Specify maximum possible range of values that images can hold, in user
+units.  Gri needs to know this because it stores images in a limited
+format capable of holding only 256 distinct values.  Unlike some other
+programs, Gri encourages (forces) the user to specify things in terms of
+user-units, not image-units.  This has the advantage of working
+regardless of the number of bits per pixel.  Thus, for example,
+`<code>set image grayscale</code>', `<code>set image colorscale</code>', `<code>draw image grayscale</code>', etc, all use *user* units.
+<p>
+
+When an image is created by `convert grid to image', values outside the
+range spanned by `<code>$min</code>' and `<code>$max</code>' are clipped.  (There is no
+need, however, for `<code>$min</code>' to be less than `<code>$max</code>'.)  This
+clipping discards information, so make sure the range you give is larger
+than the range of data in the grid.
+<p>
+
+EXAMPLE: consider a satellite image in which an internal value of 0 is
+meant to correspond to 0 degrees Celsius, and an internal value of 255
+corresponds to 25.5 degrees.  (This is a common scale.)  Then Gri
+command `<code>set image range 0 25.5;</code>' would establish the required
+range.
+<p>
+
+If this range were combined with a linear grayscale mapping (see
+`<code>set image grayscale</code>'), the resultant granularity in the internal
+representation of the user values would be (25.5-0)/255 or 0.1 degrees
+Celsius; temperature variations from pixel to pixel which were less than
+0.1 degrees would be lost.
+    
+All other image commands *require* that the range has been set.  These
+commands fail unless `<code>set image range</code>' has been done:
+`<code>draw image</code>', `<code>draw image palette</code>', `<code>read image</code>',
+`<code>convert grid to image</code>', `<code>set image grayscale</code>', and
+`<code>set image colorscale</code>'. 
+    
+NOTE: If a range already exists when `<code>set image range</code>' is used,
+then the settings are altered.  Thoughtless usage can therefore lead to
+confusing results.  (The situation is like setting an axis scale,
+plotting a curve with no axes, then altering the scale and plotting the
+new axes.  It's legal but not necessarily smart.)
+<p>
+
+
+
+
+<!-- @node   Set line cap, Set line join, Set image range, Set -->
+<a name="Setlinecap" >
+<h3>4.38.15: `<code>set line cap</code>' command</h3>
+</a>
+
+
+<p>
+<!-- latex: \index{@code{set line cap} command} -->
+<!-- latex: \index{@code{set line cap} command} -->
+<!-- latex: \index{setting line cap} -->
+<!-- latex: \index{ends of lines, drawing} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   set line cap {square butt}|{round overhang}|{square overhang};
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+Set the type of ends (caps) of lines.  The `<code>square butt</code>' style cuts
+the lines off at right angles, exactly at the ends of the lines.  The
+`<code>round overhang</code>' adds a semicircular "cap" at the end of the line;
+this cap overhangs the end of the line by half a line width.  The
+`<code>square overhang</code>' style is similar, except that the cap is square.
+<p>
+
+The default is `<code>square butt</code>'.  (Doesn't that sound delightful?)
+<p>
+
+The selected style is used for the ends of line segments, as well as at
+corners.  In PostScript parlance, therefore, this command sets both the
+linecap and the linejoin parameters.
+<p>
+
+This command only applies to lines drawn with `<code>draw curve</code>',
+`<code>draw line</code>' and `<code>draw polygon</code>'.  Axes and arrows are always
+drawn with a line cap of `<code>square butt</code>'.
+<p>
+
+
+<!-- @node   Set line join, Set line width, Set line cap, Set -->
+<a name="Setlinejoin" >
+<h3>4.38.16: `<code>set line join</code>' command</h3>
+</a>
+
+
+<p>
+<!-- latex: \index{@code{set line join} command} -->
+<!-- latex: \index{@code{set line join} command} -->
+<!-- latex: \index{setting line join} -->
+<!-- latex: \index{intersections of lines, drawing} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   set line join mitered|round|bevelled;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+Set the type of intersection of lines.  Mitered joins have pointed ends
+that may extend beyond the data points.  Rounded ends are rounded off
+nicely, as though the line segments were drawn continuously with a round
+pen.  (This is the default, so that the lines look as they they were
+drawn with a round technical fountain pen.)  Bevelled ends are squared
+off at intersections.  See the `<code>setlinejoin</code>' command in any text on
+the PostScript language for more information.
+<p>
+
+This command only applies to lines drawn with `<code>draw curve</code>',
+`<code>draw line</code>' and `<code>draw polygon</code>'.  Note, though, that axes and
+arrows are always drawn with a mitered line joins, whether you call this
+command or not.
+<p>
+
+
+
+<!-- @node   Set line width, Set map projection, Set line join, Set -->
+<a name="Setlinewidth" >
+<h3>4.38.17: `<code>set line width</code>' command</h3>
+</a>
+
+
+<p>
+<!-- latex: \index{@code{set line width} command} -->
+<!-- latex: \index{@code{set line width} command} -->
+<!-- latex: \index{setting line width} -->
+<!-- latex: \index{line width, setting} -->
+<!-- latex: \index{rapidograph line widths} -->
+<!-- latex: \index{aesthics, of line widths} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   set line width [axis|symbol|all] $w|{rapidograph $name}|default;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+Set width of lines for future drawing commands.  If the option
+`<code>axis</code>' is given, set the width for lines and tics on axes.  If the
+option `<code>symbol</code>' is given, set width for lines in symbols.  If the
+option `<code>all</code>' is given, set width for curves, axes, and symbols.
+The default, with these options not specified, is to set the width for
+`<code>draw curve</code>' and `<code>draw line</code>' only.
+<p>
+
+The width may be specified numerically with `<code>$w</code>', in the
+typographic units known as points (72 pt = 1 inch).  The default value
+for curves, used if this command is never called, or used if the
+`<code>default</code>' option is used, is 0.709 points.
+<p>
+
+Alternately, the pen width may be specified as one of several widths
+used for technical drawing pens.  One popular series of these pens is
+called `<code>rapidograph</code>', and that keyword is used to preface a name
+from the following list.  The name should be enclosed in double-quotes,
+although this is not strictly necessary unless it contains the symbol
+`<code>x</code>'.
+<p>
+
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+         Name      pt    cm
+         ====    =====  =====
+       * "6x0"   0.369  0.013
+       * "4x0"   0.510  0.018
+       * "3x0"   0.709  0.025
+          "00"   0.850  0.03
+       *   "0"   0.992  0.035
+       *   "1"   1.417  0.05
+           "2"   1.701  0.06
+       * "2.5"   1.984  0.07
+           "3"   2.268  0.08
+       * "3.5"   2.835  0.1
+           "4"   3.402  0.12
+       *   "6"   3.969  0.14
+       *   "7"   5.669  0.2
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+Names marked by the symbol `<code>*</code>' are in sequence with width
+increasing by a factor of root(2).  Texts on technical drawing often
+suggest distinguishing different curves by using linewidths in the ratio
+of 2 or root(2).  The eye can distinguish curves with linewidths
+differing by a factor of root(2) if the image is of high quality, but a
+factor of 2 is sometimes better for publication.  For material to be
+projected (e.g. slides) youi might prefer to use linewidths differing by
+a factor of 4.
+<p>
+
+If `<code>set line width</code>' is not executed `<code>gre</code>' uses 0.709 points
+(aka `<code>rapidograph "3x0"</code>').  The pen width is stored in the built-in
+variable `<code>$_linewidth</code>', which is updated if this command is
+executed.
+<p>
+
+
+
+<!-- @node   Set map projection, Set missing value, Set line width, Set -->
+<a name="Setmapprojection" >
+<h3>4.38.18: `<code>set map projection</code>' command</h3>
+</a>
+
+
+<p>
+<!-- latex: \index{@code{set map projection} command} -->
+<!-- latex: \index{@code{set map projection} command} -->
+<!-- latex: \index{@code{projection} of maps} -->
+<!-- latex: \index{maps, setting coordinate system} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   set map projection "...";                     # style 1
+   set map projection EXPR;                      # style 2
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+Set up coordinate system (i.e. projection) to be used for drawing maps.
+The arguments are those that would be used for the standalone
+`<code>proj</code>' system command (see below).
+<p>
+
+
+<em>Style 1</em> ---
+the contents of the double-quoted string are the command
+that is to be used with the `<code>proj</code>' mapping program, from USGS.  All
+the `<code>+</code>' arguments to `<code>proj</code>' are allowed, as well as the
+`<code>-m factor</code>' command, but no other `<code>-</code>' arguments are allowed.
+If you need double-quote marks in your command to `<code>proj</code>', preface
+them with a backslash (see examples below).
+<p>
+
+
+<em>Style 2</em> ---
+as style 1 but the `<code>EXPR</code>' is a string-valued
+expression to be passed to `<code>proj</code>'.
+<p>
+
+
+<!-- latex: \index{proj, original source at USGS} -->
+`<code>proj</code>' is a general and very powerful standalone package,
+not a standard part of unix, developed by the United States
+Geological Survey.  A web-page for `<code>proj</code>' is
+<a href="http://kai.er.usgs.gov/intro/MAPGENdetails.html"> 
+http://kai.er.usgs.gov/intro/MAPGENdetails.html
+</a> 
+The `<code>proj</code>' package is available via ftp at 
+<a href=ftp://kai.er.usgs.gov/pub/PROJ.4/PROJ.4.3.3.tar.gz> 
+`<samp>ftp://kai.er.usgs.gov/pub/PROJ.4/PROJ.4.3.3.tar.gz</samp>'.
+</a>  
+Also see the site
+<a href="http://www.remotesensing.org/proj"> 
+http://www.remotesensing.org/proj
+</a> 
+<p>
+
+Other relevant materials in the PROJ directory
+<a href=ftp://kai.er.usgs.gov/pub/PROJ.4> 
+`<samp>ftp://kai.er.usgs.gov/pub/PROJ.4</samp>'
+</a>  
+include several manuals on map projections, which detail the development
+of PROJ.  Unofficial mirror sites for PROJ exist at several locations; a
+web-search for PROJ4 will uncover these.  Also, the excellent USGS site
+is worth perusing, for its own sake.
+<p>
+
+The projection set up by `<code>set map projection</code>' establishes a linkage
+between geographical world coordinates (i.e., lon/lat coordinates, in
+degrees East and degrees North) and geometrical, or distance,
+coordinates.  The geometrical coordinates are in meters by default,
+although `<code>set map projection</code>' lets you select any unit you desire.
+<p>
+
+See the manual provided with the `<code>proj</code>' program for details about
+the projections that are available.  An excellent text on map
+projections is by John P. Snyder (1987), "Map projections - a working
+manual", published by the United States Geological Service as
+professional paper 1395.
+<p>
+
+In `<code>gre</code>' the `<code>set map projection</code>' command imposes itself on all
+drawing commands that are not specified in centimeter coordinates.
+<em>Bugs: (1) images are not projected yet; (2) contours are not supported yet.</em>
+<p>
+
+Two subroutines
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   proj_lonlat_to_x($lon, $lat)
+   proj_lonlat_to_y($lon, $lat)
+</PRE>
+</TD>
+</TR>
+</TABLE>
+are provided for use in calculations, should the geometrical coordinates
+be needed for any reason see <a href="Grammar.html#Builtinfunctionsformapprojections">Builtin functions for map projections</a>.
+The first returns the x-coordinate, the second the y-coordinate.
+<p>
+
+As ususal in `<code>gre</code>', the `<code>set map projection</code>' command acts only on
+<em>subsequent</em> drawing commands.  If you do a `<code>draw curve</code>'
+command before `<code>set map projection</code>', the curve will be in lon/lat
+coordinates, not geometrical coordinates.
+<p>
+
+Subsequent `<code>set map projection</code>' command override each other.  To
+turn the transformation off completely, simply use an empty string, as
+follows:
+<p>
+
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   proj ""; # turn projection off
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+Examples:
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   # Use Lambert Conformal Conic projection, with intersection
+   # latitudes lat_1=43N and lat_2=49N, matching charts of
+   # Atlantic Canada prepared by the Canadian hydrographic
+   # service.
+   #
+   # Center the map near Halifax (lon_0,lat_0)=(63w, 44n).
+   #
+   # Arrange to have geometrical units be in kilometers, by
+   # the -m command.
+   $p="+ellps=clrk66 +proj=lcc +lon_0=63w +lat_0=44 +lat_1=43 +lat_2=49 -m 1:1000";
+   set map projection $p;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+The cookbook provides a full example see <a href="Cookbook.html#Cookbook">Cookbook</a>.
+<p>
+
+
+
+
+
+
+<!-- @node   Set missing value, Set page, Set map projection, Set -->
+<a name="Setmissingvalue" >
+<h3>4.38.19: `<code>set missing value</code>' command</h3>
+</a>
+
+
+<p>
+<!-- latex: \index{@code{set missing value} command} -->
+<!-- latex: \index{@code{set missing value} command} -->
+<!-- latex: \index{setting missing value} -->
+<!-- latex: \index{missing value, setting} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   set missing value $m;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+Notify `<code>gre</code>' that any data with the indicated value (`<code>$m</code>') is to
+be considered missing, and therefore not plotted, nor used in
+e.g. conversion of column data to a grid for contouring.
+<p>
+
+
+
+<!-- @node   Set page, Set symbol size, Set missing value, Set -->
+<a name="Setpage" >
+<h3>4.38.20: `<code>set page</code>' command</h3>
+</a>
+
+
+<p>
+<!-- latex: \index{@code{set page} command} -->
+<!-- latex: \index{@code{set page} command} -->
+<!-- latex: \index{setting page orientation} -->
+<!-- latex: \index{setting orientation of page} -->
+<!-- latex: \index{orientation of page, setting} -->
+<!-- latex: \index{portrait orientation of page, setting} -->
+<!-- latex: \index{landscape orientation of page, setting} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   set page "landscape";    # style 1
+   set page "portrait";     # style 2
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+Set page orientation to "landscape" (sideways) or "portrait" (upright,
+the default).  This <em>must</em> be done before any other drawing
+commands.
+<p>
+
+
+
+<!-- @node   Set symbol size, Set tic size, Set page, Set -->
+<a name="Setsymbolsize" >
+<h3>4.38.21: `<code>set symbol size</code>' command</h3>
+</a>
+
+
+<p>
+<!-- latex: \index{@code{set symbol size} command} -->
+<!-- latex: \index{@code{set symbol size} command} -->
+<!-- latex: \index{setting symbol size} -->
+<!-- latex: \index{symbols, setting size} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   set symbol size $radius; # style 1
+   set symbol size default; # style 2
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+Set diameter of symbols to indicated radius, in centimeters, storing the
+value in the variable `<code>_symbol_size</code>'.  The default value is 0.1 cm.
+<p>
+
+
+
+<!-- @node   Set tic size, Set tics, Set symbol size, Set -->
+<a name="Setticsize" >
+<h3>4.38.22: `<code>set tic size</code>' command</h3>
+</a>
+
+
+<p>
+<!-- latex: \index{@code{set tic size} command} -->
+<!-- latex: \index{@code{set tic size} command} -->
+<!-- latex: \index{setting tic length} -->
+<!-- latex: \index{tics, on axes, setting length} -->
+<!-- latex: \index{axis, tic length} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   set tic size $w;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+Set axis major tics to indicated length in cm (default 0.2 cm), and
+store this value in built-in variable `<code>$_tic_size</code>'.  The minor tics
+are half this length.
+<p>
+
+
+
+
+<!-- @node   Set tics, Set u scale, Set tic size, Set -->
+<a name="Settics" >
+<h3>4.38.23: `<code>set tics</code>' command</h3>
+</a>
+
+
+<p>
+<!-- latex: \index{@code{set tics} command} -->
+<!-- latex: \index{@code{set tics} command} -->
+<!-- latex: \index{setting tic direction} -->
+<!-- latex: \index{axis, tic direction} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   set tics in;
+   set tics out;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+Control whether tics on axes point inward into plot are or outward into
+margin (latter being the default).  Also, store built-in variable
+`<code>$_tic_direction</code>' as 1 to point inward and 0 to point outward.
+<p>
+
+
+
+
+<!-- @node   Set u scale, Set v scale, Set tics, Set -->
+<a name="Setuscale" >
+<h3>4.38.24: `<code>set u scale</code>' command</h3>
+</a>
+
+
+<p>
+<!-- latex: \index{@code{set u scale} command} -->
+<!-- latex: \index{@code{set u scale} command} -->
+<!-- latex: \index{setting scale for x-component of arrows} -->
+<!-- latex: \index{arrows, setting scale} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   set u scale $cm_per_unit;           # style 1
+   set u scale as x;                   # style 2
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+Set scale for x-component of arrows as drawn by `<code>draw arrows</code>'
+see <a href="BuiltinCommands.html#Drawarrows">Draw arrows</a>.
+<p>
+
+
+<em>Style 1</em> ---
+set length of the arrow x-component per a unit of `<code>u</code>',
+independently of the scale of the x-axis.
+<p>
+
+
+<em>Style 2</em> ---
+set scale of arrow x-component to match whatever scale is being
+used for the x-axis, creating a `natural' scale.  Thus, deforming the
+axes (e.g. squashing them by reducing width of x-axis) deforms the
+arrows correspondingly.
+<p>
+
+
+<!-- @node   Set v scale, Set x axis, Set u scale, Set -->
+<a name="Setvscale" >
+<h3>4.38.25: `<code>set v scale</code>' command</h3>
+</a>
+
+
+<p>
+<!-- latex: \index{@code{set v scale} command} -->
+<!-- latex: \index{@code{set v scale} command} -->
+<!-- latex: \index{setting scale for y-component of arrows} -->
+<!-- latex: \index{arrows, setting scale} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   set v scale $cm_per_unit;           # style 1
+   set u scale as y;                   # style 2
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+Set scale for y-component of arrows as drawn by `<code>draw arrows</code>'
+see <a href="BuiltinCommands.html#Drawarrows">Draw arrows</a>.
+<p>
+
+
+<em>Style 1</em> ---
+set length of the arrow y-component per a unit of `<code>u</code>',
+independently of the scale of the y-axis.
+<p>
+
+
+<em>Style 2</em> ---
+set scale of arrow y-component to match whatever scale is being
+used for the y-axis, creating a `natural' scale.  Thus, deforming the
+axes (e.g. squashing them by increasing height of y-axis) deforms the
+arrows correspondingly.
+<p>
+
+
+
+<!-- @node   Set x axis, Set x format, Set v scale, Set -->
+<a name="Setxaxis" >
+<h3>4.38.26: `<code>set x axis</code>' command</h3>
+</a>
+
+
+<p>
+<!-- latex: \index{@code{set x axis} command} -->
+<!-- latex: \index{@code{set x axis} command} -->
+<!-- latex: \index{axes, setting x range} -->
+<!-- latex: \index{x axis, setting} -->
+<!-- latex: \index{increasing, x axis} -->
+<!-- latex: \index{decreasing, x axis} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   set x axis $left $right;                               # style 1
+   set x axis $left $right $inc_labelled;                 # style 2
+   set x axis $left $right $inc_labelled $inc_unlabelled; # style 3
+   set x axis decreasing;                                 # style 4
+   set x axis increasing;                                 # style 5
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+
+Establish the x-coordinate system, taking into account current x margin
+see <a href="BuiltinCommands.html#Setxmargin">Set x margin</a>, and 
+axis-length see <a href="BuiltinCommands.html#Setxsize">Set x size</a>.  Note that the
+axes are not drawn by this command see <a href="BuiltinCommands.html#Drawaxes">Draw axes</a>.
+<p>
+
+
+<em>Style 1</em> ---
+Instruct `<code>gre</code>' that the left end of the x axis shall represent an
+x-value of `<code>$left</code>' in user-units, and that the right end shall
+represent an x-value of `<code>$right</code>' in user-units.
+<p>
+
+
+<em>Style 2</em> ---
+As Style 1, but also instruct `<code>gre</code>' to draw labelled tic marks at any
+integral multiples of `<code>inc_labelled</code>' that fall into the domain set
+by `<code>$left</code>' and `<code>$right</code>'.
+<p>
+
+
+<em>Style 3</em> ---
+As Style 3, but furthermore instruct `<code>gre</code>' to draw unlabelled tic
+marks at integral multiples of `<code>inc_unlabelled</code>'.
+<p>
+
+
+<em>Style 4</em> ---
+Inform `<code>gre</code>' that the values on the x axis are to decrease to the
+right, in the case that `<code>gre</code>' will later be auto-scaling.
+<p>
+
+
+<em>Style 5</em> ---
+Inform `<code>gre</code>' that the values on the x axis are to decrease to the
+right, in the case that `<code>gre</code>' will later be auto-scaling.  This is the
+default.
+<p>
+
+
+<!-- @node   Set x format, Set x grid, Set x axis, Set -->
+<a name="Setxformat" >
+<h3>4.38.27: `<code>set x format</code>' command</h3>
+</a>
+
+
+<p>
+<!-- latex: \index{@code{set x format} command} -->
+<!-- latex: \index{@code{set x format} command} -->
+<!-- latex: \index{axes, setting format for numbers} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   set x format $fmt;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+Set format for numbers along x-axis.  `<code>$fmt</code>' is a double-quoted
+string, or a string-valued expression, specifying the format in C
+notation.  For example `<code>set x format "%.2f";</code>' means to use
+floating-point notation, with two digits after the decimal point, and
+`<code>"%f m"</code>' might be used if the unit on the axis was meters.
+<p>
+
+The default format is `<code>"%g"</code>', which avoids printing unneccessary zeros
+after the decimal point, and switches to exponential notation for very
+large or very small numbers.
+<p>
+
+
+<!-- @node   Set x grid, Set x margin, Set x format, Set -->
+<a name="Setxgrid" >
+<h3>4.38.28: `<code>set x grid</code>' command</h3>
+</a>
+
+
+<p>
+<!-- latex: \index{@code{set x grid} command} -->
+<!-- latex: \index{@code{set x grid} command} -->
+<!-- latex: \index{grid, setting x-characteristics} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   set x grid $left $right $inc;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+Set characteristics of x-component of grid used for contouring.
+<p>
+
+
+
+<!-- @node   Set x margin, Set x name, Set x grid, Set -->
+<a name="Setxmargin" >
+<h3>4.38.29: `<code>set x margin</code>' command</h3>
+</a>
+
+
+<p>
+<!-- latex: \index{@code{set x margin} command} -->
+<!-- latex: \index{@code{set x margin} command} -->
+<!-- latex: \index{axes, setting x margin} -->
+<!-- latex: \index{margin to left of axes} -->
+<!-- latex: \index{left margin} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   set x margin $space;    # style 1
+   set x margin default;   # style 2
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+<em>Style 1</em> ---
+set x-margin (i.e. the space to left of axes frame) to
+indicated value, in cm.
+<p>
+
+
+<em>Style 2</em> ---
+set x-margin to default of 6 cm.
+<p>
+
+
+
+
+<!-- @node   Set x name, Set x size, Set x margin, Set -->
+<a name="Setxname" >
+<h3>4.38.30: `<code>set x name</code>' command</h3>
+</a>
+
+
+<p>
+<!-- latex: \index{@code{set x name} command} -->
+<!-- latex: \index{@code{set x name} command} -->
+<!-- latex: \index{axes, setting x name} -->
+<!-- latex: \index{x, name of axis} -->
+<!-- latex: \index{name of x-axis} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   set x name $name;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+Set name to be written beside x-axis.  The name is either a
+double-quoted string or an expression that evaluates to a string.
+<p>
+
+
+<!-- @node   Set x size, Set x type, Set x name, Set -->
+<a name="Setxsize" >
+<h3>4.38.31: `<code>set x size</code>' command</h3>
+</a>
+
+
+<p>
+<!-- latex: \index{@code{set x size} command} -->
+<!-- latex: \index{@code{set x size} command} -->
+<!-- latex: \index{axes, setting length of x-axis} -->
+<!-- latex: \index{setting length of x-axis} -->
+<!-- latex: \index{x, setting length axis} -->
+<!-- latex: \index{length of x-axis} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   set x size $length;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+Set length of x-axis, in cm.  If this command is not used, a default
+size of 10 cm will be used.  The specified size is stored in the built-in
+variable `<code>$_xsize</code>'.
+<p>
+
+
+<!-- @node   Set x type, Set y axis, Set x size, Set -->
+<a name="Setxtype" >
+<h3>4.38.32: `<code>set x type</code>' command</h3>
+</a>
+
+
+<p>
+<!-- latex: \index{@code{set x type} command} -->
+<!-- latex: \index{@code{set x type} command} -->
+<!-- latex: \index{axes, setting type of x-axis} -->
+<!-- latex: \index{setting type of x-axis} -->
+<!-- latex: \index{x-axis, setting type} -->
+<!-- latex: \index{linear x-axis} -->
+<!-- latex: \index{log x-axis} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   set x type linear;
+   set x type log;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+Set x-axis type to indicated style.  It is an error to try to convert to
+a log axis if the previously defined axis spans non-positive numbers.
+This may occur for autoscaled axes, even if all the data are positive.
+You should set the axis type to `<code>log</code>' before reading data or
+setting the axis (<a href="BuiltinCommands.html#Setxaxis">Set x axis</a>).
+<p>
+
+
+
+
+<!-- @node   Set y axis, Set y format, Set x type, Set -->
+<a name="Setyaxis" >
+<h3>4.38.33: `<code>set y axis</code>' command</h3>
+</a>
+
+
+<p>
+<!-- latex: \index{@code{set y axis} command} -->
+<!-- latex: \index{@code{set y axis} command} -->
+<!-- latex: \index{axes, setting y range} -->
+<!-- latex: \index{y axis, setting} -->
+<!-- latex: \index{increasing, y axis} -->
+<!-- latex: \index{decreasing, y axis} -->
+
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   set y axis $bottom $top;                               # style 1
+   set y axis $bottom $top $inc_labelled;                 # style 2
+   set y axis $bottom $top $inc_labelled $inc_unlabelled; # style 3
+   set y axis decreasing;                                 # style 4
+   set y axis increasing;                                 # style 5
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+Establish the y-coordinate system, taking into account current y margin
+see <a href="BuiltinCommands.html#Setymargin">Set y margin</a>, 
+and axis-length see <a href="BuiltinCommands.html#Setysize">Set y size</a>.  Note that the
+axes are not drawn by this command see <a href="BuiltinCommands.html#Drawaxes">Draw axes</a>.
+<p>
+
+
+<em>Style 1</em> ---
+Instruct `<code>gre</code>' that the bottom end of the y axis shall represent an
+y-value of `<code>$bottom</code>' in user-units, and that the top end shall
+represent an y-value of `<code>$top</code>' in user-units.
+<p>
+
+
+<em>Style 2</em> ---
+As Style 1, but also instruct `<code>gre</code>' to draw labelled tic marks at any
+integral multiples of `<code>inc_labelled</code>' that fall into the domain set
+by `<code>$left</code>' and `<code>$right</code>'.
+<p>
+
+
+<em>Style 3</em> ---
+As Style 3, but furthermore instruct `<code>gre</code>' to draw unlabelled tic
+marks at integral multiples of `<code>inc_unlabelled</code>'.
+<p>
+
+
+<em>Style 4</em> ---
+Inform `<code>gre</code>' that the values on the y axis are to decrease upwards, in
+the case that `<code>gre</code>' will later be auto-scaling.
+<p>
+
+
+<em>Style 5</em> ---
+Inform `<code>gre</code>' that the values on the y axis are to increase upwards, in
+the case that `<code>gre</code>' will later be auto-scaling.  This is the default.
+<p>
+
+
+<!-- @node   Set y format, Set y grid, Set y axis, Set -->
+<a name="Setyformat" >
+<h3>4.38.34: `<code>set y format</code>' command</h3>
+</a>
+
+
+<p>
+<!-- latex: \index{@code{set y format} command} -->
+<!-- latex: \index{@code{set y format} command} -->
+<!-- latex: \index{axes, setting format for numbers} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   set y format $fmt;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+Set format for numbers along y-axis.  `<code>$fmt</code>' is a double-quoted
+string, or a string-valued expression, specifying the format in C
+notation.  For example `<code>set y format "%.2f";</code>' means to use
+floating-point notation, with two digits after the decimal point, and
+`<code>"%f m"</code>' might be used if the unit on the axis was meters.
+<p>
+
+The default format is `<code>"%g"</code>', which avoids printing unneccessary
+zeros after the decimal point, and switches to exponential notation for
+very large or very small numbers.
+<p>
+
+
+<!-- @node   Set y grid, Set y margin, Set y format, Set -->
+<a name="Setygrid" >
+<h3>4.38.35: `<code>set y grid</code>' command</h3>
+</a>
+
+
+<p>
+<!-- latex: \index{@code{set y grid} command} -->
+<!-- latex: \index{@code{set y grid} command} -->
+<!-- latex: \index{grid, setting y-characteristics} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   set y grid $bottom $top $inc;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+Set characteristics of y-component of grid used for contouring.
+<p>
+
+
+<!-- @node   Set y margin, Set y name, Set y grid, Set -->
+<a name="Setymargin" >
+<h3>4.38.36: `<code>set y margin</code>' command</h3>
+</a>
+
+
+<p>
+<!-- latex: \index{@code{set y margin} command} -->
+<!-- latex: \index{@code{set y margin} command} -->
+<!-- latex: \index{axes, setting y margin} -->
+<!-- latex: \index{margin below axes} -->
+<!-- latex: \index{bottom margin} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   set y margin $space;    # style 1
+   set y margin default;   # style 2
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+<em>Style 1</em> ---
+set y-margin (i.e. the space to left of axes frame) to
+indicated value, in cm.
+<p>
+
+
+<em>Style 2</em> ---
+set y-margin to default of 6 cm.
+<p>
+
+
+
+<!-- @node   Set y name, Set y size, Set y margin, Set -->
+<a name="Setyname" >
+<h3>4.38.37: `<code>set y name</code>' command</h3>
+</a>
+
+
+<p>
+<!-- latex: \index{@code{set y name} command} -->
+<!-- latex: \index{@code{set y name} command} -->
+<!-- latex: \index{axes, setting y name} -->
+<!-- latex: \index{y, name of axis} -->
+<!-- latex: \index{name of y-axis} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   set y name $name;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+Set name to be written beside y-axis.  The name is either a
+double-quoted string or an expression that evaluates to a string.
+<p>
+
+
+<!-- @node   Set y size, Set y type, Set y name, Set -->
+<a name="Setysize" >
+<h3>4.38.38: `<code>set y size</code>' command</h3>
+</a>
+
+
+<p>
+<!-- latex: \index{@code{set y size} command} -->
+<!-- latex: \index{@code{set y size} command} -->
+<!-- latex: \index{axes, setting length of y-axis} -->
+<!-- latex: \index{setting length of y-axis} -->
+<!-- latex: \index{y, setting length axis} -->
+<!-- latex: \index{length of y-axis} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   set y size $length;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+Set length of y-axis, in cm.  If this command is not used, a default
+size of 10 cm will be used.  The specified size is stored in the built-in
+variable `<code>$_ysize</code>'.
+<p>
+
+
+<!-- @node   Set y type, Split, Set y size, Set -->
+<a name="Setytype" >
+<h3>4.38.39: `<code>set y type</code>' command</h3>
+</a>
+
+
+<p>
+<!-- latex: \index{@code{set y type} command} -->
+<!-- latex: \index{@code{set y type} command} -->
+<!-- latex: \index{axes, setting type of y-axis} -->
+<!-- latex: \index{setting type of y-axis} -->
+<!-- latex: \index{y-axis, setting type} -->
+<!-- latex: \index{linear y-axis} -->
+<!-- latex: \index{log y-axis} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   set y type linear;
+   set y type log;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+Set y-axis type to indicated style.  It is an error to try to convert to
+a log axis if the previously defined axis spans non-positive numbers.
+This may occur for autoscaled axes, even if all the data are positive.
+You should set the axis type to `<code>log</code>' before reading data or
+setting the axis (<a href="BuiltinCommands.html#Setyaxis">Set y axis</a>).
+<p>
+
+
+
+
+
+<!-- @node   Split, Sub, Set y type, Commands -->
+<a name="Split" >
+<h2>4.39: `<code>split</code>' command</h2>
+</a>
+
+
+<p>
+
+<!-- latex: \index{split} -->
+<!-- latex: \index{@code{split} command} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   split;
+   @array = split;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+Split the `<code>$_</code>' array, normally created by the `<code>&lt;FILEHANDLE&gt;</code>'
+syntax, into either the array `<code>@_</code>' (if no array named) or into the
+named array.
+<p>
+
+
+<em>Example:</em>
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   open(IN, "test.dat");
+   while(&lt;IN&gt;) {
+       @a = split;
+       print "Line has ", 1 + $#a, " tokens\n";
+   }
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+
+<!-- @node   Sub, Substr, Split, Commands -->
+<a name="Sub" >
+<h2>4.40: `<code>sub</code>' command</h2>
+</a>
+
+
+<p>
+
+<!-- latex: \index{user's subroutines} -->
+<!-- latex: \index{functions, defining with @code{sub}} -->
+<!-- latex: \index{subroutines, defining with @code{sub}} -->
+
+Subroutines are defined with the syntax
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   sub NAME (PROTOTYPE) {
+       # commands
+   }
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+The syntax is quite similar to Perl, with these exceptions:
+<ol>
+<li> Prototypes <em>must</em> be supplied to functions in `<code>gre</code>'.
+<li> Return values must be specified explicitly.  That is, the  Perl convention
+that the return value derives from the last expression to have been
+evaluated is not followed.
+<li>
+Only scalar (single) numerical values may be returned -- text values and
+lists may not be returned.  (This is a bug that will be removed
+eventually.)
+</ol>
+<p>
+
+The `<code>NAME</code>' may be any word that doesn't clash with a built-in
+subroutine name or another user-defined subroutine name.
+<p>
+
+<!-- latex: \index{prototype, in sub} -->
+The PROTOTYPE is a list of zero or more characters indicating the
+expected arguments to the command, in the same format as for Perl
+`<code>sub</code>'-style subroutines.  An example prototype is `<code>$$</code>', which
+would indicate that the cmd takes two arguments.  The allowed characters
+in a prototype are dollar-sign (`<code>$</code>'), ampersand (`<code>@</code>'), and
+semicolon (`<code>;</code>').  A semicolon is optional, and indicates a
+separation between a list of required arguments and a list of optional
+arguments.  A dollarsign indicates a single scalar parameters (or
+mathematical expression), and an ampersand indicate a list of one or
+more scalars separated by spaces.  Items before a semicolon are required
+and items after a semicolon are optional.  For example:
+<p>
+
+
+<em>Example:</em>
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   sub none ()           { # takes no arguments
+   sub one_only ($)      { # takes a single argument
+   sub two_only ($$)     { # takes two arguments
+   sub two_three ($$;$)  { # takes two or three arguments
+   sub any_number (@)    { # takes any number of args (incl zero)
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+The body of the subroutine may contain any valid `<code>gre</code>' commands.
+Upon entry to the subroutine, the calling parameters are to be found in
+the vector variable `<code>$_</code>'.  Thus, the first argument is
+`<code>$_[0]</code>', the second `<code>$_[1]</code>', etc, and the number of arguments
+that were supplied is `<code>1 + $#_</code>'.  The number of arguments
+<em>must</em> agree with the limits set out in the prototype.
+<p>
+
+If a `<code>return</code>' command is executed within this body, control is
+immediately passed back to the calling statement.  Return statements may
+or may not supply a numerical value, depending on how the subroutine was
+called.  If it was been called in a mathematical context
+(e.g. `<code>print sin(3.14159), "\n";</code>') then the subroutine should
+supply a value in the `<code>return</code>' statement.  A default value of
+`<code>0.0</code>' is used if `<code>return</code>' supplies no value.
+<p>
+
+<!-- latex: \index{@code{$_}, in subroutines} -->
+
+
+<em>Example:</em>
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   sub double ($) {
+       return $_[0] * 2;
+   }
+   print "expect 2: ", double(1), "\n";
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+
+
+<a href="tst_suite/tst-sub.html">Test file `<tt>tst-sub.gre</tt>':</a><p> 
+
+
+
+<!-- @node   Substr, System, Sub, Commands -->
+<a name="Substr" >
+<h2>4.41: `<code>substr</code>' subroutine</h2>
+</a>
+
+
+<p>
+
+<!-- latex: \index{substr} -->
+<!-- latex: \index{@code{substr} command} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   substr(EXPR, OFFSET)
+   substr(EXPR, OFFSET, LENGTH)
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+Extract substring from string stored in `<code>EXPR</code>', starting at the
+character numbered `<code>OFFSET</code>'.  The offset starts at zero, as in C
+and Perl.  If the specified `<code>OFFSET</code>' parameter is negative, then it
+indicates a position counting from the far-right end of the string.  If
+`<code>LENGTH</code>' is not specified, the entire string from the offset to the
+end is extracted.  If `<code>LENGTH</code>' is specified then it indicates the
+number of characters to extract.  Negative `<code>LENGTH</code>' results in a
+blank string, as does an offset beyond the bounds of the string.
+<p>
+
+
+<em>Example:</em>
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   $a = "hello world";
+   die "error1 in substr\n" if ("ello" ne substr($a, 1, 4));
+   die "error2 in substr\n" if ("worl" ne substr($a, -5, 4));
+   die "error3 in substr\n" if ("world" ne substr("hello world", -5));
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+In a textual context, a character string is used.  In a numerical
+context, the result will be converted appropriately.  Such a context
+will arise if the `<code>substr</code>' is used in a numerical expression
+(e.g. `<code>2*substr("3.1", 0, 1)</code>' yields 2 times 3), or as an argument
+to `<code>printf</code>' (<a href="BuiltinCommands.html#Printf">Printf</a>) corresponding to a numerical formatting
+tag (e.g. the command `<code>printf "%f\n",substr("1000",0,2)</code>' yields the
+number `<code>10.000000</code>' since only the first two characters are retained
+from the string.
+<p>
+
+Perl users should note that a `<code>substr</code>' may not be used as an
+lvalue, that is it may not be put at the left of an equals sign.
+<p>
+
+<em>IMPORTANT:</em> Awk users should note that the offset starts at zero,
+not at one.
+<p>
+
+
+<!-- @node   System, Use, Substr, Commands -->
+<a name="System" >
+<h2>4.42: `<code>system</code>' subroutine</h2>
+</a>
+
+
+<p>
+
+<!-- latex: \index{system} -->
+<!-- latex: \index{@code{system} command} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   system("system_command")
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+Call the operating system with indicated command.  `<code>system</code>' acts as
+a function, returning a numerical value corresponding to the return
+value supplied by the operating system after execution of the indicated
+command.  Normally, in unix operating systems, zero is returned for
+successful completion of a command, so that one might do something like
+the following to ensure that the command worked as desired:
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   system("process file.dat") &amp;&amp; die "Cannot process 'file.dat'\n";
+   system("unprocess file.dat") == 0 or die "Cannot unprocess 'file.dat'\n";
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+Another way to access the system is through the unix-style back-tic
+notation (see <a href="Grammar.html#SystemCallsInQuotedStrings">System Calls In Quoted Strings</a>).
+<p>
+
+<!-- latex: \index{@code{$}, protecting in system calls} -->
+
+Note: if you wish to send a dollar-sign to the operating system, such as
+in a call to `<code>awk</code>' or the c-shell, you must protect it with a
+backslash.  If you don't do this, `<code>gre</code>' will think you wish to
+interpolate a variable into the string.  The following example shows how
+to make `<code>awk</code>' copy the first and tenth columns (columns whose
+values `<code>awk</code>' names as variables `<code>$1</code>' and `<code>$10</code>') from
+`<samp>in.dat</samp>' into a file to be called `<samp>out.dat</samp>'.
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   system("awk '{print \$1,\$10}' in.dat &gt; out.dat");
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+
+<!-- @node   Use, Warn, System, Commands -->
+<a name="Use" >
+<h2>4.43: `<code>use</code>' command</h2>
+</a>
+
+
+<p>
+
+<!-- latex: \index{use} -->
+<!-- latex: \index{@code{use} command} -->
+<!-- latex: \index{parsing, including modules} -->
+<!-- latex: \index{modules} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   use Module
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+
+Import the indicated module at <em>compile</em> time.  The result is the
+same as if that module had been inserted into the given program with a
+text editor, replacing the `<code>use</code>' command.
+<p>
+
+The module name must be a bare word -- it may not be enclosed in quotes
+and may not be a variable.  `<code>gre</code>' expects the module to be in a file
+whose name is constructed by appending `<code>.gre</code>' at the end of the
+module name.  Thus, `<code>use seawater;</code>' refers to a file named
+`<samp>seawater.gre</samp>'.
+<p>
+
+`<code>gre</code>' looks for the module in a sequence of places, as follows.
+<ul>
+<li>
+First, it looks locally.  If the module is in the present directory,
+then it is used.
+<li>
+If the module is not local, then `<code>gre</code>' looks in
+`<samp>/usr/share/gre-0.2.3</samp>' (or another library directory, if it was
+named by a `<code>--Library</code>' commandline flag see <a href="Invoking.html#Commandlineoptions">Commandline options</a>.
+<li>
+If the module is not found in either of the above two locations, then
+`<code>gre</code>' checks to see if an environment variable named `<code>GREPATH</code>'
+has been defined.  If no such environment variable exists, `<code>gre</code>' gives
+up.  However, if such a `<code>GREPATH</code>' environment variable exists, it
+is taken to be a colon-separated list of directories in which to look
+for modules.  The list is searched from left to right.  If `<code>gre</code>' gets
+to the end of the list without finding a directory containing the
+module, then it gives up.
+</ul>
+<p>
+
+If `<code>gre</code>' cannot find the module in any of the above, it reports an
+error and dies.
+<p>
+
+Modules supplied with _PNAME are normally stored in
+`<samp>/usr/share/gre-0.2.3</samp>', but you may customize them by copying
+them to your local directory and modifying them.  For example, `<code>use seawater</code>' will imports `<samp>/usr/share/gre-0.2.3/seawater.gre</samp>', a
+file containing utilities for working with the properties of seawater.
+<p>
+
+You <em>cannot</em> do such customization by storing modified versions in
+a path named by your `<code>GREPATH</code>' environment variable, since
+`<samp>/usr/share/gre-0.2.3</samp>' is searched before `<code>gre</code>' examines
+`<code>GREPATH</code>'.
+<p>
+
+The `<code>use</code>' command is often used in conjunction with the
+`<code>package</code>' command see <a href="BuiltinCommands.html#Package">Package</a>.
+<p>
+
+
+
+<!-- @node   Warn, -X, Use, Commands -->
+<a name="Warn" >
+<h2>4.44: `<code>warn</code>' command</h2>
+</a>
+
+
+<p>
+
+<!-- latex: \index{warn command} -->
+<!-- latex: \index{printing a warning} -->
+<!-- latex: \index{warning, printing} -->
+<!-- latex: \index{@code{warn} command} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   warn "a message to be printed"'
+   warn $value_to_print;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+`<code>warn</code>' acts like `<code>die</code>' except that program
+execution continues see <a href="BuiltinCommands.html#Die">Die</a>.  (`<code>warn</code>' returns the value `<code>1</code>'.)
+<p>
+
+If the message ends in a newline character (the sequence `<code>\n</code>'),
+then only the message is printed; otherwise the file-name and line
+number are also printed.
+<p>
+
+If a numerical value is supplied, `<code>warn</code>' prints that value, then
+the file-name and line-number.
+<p>
+
+(Perl users should note that `<code>warn</code>' with no expression is not
+allowed; see <a href="Hints.html#Perlprogrammers">Perl programmers</a>.)
+<p>
+
+
+
+<!-- @node   -X, Cookbook, Warn, Commands -->
+<a name="-X" >
+<h2>4.45: `<code>-X</code>' file tests</h2>
+</a>
+
+
+<p>
+
+<!-- latex: \index{-f command} -->
+<!-- latex: \index{-d command} -->
+<!-- latex: \index{-r command} -->
+<!-- latex: \index{files, testing status} -->
+<!-- latex: \index{testing file status} -->
+<!-- latex: \index{status of files, testing} -->
+<!-- latex: \index{existence of files, testing} -->
+<!-- latex: \index{@code{-f filename} command} -->
+<!-- latex: \index{@code{-d filename} command} -->
+<!-- latex: \index{@code{-r filename} command} -->
+
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   print "file `a.dat' exists\n" if (-f "a.dat");
+   die "Cannot access 'a.dat'" unless (-f "a.dat");
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+These functions mimic corresponding ones in Perl, and are based on the
+unix `<code>test</code>' command.  Each is followed by a filename.  The
+`<code>-f</code>' form tests whether a file exists, and `<code>-r</code>' tests whether
+the named file exists and is readible.  The `<code>-d</code>' form tests whether
+the named item is a directory.
+<p>
+
+
+
+<p>
+(c) 1997-2000 Dan E. Kelley, email <a href="mailto:Dan.Kelley@Dal.Ca">
+Dan.Kelley@Dal.Ca</a>
+</tr>
+<p>
+</table>
+<img src="./resources/bottom_banner.gif" HEIGHT="26" WIDTH="603" usemap="#navigate_bottom" border="0">
+
+</table>
+</body>
+</html>

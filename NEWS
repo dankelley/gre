@@ -1,0 +1,47 @@
+!!!! messing at parser.y:1202  
+
+trying 'man efence'...
+INSTRUCTIONS FOR DEBUGGING YOUR PROGRAM
+       1.     Link with libefence.a as explained above.
+
+       2.     Run your program in a debugger and fix any overruns or  accesses
+              to free memory.
+
+       3.     Quit the debugger.
+
+       4.     Set EF_PROTECT_BELOW = 1 in the shell environment.
+
+       5.     Repeat step 2, this time repairing underruns if they occur.
+
+       6.     Quit the debugger.
+
+       7.     Read the restrictions in the section on WORD-ALIGNMENT AND OVER-
+              RUN DETECTION.  See if you can set EF_ALIGNMENT to 0 and  repeat
+              step  2.  Sometimes this will be too much work, or there will be
+              problems with library routines for  which  you  don’t  have  the
+              source, that will prevent you from doing this.
+
+
+
+
+vector<var> scalar_...
+	var defined in parser.h
+
+problem near...
+	grep "var(var) START" parser.h
+maybe
+
+
+version ... 0.3.2 (really, 0.3.x)
+
+2003-07-13  Dan E. Kelley  <kelley@Limit.Phys.Ocean.Dal.Ca>
+
+	* Segfaults when initializing variables.  It started doing this
+	without code change, so it's likely a change in the
+	compiler/library (most likely STL).  Lots of debugging stuff has
+	been inserted.  Has STL changed a bit?  This bug seems to be
+	relating to the <vector> holding variables.
+
+	* I decided, while I'm working on the code anyway, to change this
+	to use automake.  That way, I won't have to worry so much about
+	dependencies while I am tweaking code.

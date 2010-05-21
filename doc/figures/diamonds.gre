@@ -1,0 +1,30 @@
+set x margin 2;
+set x size 8.5*2.54 - 4;
+set y size 6;
+set x axis 0 1;
+set y axis 0 1;
+draw axes none;
+$s = $_xsize;
+set clip on;
+
+# Some hues that look nice:
+# 0.10 warm browns and oranges, tending to red
+# 0.11 warm browns and golds, tending to green
+# 0.60 slightly warm blues
+# 0.04 reds
+
+$hue = 0.11;
+$saturation = 0.6;
+$value = 0.6;
+for ($d = 0; $d < 25; $d++) {
+    $x = rand();
+    $y = rand();
+    set color hsv $hue $saturation $value;
+    set symbol size $s;
+    draw symbol filleddiamond at $x $y;
+    set color white;
+    draw symbol diamond at $x $y;
+    $s *= 0.9;
+    $saturation *= 1.1;
+    $value *= 1.05;
+}

@@ -1,0 +1,94 @@
+# Definition sketch for mid-depth insertion of tritium via
+# isopycnal mixing/stirring along conduit provided by outcropping
+# isopycnals of ventilated thermocline.
+
+# (Diagram constructed from hand-drawn sketch, units are therefore cm)
+
+# $Id: TU_defn.gre,v 1.2 2000/05/05 19:37:16 kelley Exp $
+
+set font size 9;
+set x axis 0 10 1 .5;
+set y axis 0 10 1 .5;
+set y size 6;
+draw axes none;
+
+# Downward pointing arrows indicate atmospheric source term, which
+# increase greatly (factor of 4) from mid-gyre to the north-wall
+# of ventilated isopycnals.
+set line width rapidograph "00";
+#set arrow size as 10 percent of length;
+set arrow type 0;
+$xl = 1;
+$dx = 1;
+$xr = 12;
+$yt = 9;
+$x = $xl;  draw arrow from $x $yt to $x ($yt-0.1);
+$x += $dx; draw arrow from $x $yt to $x ($yt-0.25);
+$x += $dx; draw arrow from $x $yt to $x ($yt-0.3);
+$x += $dx; draw arrow from $x $yt to $x ($yt-0.4);
+$x += $dx; draw arrow from $x $yt to $x ($yt-0.65);
+$x += $dx; draw arrow from $x $yt to $x ($yt-0.8);
+$x += $dx; draw arrow from $x $yt to $x ($yt-1.0);
+$x += $dx; draw arrow from $x $yt to $x ($yt-1.3);
+#draw label "Atmospheric forcing fcn" at 2.5 ($yt+0.5);
+set line width rapidograph "4x0";
+#draw line from ($xl-0.5) $yt to ($x+0.5) $yt;
+
+# Draw water below.  First, geographical labels on surface ...
+draw label "South" at 0.6 6.2;
+draw label "North" at 7.6 6.2;
+$ysurface = 6;
+draw line from $xl $ysurface to $x $ysurface;
+
+# ... then draw isopycnals.  Kludgy, since didn't want to
+# create a lot of files.  First draw 4 ventilated isopycnals ...
+open (IN, "defn-1.dat");
+read columns IN x y;
+close IN;
+set line width rapidograph "0";
+draw curve;
+for ($i = 0; $i <= $#_x; $i++) {$_x[$i] += 0.33;} draw curve;
+for ($i = 0; $i <= $#_x; $i++) {$_x[$i] += 0.33 + $_x[$i]/80;} draw curve;
+for ($i = 0; $i <= $#_x; $i++) {$_x[$i] += 0.33 + $_x[$i]/30;} draw curve;
+
+# ... then draw two unventilated isopycnals
+set line width rapidograph "4x0";
+open(IN, "defn-2.dat"); read columns IN x y; close IN; draw curve;
+open(IN, "defn-3.dat"); read columns IN x y; close IN; draw curve;
+
+draw label "Isopycnals" at 2 2.9;
+
+# Indicate mixing, isopycnal and diapycnal, with double-ended arrows.  
+# White out under arrows to make prettier.
+$x0 = 5.50; $x1 = 6.13;
+$y0 = 4.80; $y1 = 5.50;
+set color "white";
+#set arrow size as 10 percent of length;
+set line width 7.5;
+draw arrow from $x0 $y0 to $x1 $y1;
+draw arrow from $x1 $y1 to $x0 $y0;
+set color "black";
+#set arrow size as 10 percent of length;
+set line width rapidograph "1";
+draw arrow from $x0 $y0 to $x1 $y1;
+draw arrow from $x1 $y1 to $x0 $y0;
+
+
+# diapycnal mixing
+$x0 = 3.93; $x1 = 4.0;
+$y0 = 4.25; $y1 = 3.6;
+
+set line width 5;#rapidograph "4";
+set color "white";
+draw arrow from $x0 $y0 to $x1 $y1;
+draw arrow from $x1 $y1 to $x0 $y0;
+
+set line width rapidograph "0";
+set color "black";
+draw arrow from $x0 $y0 to $x1 $y1;
+draw arrow from $x1 $y1 to $x0 $y0;
+
+set color "black";
+
+#draw axes;  # for debugging only
+

@@ -1,0 +1,148 @@
+<html>
+<head>
+<title>The Gre graphing language</title>
+<META NAME="author" CONTENT="Dan E. Kelley">
+<META NAME="keywords" CONTENT="science scientific graphics graph">
+<META NAME="description" CONTENT="Gre is an extensible plotting language for producing scientific graphs, such as x-y plots, contour plots, and image plots.  It was written by a scientist and therefore has the sorts of things a scientist needs.  It is much like LaTeX, in that it rewards users who climb the learning curve, in a way that GUI-based programs do not.">
+</head>
+
+<body bgcolor="#ffffff" background="./resources/sm_bg.gif" link="#993333" vlink="#333399 alink="#cc3333">
+
+<!-- Created automatically from texinfo source -->
+<!-- Fri May 21  9:15:11 2010 -->
+
+
+
+
+
+
+
+<map name="navigate_top"> 
+<area shape="rect" coords="581,2,599,24" href="Introduction.html"> 
+</map> 
+<map name="navigate_bottom"> 
+<area shape="rect" coords="581,2,599,24" href="Introduction.html"> 
+</map> 
+
+
+<!-- @node   Top, Introduction, (dir), (dir) -->
+<a name="Top" >
+
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td colspan=2><img src="./resources/top_banner.gif" HEIGHT="28" WIDTH="604" usemap="#navigate_top" border="0"></td></tr>
+<tr>
+<td width="150" valign="top">
+<font size=+1>
+<i>Gre</i>
+</font>
+<font size=-1>
+<p>
+<clear>
+<a href="Introduction.html" ONMOUSEOVER="window.status='Beginners -- start reading here';return true">1: Introduction</a><br>
+<a href="Invoking.html" ONMOUSEOVER="window.status='Beginners -- start reading here';return true">2: Invoking Gre</a><br>
+<a href="Grammar.html" ONMOUSEOVER="window.status='Full description of Gre grammar';return true">3: Gre Grammar</a><br>
+<a href="BuiltinCommands.html" ONMOUSEOVER="window.status='Full list of Gre commands';return true">4: Commands</a><br>
+<a href="Cookbook.html" ONMOUSEOVER="window.status='Some complicated real-world applications';return true">5: Cookbook</a><br>
+<a href="Hints.html" ONMOUSEOVER="window.status='Some hints for Gre programming';return true">6: Hints</a><br>
+<a href="History.html" ONMOUSEOVER="window.status='How Gre has evolved (check here for updates)';return true">7: History</a><br>
+<a href="Plans.html" ONMOUSEOVER="window.status='Plans for Gre';return true">8: Plans</a><br>
+<a href="ConceptIndex.html" ONMOUSEOVER="window.status='Fully-linked index';return true"><b>9: Concept Index</a></b>
+</font></td>
+<td width="500" valign="top">
+
+<b>Version</b>.  This describes `<code>gre</code>' version 0.2.3, (c)
+1997-2003 Dan Kelley
+<A HREF="mailto:Dan.Kelley@Dal.CA">  
+&lt;Dan.Kelley@Dal.CA&gt;.
+</A> 
+<p>
+
+<b>Overview</b>.  `<code>Gre</code>' (rhymes with `flee') is an extensible
+plotting language designed by a scientist, for scientists.  It can draw
+x-y plots, contour plots, and image plots.
+<p>
+
+<b>Manual</b>.  The `<code>gre</code>' manual is on the web at 
+<a href="http://www.phys.ocean.dal.ca/~kelley/gre"> 
+`<samp>http://www.phys.ocean.dal.ca/~kelley/gre</samp>'
+</a> 
+If `<code>gre</code>' is on your machine, the manual is also at
+<a href="file:/usr/doc/gre-0.2.3/html/gre1.html"> 
+`<samp>/usr/doc/gre-0.2.3/html/gre1.html</samp>'.
+</a> 
+The local copy is preferable because it refers to the version you are
+using, but it's worth checking the web version once in a while to see
+the new features.
+<p>
+
+
+
+<b>History</b>.  `<code>Gre</code>' is the descendant of the 
+<a href="http://www.phys.ocean.dal.ca/~kelley/gri"> 
+`<code>Gri</code>'
+</a> 
+language.  There are two phases of `<code>gre</code>' development: (1) creation of
+a working parser with perl-like capabilities and (2) emulation of all
+relevant Gri commands.  Phase (1) is nearly complete.  Phase (2) is
+about 2/3 percent complete, measured by the fraction of Gri commands
+that work in `<code>gre</code>'.  The history chapter (see <a href="History.html#History">History</a>) describes
+the evolution of `<code>gre</code>'.
+<p>
+
+
+<!-- latex: \index{URL of ftp site} -->
+<!-- latex: \index{ftp site} -->
+<!-- latex: \index{source ftp site} -->
+<!-- latex: \index{linux version} -->
+<!-- latex: \index{RedHat linux version} -->
+<!-- latex: \index{RPM redhat linux distribution} -->
+
+Today, `<code>gre</code>' is in daily use by the author and a handful of beta
+testers.  Any experienced Gri user should be able to work with `<code>gre</code>'
+quite easily, especially if they have some knowledge of the Perl
+programming language.
+<p>
+
+<b>Availability</b>. `<code>Gre</code>' is available for download at
+<A HREF="ftp://ftp.phys.ocean.dal.ca/users/kelley/gre"> 
+`<code>ftp://ftp.phys.ocean.dal.ca/users/kelley/gre</code>'
+</A> 
+<p>
+
+The source is in a file called `<samp>gre-N.N.N.tgz</samp>' (a tar/gzip file).
+Here, `<code>N.N.N</code>' stands for the version number,
+e.g. `<samp>gre-0.1.26.tgz</samp>'.  Compilation is simple; just type
+`<code>./configure</code>' (answering any questions it asks) and then type
+`<code>make gre</code>'.  Linux users using the RedHat or Debian distributions
+need not bother with compilation since pre-compiled packages
+(`<samp>gre-N.N.N-1.i386.rpm</samp>' and `<samp>gri-N.N.N.deb</samp>') are provided.
+<p>
+
+
+<UL>
+<LI><a href="Introduction.html#Introduction">Introduction</a>: What Gre is
+<LI><a href="Invoking.html#Invoking">Invoking</a>: How to run Gre
+<LI><a href="Grammar.html#Grammar">Grammar</a>: Elements of grammar
+<LI><a href="BuiltinCommands.html#CommandsinGre">Commands in Gre</a>: Built-in commands
+<LI><a href="Cookbook.html#Cookbook">Cookbook</a>: Cookbook of examples
+<LI><a href="Hints.html#Hints">Hints</a>: Hints for programming
+<LI><a href="History.html#History">History</a>: How Gre has evolved
+<LI><a href="Plans.html#Plans">Plans</a>: Plans for Gre
+<LI><a href="Bugs.html#Bugs">Bugs</a>: Yes, Gre has bugs
+<LI><a href="ConceptIndex.html#ConceptIndex">Concept Index</a>: The main index
+<LI><a href="CommandIndex.html#IndexofCommands">Index of Commands</a>: Index of built-in commands
+</UL>
+
+
+<p>
+(c) 1997-2000 Dan E. Kelley, email <a href="mailto:Dan.Kelley@Dal.Ca">
+Dan.Kelley@Dal.Ca</a>
+</tr>
+<p>
+</table>
+<img src="./resources/bottom_banner.gif" HEIGHT="26" WIDTH="603" usemap="#navigate_bottom" border="0">
+
+</table>
+</body>
+</html>

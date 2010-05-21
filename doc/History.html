@@ -1,0 +1,856 @@
+<html>
+<head>
+<title>Gre: History</title>
+</head>
+
+<body bgcolor="#ffffff" background="./resources/sm_bg.gif" link="#993333" vlink="#333399 alink="#cc3333">
+
+<!-- newfile History.html "Gre: History" "History" --> 
+
+<!-- @node   History, Plans, Gri programmers, Top -->
+<a name="History" >
+
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td colspan=2><img src="./resources/top_banner.gif" HEIGHT="28" WIDTH="604" usemap="#navigate_top" border="0"></td></tr>
+<tr>
+<td width="150" valign="top">
+<font size=+1>
+<i>History</i>
+</font>
+<font size=-1>
+<p>
+<clear>
+<a href="Introduction.html" ONMOUSEOVER="window.status='Beginners -- start reading here';return true">1: Introduction</a><br>
+<a href="Invoking.html" ONMOUSEOVER="window.status='Beginners -- start reading here';return true">2: Invoking Gre</a><br>
+<a href="Grammar.html" ONMOUSEOVER="window.status='Full description of Gre grammar';return true">3: Gre Grammar</a><br>
+<a href="BuiltinCommands.html" ONMOUSEOVER="window.status='Full list of Gre commands';return true">4: Commands</a><br>
+<a href="Cookbook.html" ONMOUSEOVER="window.status='Some complicated real-world applications';return true">5: Cookbook</a><br>
+<a href="Hints.html" ONMOUSEOVER="window.status='Some hints for Gre programming';return true">6: Hints</a><br>
+<a href="History.html" ONMOUSEOVER="window.status='How Gre has evolved (check here for updates)';return true">7: History</a><br>
+<a href="Plans.html" ONMOUSEOVER="window.status='Plans for Gre';return true">8: Plans</a><br>
+<a href="ConceptIndex.html" ONMOUSEOVER="window.status='Fully-linked index';return true"><b>9: Concept Index</a></b>
+</font></td>
+<td width="500" valign="top">
+<map name="navigate_top">
+<area shape="rect" coords="5,2,218,24" href="gre1.html#Top">
+<area shape="rect" coords="515,2,535,24" href="gre1.html#Top">
+<area shape="rect" coords="550,2,575,24" href="Hints.html">
+<area shape="rect" coords="580,2,600,24" href="Plans.html">
+</map>
+<map name="navigate_bottom">
+<area shape="rect" coords="5,2,218,24" href="gre1.html#Top">
+<area shape="rect" coords="580,2,600,24" href="Plans.html"></map>
+</map>
+<h1>7: History of Gre</h1>
+</a>
+
+
+<p>
+
+<!-- latex: \index{history} -->
+
+The `<code>gre</code>' version-numbering scheme is quite standard, borrowing from
+the Linux methodology.  It is worth a moment of explanation.  `<code>gre</code>'
+version numbers comprise three integers separated by decimal points
+(e.g. `<code>0.2.3</code>').
+<p>
+
+The <em>first digit</em> (`<code>0</code>' in the present example) represents the
+major version number.  This number changes infrequently, perhaps once in
+a couple of years, and indicates very significant changes to `<code>gre</code>'.
+<p>
+
+The <em>second digit</em> (`<code>1</code>' in the present example) plays two
+roles.  The first role is natural: higher values indicate more recent
+releases.  The second role, borrowed from Linux, is more clever:
+odd-numbered values indicate that the version is undergoing rapid
+development.  New features may be added and then modified or even
+deleted.  In the Linux parlance, the version is said to be ``unstable.''
+Such odd-numbered versions should only be used by those who feel
+comfortable being on the bleeding edge of software development.
+However, if the second digit is an even number, the version is said to
+be ``stable.''  This means that the features are frozen, with the only
+changes occuring being bug fixes.
+<p>
+
+The <em>third digit</em> is updated for each and every release within a
+so-called ``stream.''  Thus, versions `<code>0.1.1</code>', `<code>0.1.2</code>', etc.,
+are said to be within the unstable stream numbered `<code>0.1</code>'.  It is
+common for unstable streams to have many releases, often several a week,
+so that the last digit can get up to high numbers (50 or more).  By
+contrast, the the stable streams have many fewer updates (usually fewer
+than 5 or so).
+<p>
+
+<h2>7.1: Unstable (developmental) stream 0.3.x</h2>
+
+No versions yet.
+<p>
+
+<h2>7.2: Stable stream 0.2.x</h2>
+
+ <b>Version 0.2.2</b> 2000-jun-29
+<ul>
+<li> Fix bug in interpolation of synonyms into strings.
+</ul>
+<p>
+
+ <b>Version 0.2.1</b> 2000-may-8
+<ul>
+<li> Clean up installation scripts.
+<li> Make user-written textual subroutines work correctly.
+</ul>
+<p>
+
+ <b>Version 0.2.0</b> 2000-may-6
+<ul>
+<li> Identical to version 0.1.45, except for the version number.  One
+of the main things that this version lacks, compared to what is
+envisioned as the final `<code>gre</code>' version, is decent and stable support
+for images.  Since adding image support may be a slow process, this
+0.2.x stream is intended as a sort of landing on a staircase.
+</ul>
+<p>
+
+
+<h2>7.3: Unstable (developmental) stream 0.1.x</h2>
+
+ <b>Version 0.1.45</b> 2000-may-4
+<ul>
+<li> Add `<code>set x axis unknown</code>' and same for y axis.
+</ul>
+<p>
+
+
+ <b>Version 0.1.44</b> 2000-may-3
+<ul>
+<li> Add `<code>set y axis decreasing</code>' and `<code>set y axis increasing</code>', and 
+analogously for the x-axis; see <a href="BuiltinCommands.html#Setxaxis">Set x axis</a>.
+<li> Change so that the numbers on axes all have same number of digits
+after the decimal point.
+<li> Clean a bug in regular expression matching, which prevented recognition
+of the `<code>^</code>' character as a flag denoting the beginning of a string;
+see <a href="Grammar.html#ComparingTextualItemsWithRegularExpressions">Comparing Textual Items With Regular Expressions</a>.
+</ul>
+<p>
+
+
+ <b>Version 0.1.43</b> 2000-apr-30
+<ul>
+<li> Change copyright date to 2000 ... a few months late!
+<li> Improve discussion of version-numbering scheme in the manual.
+<li> Fix bug that made `<code>make test</code>' (invocation of the test suite,
+normally done only by power users) fail, due to directory renaming in
+recent version.
+</ul>
+<p>
+
+
+ <b>Version 0.1.42</b> 2000-apr-29
+<ul>
+<li> Change the Makefile in the `<samp>proj</samp>' directory (which creates map 
+projections) to remove a mysterious bug that occurs on some Solaris
+computers.
+</ul>
+<p>
+
+
+
+ <b>Version 0.1.41</b> 2000-apr-26
+<ul>
+<li> Add ability to use any punctuation character in string-edit 
+constructs, e.g. `<code>$name =~ s:foo:bar:</code>' can be used instead of
+`<code>$name =~ s/foo/bar/</code>'.  The advantage is that this permits editing
+of the `<code>/</code>' character.  see <a href="Grammar.html#ModifyingStrings">Modifying Strings</a>.
+</ul>
+<p>
+
+ <b>Version 0.1.40</b> 2000-apr-18
+<ul>
+<li> Change location of files from the `<samp>/opt/...</samp>' directory
+to more standard locations.  For an example, what used to be
+`<samp>/opt/gre/bin/gre</samp>' is now `<samp>/usr/bin/gre</samp>'.  This is more
+consistent with the linux OS.
+<li> Use OS-installed subroutines to check for NaN and Inf, if 
+these subroutines are available.
+</ul>
+<p>
+
+ <b>Version 0.1.39</b> 2000-apr-15
+<ul>
+<li> Fix bug in memory allocation of image colormaps.
+<li> Change placement of titles so that less space is wasted 
+(<a href="BuiltinCommands.html#Drawtitle">Draw title</a>).
+</ul>
+<p>
+
+ <b>Version 0.1.38</b> 2000-mar-14
+<ul>
+<li> Add assignment of lists to vectors, e.g. `<code>@v = (1,2);</code>'.
+</ul>
+<p>
+
+ <b>Version 0.1.37</b> 2000-mar-10
+<ul>
+<li> Make `<code>draw grid</code>' obey `<code>set color</code>'.
+</ul>
+<p>
+
+ <b>Version 0.1.36</b> 2000-feb-17
+<ul>
+<li>
+Add `<code>my $x,$y;</code>' and `<code>my ($x,$y);</code>' styles.
+<li>
+Trying to get `<code>skip</code>' working.
+</ul>
+<p>
+
+ <b>Version 0.1.35</b> 2000-feb-15
+<ul>
+<li>
+Fixed two sample files that were broken (`<samp>sound_speed.gre</samp>' and
+`<samp>TS.gre</samp>') because they used a version of `<code>my</code>' that isn't
+supported right now.
+<li>
+Remove bug in `<samp>subs.cpp</samp>' that was revealed in version 2.95.2 of the
+gcc compile; the changed source still compiles fine in the author's
+version 2.91.66 of this compiler.
+</ul>
+<p>
+
+ <b>Version 0.1.34</b> 2000-feb-12
+<ul>
+<li>
+Add iso-latin-1 font support for European languages which have accents
+over/under letters.  Selection of font ``encoding'' is now available
+with the `<code>set font encoding</code>' command <a href="BuiltinCommands.html#Setfontencoding">Set font encoding</a>.
+</ul>
+<p>
+
+
+ <b>Version 0.1.34</b> 1999-oct-25
+<ul>
+<li>
+Fix bug in `<code>set image range</code>' that didn't record the top end of the range.
+</ul>
+<p>
+
+ <b>Version 0.1.33</b> 1999-sep-24
+<ul>
+<li>
+Fix bug in `<code>draw x box plot</code>' and `<code>draw y box plot</code>' that made
+it not realize that data existed.
+<li>
+Remove `<code>log()</code>' subroutine, added in version 0.1.31, because it
+was confusing even me!  Stick to `<code>ln()</code>' and `<code>log10()</code>', which 
+make sense to everybody.
+</ul>
+<p>
+
+ <b>Version 0.1.32</b> 1999-Jul-27
+<ul>
+<li>
+Relax requirement for parentheses surrounding the expression in
+`<code>if</code>' statements, `<code>while</code>' loops, etc.  However, the `<code>for</code>'
+loop still needs it!
+</ul>
+<p>
+
+ <b>Version 0.1.31</b> 1999-Jul-20
+<ul>
+<li>
+Fix bug making `<code>glob</code>' fail see <a href="BuiltinCommands.html#Glob">Glob</a>.
+<li>
+Add `<code>length()</code>' see <a href="Grammar.html#Builtinfunctionsthattakeoneargument">Builtin functions that take one argument</a>.
+<li>
+Improve manual discussion of mathematical efficiency and precision.
+<li>
+Improve parse-time error messages.
+<li>
+Add `<code>log()</code>' see <a href="Grammar.html#Builtinfunctionsthattakeoneargument">Builtin functions that take one argument</a>.  (Removed
+in version 0.1.33.)
+</ul>
+<p>
+
+
+ <b>Version 0.1.30</b> 1999-jul-14
+<ul>
+<li>
+Add `<code>unlink</code>' function <a href="Grammar.html#Builtinfunctionsthattakemorethantwoarguments">Builtin functions that take more than two arguments</a>.
+<li>
+Add `<code>my @arrayname</code>'
+<li>
+Added `<code>Bugs</code>' chapter to manual see <a href="Bugs.html#Bugs">Bugs</a>.
+<li>
+Improved scope-resolution of `<code>my</code>' variables see <a href="BuiltinCommands.html#My">My</a>.
+<li>
+Add `<code>-d 8</code>' option, mainly for developer's debugging work
+see <a href="Invoking.html#Commandlineoptions">Commandline options</a>.
+<p>
+
+</ul>
+<p>
+
+ <b>Version 0.1.29</b>
+<ul>
+<li>
+Add `<code>=~</code>' operator for modifying text-valued scalar variables
+see <a href="Grammar.html#ModifyingStrings">Modifying Strings</a>.
+</ul>
+<p>
+
+
+ <b>Version 0.1.28</b> 1999-jun-26
+<ul>
+<li>
+Add 
+<li>
+If clipping is on, ensure that contours extend to edges of clipping box.
+NOTE: this introduces a new bug: labels may be messed up this way though
+(since they may be drawn, invisibly, outside the box); another version
+will get rid of this bug.
+</ul>
+<p>
+
+ <b>Version 0.1.27</b> 1999-jun-16
+<ul>
+<li>
+Add `<code>draw grid</code>' see <a href="BuiltinCommands.html#Drawgrid">Draw grid</a>.
+<li>
+Fix bug in `<code>read grid x|y</code>' that made it think non-empty files were
+empty.
+<li>
+Tweak manual so that it compiles in the version of `<code>texinfo</code>' that
+comes with redhat-linux version 6.0.
+<li>
+Remove bug in which post-increment and post-decrement operators yield
+the values from <em>after</em> the opertion, not before.
+</ul>
+<p>
+
+ <b>Version 0.1.26</b>
+<ul>
+<li>
+Add `<code>draw filled contour</code>'.  This is a TEST VERSION ONLY, and may
+not work properly.  It is also NOT documented yet.  Finally, I am not
+sure the syntax will remain as it is; I may make it be
+`<code>draw contour filled</code>' instead.
+<p>
+
+At any rate, the below is a demo file:
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+    set x grid 0 1 0.1;
+    set y grid 1 2 0.25;
+    open(IN, "test.dat-2") or die;
+    read grid data IN;
+    draw axes;
+    set color red;   draw filled contour 1.5;
+    #set color black;draw contour 1.5;
+    set color green; draw filled contour 2;
+    #set color black;draw contour 2;
+    set color brown; draw filled contour 2.5;
+    #draw contour 1.5 2.5 0.5;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+for datafile, `<samp>test.dat-2</samp>', that is:
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   2 1 0 0 0 1 2 1 0 0 1
+   3 2 0 0 0 2 3 2 0 0 2
+   2 1 0 0 0 1 2 1 0 0 1
+   0 0 0 0 0 0 0 0 0 0 0
+   0 0 0 0 0 0 0 0 0 0 0
+</PRE>
+</TD>
+</TR>
+</TABLE>
+Note that this example tests: (1) multiple peaks; (2) peaks that
+interesect one side; (3) peaks that intersect two sides.  
+<p>
+
+</ul>
+<p>
+
+ <b>Version 0.1.25</b>
+<ul>
+<li> Add skeleton for filled contours.  The new command may be called
+`<code>draw filled contour</code>', or something like that, but in any case it
+is <em>not</em> working yet.
+<li>
+In Postscript driver, prevent needless repetition of commands to set the
+pen color.  For a text-intensive, text-only application, this reduces
+file size by a factor of 3.
+</ul>
+<p>
+
+
+ <b>Version 0.1.24</b>
+<ul>
+<li>
+Add `<code>set image colorscale</code>' see <a href="BuiltinCommands.html#Setimagecolorscale">Set image colorscale</a>.
+<li>
+Add `<code>draw image</code>' see <a href="BuiltinCommands.html#Draw">Draw</a>.
+<li>
+Add `<code>print image</code>' see <a href="BuiltinCommands.html#Print">Print</a>.
+<li>
+Add `<code>convert grid to image</code>' see <a href="BuiltinCommands.html#Convertgridtoimage">Convert grid to image</a>.
+<li>
+Speed up `<code>glob</code>' by using POSIX.2 `<code>glob</code>' library call, if it is
+installed see <a href="BuiltinCommands.html#Glob">Glob</a>.  Also, fix bug that occured for globs that
+returned no matches.
+</ul>
+<p>
+
+
+
+ <b>Version 0.1.23</b>
+<ul>
+<li>
+Fix bug in `<code>glob</code>' see <a href="BuiltinCommands.html#Glob">Glob</a>.  At the same time, lay groundwork
+for proper perl-style lists.
+</ul>
+<p>
+
+
+ <b>Version 0.1.22</b>
+<ul>
+<li>
+Add ability to assign to variables in `<code>my</code>' commands see <a href="BuiltinCommands.html#My">My</a>.
+Remove ability to give `<code>my</code>' lists of variables ... this ability
+will be added back later.
+</ul>
+<p>
+
+
+ <b>Version 0.1.21</b>
+<ul>
+<li>
+Add `<code>set flag</code>'.
+<li>
+Make `<code>open</code>' recognize filenames ending in `<code>.Z</code>', and first
+uncompress them with the unix `<code>uncompress</code>' program.
+<li>
+Make `<code>open</code>' recognize filenames ending in `<code>.gz</code>', and first
+uncompress them with the GNU `<code>gunzip</code>' program.
+<li>
+Ensure that any temporary files are removed no matter how `<code>gre</code>' exits
+(except for a core-dump).
+</ul>
+<p>
+
+
+ <b>Version 0.1.20</b>
+<ul>
+<li>
+Fix bug in which `<code>set dash</code>' (without keyword `<code>on</code>') didn't set
+to dashed lines.
+</ul>
+<p>
+
+ <b>Version 0.1.19</b>
+<ul>
+<li>
+<p>
+
+Change so that `<code>0</code>' is written with same format as other numbers, on
+the y axis.  (This removes a remnant from Gri, which had to do with
+rounding artifacts, artifacts which seem to have disappeared in recent
+versions.)
+<li>
+Fix bug in which various `<code>draw</code>' commands didn't obey clipping exactly
+near the edges of the clipping domain.
+<li>
+Fix bug in which `<code>draw polygon</code>' and `<code>draw line</code>' that caused
+automatic drawing of axes even for centimeter-based coordinates.
+</ul>
+<p>
+
+
+ <b>Version 0.1.18</b>
+<ul>
+<li>
+While drawing strings, insert a thinspace (1/6-th width of character
+`<code>m</code>') after math-mode italicized strings, if next item is a
+closing-parenthis or a non-mathmode character.
+<li>
+Move axes autoscaling from `<code>read columns</code>' into the `<code>draw</code>'
+commands.  This removes a bug that prevented autoscaling for columns
+created (or modified) by loops.
+<li>
+Add `<code>set clip to curve</code>' see <a href="BuiltinCommands.html#Setclip">Set clip</a>.
+<li>
+Add `<code>pscomment</code>' see <a href="BuiltinCommands.html#Pscomment">Pscomment</a>.
+</ul>
+<p>
+
+ <b>Version 0.1.17</b>
+<ul>
+<li>
+Add `<code>draw arc</code>' see <a href="BuiltinCommands.html#Drawarc">Draw arc</a>.
+<li>
+Add `<code>s///</code>' mechanism. see <a href="Grammar.html#ModifyingStrings">Modifying Strings</a>.
+<li>
+Add `<code>draw polygon</code>' see <a href="BuiltinCommands.html#Drawpolygon">Draw polygon</a>.
+</ul>
+<p>
+
+ <b>Version 0.1.16</b>
+<ul>
+<li>
+Add `<code>new page</code>' see <a href="BuiltinCommands.html#NewPage">New Page</a>.
+<li>
+Add matching for regular expressions 
+see <a href="Grammar.html#ComparingTextualItemsWithRegularExpressions">Comparing Textual Items With Regular Expressions</a>.
+<li>
+Recognize `<code>package</code>' keyword ... but don't obey it yet see <a href="BuiltinCommands.html#Package">Package</a>.
+<li>
+Planned: make `<code>package</code>' localization work on `<code>$</code>'-style
+variables.  Note: must not localize `<code>$ARGV</code>', `<code>$_</code>', and all
+variables beginning with `<code>$_</code>').
+<li>
+Planned: make `<code>package</code>' localization work on `<code>@</code>'-style
+variables.
+<li>
+Add `<code>use</code>' command see <a href="BuiltinCommands.html#Use">Use</a>, allowing incorporation of modules.
+</ul>
+<p>
+
+
+
+ <b>Version 0.1.15</b>
+<ul>
+<li>
+Port to the `<code>egcs</code>' compiler.
+<li>
+Add linux-style processing of commandline options, including long-names
+and aliasing see <a href="Invoking.html#Commandlineoptions">Commandline options</a>.
+<li>
+Add `<code>ROWS</code>' option to `<code>read columns</code>' see <a href="BuiltinCommands.html#Readcolumns">Read columns</a>.
+<li>
+Add web-delivered files for use in the `<code>open</code>' command see <a href="BuiltinCommands.html#Open">Open</a>.
+</ul>
+<p>
+
+
+ <b>Version 0.1.14</b>
+<ul>
+<li>
+Add `<code>set arrow type</code>' command see <a href="BuiltinCommands.html#Setarrowtype">Set arrow type</a>.
+<li>
+Change behavior of `<code>-e</code>' option to match Perl language, i.e. make it
+ignore a commandfile, even if one is present see <a href="Invoking.html#Commandlineoptions">Commandline options</a>.
+<li>
+Add `<code>rand_gaussian()</code>' subroutine, to create random numbers with
+Gaussian distribution see <a href="Grammar.html#Builtinfunctionsthattakenoarguments">Builtin functions that take no arguments</a>.
+<li>
+Add `<code>sprintf</code>' subroutine see <a href="Grammar.html#PrintingIntoStrings">Printing Into Strings</a>.
+<li>
+Add `<code>pow</code>' subroutine see <a href="Grammar.html#Builtinfunctionsthattaketwoarguments">Builtin functions that take two arguments</a>.
+<li>
+Add `<code>-L</code>' commandline option see <a href="Invoking.html#Commandlineoptions">Commandline options</a>, for
+controlling system startup file see <a href="Invoking.html#Systemstartupfile">System startup file</a>.
+</ul>
+<p>
+
+ <b>Version 0.1.13</b> 
+<ul>
+<li>
+Add `<code>read grid</code>' commands see <a href="BuiltinCommands.html#Read">Read</a>.
+<li>
+Add `<code>erf()</code>' and `<code>erfc()</code>' mathematical functions.
+</ul>
+<p>
+
+ <b>Version 0.1.12</b> 
+<ul>
+<li>
+Speed up `<code>set map projection</code>' by making it internal instead of a
+system-call see <a href="BuiltinCommands.html#Setmapprojection">Set map projection</a>.  This also reduced requirement to
+have `<code>set map projection</code>' on the system.
+<li>
+Add `<code>set clip rectangle</code>'
+<li>
+Allow embedded newlines in strings, and handle in `<code>print</code>' (but not
+in drawing commands ... yet).
+<li>
+Add unix-like back-tick capability to strings see <a href="BuiltinCommands.html#System">System</a>.
+<li>
+Add `<code>set missing value</code>' see <a href="BuiltinCommands.html#Setmissingvalue">Set missing value</a>.
+<li>
+Add `<code>set page</code>' command see <a href="BuiltinCommands.html#Setpage">Set page</a>.
+</ul>
+<p>
+
+ <b>Version 0.1.11</b> 
+<ul>
+<li>
+Add `<code>set map projection</code>' support to
+`<code>draw curve</code>', `<code>draw symbol</code>', and `<code>draw line from</code>'.
+<li>
+Add `<code>$ARGV</code>' vector to hold command-line arguments.
+<li>
+Add `<code>-p</code>' command-line option.
+</ul>
+<p>
+
+
+ <b>Version 0.1.10</b>
+<ul>
+<li>
+Add `<code>set map projection</code>' command and related
+subroutines -- but not support in the various drawing commands.
+</ul>
+<p>
+
+ <b>Version 0.1.9</b>
+<ul>
+<li>
+add `<code>?</code>' and `<code>:</code>' operator pair
+<li>
+add `<code>rewind</code>' subroutine
+<li>
+add `<code>printf</code>'
+<li>
+add `<code>$_time</code>'
+</ul>
+<p>
+
+
+ <b>Version 0.1.8</b>
+<ul>
+<li>
+add `<code>regress</code>'
+<li>
+add `<code>draw arrows</code>'
+<li>
+add `<code>set arrow size</code>'
+<li>
+add `<code>set u scale</code>'
+<li>
+add `<code>set u scale</code>'
+<li>
+add `<code>set symbol size</code>'
+<li>
+add `<code>draw curve filled</code>'
+<li>
+add `<code>draw curve overlying</code>'
+<li>
+add beginnings of `<code>draw contour</code>'
+<li>
+use English, rather than numeric, codes in `<code>set line cap</code>'
+and `<code>set line join</code>' 
+<li>
+add all `<code>draw x/y box plot</code>'
+<li>
+add `<code>set image range</code>'
+<li>
+prepare for `<code>delete</code>' command (NOT DONE YET!!)
+<li>
+add `<code>axis|symbol|all</code>' option to `<code>set line width</code>'
+</ul>
+<p>
+
+
+
+ <b>Version 0.1.7</b>
+<ul>
+<li>
+add all gri-like `<code>draw axis</code>' styles
+<li>
+change `<code>draw arrow</code>' to match gri syntax
+<li>
+rename `<code>draw line connecting</code>'
+as `<code>draw line from</code>' to match gri
+<li>
+add `<code>text_ascent</code>', `<code>text_descent</code>', and `<code>text_width</code>'
+<li>
+add `<code>draw box</code>'
+<li>
+extend `<code>draw label</code>' to match gri
+<li>
+add `<code>draw x axis</code>' and `<code>draw y axis</code>'
+<li>
+allow `<code>default</code>' in `<code>set font size</code>'
+<li>
+allow `<code>default</code>' in `<code>set line width</code>'
+</ul>
+<p>
+
+
+ <b>Version 0.1.6</b>
+<ul>
+<li>
+prevent redefinition of existing cmds
+<li>
+add `<code>sw_alpha()</code>' function
+<li>
+add `<code>sw_beta()</code>' function
+<li>
+add `<code>sw_spice()</code>' function
+</ul>
+<p>
+
+
+ <b>Version 0.1.5</b>
+<ul>
+<li>
+add `<code>sw_lapse_rate()</code>' function
+<li>
+add `<code>sw_salinity()</code>' function
+<li>
+rename all `<code>eos_</code>' functions as `<code>sw_</code>' functions
+<li>
+add `<code>set contour format</code>'
+<li>
+add `<code>set contour label position</code>'
+</ul>
+<p>
+
+
+
+ <b>Version 0.1.4</b>
+<ul>
+<li>
+new method for variable interpolation
+<li>
+add `<code>sw_freezing_temperature</code>' function
+</ul>
+<p>
+
+
+
+ <b>Version 0.1.3</b>
+<ul>
+<li>
+switch from gri-like string mathmode, $...$, to \(...\), to
+not collide with variable interpolation syntax.
+<li>
+add `<code>set line join</code>'.
+<li>
+add `<code>draw isopycnal</code>'.
+<li>
+add `<code>reorder columns randomly</code>'.
+<li>
+add `<code>set clip on</code>' and `<code>set clip off</code>'
+<li>
+add `<code>glob</code>' (not understood outside `<code>foreach</code>', yet)
+<li>
+add sw_density and eos_potential_temperature functions
+<li>
+allow `<code>open</code>' filenames to be pipe commands
+<li>
+add `<code>print columns</code>'
+<li>
+add `<code>print grid</code>'
+<li>
+add `<code>draw arrow</code>'
+<li>
+add `<code>draw label</code>'
+<li>
+rationalize code to speed compilation
+<li>
+warn if filehandle not in upper-case
+<li>
+improve accuracy of PostScript bounding-box
+<li>
+add `<code>set x|y grid</code>'
+</ul>
+<p>
+
+
+ <b>Version 0.1.2</b>
+<ul>
+<li>
+allow e.g. `<code>$#vname</code>' as an lvalue (not documented yet)
+<li>
+make many commands coerce strings to numeric and vice-versa
+<li>
+add `<code>set x|y format</code>'
+<li>
+make `<code>split</code>' attach proper symbol-table item (bug fix)
+</ul>
+<p>
+
+
+ <b>Version 0.1.1</b> - add enough to allow crude x-y plots
+<ul>
+<li>
+add e.g. `<code>$vector[$index]++</code>'
+<li>
+add e.g. `<code>$vector[$index]--</code>'
+<li>
+add `<code>draw line connecting</code>'
+<li>
+add `<code>draw symbol</code>'
+<li>
+add `<code>draw title</code>'
+<li>
+add `<code>set line width rapidograph</code>'
+<li>
+add `<code>draw curve filled</code>'
+<li>
+add `<code>set symbol size</code>'
+<li>
+add `<code>draw symbol</code>'
+<li>
+add `<code>draw symbol "name"</code>'
+<li>
+add `<code>set graylevel</code>'
+<li>
+add `<code>set tic size</code>'
+<li>
+add `<code>set tics in|out</code>'
+<li>
+add `<code>ls</code>' and `<code>cd</code>'
+</ul>
+<p>
+
+
+
+ <b>Version 0.1.0</b>
+<ul>
+<li>
+add `<code>chomp</code>'
+<li>
+allow `<code>chop</code>' and `<code>chomp</code>' to take variable_name as arg
+<li>
+add `<code>set x|y type</code>'
+<li>
+make `<code>set dash</code>' work (all forms)
+<li>
+add `<code>set font to $name</code>'
+<li>
+make `<code>chop()</code>' be a subroutine
+<li>
+add `<code>set font size</code>'
+<li>
+add `<code>set color "name"</code>'
+<li>
+add `<code>set color hsv</code>'
+<li>
+add `<code>set color rgb</code>'
+<li>
+make ps filename be correct
+</ul>
+<p>
+
+
+<p>
+(c) 1997-2000 Dan E. Kelley, email <a href="mailto:Dan.Kelley@Dal.Ca">
+Dan.Kelley@Dal.Ca</a>
+</tr>
+<p>
+</table>
+<img src="./resources/bottom_banner.gif" HEIGHT="26" WIDTH="603" usemap="#navigate_bottom" border="0">
+
+</table>
+</body>
+</html>

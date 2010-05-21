@@ -1,0 +1,28 @@
+# Illustrate timeseries against month-of-year.  The data
+# are assumed to be centered on x-value of 0.5 for January,
+# etc.
+set y name "Monthly average of ... whatever";
+set y axis 0 1 0.1;
+set x axis 0 12 1;
+
+# First, draw axes with no labels (to get all the tics) ...
+set font size 0; 
+draw axes;
+# ... now draw y-axis again to get labels ...
+set font size 10;
+draw y axis;
+# ... and, finally (laboriously!), draw x-labels, offset below bottom.
+$off = 1.5 * pt_to_cm($_font_size);
+print "$off off\n";
+draw label "Jan" centered at user_to_cm_x(0.5) (user_to_cm_y($_ybottom)-$off) cm;
+draw label "Feb" centered at user_to_cm_x(1.5) (user_to_cm_y($_ybottom)-$off) cm;
+draw label "Mar" centered at user_to_cm_x(2.5) (user_to_cm_y($_ybottom)-$off) cm;
+draw label "Apr" centered at user_to_cm_x(3.5) (user_to_cm_y($_ybottom)-$off) cm;
+draw label "May" centered at user_to_cm_x(4.5) (user_to_cm_y($_ybottom)-$off) cm;
+draw label "Jun" centered at user_to_cm_x(5.5) (user_to_cm_y($_ybottom)-$off) cm;
+draw label "Jul" centered at user_to_cm_x(6.5) (user_to_cm_y($_ybottom)-$off) cm;
+draw label "Aug" centered at user_to_cm_x(7.5) (user_to_cm_y($_ybottom)-$off) cm;
+draw label "Sep" centered at user_to_cm_x(8.5) (user_to_cm_y($_ybottom)-$off) cm;
+draw label "Oct" centered at user_to_cm_x(9.5) (user_to_cm_y($_ybottom)-$off) cm;
+draw label "Nov" centered at user_to_cm_x(10.5) (user_to_cm_y($_ybottom)-$off) cm;
+draw label "Dec" centered at user_to_cm_x(11.5) (user_to_cm_y($_ybottom)-$off) cm;

@@ -1,0 +1,28 @@
+#!/usr/bin/perl -w
+
+# Following are first 4 lines of a file:
+#                  Date             Close           Volume (00s)
+#
+#                04/13/2000        77.750           314957
+#                04/12/2000        80.000           385595
+
+sub date_to_year($) {
+    @start = (0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334);
+    $mon  = substr($_[0], 0, 2);
+    $day  = substr($_[0], 3, 2);
+    $year = substr($_[0], 6, 4);
+    $day = $day + $start[$mon - 1];
+    if (0 == ($year % 4) && $mon > 3) {
+	$day++;
+	return $year + $day / 366;
+    } else {
+	return $year + $day / 365;
+    }
+}
+$_ = <>;
+$_ = <>;
+while(<>) {
+    ($date, $close, $volume) = split;
+    $year = date_to_year($date);
+    printf "%8.3f %7.3f %7.0f\n", $year, $close, $volume;
+}

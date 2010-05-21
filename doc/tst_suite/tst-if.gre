@@ -1,0 +1,8 @@
+print "tst_suite/tst-if.gre             ...";
+$a = 9;
+if ($a > 10) {
+    die " failed test 1\n";
+}
+die " failed test 2\n" if ($a != 9);
+die " failed test 3\n" unless ($a == 9);
+print " passed\n";

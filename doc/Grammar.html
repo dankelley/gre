@@ -1,0 +1,2988 @@
+<html>
+<head>
+<title>Gre: grammar</title>
+</head>
+
+<body bgcolor="#ffffff" background="./resources/sm_bg.gif" link="#993333" vlink="#333399 alink="#cc3333">
+
+<!-- newfile Grammar.html "Gre: grammar" "Grammar" --> 
+
+<!-- @node   Grammar, Parsing and execution phases, User startup file, Top -->
+<a name="Grammar" >
+
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td colspan=2><img src="./resources/top_banner.gif" HEIGHT="28" WIDTH="604" usemap="#navigate_top" border="0"></td></tr>
+<tr>
+<td width="150" valign="top">
+<font size=+1>
+<i>Grammar</i>
+</font>
+<font size=-1>
+<p>
+<clear>
+<a href="Introduction.html" ONMOUSEOVER="window.status='Beginners -- start reading here';return true">1: Introduction</a><br>
+<a href="Invoking.html" ONMOUSEOVER="window.status='Beginners -- start reading here';return true">2: Invoking Gre</a><br>
+<a href="Grammar.html" ONMOUSEOVER="window.status='Full description of Gre grammar';return true">3: Gre Grammar</a><br>
+<a href="BuiltinCommands.html" ONMOUSEOVER="window.status='Full list of Gre commands';return true">4: Commands</a><br>
+<a href="Cookbook.html" ONMOUSEOVER="window.status='Some complicated real-world applications';return true">5: Cookbook</a><br>
+<a href="Hints.html" ONMOUSEOVER="window.status='Some hints for Gre programming';return true">6: Hints</a><br>
+<a href="History.html" ONMOUSEOVER="window.status='How Gre has evolved (check here for updates)';return true">7: History</a><br>
+<a href="Plans.html" ONMOUSEOVER="window.status='Plans for Gre';return true">8: Plans</a><br>
+<a href="ConceptIndex.html" ONMOUSEOVER="window.status='Fully-linked index';return true"><b>9: Concept Index</a></b>
+</font></td>
+<td width="500" valign="top">
+<map name="navigate_top">
+<area shape="rect" coords="5,2,218,24" href="gre1.html#Top">
+<area shape="rect" coords="515,2,535,24" href="gre1.html#Top">
+<area shape="rect" coords="550,2,575,24" href="Invoking.html">
+<area shape="rect" coords="580,2,600,24" href="BuiltinCommands.html">
+</map>
+<map name="navigate_bottom">
+<area shape="rect" coords="5,2,218,24" href="gre1.html#Top">
+<area shape="rect" coords="580,2,600,24" href="BuiltinCommands.html"></map>
+</map>
+<h1>3: Gre Grammar</h1>
+</a>
+
+
+<p>
+
+<b>About this chapter</b>.  
+This chapter describes the `<code>gre</code>' grammar.  If you're familiar with the
+Perl programming language, you can skim this chapter quickly.  Otherwise
+you'll want to spend a little time here.
+<p>
+
+The `<code>gre</code>' grammar is quite similar to the Perl grammar.  The main
+difference is that `<code>gre</code>' allows extension of the syntax through
+the use of the `<code>cmd</code>' syntax to extend the language see <a href="BuiltinCommands.html#Cmd">Cmd</a>.
+<p>
+
+<UL>
+<LI><a href="Grammar.html#Parsingandexecutionphases">Parsing and execution phases</a>: 
+<LI><a href="Grammar.html#Commandsyntax">Command syntax</a>: 
+<LI><a href="Grammar.html#ReservedWords">Reserved Words</a>: 
+<LI><a href="Grammar.html#Variables">Variables</a>: 
+<LI><a href="Grammar.html#Mathematics">Mathematics</a>: 
+<LI><a href="Grammar.html#OperationsonText">Operations on Text</a>: 
+<LI><a href="Grammar.html#Flowofcontrol">Flow of control</a>: 
+</UL>
+
+
+<!-- @node   Parsing and execution phases, Command syntax, Grammar, Grammar -->
+<a name="Parsingandexecutionphases" >
+
+<h2>3.1: Parsing and execution phases</h2>
+</a>
+
+
+<p>
+
+<!-- latex: \index{performance, parsing speed} -->
+<!-- latex: \index{parsing, performance} -->
+<!-- latex: \index{benchmark, parsing} -->
+
+`<code>gre</code>' procedes in two stages: parsing and execution.  During the first
+phase, `<code>gre</code>' commands are analysed and stored in a internal format
+that can be executed quickly.  `<code>gre</code>' does this in the same way as
+other interpreted programs (e.g. Perl and Awk) do, by constructing an
+execution tree.  (The theory of language parsing is beyond the scope of
+this manual; see any good computing science reference library for more
+information.)
+<p>
+
+As discussed previously see <a href="Invoking.html#Systemstartupfile">System startup file</a>, `<code>gre</code>' first
+parses some system files, and then parses the user's commandfile.  The
+latter may be standard-input, of course.
+<p>
+
+Execution begins once parsing is done.  (Perl experts will note that
+Perl has the facility to do some execution before parsing is finished.
+`<code>gre</code>' doesn't need that since it lacks the Perl object-oriented
+feature.) 
+<p>
+
+<em>Some notes on efficiency</em>.
+<p>
+
+For most applications, parsing takes negligible time.  On a 300MHz
+pentium-II machine, `<code>gre</code>' parses/executes about 7000 lines per second,
+as indicated by timing of code produced by the following perlscript:
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   #!/usr/bin/perl -w
+   $n = 2e4;  # gives 40,000 lines to parse/execute
+   @v = ("\$abc", "\$cdef", "\$abcd", "\$x", "\$yyy", "\$SS33");
+   for ($i = 0; $i &lt; $n; $i++) {
+       print $v[(rand()*6)%6], " = ", $dict[(rand()*6)%6], " + 1e-8;\n";
+       print $v[(rand()*6)%6], " = ", $dict[(rand()*6)%6], " - 1e-8;\n";
+   }
+</PRE>
+</TD>
+</TR>
+</TABLE>
+Since
+typical programs have fewer than a thousand lines (3-line user programs
+aren't uncommon!), parsing is normally accomplished in times that are
+comparable to that taken to scroll text in a text editor.
+<p>
+
+The speed of `<code>gre</code>' execution is comparable to that of Perl for
+Perl-like commands.  The design goal was that it be at most 10 times
+slower than other interpreted languages such as Perl and Gawk.  However,
+benchmarks indicate that performance is much better than that.  `<code>gre</code>'
+is only about 30 percent slower than Perl, on perl-like code.
+<p>
+
+However, very few `<code>gre</code>' programs consist solely of Perl-like code.
+(If you want Perl, use Perl!)  The core `<code>gre</code>' commands, e.g.
+`<code>read columns</code>' and `<code>draw contour</code>' can deal with arbitrary data
+sizes, and perform complicated calculations.  For any `<code>gre</code>' program
+that takes more than a second or so to run, such core commands consume
+the lion's share of the execution time.  The core commands are written
+in C++ code and run at machine speed, or roughly 30 times faster than
+they might if they were written in an interpreted language like Perl.
+<p>
+
+
+
+<!-- @node   Command syntax, Reserved Words, Parsing and execution phases, Grammar -->
+<a name="Commandsyntax" >
+
+<h2>3.2: Command syntax</h2>
+</a>
+
+
+<p>
+
+<!-- latex: \index{@code{;}, using to separate commands} -->
+<!-- latex: \index{semicolon, using to separate commands} -->
+
+The `<code>gre</code>' grammar is closely patterned on that of the C and perl
+programming language.  Commands (or statements) in `<code>gre</code>' end in
+semicolons; multiple commands are permitted on one line in a file, and a
+command may extend over any number of lines.  Comments may be inserted
+at the end of any line in a commandfile, following the "sharp" or "hash"
+character `<code>#</code>'.
+<p>
+
+<em>Example:</em>
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   something to start;           # not a real `<code>gre</code>' command  ...
+   one thing; leads to another;  # ... and neither are these!
+   
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+
+<!-- @node   Reserved Words, Variables, Command syntax, Grammar -->
+<a name="ReservedWords" >
+
+<h2>3.3: Reserved Words in Gre Language</h2>
+</a>
+
+
+<p>
+
+<!-- latex: \index{reserved words} -->
+
+Certain words may not be used within the syntax of newcommands.  These
+special words fit into two categories: (1) "reserved words" which are
+part of the `<code>gre</code>' grammar itself and (2) names of built-in
+functions. 
+<p>
+
+<ul>
+<li>
+Words reserved for the grammar:
+`<code>and</code>',
+`<code>bool</code>',
+`<code>cmd</code>',
+`<code>columns</code>',
+`<code>do</code>',
+`<code>else</code>',
+`<code>eq</code>',
+`<code>execute</code>',
+`<code>for</code>',
+`<code>foreach</code>',
+`<code>if</code>',
+`<code>last</code>',
+`<code>my</code>',
+`<code>ne</code>',
+`<code>not</code>',
+`<code>or</code>',
+`<code>package</code>' see <a href="BuiltinCommands.html#Package">Package</a>,
+`<code>return</code>',
+`<code>unless</code>',
+`<code>until</code>',
+`<code>use</code>' see <a href="BuiltinCommands.html#Use">Use</a>,
+and
+`<code>while</code>'.
+<p>
+
+<li>
+Words used in built-in functions:
+`<code>abs</code>',
+`<code>acos</code>',
+`<code>acosh</code>',
+`<code>asin</code>',
+`<code>asinh</code>',
+`<code>atan</code>',
+`<code>atanh</code>',
+`<code>ceil</code>',
+`<code>chop</code>',
+`<code>cos</code>',
+`<code>cosh</code>',
+`<code>close</code>',
+`<code>die</code>',
+`<code>erf</code>',
+`<code>erfc</code>',
+`<code>exit</code>',
+`<code>exp</code>',
+`<code>exp10</code>',
+`<code>floor</code>',
+`<code>index</code>',
+`<code>int</code>',
+`<code>length</code>',
+`<code>ln</code>',
+`<code>log10</code>',
+`<code>open</code>',
+`<code>min</code>',
+`<code>max</code>',
+`<code>print</code>',
+`<code>pow</code>',
+`<code>pt_to_cm</code>',
+`<code>read</code>',
+`<code>rewind</code>',
+`<code>sin</code>',
+`<code>sinh</code>',
+`<code>sqrt</code>',
+`<code>split</code>',
+`<code>sprintf</code>',
+`<code>sub</code>',
+`<code>substr</code>',
+`<code>sw_alpha</code>',
+`<code>sw_beta</code>',
+`<code>sw_density</code>',
+`<code>sw_freezing_temperature</code>',
+`<code>sw_lapse_rate</code>',
+`<code>sw_potential_temperature</code>',
+`<code>sw_salinity</code>',
+`<code>sw_spice</code>',
+`<code>system</code>',
+`<code>tan</code>',
+`<code>tanh</code>',
+`<code>text_ascent</code>',
+`<code>text_descent</code>',
+`<code>text_width</code>',
+`<code>unlink</code>',
+`<code>user_to_cm_x</code>',
+`<code>user_to_cm_y</code>',
+and
+`<code>warn</code>'.
+<p>
+
+</ul>
+<p>
+
+You may not use any of the above words in a new command of your own
+making.  (It is also a good idea to avoid using words which match names
+of Perl functions, because a future version of `<code>gre</code>' may well
+emulate that function.)
+<p>
+
+Below is an example of the error you'll see if you try to use the name
+of a built-in function inappropriately.  The example shows an attempt to
+create a new command called `<code>substr</code>' using the `<code>cmd</code>' mechanism
+see <a href="BuiltinCommands.html#Cmd">Cmd</a>.  This is an error because the word `<code>substr</code>' conflicts
+with the built-in function of that name.  For example, the code
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   # Cannot use word 'substr' in a user command.
+   cmd substr ($) {
+       print "$_[0]\n";
+   }
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+generates several errors, the first of which is
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   parse error at a.gre line 2.
+        cmd substr ($) {
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+A similar error would arise if `<code>substr</code>' were replaced by the name
+of any other built-in function, or any of the words reserved for the
+grammar.
+<p>
+
+
+<!-- @node   Variables, User Variables, Reserved Words, Grammar -->
+<a name="Variables" >
+<h2>3.4: Variables</h2>
+</a>
+
+
+<p>
+
+<UL>
+<LI><a href="Grammar.html#UserVariables">User Variables</a>: Variables you define
+<LI><a href="Grammar.html#SystemVariables">System Variables</a>: Variables Gre defines
+</UL>
+
+
+<!-- @node   User Variables, System Variables, Variables, Variables -->
+<a name="UserVariables" >
+
+<h3>3.4.1: User Variables</h3>
+</a>
+
+
+<p>
+<!-- latex: \index{variables, user} -->
+<!-- latex: \index{user's variables} -->
+
+Variables may contain either numerical values or text values.  Variables
+may be scalar or single-indexed vector.  The individual elements of
+vectors is free to be numerical or textual, independent of other
+elements.
+<p>
+
+The syntax for variables is very similar to the Perl language: variables
+have dollarsign as the first character
+<p>
+
+<em>Example:</em>
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   $unity = 1;                 # Store number in scalar
+   $message = "`<code>gre</code>' is cool"; # Store text
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+The contents to the right of the equals-sign may be any mathematical
+expression, using perl-like (or C-like, if you prefer) notation.
+<p>
+
+You should <em>not</em> use an underscore as the first character after the
+dollarsign in variables of your own construction, because such names are
+pre-defined by `<code>gre</code>'.  It is legal to modify these built-in
+variables, but sometimes that makes no sense.  For example,
+`<code>$_version</code>' is a variable that gives the version number of the
+`<code>gre</code>' program you are using -- you could modify it but I don't
+know why you'd want to.  On the other hand, `<code>$_x</code>' and `<code>$_y</code>'
+are the vectors storing the x- and y-columns of data.  You might well
+want to modify these values, to create a curve to plot.
+<p>
+
+Any variables named in double-quoted strings are evaluated at run-time
+and inserted into the string, as is done in the Perl language
+see <a href="Grammar.html#VariableInterpolationInQuotedStrings">Variable Interpolation In Quoted Strings</a>.
+<p>
+
+<!-- latex: \index{vector variables} -->
+
+Vector variables are indexed using square brackets notation, with the
+first index being 0, as in most modern languages such C and perl.  The
+construct `<code>$#variable</code>', where `<code>$variable</code>' is a variable,
+returns the index of the highest-numbered element in the variable if it
+is a vector, or returns `<code>-1</code>' of it is a scalar.  Note that in this
+special case the sharp-character `<code>#</code>' does not indicate a comment
+string.
+<p>
+
+<em>Example:</em>
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   $list[0] = 0;
+   $list[1] = 1;
+   print "Vector length is:", $#list, "\n";
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+
+In this example, the `<code>print</code>' command is used to output the message
+`<code>Length of vector is 1</code>'.  By now, Perl users will recognize the
+close correspondance between `<code>gre</code>' and Perl, as in the
+`<code>print</code>' command used here see <a href="BuiltinCommands.html#Print">Print</a>.
+<p>
+
+Individual indices may mix numeric and text values, e.g.
+<p>
+
+<em>Example:</em>
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   $x[0] = 0;
+   $x[1] = "zero";
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+Variable interpolation into strings is somewhat restricted, compared to
+Perl.  Interpolation is only done if the index is a numerical constant
+or a variable value, not if it is an expression:
+<p>
+
+
+<em>Example:</em>
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   $x[0] = 0;
+   $x[1] = 1;
+   $i = 0;
+   print "$x[0]\n";    # Legal
+   print "$x[$i]\n";   # Legal, yielding same as above
+   print "$x[$i+1]\n"; # *** Illegal -- expression in index ***
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+<!-- latex: \index{variables, vector and scalar with same name} -->
+
+You may use vector variables and scalar variables with identical names.
+For example, it is legal to have both `<code>$a</code>' (a scalar) and
+`<code>$a[0]</code>' (a vector element).
+<p>
+
+Assigning to user vector may be done in several ways.  The most common
+way when dealing with data is with the `<code>split</code>' command.  To assign
+without having to read data, you may assign to a list, as in 
+<p>
+
+<em>Example:</em>
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   @depths = (1, 10, 100);
+   print "$depths[0] $depths[1] $depths[2] (expect '1 10 100')\n";
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+
+<a href="tst_suite/tst-variables.html">Test file `<tt>tst-variables.gre</tt>':</a><p> 
+
+
+
+<!-- @node   System Variables, Scalar System Variables, User Variables, Variables -->
+<a name="SystemVariables" >
+
+
+<h3>3.4.2: System Variables</h3>
+</a>
+
+
+<p>
+
+<UL>
+<LI><a href="Grammar.html#ScalarSystemVariables">Scalar System Variables</a>: Scalars
+<LI><a href="Grammar.html#VectorSystemVariables">Vector System Variables</a>: Vectors
+</UL>
+
+<!-- latex: \index{variables, system} -->
+<!-- latex: \index{system variables} -->
+
+
+
+<!-- @node   Scalar System Variables, Vector System Variables, System Variables, System Variables -->
+<a name="ScalarSystemVariables" >
+
+<h4>3.4.2.1: Scalar system variables</h4>
+</a>
+
+
+<p>
+
+
+<!-- latex: \index{@code{$_}} -->
+<!-- latex: \index{@code{$_arrow_size}} -->
+<!-- latex: \index{@code{$0}} -->
+<!-- latex: \index{@code{$_command_file}} -->
+<!-- latex: \index{@code{$_time}} -->
+<!-- latex: \index{@code{$_exit_status}} -->
+<!-- latex: \index{@code{$_fontsize}} -->
+<!-- latex: \index{@code{$_graylevel}} -->
+<!-- latex: \index{@code{$_missingvalue}} -->
+<!-- latex: \index{@code{$_symbolsize}} -->
+<!-- latex: \index{@code{$_linewidth}} -->
+<!-- latex: \index{@code{$_linewidth_axis}} -->
+<!-- latex: \index{@code{$_linewidth_symbol}} -->
+<!-- latex: \index{@code{$_xmargin}} -->
+<!-- latex: \index{@code{$_xsize}} -->
+<!-- latex: \index{@code{$_xleft}} -->
+<!-- latex: \index{@code{$_xright}} -->
+<!-- latex: \index{@code{$_ymargin}} -->
+<!-- latex: \index{@code{$_ysize}} -->
+<!-- latex: \index{@code{$_ytop}} -->
+<!-- latex: \index{@code{$_ybottom}} -->
+<!-- latex: \index{@code{$_eof}} -->
+<!-- latex: \index{@code{$_version}} -->
+<!-- latex: \index{@code{$_arrow_size},} -->
+<!-- latex: \index{@code{$0}} -->
+<!-- latex: \index{@code{$_command_file}} -->
+<!-- latex: \index{@code{$_time}} -->
+<!-- latex: \index{@code{$_exit_status}} -->
+<!-- latex: \index{@code{$_fontsize}} -->
+<!-- latex: \index{@code{$_graylevel}} -->
+<!-- latex: \index{@code{$_missingvalue}} -->
+<!-- latex: \index{@code{$_symbolsize}} -->
+<!-- latex: \index{@code{$_linewidth}} -->
+<!-- latex: \index{@code{$_linewidth_axis}} -->
+<!-- latex: \index{@code{$_linewidth_symbol}} -->
+<!-- latex: \index{@code{$_xmargin}} -->
+<!-- latex: \index{@code{$_xsize}} -->
+<!-- latex: \index{@code{$_xleft}} -->
+<!-- latex: \index{@code{$_xright}} -->
+<!-- latex: \index{@code{$_ymargin}} -->
+<!-- latex: \index{@code{$_ysize}} -->
+<!-- latex: \index{@code{$_ytop}} -->
+<!-- latex: \index{@code{$_ybottom}} -->
+<!-- latex: \index{@code{$_eof}} -->
+<!-- latex: \index{@code{$_version}} -->
+<!-- latex: \index{command file, named in @code{$_command_file} variable} -->
+<!-- latex: \index{@code{$_command_file} variable (names the command file)} -->
+`<code>$_</code>' (may also be vector),
+`<code>$0</code>' (name of command file, also stored in `<code>$_command_file</code>'),
+`<code>$_arrow_size</code>',
+`<code>$_command_file</code>' (name of command file, also stored in `<code>$0</code>'),
+`<code>$_time</code>' (date and time when this Gre job was started),
+`<code>$_exit_status</code>',
+`<code>$_fontsize</code>',
+`<code>$_graylevel</code>',
+`<code>$_missingvalue</code>',
+`<code>$_symbolsize</code>',
+`<code>$_linewidth</code>',
+`<code>$_linewidth_axis</code>',
+`<code>$_linewidth_symbol</code>',
+`<code>$_xmargin</code>',
+`<code>$_xsize</code>',
+`<code>$_xleft</code>',
+`<code>$_xright</code>',
+`<code>$_ytop</code>',
+`<code>$_ybottom</code>',
+`<code>$_ysize</code>',
+`<code>$_eof</code>',
+and
+`<code>$_version</code>'.
+<p>
+
+
+<!-- @node   Vector System Variables, Mathematics, Scalar System Variables, System Variables -->
+<a name="VectorSystemVariables" >
+<h4>3.4.2.2: Vector system variables</h4>
+</a>
+
+
+<p>
+
+
+<!-- latex: \index{@code{$_x}} -->
+<!-- latex: \index{@code{$_y}} -->
+<!-- latex: \index{@code{$_z}} -->
+<!-- latex: \index{@code{$_u}} -->
+<!-- latex: \index{@code{$_v}} -->
+
+<!-- latex: \index{@code{$_x} vector, to hold x data} -->
+<!-- latex: \index{@code{$_y} vector, to hold y data} -->
+<!-- latex: \index{@code{$_z} vector, to hold z data} -->
+<!-- latex: \index{@code{$_u} vector, to hold u data} -->
+<!-- latex: \index{@code{$_v} vector, to hold v data} -->
+<!-- latex: \index{@code{$ARGV} vector, to hold command-line arguments} -->
+
+`<code>$_</code>' (used as in Perl, read by the `<code>&lt;&gt;</code>' operator),
+`<code>$_x</code>' (holds x data),
+`<code>$_y</code>' (holds y data),
+`<code>$_z</code>' (holds z data, normally for contouring),
+`<code>$_u</code>' (holds u data, normally for arrow plots),
+and
+`<code>$_v</code>' (holds v data, normally for arrow plots).
+<p>
+
+In addition, if the command-line arguments used in invoking `<code>gre</code>'
+contained extra items beyond the name of
+the command file, these items are stored in the vector `<code>$ARGV</code>' (as
+in Perl).  For example, the `<code>gre</code>' code (in `<samp>foo.gre</samp>' say)
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   for ($i = 0; $i &lt;= $#ARGV; $i++) {
+       open(IN, $ARGV[$i]) or die;
+       # ... do stuff with this file
+       close(IN);
+   }
+</PRE>
+</TD>
+</TR>
+</TABLE>
+ invoked with the command
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   gre foo.gre station1.dat station2.dat station3.dat
+</PRE>
+</TD>
+</TR>
+</TABLE>
+ will do "stuff" on each of the indicated data-files.
+<p>
+
+
+<!-- @node   Mathematics, Builtin numerical constants, Vector System Variables, Grammar -->
+<a name="Mathematics" >
+
+<h2>3.5: Mathematics</h2>
+</a>
+
+
+<p>
+<!-- latex: \index{mathematics} -->
+
+The syntax of mathematical expressions in `<code>gre</code>' is identical to
+that in Perl, very close to Gawk, and quite close to C and FORTRAN.
+<p>
+
+
+
+<a href="tst_suite/tst-math.html">Test file `<tt>tst-math.gre</tt>':</a><p> 
+
+
+
+<UL>
+<LI><a href="Grammar.html#Builtinnumericalconstants">Builtin numerical constants</a>: 
+<LI><a href="Grammar.html#Precisionusedincalculations">Precision used in calculations</a>: 
+<LI><a href="Grammar.html#Efficiencyconsiderations">Efficiency considerations</a>: 
+<LI><a href="Grammar.html#Underlineconventioninnumericalconstants">Underline convention in numerical constants</a>: 
+<LI><a href="Grammar.html#Conventionondivisionofconstants">Convention on division of constants</a>: 
+<LI><a href="Grammar.html#Algebraicoperators">Algebraic operators</a>: 
+<LI><a href="Grammar.html#Comparisonoperators">Comparison operators</a>: 
+<LI><a href="Grammar.html#Mathematicalsubroutines">Mathematical subroutines</a>: 
+</UL>
+
+<!-- @node   Builtin numerical constants, Precision used in calculations, Mathematics, Mathematics -->
+<a name="Builtinnumericalconstants" >
+<h3>3.5.1: Builtin mathematical constants</h3>
+</a>
+
+
+<p>
+
+<!-- latex: \index{@code{$_pi}, mathematical constant} -->
+<!-- latex: \index{@code{$_e}, mathematical constant} -->
+<!-- latex: \index{mathematical constants, pi, e, etc} -->
+
+`<code>gre</code>' has a few mathematical constants built in as variables:
+<p>
+
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   `<code>$_pi</code>' = 3.14 ...# geometrical quantity Pi
+   `<code>$_e</code>'  = 2.72 ...# base of natural logarithms
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+
+
+<!-- @node   Precision used in calculations, Efficiency considerations, Builtin numerical constants, Mathematics -->
+<a name="Precisionusedincalculations" >
+<h3>3.5.2: Precision used in calculations</h3>
+</a>
+
+
+<p>
+
+<!-- latex: \index{floating point operations} -->
+<!-- latex: \index{integer operations} -->
+<!-- latex: \index{precision of calculations} -->
+
+Calculations in `<code>gre</code>' are done in double-precision.  This yields about
+15 digits of precision.  For example, 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   printf "%.30f\n", 1/6;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+prints
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   0.166666666666666657414808128124
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+The column data are stored in single-precision, not double-precision.
+In practice this seldom makes any difference since data are seldom
+reported to 15 digit precision.  (If enough users ask, the `<code>gre</code>'
+author will switch to double-precision for the column data also.)
+<p>
+
+
+<!-- @node   Efficiency considerations, Underline convention in numerical constants, Precision used in calculations, Mathematics -->
+<a name="Efficiencyconsiderations" >
+<h3>3.5.3: Efficiency considerations</h3>
+</a>
+
+
+<p>
+
+<!-- latex: \index{arithmetic expressions (constant)} -->
+<!-- latex: \index{constant arithmetic expressions} -->
+<!-- latex: \index{efficiency considerations, arithmetic expressions} -->
+<!-- latex: \index{optimization, constant arithmetic expressions} -->
+
+Constant arithmetic expressions are computed at compile time, not at run
+time, so you needn't worry about simplifying such expressions even if
+they are within a loop that is executed many times.  Thus, you won't
+suffer a runtime performance degradation by using `<code>2/3</code>' in an
+expression instead of `<code>0.666</code>', and you'll get better accuracy
+(unless you are patient enough to type the 12 or so digits of accuracy
+used in Gre).
+<p>
+
+
+
+
+<!-- @node   Underline convention in numerical constants, Convention on division of constants, Efficiency considerations, Mathematics -->
+<a name="Underlineconventioninnumericalconstants" >
+<h3>3.5.4: Underline convention in numerical constants</h3>
+</a>
+
+
+<p>
+
+<!-- latex: \index{underline character in numerical constants} -->
+<!-- latex: \index{@code{_} character in numerical constants} -->
+<!-- latex: \index{numerical constants and @code{_} character} -->
+<!-- latex: \index{thousands groupings in constants, with @code{_}} -->
+
+For convenience, it is permitted to use an underline character
+(`<code>_</code>') within numerical constants, to separate "thousands"
+groupings.  Thus you can write `<code>$x=1_000_000;</code>' instead of
+`<code>$x=1000000;</code>', which is quite a lot harder to read.  All `<code>_</code>'
+characters in constants are skipped.  Thus you could, if you wanted,
+write a constant as `<code>1_00_00</code>'.  However, `<code>gre</code>' will issue a
+compile-time warning for such constructs, because it wants the
+underscores to be spaced at intervals of three digits.  The number will
+be accepted even if a warning is given.  (Perl users will note that
+`<code>gre</code>' is pickier than Perl, since Perl only issues this type of
+warning if the warning flag is turned on.)
+<p>
+
+
+
+<!-- @node   Convention on division of constants, Algebraic operators, Underline convention in numerical constants, Mathematics -->
+<a name="Conventionondivisionofconstants" >
+<h3>3.5.5: Convention on division of constants</h3>
+</a>
+
+
+<p>
+<!-- latex: \index{integer arithmetic} -->
+<!-- latex: \index{arithmetic, on integers} -->
+<!-- latex: \index{mathematics, on integers} -->
+
+One important difference from C (and FORTRAN) is that all constants are
+considered to be <em>floating point</em> in `<code>gre</code>'.  In this regard,
+`<code>gre</code>' follows the convention used in Perl, Awk, and other modern
+interpreted languages.  Thus the statement
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   $x = 1/2;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+assigns the value `<code>0.5</code>' to the variable.  In FORTRAN and in C, the
+lack of decimal points would force integer arithmetic and the result
+would be `<code>0</code>'.  As a test of the utility of the FORTRAN convention,
+ask 10 programmers to indicate the value of `<code>-1/2</code>', and see if they
+all agree on whether it is `<code>-1</code>' or `<code>0</code>'.  Note that the
+`<code>floor()</code>' function may be used to convert floating-point values
+into integer values see <a href="Grammar.html#Builtinfunctionsthattakeoneargument">Builtin functions that take one argument</a>.
+This function, borrowed from C, produces values that 10 programmers
+would probably agree on!
+<p>
+
+
+<!-- @node   Algebraic operators, Comparison operators, Convention on division of constants, Mathematics -->
+<a name="Algebraicoperators" >
+<h3>3.5.6: Operator precedence</h3>
+</a>
+
+
+<p>
+
+<!-- latex: \index{operator precedence} -->
+<!-- latex: \index{order of precedence of operators} -->
+<!-- latex: \index{precedence of operators} -->
+<!-- latex: \index{mathematical operators, order of precedence} -->
+<!-- latex: \index{arithmetic} -->
+<!-- latex: \index{@code{**} exponentiation operator} -->
+<!-- latex: \index{exponentiation with @code{**} operator} -->
+
+Within mathematical expressions, the usual operator <em>precedence</em> is
+used.  For example, multiplications are done before additions.  The
+order of precedence is, from order of lowest precedence to highest: (1)
+addition (`<code>+</code>') and subtraction (`<code>-</code>'); (2) multiplication
+(`<code>*</code>') and division (`<code>/</code>'); (3) and exponentiation (`<code>**</code>').
+Operators of equal precedence, such as addition and subtraction, are
+done in left-to-right order.  Parentheses may be used to override these
+operator precedence rules.
+<p>
+
+<!-- @node   Comparison operators, Mathematical subroutines, Algebraic operators, Mathematics -->
+<a name="Comparisonoperators" >
+<h3>3.5.7: Comparison operators</h3>
+</a>
+
+
+<p>
+<!-- latex: \index{comparing numberical values} -->
+<!-- latex: \index{numerical values, comparing} -->
+
+Along with the normal algebraic operators, various operators are
+provided to compare numerical values.  For example, `<code>($a &lt; $b)</code>' is
+an expression which has the value `<code>1</code>' if variable `<code>$a</code>' is less
+than variable `<code>$b</code>', and zero otherwise.  The comparison operators
+are mostly used in conditional and looping statements.  They are:
+`<code>&lt;</code>' (less than),
+`<code>&lt;=</code>' (less than or equal to),
+`<code>&gt;</code>' (greater than),
+`<code>&gt;=</code>' (greater than or equal to),
+`<code>==</code>' (equal to), and
+`<code>!=</code>' (not equal to).
+<p>
+
+<!-- latex: \index{boolean operations} -->
+<!-- latex: \index{logical operations} -->
+<!-- latex: \index{@code{||}, boolean 'or' operator} -->
+<!-- latex: \index{@code{or}, boolean operator} -->
+<!-- latex: \index{@code{&&}, boolean 'and' operator} -->
+<!-- latex: \index{@code{and}, boolean operator} -->
+<!-- latex: \index{@code{!}, boolean 'not' operator} -->
+<!-- latex: \index{@code{not}, boolean operator} -->
+<!-- latex: \index{@code{?}, question operator} -->
+<!-- latex: \index{colon operator} -->
+<!-- latex: \index{question-mark operator} -->
+<!-- latex: \index{colon operator} -->
+
+Logical operations, also called boolean operations, are done with
+`<code>||</code>' or `<code>or</code>' (for logical "or"), `<code>&amp;&amp;</code>' or `<code>and</code>' (for
+logical "and") and `<code>!</code>' or `<code>not</code>' (for logical negation).
+<p>
+
+The question-operator, borrowed from C-like languages, has the form
+`<code>expr_test ? expr_true : expr_false</code>'.  This construct reduces to a
+single value, equal to `<code>expr_true</code>' if the test-expression
+`<code>expr_test</code>' is true, or to `<code>expr_false</code>' otherwise.  Thus one
+might say `<code>$min = ($a &lt; $b) ? $a : $b;</code>' to assign to `<code>$min</code>'
+the value of `<code>$a</code>' or `<code>$b</code>', whichever is smaller.  The
+expressions after the `<code>?</code>' character may be numerical or textual
+(and needn't be of the same type); `<code>gre</code>' will appropriately
+assign a type to the result depending on whether the "true" or "false"
+branch is selected by the test value.
+<p>
+
+As in most other C-like languages, logical expressions are evaluated
+from left to right, with evaluation stopping as soon as the value can be
+determined.  For example, consider the expression 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   0 &amp;&amp; die "will not print\n";
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+ (Aside: since the expression is surely zero regardless of the return
+value for the `<code>die</code>' command, the `<code>die</code>' command will not be
+executed.)  
+<p>
+
+The same rule applies to the "or" operator.  In fact, it is very common
+(and highly recommended) to use this in checking for whether files could
+be opened, e.g.
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   open(IN, "input_file") || die "Cannot open file 'input_file'\n";
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+
+
+
+<a href="tst_suite/tst-string-comp.html">Test file `<tt>tst-string-comp.gre</tt>':</a><p> 
+
+
+<!-- @node   Mathematical subroutines, Builtin functions that take no arguments, Comparison operators, Mathematics -->
+<a name="Mathematicalsubroutines" >
+<h3>3.5.8: Mathematical subroutines</h3>
+</a>
+
+
+<p>
+
+<!-- latex: \index{@code{()} for subroutines} -->
+<!-- latex: \index{parentheses, needed for subroutines} -->
+<!-- latex: \index{subroutines} -->
+
+Calling mathematical subroutines is conventional, with parentheses
+around the arguments in almost all cases.  Note that `<code>gre</code>' departs
+from Perl in this.  Perl lets you omit the parentheses in cases where
+the parser can figure it out based on precidence rules.  That's okay if
+you know the rules, but pretty confusing otherwise!
+<p>
+
+The "in almost all cases" phrase indicates that the parenthesis are
+optional in `<code>die</code>' and a few of other commands, covering cases in
+which almost no Perl programmers would use parenthesis.  Thus, you can
+write
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   die "Cannot handle negative values" unless $x &gt; 0;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+instead of
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   die("Cannot handle negative values") unless $x &gt; 0;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+However, `<code>gre</code>' won't understand
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   $x = sin 0;  # broken
+</PRE>
+</TD>
+</TR>
+</TABLE>
+when you mean
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   $x = sin(0);  # okay
+</PRE>
+</TD>
+</TR>
+</TABLE>
+The reason is that the former convention is, simply, that the former
+(perl-ish) convention has always been confusing to the author, who would
+have to run a test program to figure out what value would be returned by
+the following
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   print sin 0 + 3.14159;  # Illegal in Gre but ok in Perl
+</PRE>
+</TD>
+</TR>
+</TABLE>
+Granted, Perl experts can parse the above statement easily, and predict
+the answer (pop quiz: is it zero or Pi), but users of other languages
+would have to guess, so `<code>gre</code>' has chosen to disallow such syntax, and
+to require that sine, cosine, and other subroutines be called with
+parenthesis.
+<p>
+
+
+<UL>
+<LI><a href="Grammar.html#Builtinfunctionsthattakenoarguments">Builtin functions that take no arguments</a>: 
+<LI><a href="Grammar.html#Builtinfunctionsthattakeoneargument">Builtin functions that take one argument</a>: 
+<LI><a href="Grammar.html#Builtinfunctionsthattaketwoarguments">Builtin functions that take two arguments</a>: 
+<LI><a href="Grammar.html#Builtinfunctionsthattakemorethantwoarguments">Builtin functions that take more than two arguments</a>: 
+<LI><a href="Grammar.html#Builtinfunctionsforseawaterproperties">Builtin functions for seawater properties</a>: Properties of seawater
+<LI><a href="Grammar.html#Builtinfunctionsformapprojections">Builtin functions for map projections</a>: Working with 'proj' OS command
+<LI><a href="Grammar.html#UserSubroutines">User Subroutines</a>: How to define new functions
+</UL>
+
+
+<!-- @node   Builtin functions that take no arguments, Builtin functions that take one argument, Mathematical subroutines, Mathematical subroutines -->
+<a name="Builtinfunctionsthattakenoarguments" >
+
+<h4>3.5.8.1: Builtin Functions that take no arguments</h4>
+</a>
+
+
+<p>
+
+<!-- latex: \index{random numbers} -->
+<!-- latex: \index{seed for random numbers} -->
+<!-- latex: \index{@code{rand()} subroutine} -->
+<!-- latex: \index{gaussian distribution, generating random numbers in} -->
+<!-- latex: \index{uniform distribution, generating random numbers in} -->
+<!-- latex: \index{statistics, generating random numbers} -->
+<!-- latex: \index{@code{rand_gaussian()} subroutine} -->
+<!-- latex: \index{random number generators, @code{rand()} and @code{rand_gaussian()}} -->
+<!-- latex: \index{@code{version()} subroutine} -->
+
+<ul>
+<li>
+<!-- latex: \index{@code{rand()}} -->
+<!-- latex: \index{@code{rand()}} -->
+`<code>rand()</code>' returns a pseudo-random number uniformly distributed
+between 0 and 1.  See also `<code>srand(x)</code>';
+<p>
+
+This subroutine is based on the system routine `<code>drand48</code>', and
+therefore the pseudo-random sequence will be the same each time `<code>gre</code>'
+is invoked; to get a different sequenct use `<code>srand($x)</code>' where
+`<code>$x</code>' is an integer.
+<p>
+
+<li>
+<!-- latex: \index{@code{rand_gaussian()}} -->
+<!-- latex: \index{@code{rand_gaussian()}} -->
+`<code>rand_gaussian()</code>' returns a pseudo-random number from a Gaussian
+distribution with mean of 0 and standard deviation of 1.  See also
+`<code>srand(x)</code>';
+<p>
+
+To create a random number `<code>$r</code>' with a mean of `<code>$M</code>' and a
+standard-deviation of `<code>$S</code>', use
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   $r = $S * rand_gaussian() + $M;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+This subroutine is based on the system routine `<code>drand48</code>', and
+therefore the pseudo-random sequence will be the same each time `<code>gre</code>'
+is invoked; to get a different sequenct use `<code>srand($x)</code>' where
+`<code>$x</code>' is an integer.
+<p>
+
+<li>
+<!-- latex: \index{@code{version()}} -->
+<!-- latex: \index{@code{version()}} -->
+`<code>version()</code>' returns the version number of `<code>gre</code>' in numeric form.
+For example, `<code>version()</code>' returns `<code>0.0115</code>' for version
+`<code>0.1.15</code>' of `<code>gre</code>'.  The value in double-dotted textual form
+(e.g. `<code>0.1.15</code>') is available in the `<code>$_version</code>' builtin
+variable.
+</ul>
+<p>
+
+
+
+<a href="tst_suite/tst-random.html">Test file `<tt>tst-random.gre</tt>':</a><p> 
+
+<!-- @node   Builtin functions that take one argument, Builtin functions that take two arguments, Builtin functions that take no arguments, Mathematical subroutines -->
+<a name="Builtinfunctionsthattakeoneargument" >
+
+<h4>3.5.8.2: Builtin Functions that take one argument</h4>
+</a>
+
+
+<p>
+
+<ul>
+<li>
+<!-- latex: \index{@code{abs(x)}} -->
+<!-- latex: \index{@code{abs(x)} subroutine} -->
+`<code>abs(x)</code>' returns absolute value of `<code>x</code>'.
+<li>
+<!-- latex: \index{@code{acos(x)}} -->
+<!-- latex: \index{@code{acos(x)} subroutine} -->
+`<code>acos(x)</code>' returns inverse cosine of `<code>x</code>', in radians.
+<li>
+<!-- latex: \index{@code{acosh(x)}} -->
+<!-- latex: \index{@code{acosh(x)} subroutine} -->
+`<code>acosh(x)</code>' returns inverse hyperbolic cosine of `<code>x</code>'.
+<li>
+<!-- latex: \index{@code{asin(x)}} -->
+<!-- latex: \index{@code{asin(x)} subroutine} -->
+`<code>asin(x)</code>' returns inverse sine of `<code>x</code>', in radians.
+<li>
+<!-- latex: \index{hyperbolic sine, cosine, tangent} -->
+<!-- latex: \index{@code{asinh(x)}} -->
+<!-- latex: \index{@code{asinh(x)} subroutine} -->
+`<code>asinh(x)</code>' returns inverse hyperbolic sine of `<code>x</code>'.
+<li>
+<!-- latex: \index{@code{atan(x)}} -->
+<!-- latex: \index{@code{atan(x)} subroutine} -->
+`<code>atan(x)</code>' returns inverse tangent of `<code>x</code>', in radians.
+<li>
+<!-- latex: \index{@code{atanh(x)}} -->
+<!-- latex: \index{@code{atanh(x)} subroutine} -->
+`<code>atanh(x)</code>' returns inverse hyperbolic cosine of `<code>x</code>'.
+<li>
+<!-- latex: \index{@code{ceil(x)}} -->
+<!-- latex: \index{@code{ceil(x)} subroutine} -->
+`<code>ceil(x)</code>' returns smallest integer which is larger than `<code>x</code>'.
+<li>
+<!-- latex: \index{@code{cm_to_pt(x)}} -->
+<!-- latex: \index{@code{cm_to_pt(x)} subroutine} -->
+`<code>cm_to_pt(x)</code>' returns centimeters corresponding to indicated value
+in PostScript "points".
+<li>
+<!-- latex: \index{@code{cos(x)}} -->
+<!-- latex: \index{@code{cos(x)} subroutine} -->
+`<code>cos(x)</code>' returns cosine of `<code>x</code>', where `<code>x</code>' is in radians.
+<li>
+<!-- latex: \index{@code{cosh(x)}} -->
+<!-- latex: \index{@code{cosh(x)} subroutine} -->
+`<code>cosh(x)</code>' returns hyperbolic cosine of `<code>x</code>'.
+<li>
+<!-- latex: \index{@code{exp(x)}} -->
+<!-- latex: \index{@code{exp(x)} subroutine} -->
+`<code>exp(x)</code>' returns 'e' raised to indicated power.
+<li>
+<!-- latex: \index{@code{exp10(x)}} -->
+<!-- latex: \index{@code{exp10(x)} subroutine} -->
+`<code>exp10(x)</code>' returns 10 raised to indicated power.
+<li>
+<!-- latex: \index{@code{erf(x)}} -->
+<!-- latex: \index{@code{erf(x)} subroutine} -->
+`<code>erf(x)</code>' returns error-function of indicated argument, i.e. 
+`<code>2/sqrt(pi)*integral from 0 to x of exp(-t*t) dt</code>'.
+<li>
+<!-- latex: \index{@code{erfc(x)}} -->
+<!-- latex: \index{@code{erfc(x)} subroutine} -->
+`<code>erfc(x)</code>' returns complementary error-function of indicated
+argument, i.e. `<code>1-erf(x)</code>'.
+<li>
+<!-- latex: \index{@code{floor(x)}} -->
+<!-- latex: \index{@code{floor(x)} subroutine} -->
+`<code>floor(x)</code>' returns largest integer which is smaller than x.
+<li>
+<!-- latex: \index{@code{int(x)}} -->
+<!-- latex: \index{@code{int(x)} subroutine} -->
+`<code>int(x)</code>' returns integer part of `<code>x</code>', e.g. `<code>2==int(2.1)</code>'
+and `<code>-2==int(-2.1)</code>' both apply.
+<li>
+<!-- latex: \index{@code{ln(x)}} -->
+<!-- latex: \index{@code{ln(x)} subroutine} -->
+`<code>ln(x)</code>' returns natural logarithm, that is log base e.
+<li>
+<!-- latex: \index{@code{log10(x)}} -->
+<!-- latex: \index{@code{log10(x)} subroutine} -->
+`<code>log10(x)</code>' returns log base 10.
+<li>
+<!-- latex: \index{@code{open()}} -->
+<!-- latex: \index{@code{open()} subroutine} -->
+`<code>open()</code>' opens a file for reading.
+<li>
+<!-- latex: \index{@code{print}} -->
+<!-- latex: \index{@code{print} subroutine} -->
+`<code>print</code>' prints something see <a href="BuiltinCommands.html#Print">Print</a>.
+<li>
+<!-- latex: \index{@code{printf}} -->
+<!-- latex: \index{@code{printf} subroutine} -->
+`<code>printf</code>' prints something see <a href="BuiltinCommands.html#Printf">Printf</a>.
+<li>
+<!-- latex: \index{@code{pt_to_cm(x)}} -->
+<!-- latex: \index{@code{pt_to_cm(x)} subroutine} -->
+`<code>pt_to_cm(x)</code>' is opposite of cm_to_pt.
+<li>
+<!-- latex: \index{@code{rewind()}} -->
+<!-- latex: \index{@code{rewind()} subroutine} -->
+`<code>rewind()</code>' rewinds a file.
+<li>
+<!-- latex: \index{@code{sin(x)}} -->
+<!-- latex: \index{@code{sin(x)} subroutine} -->
+`<code>sin(x)</code>' returns sine of `<code>x</code>', where `<code>x</code>' is in radians.
+<li>
+<!-- latex: \index{@code{sinh(x)}} -->
+<!-- latex: \index{@code{sinh(x)} subroutine} -->
+`<code>sinh(x)</code>' returns hyperbolic sine of `<code>x</code>'.
+<li>
+<!-- latex: \index{@code{sqrt(x)}} -->
+<!-- latex: \index{@code{sqrt(x)} subroutine} -->
+`<code>sqrt(x)</code>' returns square root of `<code>x</code>'.
+<li>
+<!-- latex: \index{@code{srand(x)}} -->
+<!-- latex: \index{@code{srand(x)} subroutine} -->
+`<code>srand(x)</code>' sets seed for random number, based on integer `<code>x</code>',
+returning 1.  See also `<code>rand()</code>' and `<code>rand_gaussian()</code>'
+<li>
+<!-- latex: \index{@code{tan(x)}} -->
+<!-- latex: \index{@code{tan(x)} subroutine} -->
+`<code>tan(x)</code>' returns tangent of `<code>x</code>', where `<code>x</code>' is in radians.
+<li>
+<!-- latex: \index{@code{tanh(x)}} -->
+<!-- latex: \index{@code{tanh(x)} subroutine} -->
+`<code>tanh(x)</code>' returns hyperbolic tangent of `<code>x</code>'.
+For example, here is how you might show a graph of the hyperbolic tangent:
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   # Graph tanh(x) for x ranging from -3 to 3.
+   $i = 0;
+   for ($x = -3; $x &lt;= 3; $x += 0.1) {
+       $_x[$i] = $x;
+       $_y[$i] = tanh($x);
+       $i++;
+   }
+   set y axis -1 1 1 0.1;
+   set x axis -3 3 1;
+   set x name "X";
+   set y name "tanh(X)";
+   draw curve;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+<li>
+<!-- latex: \index{@code{length("string")}} -->
+<!-- latex: \index{@code{length("string")} subroutine} -->
+<!-- latex: \index{length of a string} -->
+<!-- latex: \index{string, length} -->
+`<code>length("string")</code>' returns the number of characters in the string.
+(Perl users note: this subroutine requires an argument; unlike Perl, it
+does not default to an argument of `<code>$_</code>' if called with no argument.)
+<p>
+
+<li>
+<!-- latex: \index{@code{text_ascent("string")}} -->
+<!-- latex: \index{@code{text_ascent("string")} subroutine} -->
+<!-- latex: \index{ascent of text} -->
+<!-- latex: \index{text, ascent} -->
+`<code>text_ascent("string")</code>' returns the ascent, in centimeters, for the
+present font.  The argument is ignored and this subroutine returns the
+descent for the font (i.e. the maximal descent for any character that
+can be drawn).  `<code>gre</code>' consults an internal table of PostScript font
+metrics to do the calculation.
+<li>
+<!-- latex: \index{@code{text_descent("string")}} -->
+<!-- latex: \index{@code{text_descent("string")} subroutine} -->
+<!-- latex: \index{descent of text} -->
+<!-- latex: \index{text, descent} -->
+`<code>text_descent("string")</code>' returns the descent, in centimeters, for
+the present font.  Actually, the argument is ignored and this subroutine
+returns the descent for the font (i.e. the maximal descent for any
+character that can be drawn).  `<code>gre</code>' consults an internal table of
+PostScript font metrics to do the calculation.
+<li>
+<!-- latex: \index{@code{text_width("string")}} -->
+<!-- latex: \index{@code{text_width("string")} subroutine} -->
+<!-- latex: \index{width of text} -->
+<!-- latex: \index{text, finding width/ascent/descent} -->
+`<code>text_width("string")</code>' returns the width, in centimeters, that the
+indicated string would occupy if drawn in present font size.
+<li>
+<!-- latex: \index{@code{user_to_cm_x(xuser)}} -->
+<!-- latex: \index{@code{user_to_cm_x(xuser)} subroutine} -->
+`<code>user_to_cm_x(xuser)</code>' returns page x-location of the indicated
+x-value.  That is, it returns the distance from the indicated point, if
+it were plotted, to the left-hand side of the page.
+<li>
+<!-- latex: \index{@code{user_to_cm_y(yuser)}} -->
+<!-- latex: \index{@code{user_to_cm_y(yuser)} subroutine} -->
+`<code>user_to_cm_y(yuser)</code>' returns page y-location of the indicated
+y-value.  That is, it returns the distance from the indicated point, if
+it were plotted, to the bottom side of the page.
+<p>
+
+</ul>
+<p>
+
+
+<!-- @node   Builtin functions that take two arguments, Builtin functions that take more than two arguments, Builtin functions that take one argument, Mathematical subroutines -->
+<a name="Builtinfunctionsthattaketwoarguments" >
+
+<h4>3.5.8.3: Builtin Functions that take two arguments</h4>
+</a>
+
+
+<p>
+
+<ul>
+<li>
+<!-- latex: \index{@code{atan2(x,y)}} -->
+<!-- latex: \index{@code{atan2(x,y)} subroutine} -->
+`<code>atan2(x,y)</code>' returns arctangent of slope `<code>y/x</code>'.
+<li>
+<!-- latex: \index{@code{max(x1,x2)}} -->
+<!-- latex: \index{@code{max(x1,x2)} subroutine} -->
+`<code>max(x1,x2)</code>' returns `<code>x1</code>' or `<code>x2</code>', whichever is larger.
+<li>
+<!-- latex: \index{@code{min(x1,x2)}} -->
+<!-- latex: \index{@code{min(x1,x2)} subroutine} -->
+`<code>min(x1,x2)</code>' returns `<code>x1</code>' or `<code>x2</code>', whichever is smaller.
+<li>
+<!-- latex: \index{@code{pow(x,y)}} -->
+<!-- latex: \index{@code{pow(x,y)} subroutine} -->
+`<code>pow(x,y)</code>' returns `<code>x</code>' raised to power `<code>y</code>', just as
+the expression`<code>x**y</code>' does.
+</ul>
+<p>
+
+
+
+
+<a href="tst_suite/tst-builtin.html">Test file `<tt>tst-builtin.gre</tt>':</a><p> 
+
+
+<!-- @node   Builtin functions that take more than two arguments, Builtin functions for seawater properties, Builtin functions that take two arguments, Mathematical subroutines -->
+<a name="Builtinfunctionsthattakemorethantwoarguments" >
+
+<h4>3.5.8.4: Builtin Functions that take more than two arguments</h4>
+</a>
+
+
+<p>
+
+
+<ul>
+<li>
+<!-- latex: \index{@code{unlink()}} -->
+<!-- latex: \index{@code{unlink} subroutine} -->
+<!-- latex: \index{files, deleting with @code{unlink}} -->
+<!-- latex: \index{files, removing with @code{unlink}} -->
+<!-- latex: \index{files, unlinking} -->
+<!-- latex: \index{deleting files with @code{unlink}} -->
+<!-- latex: \index{removing files with @code{unlink}} -->
+`<code>unlink("file1", ...)</code>' deletes indicated file(s), and returns number of files successfully deleted.
+</ul>
+<p>
+
+
+
+<!-- @node   Builtin functions for seawater properties, Builtin functions for map projections, Builtin functions that take more than two arguments, Mathematical subroutines -->
+<a name="Builtinfunctionsforseawaterproperties" >
+
+<h4>3.5.8.5: Subroutines for physical properties of seawater</h4>
+</a>
+
+
+<p>
+
+The subroutines for physical properties of seawater have names starting
+with `<code>sw</code>' (for SeaWater).  The salinity unit, `<code>PSU</code>', is
+'practical salinity unit', basically a synonym for PPT (parts per
+thousand).  The pressure unit, `<code>dbar</code>', is decibar (roughly
+corresponding to the pressure increase for one meter of depth increase).
+<p>
+
+<!-- latex: \index{physical properties of seawater} -->
+<!-- latex: \index{seawater, physical properties} -->
+<!-- latex: \index{density of seawater} -->
+<!-- latex: \index{potential temperature of seawater} -->
+<!-- latex: \index{equation of state for temperature} -->
+
+
+<ul>
+<li>
+<!-- latex: \index{@code{sw_alpha(S, T, p)}} -->
+<!-- latex: \index{@code{sw_alpha(S, T, p)} subroutine} -->
+`<code>sw_alpha(S, T, p)</code>'
+-- seawater thermal expansion coefficient [1/degC] in terms of salinity
+[PSU], in-situ temperature T [degC] and pressure p [dbar], by
+numerically differentiating the sw_density() function with a 1e-5 degC
+first-difference. 
+<li>
+<!-- latex: \index{@code{sw_beta(S, T, p)}} -->
+<!-- latex: \index{@code{sw_beta(S, T, p)} subroutine} -->
+`<code>sw_beta(S, T, p)</code>'
+-- seawater haline contraction coefficient [1/PSU] in terms of salinity [PSU], in-situ temperature T [degC] and pressure p [dbar], by
+numerically differentiating the sw_density() function with a 1e-5 PSU
+first-difference. 
+<li>
+<!-- latex: \index{@code{sw_density(S, T, p)}} -->
+<!-- latex: \index{@code{sw_density(S, T, p)} subroutine} -->
+`<code>sw_density(S, T, p)</code>'
+-- seawater density [kg/m3] in terms of salinity [PSU], in-situ temperature T [degC] and pressure p [dbar]
+<li>
+<!-- latex: \index{@code{sw_freezing_temperature(S, p)}} -->
+<!-- latex: \index{@code{sw_freezing_temperature(S, p)} subroutine} -->
+`<code>sw_freezing_temperature(S, p)</code>'
+-- seawater freezing temperature [degC] in terms of salinity [PSU] and pressure p [dbar]
+<li>
+<!-- latex: \index{@code{sw_lapse_rate(S, t, p)}} -->
+<!-- latex: \index{@code{sw_lapse_rate(S, t, p)} subroutine} -->
+`<code>sw_lapse_rate(S, T, p)</code>'
+-- seawater lapse-rate [degC/m] in terms of salinity [PSU], in-situ temperature T [degC] and pressure p [dbar]
+<li>
+<!-- latex: \index{@code{sw_potential_temperature(S, T, p, pref)}} -->
+<!-- latex: \index{@code{sw_potential_temperature(S, T, p, pref)} subroutine} -->
+`<code>sw_potential_temperature(S, T, p, pref)</code>'
+-- seawater potential temperature [degC] in terms of salinity [PSU],
+in-situ temperature T [degC], in-situ pressure p [dbar] and reference pressure pref [dbar]
+<li>
+<!-- latex: \index{@code{sw_salinity (C, T, p)}} -->
+<!-- latex: \index{@code{sw_salinity (C, T, p)} subroutine} -->
+`<code>sw_salinity (R, T, p)</code>'
+-- seawater salinity [PSU] in terms of conductivity ratio R [unitless], in-situ temperature T [degC] and pressure p [dbar]
+<li>
+<!-- latex: \index{@code{sw_spice (C, T, p)}} -->
+<!-- latex: \index{@code{sw_spice (C, T, p)} subroutine} -->
+`<code>sw_spice (S, T, p)</code>'
+-- `spice' function as defined by Jackett and McDougall (1985) Deep-Sea
+Research 32, 1195-1207, in terms of salinity [PSU], in-situ temperature
+T [degC] and pressure p [dbar]
+<p>
+
+</ul>
+<p>
+
+
+
+
+<a href="tst_suite/tst-sw.html">Test file `<tt>tst-sw.gre</tt>':</a><p> 
+
+
+<!-- @node   Builtin functions for map projections, User Subroutines, Builtin functions for seawater properties, Mathematical subroutines -->
+<a name="Builtinfunctionsformapprojections" >
+<h4>3.5.8.6: Subroutines for map projections</h4>
+</a>
+
+
+<p>
+
+<!-- latex: \index{map projections} -->
+<!-- latex: \index{latitude} -->
+<!-- latex: \index{longitude} -->
+<!-- latex: \index{@code{set map projection} system command} -->
+<!-- latex: \index{@code{proj_lonlat_to_x($lon, $lat)}} -->
+<!-- latex: \index{@code{proj_lonlat_to_x($lon, $lat)} subroutine} -->
+<!-- latex: \index{@code{proj_lonlat_to_y($lon, $lat)}} -->
+<!-- latex: \index{@code{proj_lonlat_to_y($lon, $lat)} subroutine} -->
+
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   proj_lonlat_to_x($lon, $lat)
+   proj_lonlat_to_y($lon, $lat)
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+The above subroutines are provided to convert world-coordinate (lon/lat)
+pairs to geometrical coordinates, according to a map projection
+specified by the `<code>set map projection</code>' command 
+see <a href="BuiltinCommands.html#Setmapprojection">Set map projection</a>.
+<p>
+
+In the argument list, `<code>lon</code>' appears before `<code>lat</code>', although a
+geographer might have expected the reverse order.  Longitudes are
+measured positive to the east, so that degrees-west are indicated by
+negative `<code>lon</code>' values.
+<p>
+
+`<code>proj_lonlat_to_x($lon, $lat)</code>' returns x-component after map
+projection of indicated ($lon, $lat) pair, after passing through the
+appropriate map projection transformation routine.  The y-value is
+returned by the corresponding subroutine `<code>proj_lonlat_to_y($lon, $lat)</code>'.
+<p>
+
+
+
+
+<!-- @node   User Subroutines, Operations on Text, Builtin functions for map projections, Mathematical subroutines -->
+<a name="UserSubroutines" >
+<h4>3.5.8.7: User-defined Subroutines</h4>
+</a>
+
+
+<p>
+
+
+The `<code>sub</code>' command is used to create user-defined subroutines.  For
+more details see <a href="BuiltinCommands.html#Sub">Sub</a>.
+<p>
+
+
+
+<!-- @node   Operations on Text, Entering Text, User Subroutines, Grammar -->
+<a name="OperationsonText" >
+<h2>3.6: Operations on text</h2>
+</a>
+
+
+<p>
+
+<UL>
+<LI><a href="Grammar.html#EnteringText">Entering Text</a>: ...
+<LI><a href="Grammar.html#SystemCallsInQuotedStrings">System Calls In Quoted Strings</a>: ...
+<LI><a href="Grammar.html#VariableInterpolationInQuotedStrings">Variable Interpolation In Quoted Strings</a>: ...
+<LI><a href="Grammar.html#ComparingTextualItemsSimply">Comparing Textual Items Simply</a>: ...
+<LI><a href="Grammar.html#ComparingTextualItemsWithRegularExpressions">Comparing Textual Items With Regular Expressions</a>: ...
+<LI><a href="Grammar.html#ConcatenatingTextualItems">Concatenating Textual Items</a>: ...
+<LI><a href="Grammar.html#ExtractionofSubstrings">Extraction of Substrings</a>: The substr function
+<LI><a href="Grammar.html#ModifyingStrings">Modifying Strings</a>: The s/// operator
+<LI><a href="Grammar.html#PrintingIntoStrings">Printing Into Strings</a>: The sprintf function
+<LI><a href="Grammar.html#RegularExpressionSyntax">Regular Expression Syntax</a>: ...
+</UL>
+
+<!-- @node   Entering Text, System Calls In Quoted Strings, Operations on Text, Operations on Text -->
+<a name="EnteringText" >
+
+<h3>3.6.1: Entering text</h3>
+</a>
+
+
+<p>
+<!-- latex: \index{accented characters in text} -->
+<!-- latex: \index{non-English text} -->
+<!-- latex: \index{text, ISO characters} -->
+<!-- latex: \index{accented characters in text} -->
+<!-- latex: \index{French accents in text} -->
+
+Text is entered within double-quotes, as in the following examples.
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   set x name "Temperature";
+   draw label "Case A" at 3 3 cm;
+   draw title "Asymptotic temperature dependence";
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+Text strings may be simple, as above, or they may contain
+``interpolated'' components, resulting from system commands or from
+substitution of the values of variables.  These are covered in the next
+few sections.
+<p>
+
+
+`<code>Gre</code>' uses PostScript fonts, and can handle both unaccented English
+text and accented non-English European text properly.  (It cannot yet
+handle other languages, e.g. oriental languages.)  The default ``font
+encoding'' vector (see any book on PostScript fonts) used in `<code>gre</code>' is
+the ISO-Latin-1 vector.  This permits both unaccented and accented
+characters.  
+<p>
+
+The rule for entering accented text is simple: if you can enter it in
+your text editor, `<code>gre</code>' will be able to draw it!  It's up to you to
+determine how to enter the accents.  Most text editors permit this.
+Since many users will prefer the Emacs editor, a few words about that
+are in order.
+<p>
+
+Consider the task of inserting French text with the Emacs
+text-editor. There are several ways of doing this (and you may wish to
+consult your emacs info manual).  A method that works in emacs-19 up to
+current emacs-20 versions uses the emacs `<samp>iso-transl.el</samp>' package by
+putting the following in your `<samp>~/.emacs</samp>' file:
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   (require 'iso-transl)
+   (iso-transl-set-language "French")
+   (standard-display-european t)
+</PRE>
+</TD>
+</TR>
+</TABLE>
+Loading this package defines three ways of entering the non-ASCII
+printable characters with codes above 127: the prefix `<kbd>C-x 8</kbd>', or
+the `<kbd>Alt</kbd>' key, or a dead accent key.  For example, you can enter
+uppercase A-umlaut as `<kbd>C-x 8 " A</kbd>' or `<kbd>Alt-" A</kbd>' (if you have an
+Alt key) or `<kbd>umlaut A</kbd>' (if you have an umlaut/diaeresis key).
+<p>
+
+A more recently introduced method is to enter the mode which allows
+quick insertion of iso-latin-1 characters. Do the Emacs command 
+`<kbd>M-x iso-accents-mode</kbd>' (either manually, or in a hook that's done
+automatically). Now, suppose the x-axis is to represent temperature. All
+you'd have to do is type in the command
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   set x name "Temp'erature"
+</PRE>
+</TD>
+</TR>
+</TABLE>
+As you type, the quote mark will dissappear, and reappear as an accent
+on the `<code>e</code>'.  And then, Gri will recognize this accented `<code>e</code>',
+and it will draw the accent on the axis label.
+<p>
+
+If, for any reason, you desire the so-called ``standard'' PostScript
+font-encoding vector, use the `<code>Set Font Encoding</code>' command
+<a href="BuiltinCommands.html#Setfontencoding">Set font encoding</a>.
+<p>
+
+
+
+<!-- @node   System Calls In Quoted Strings, Variable Interpolation In Quoted Strings, Entering Text, Operations on Text -->
+<a name="SystemCallsInQuotedStrings" >
+
+<h3>3.6.2: System calls in quoted strings</h3>
+</a>
+
+
+<p>
+<!-- latex: \index{system calls in quoted strings} -->
+<!-- latex: \index{backtic system calls in quoted strings} -->
+<!-- latex: \index{back-tic system calls in quoted strings} -->
+<!-- latex: \index{strings, back-tic system calls in} -->
+<!-- latex: \index{system calls in quoted strings} -->
+
+When quoted strings are evaluated at run-time, `<code>gre</code>' checks to see
+whether they contain pairs of the back-tic character (i.e. `<code>`</code>').
+This character is then interpreted as it would be in a unix shell:
+whatever text lies within the back-tic pair is sent to the operating
+system, and the result of the evaluation is then inserted into the
+string.  (The trailing newline is removed from the system output.)
+Thus, you can print the time with the commands
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   print "the date is `date`\n";
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+<!-- @node   Variable Interpolation In Quoted Strings, Comparing Textual Items Simply, System Calls In Quoted Strings, Operations on Text -->
+<a name="VariableInterpolationInQuotedStrings" >
+
+<h3>3.6.3: Variable interpolation in quoted strings</h3>
+</a>
+
+
+<p>
+<!-- latex: \index{variable interpolation in quoted strings} -->
+<!-- latex: \index{strings, variable interpolation in} -->
+<!-- latex: \index{interpolation of variable values into strings} -->
+
+When a scalar variable is found within a string enclosed in double
+quotes, `<code>gre</code>' "interpolates" the variable value into the string.  For
+example, here is how to print the decimal value of the fraction 1/2
+<p>
+
+<em>Example:</em>
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   $x = 1/2;
+   print "$x equals 0.5\n";
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+Interpolation into quoted strings is done for both numerical and text
+variables.
+<p>
+
+To prevent interpolation, you may ``protect'' the dollar-sign by
+preceding it with a backslash.  This is useful when you'd like to use
+dollar-signs in calls to the operating system, e.g. in the following
+example, the tenth and eleventh columns of the file `<samp>wide_file.dat</samp>'
+are plotted as x and y respectively.
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   open(IN, "gawk '{print \$10,\$11}' wide_file.dat |") or die;
+   read columns IN x=1 y=2;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+<!-- @node   Comparing Textual Items Simply, Comparing Textual Items With Regular Expressions, Variable Interpolation In Quoted Strings, Operations on Text -->
+<a name="ComparingTextualItemsSimply" >
+
+<h3>3.6.4: Textual comparisons -- simple method</h3>
+</a>
+
+
+<p>
+<!-- latex: \index{comparing strings} -->
+<!-- latex: \index{strings, comparing simply with @code{eq} and @code{ne}} -->
+Quoted character strings may <em>not</em> be compared using `<code>==</code>' and
+`<code>!=</code>'.  Neither may variables which contain strings be compared in
+this way.  Instead, textual items, whether quoted-string constants or
+variables, are compared for equality and inequality with the operators
+`<code>eq</code>' and `<code>ne</code>' respectively.  Variable interpolation is done
+before the strings are compared.  Also, quoted strings may be compared
+to variables.  If the variable is of string type, the expected results
+are achieved.  If the variable is of numeric type, then the numeric
+value is converted to a string before the comparison -- this is almost
+always a bad idea, because the format may differ from what you expect it
+to be (e.g. in number of trailing zeros after the decimal point, etc).
+<p>
+
+
+<em>Example:</em>
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   $x = "hello";
+   die "failed comparison 1\n" if ($x ne "hello");
+   die "failed comparison 2\n" if ("$x" ne "hello");
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+<!-- @node   Comparing Textual Items With Regular Expressions, Concatenating Textual Items, Comparing Textual Items Simply, Operations on Text -->
+<a name="ComparingTextualItemsWithRegularExpressions" >
+
+<h3>3.6.5: Textual comparisons -- regular expression method</h3>
+</a>
+
+
+<p>
+<!-- latex: \index{comparing strings with regular expressions} -->
+<!-- latex: \index{strings, comparing with regular expressions} -->
+<!-- latex: \index{regular expression for comparing strings} -->
+<!-- latex: \index{@code{//} for regular expression matching} -->
+
+As in Perl, a facility is provided for comparing textual items, using
+the powerful and familiar unix ``regular expression'' notation.  The
+regular expressions are written inside forward slashes
+(i.e. `<code>/expression/</code>'), and are matched against the builtin variable
+`<code>$_</code>'.  The item in slashes is given the value 1 if the expression
+matches to `<code>$_</code>' and 0 if not.  For example, the following scans the
+input file, and prints all lines with the three-character sequence "gre"
+on them:
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   while(&lt;&gt;) { print if /gre/; }
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+In unix parlance, the regular expressions are ``extended,'' meaning for
+example that subitems are enclosed in raw parentheses, as for example
+`<code>an(item)here</code>', not in backslashed parentheses such as
+`<code>an\(item\)here</code>'.  It is important to emphasize that this
+unix-based definition of ``extended'' is quite a different thing than in
+Perl.  By ``extended'' Perl means something different.  In fact, all
+strings in Perl are ``extended'' in the unix definition.
+<p>
+
+Normally, pattern-matching obeys the case ('a' versus 'A') used in the
+regular expression, so that in the example above, a line consisting of
+the upper-case sequence `<code>GRE</code>' would not match the lower-case
+pattern.  Case-independent pattern matching may be done by putting the
+character `<code>i</code>' after the closing slash.  Thus, the following program
+matches lines with `<code>gre</code>', `<code>Gre</code>', `<code>GRe</code>', etc.
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   while(&lt;&gt;) { print if /gre/; }
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+The contents of the regular expression may include constant items
+(`<code>/gre/</code>') and/or variables (`<code>/$program/</code>').  At present,
+`<code>gre</code>' `compiles' the regular expressions at runtime, each time it
+executes them.  Eventually `<code>gre</code>' will pre-compile fixed regular
+expressions (ones not containing variables).  On a 300 MHz linux
+pentium, this will save about 50 microseconds per runtime evaluation of
+a regular expression.
+<p>
+
+The syntax of regular expressions is discussed in another section
+see <a href="Grammar.html#RegularExpressionSyntax">Regular Expression Syntax</a>.
+<p>
+
+
+
+<a href="tst_suite/tst-match.html">Test file `<tt>tst-match.gre</tt>':</a><p> 
+
+
+<!-- @node   Concatenating Textual Items, Extraction of Substrings, Comparing Textual Items With Regular Expressions, Operations on Text -->
+<a name="ConcatenatingTextualItems" >
+
+<h3>3.6.6: Concatenation of textual items with dot operator</h3>
+</a>
+
+
+<p>
+<!-- latex: \index{@code{.} operator, to concatenate strings} -->
+<!-- latex: \index{period operator, on strings} -->
+<!-- latex: \index{dot operator, on strings} -->
+<!-- latex: \index{strings, dot operator} -->
+<!-- latex: \index{concatenating strings with dot operator} -->
+
+Two textual items may be linked using the dot operator.  The items may
+be quoted strings or textual variables, e.g.
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   $hw = "hello" . " world";
+   print "$hw\n";
+   print $hw . "\n";
+   
+</PRE>
+</TD>
+</TR>
+</TABLE>
+If any of the items is numeric, then it will first be converted to a
+textual form in the default output format (`<code>%.14g</code>', in terms of the
+C i/o function `<code>printf</code>'), e.g.
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   print "following is 100 ..." . 10 * 10, "\n";
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+<!-- @node   Extraction of Substrings, Modifying Strings, Concatenating Textual Items, Operations on Text -->
+<a name="ExtractionofSubstrings" >
+
+<h3>3.6.7: Extraction of substrings</h3>
+</a>
+
+
+<p>
+Extraction of substrings is done with the `<code>substr</code>' command, which
+matches the corresponding command in Perl.  For example, the string
+`<code>BC</code>' can be created by `<code>substr("ABCDE", 1, 2)</code>'.  The source
+string is the first parameter.  The next parameter indicates an offset
+of 1 character from the beginning of the string and the third parameter
+indicates to extract 2 characters.  For details see <a href="BuiltinCommands.html#Substr">Substr</a>.
+<p>
+
+
+<!-- @node   Modifying Strings, Printing Into Strings, Extraction of Substrings, Operations on Text -->
+<a name="ModifyingStrings" >
+
+<h3>3.6.8: Modifying strings with `<code>s///</code>' operator</h3>
+</a>
+
+
+<p>
+<!-- latex: \index{@code{s///} operator} -->
+<!-- latex: \index{modifying strings with @code{s///}} -->
+<!-- latex: \index{strings, modifying with @code{s///}} -->
+
+Partial support is provided for Perl-like string modification.  There
+are two forms, one for modifying the `<code>$_</code>' variable, the second for
+modifying any other variable.  
+<p>
+
+In the explanation here, the string delimiter will be taken to be
+forward-slash (i.e. `<code>/</code>'), but any punctuation character will do
+just as well.  Thus, one might use 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   $date =~ s:04/:Apr :;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+to convert a date from a numeric format to a named month.
+<p>
+
+
+<h4>3.6.8.1: Modifying `<code>$_</code>'</h4>
+As in Perl, `<code>gre</code>' lets you modify the builtin string `<code>$_</code>' using
+the `<code>s///</code>' operator.  (Recall that `<code>$_</code>' is read in with the
+`<code>&lt;&gt;</code>' operator.)  Between the first two slashes is an input to be
+searched for in `<code>$_</code>', and between the second and third slash is the
+replacement.  Two options are allowed after the final slash.  The option
+`<code>i</code>' means to ignore the case in the input.  The option `<code>g</code>'
+means to do the change globally, i.e. repeatedly on this input line.
+<p>
+
+For example, consider the data file (named `<samp>test-s.dat</samp>'):
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   hello
+   goodbye
+</PRE>
+</TD>
+</TR>
+</TABLE>
+If this is used with the commandfile
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   open(IN, "test-s.dat") or die "cannot open test-s.dat";
+   while(&lt;IN&gt;) {
+       s/l/L/g;
+       s/o/O/;
+       print;
+   }
+</PRE>
+</TD>
+</TR>
+</TABLE>
+it will yield the output
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   heLLo
+   gOodbye
+</PRE>
+</TD>
+</TR>
+</TABLE>
+Note that the `<code>g</code>' option changed both lower-case `<code>l</code>'
+characters to upper-case, but only the first of the two `<code>o</code>'
+characters was changed to upper-case.
+<p>
+
+It is not permitted to have the first string be blank.  That is, 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   s//something/;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+is not allowed.  (It is permitted in Perl, and it matches to the beginning 
+of the string.  However, the `<code>gre</code>' author couldn't find this to be
+a documented feature of Perl, and so left it out of `<code>gre</code>'.)
+<p>
+
+It is permitted, and quite common, to have the second be blank.
+This means to delete the indicated string, e.g.
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   s/junk//;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+will delete the first occurence of the string `<code>junk</code>' and 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   s/junk//;
+</PRE>
+</TD>
+</TR>
+</TABLE>
+will delete all occurences of it.
+<p>
+
+The `<code>s///</code>' operator has a return value, which is the number of
+times the target string was encountered.  Normally this is ignored,
+althoug the following might make sense.
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   $num = 0;
+   while(&lt;&gt;) {
+       $num += s/junk//;
+       print;
+   }
+   print "Replaced $num occurences\n";
+   
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+<h4>3.6.8.2: Modifying other variables</h4>
+<!-- latex: \index{=~ syntax, for modifying text-valued variables} -->
+The Perl-like `<code>=~</code>' syntax is supported.  For example,
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   $s = "hello";
+   $s =~ s/l/L/g; print "$s\n";
+</PRE>
+</TD>
+</TR>
+</TABLE>
+prints `<code>heLLo</code>', while
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   $s = "hello";
+   $s =~ s/l/L/;  print "$s\n";
+</PRE>
+</TD>
+</TR>
+</TABLE>
+prints `<code>heLlo</code>' since only the first instance will be changed.
+<p>
+
+
+
+
+
+<a href="tst_suite/tst-substitute.html">Test file `<tt>tst-substitute.gre</tt>':</a><p> 
+
+
+
+
+
+<!-- @node   Printing Into Strings, Regular Expression Syntax, Modifying Strings, Operations on Text -->
+<a name="PrintingIntoStrings" >
+
+<h3>3.6.9: Printing into strings with `<code>sprintf</code>'</h3>
+</a>
+
+
+<p>
+<!-- latex: \index{@code{sprintf}, discussion} -->
+<!-- latex: \index{strings, printing into with @code{sprintf}} -->
+<!-- latex: \index{printing into strings with @code{sprintf}} -->
+<!-- latex: \index{formatted output into strings, with @code{sprintf}} -->
+
+
+As in C-like languages, the `<code>sprintf</code>' function provides the ability
+to create strings using the formatting capabilities of the `<code>printf</code>'
+command.  The syntax is e.g.
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   $a = sprintf("Pi is %.3f to three decimal places", $_pi);
+   print "$a\n";
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+For more on printing formats see <a href="BuiltinCommands.html#Printf">Printf</a>.
+<p>
+
+
+
+<!-- @node   Regular Expression Syntax, Flow of control, Printing Into Strings, Operations on Text -->
+<a name="RegularExpressionSyntax" >
+
+<h3>3.6.10: Regular expression syntax</h3>
+</a>
+
+
+<p>
+<!-- latex: \index{regular expressions} -->
+
+Regular expressions may be used in various contexts.
+<p>
+
+`<code>gre</code>' handles regular expressions in a way that is similar to Perl,
+but a few things (namely, non-consuming items such as `<code>\\b</code>') are
+not available.
+<p>
+
+For more on regular expressions, consult the online Perl documentation
+(type `<code>man perlre</code>' at the unix prompt) or any of a number of texts
+on the unix operating system.
+<p>
+
+Regular expressions in `<code>gre</code>' are of the ``extended'' type, as opposed
+to the ``basic'' type.  The hallmark is that backslashes are not used to
+protect parentheses, e.g.  `<code>/foo(.*)bar/</code>' may be used to match to
+the string ``fooOKAYbar,'' whereas in ``basic'' notation the expression
+would be written as `<code>/foo(.*)bar/</code>'.
+<p>
+
+The following is a brief summary of how regular expressions work.
+<p>
+
+<ol>
+<li>
+The usual POSIX regular expressions are handled.  Briefly, the rules are
+as follows.
+<p>
+
+<dl>
+<dt> `<code>normal character</code>'
+<dd>A normal character (not in the list below) matches to itself.  Example:
+`<code>gre</code>' matches the character `<code>g</code>' followed by the character
+`<code>r</code>' followed by the character `<code>e</code>'.  That is, it matches the
+string `<code>gre</code>'.
+<dt> `<code>[]</code>'
+<dd>Enclose a list of alternative characters.  Example: `<code>[gG]re</code>' matches
+both `<code>gre</code>' and `<code>Gre</code>'.
+<dt> `<code>()</code>'
+<dd>Enclose an item that is to be remembered for later use.  Several
+"remember" items may be present.  The first one is stored in a variable
+named `<code>$1</code>', the second in `<code>$2</code>', etc.  Example: `<code>f(.*)bar</code>'
+will match to the string `<code>foobar</code>', and `<code>$1</code>' will become
+defined as the string `<code>oo</code>'.
+<dt> `<code>.</code>'
+<dd>Matches to any character.
+<dt> `<code>*</code>'
+<dd>Match the item to the left, 0 or more times.
+<dt> `<code>+</code>'
+<dd>Match the item to the left, 1 or more times.
+<dt> `<code>?</code>'
+<dd>Match the item to the left, 1 or 0 times.
+<dt> `<code>{n}</code>'
+<dd>Match the item to the left, exactly n times.
+<dt> `<code>{n,}</code>'
+<dd>Match the item to the left, at least n times
+<dt> `<code>{n,m}</code>'
+<dd>Match the item to the left, at least n but not more than m times
+</dl>
+
+<li>
+<p>
+
+In addition to the above standard POSIX behavior, `<code>gre</code>' also follows
+some convenient conventions invented by Perl, as in the following list.
+<p>
+
+<dl>
+<dt> `<code>\s</code>'
+<dd>Match a whitespace character (space, tab, or newline).  Beware: `<code>\s*</code>'
+matches to any amount of whitespace -- including a zero amount -- so
+you'll likely wish to use `<code>\s+</code>' to match to whitespace separating
+non-whitespace items.
+<dt> `<code>\S</code>'
+<dd>Match a single nonwhitespace character.
+<dt> `<code>\d</code>'
+<dd>Match a single digit character.
+<dt> `<code>\D  </code>'
+<dd>Match a single non-digit character.
+<dt> `<code>\w</code>'
+<dd>Match a single "word" character (alphanumeric plus "_").  Thus,
+`<code>\w*</code>' matches to a word, and ends on either whitespace or
+punctuation.
+<dt> `<code>\W</code>'
+<dd>Match a single non-word character, e.g. space and punctuation symbols.
+</dl>
+
+
+</ol>
+<p>
+
+
+<!-- @node   Flow of control, Conditional statements, Regular Expression Syntax, Grammar -->
+<a name="Flowofcontrol" >
+
+<h2>3.7: Flow of Control</h2>
+</a>
+
+
+<p>
+<!-- latex: \index{flow of control} -->
+
+
+The usual C-like constructs are available for controlling the flow of control
+within a `<code>gre</code>' program, such as
+`<code>if</code>',
+`<code>else</code>',
+`<code>do</code>',
+`<code>while</code>' and
+`<code>for</code>'.
+In addition, the perl-like constructs
+`<code>unless</code>' (opposite to `<code>if</code>'),
+`<code>until</code>' (opposite to `<code>while</code>'), and
+`<code>foreach</code>'
+are available.
+<p>
+
+
+Blocks within conditional and looping constructs are enclosed within
+curly braces.  (C users should note that these braces are required even
+if the block contains only a single command; Perl users will find this
+familiar.)
+<p>
+
+<em>Example:</em>
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   if (1) {
+       print "This will be printed.\n";
+   } else {
+       print "This will not be printed.\n";
+   }
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+White space is optional in `<code>gre</code>'.  In the above, there is no
+need for the spaces before the opening and closing parentheses in the
+`<code>if</code>' statement.  Similarly, the opening brace could be put on a
+separate line if desired.  The choice is merely aesthetic.  In this
+manual, the spacing shown above will be used throughout, with an opening
+brace placed on the same line as conditional/loop tests, and with the
+code indented by four spaces.
+<p>
+
+Details:
+<UL>
+<LI><a href="Grammar.html#Conditionalstatements">Conditional statements</a>: 
+<LI><a href="Grammar.html#Loops">Loops</a>: 
+</UL>
+<p>
+
+
+<!-- @node   Conditional statements, Loops, Flow of control, Flow of control -->
+<a name="Conditionalstatements" >
+
+<!-- latex: \index{conditional execution} -->
+<!-- latex: \index{@code{if} statement} -->
+<!-- latex: \index{@code{unless} statement} -->
+
+<h3>3.7.1: Conditional statements</h3>
+</a>
+
+
+<p>
+
+Conditional statements are of two varieties: (1) the positive-style
+`<code>if</code>' statement and the negative-style `<code>unless</code>' statement.
+Each variety has two forms, one (``block'') form for controlling
+execution of a block of commands, the other (``trailing'') form for
+controlling execution of a single command.  The block form is
+conventional in many programming languages and the trailing form is
+provided mainly by `<code>gre</code>' and Perl.
+<p>
+
+<h4>3.7.1.1: `<code>if</code>' statements</h4>
+The <em>block</em> form of `<code>if</code>' has syntax
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   if expr {true_block} else {false_block}
+</PRE>
+</TD>
+</TR>
+</TABLE>
+where `<code>expr</code>' may be any valid expression and the blocks may contain
+multiple commands.
+<p>
+
+The `<code>else</code>' part is optional.
+<p>
+
+Some users prefer to put the expression in parentheses, while others
+don't.
+<p>
+
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   if ($x&lt;10) { ... # some prefer this 
+   if $x&lt;10 { ... # some prefer this
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+<em>Example:</em>
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   if ($x &lt; 0) {
+       print "x is negative.\n";
+   } else {
+       print "x is zero or positive ...";
+       print " with square root =", sqrt(x), "\n";
+   }
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+The <em>trailing</em> form of `<code>if</code>' has syntax
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   single_cmd if (expr);
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+where `<code>single_cmd</code>' is any valid single-line command, including
+built-in commands such as `<code>print</code>' and `<code>return</code>', user-defined
+commands see <a href="BuiltinCommands.html#Cmd">Cmd</a>, and mathematical expressions, including
+assignment to variables.  There is no `<code>else</code>' clause in a
+trailing-if command.
+<p>
+
+<em>Example:</em>
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   print "X is positive\n" if ($x &gt; 0);
+   die "Cannot handle negative x\n" if ($x &lt; 0);
+   $x = 0 if ($x &lt; 0);     # Prevent x from being negative
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+Users familiar with C-like languages may find this form confusing
+because it puts the test at the end of the sentence, but Perl users may
+find it convenient for simple actions/tests.
+<p>
+
+<h4>3.7.1.2: `<code>unless</code>' statements</h4>
+The `<code>unless</code>' syntax is analogous to the `<code>if</code>' syntax, except
+that the `<code>expr</code>' test expression is negated.  Thus an example of the
+<em>block</em> form is
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   unless ($x&lt;0) {
+       print "x is zero or positive\n";
+   } else {
+       print "x is negative\n";
+   }
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+ and an example of the `<code>trailing</code>' form is
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   print "x is negative\n" unless ($x&gt;=0);
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+
+<a href="tst_suite/tst-if.html">Test file `<tt>tst-if.gre</tt>':</a><p> 
+
+
+
+
+
+<!-- @node   Loops, While and Until, Conditional statements, Flow of control -->
+<a name="Loops" >
+
+<!-- latex: \index{@code{do} loop} -->
+<!-- latex: \index{@code{while} loop} -->
+<!-- latex: \index{@code{until} loop} -->
+<!-- latex: \index{@code{for} loop} -->
+<!-- latex: \index{@code{foreach} loop} -->
+<!-- latex: \index{loops} -->
+
+
+<h3>3.7.2: Loops</h3>
+</a>
+
+
+<p>
+Loops have four forms, with reserved words `<code>do</code>', `<code>while</code>',
+`<code>for</code>', and `<code>foreach</code>'.  The forms are almost identical to those
+in C-like languages such as Perl and awk.
+<p>
+
+<UL>
+<LI><a href="Grammar.html#WhileandUntil">While and Until</a>: 
+<LI><a href="Grammar.html#For">For</a>: 
+<LI><a href="Grammar.html#Foreach">Foreach</a>: 
+</UL>
+
+
+
+<!-- @node While and Until, For, Loops, Loops -->
+<a name="WhileandUntil" >
+<h4>3.7.2.1: `<code>while</code>' and `<code>until</code>' loops</h4>
+</a>
+
+
+<p>
+
+<!-- latex: \index{while} -->
+
+<!-- latex: \index{while loop} -->
+<!-- latex: \index{loop, @code{while}} -->
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   while expr { commands }
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+ The command(s) within the braces are executed repeatedly, for
+as long as the test expression, `<code>expr</code>', is <em>true</em>.  C/C++
+users should note that the braces around the block are required, even if
+the block contains only a single command.  Many programmers prefer to
+surround the expression in parentheses but these aren't required.  That
+is, `<code>while ($x&gt;0) {...</code>' and `<code>while $x&gt;0 {...</code>' are
+equivalent).
+<p>
+
+
+<em>Example:</em>
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   print "Numbers from 0 to 10:\n";
+   $i = 0;
+   while ($i &lt;= 10) {
+       print " $i\n";
+       $i = $i + 1;
+   }
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+The reverse of a `<code>while</code>' loop is an `<code>until</code>' loop, e.g.
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   $i = 10;
+   until ($i == 0) {
+       $i--;
+   }
+   die "Error: i should be zero\n" if ($i != 0);
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+In both styles of loop (and pretty much everywhere that `<code>gre</code>'
+evaluates ``truth''), the test expression may be either a numerical
+expression, a string expression, or a file-reading command.
+<p>
+
+<ul>
+<li>
+Numerical expressions are considered to be <em>true</em> if they evaluate
+to non-zero.  The fragment above is a typical example.
+<p>
+
+<li>
+String expressions are considered to be <em>true</em> if they are
+non-blank and do not translate to a zero value.  (Thus, `<code>"0.0"</code>',evaluates to <em>false</em>, since it represents zero, but `<code>"a0.0"</code>'
+evaluates to <em>true</em>, because it is a nonblank string which does not
+translate to zero numerically.)
+<p>
+
+<li>
+<!-- latex: \index{<FILEHANDLE> syntax, in loops} -->
+<!-- latex: \index{@code{$_} variable, implicit assignment to} -->
+<!-- latex: \index{stdin, access with file handle @code{<>}} -->
+<!-- latex: \index{@code{$_}, implicit assignment to} -->
+A special type of character string is the file-reading handle.  This has
+the form `<code>&lt;IN&gt;</code>', where `<code>IN</code>' is the name of a file-handle
+opened by a command such as `<code>open(IN, "name");</code>' see <a href="BuiltinCommands.html#Open">Open</a>.  If
+no file-handle name is provided, that is if `<code>&lt;&gt;</code>' is written, then
+input from the standard input file (normally, the keyboard) is assumed
+-- this is equivalent to `<code>&lt;STDIN&gt;</code>'.
+<p>
+
+The file-handle operator returns a character string equal to the next
+line of the indicated file.  This string <em>includes</em> the newline at
+the end of the line, so that it will only be blank when the end of the
+file has been reached.  Also, because the newline is attached, it will
+never represent zero numerically, so that reading a line containing
+e.g. `<code>0.0</code>' still makes the operator evaluate to <em>true</em>.
+<p>
+
+There is an additional rule with regard to file-reading in `<code>while</code>'
+and `<code>do-while</code>' loops.  If the input is not assigned specifically to
+a variable, then it is <em>implicitly</em> assigned to the variable
+`<code>$_</code>'.  (This is not done in any other command, which might seem odd
+but that's the way Perl does it, and `<code>gre</code>' copies the
+established convention.)  Since `<code>print</code>' will print
+out the value of `<code>$_</code>' by default, here is how you might print the
+contents of a file named `<code>input_file</code>':
+<p>
+
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   open(IN, "input_file");
+   while(&lt;IN&gt;) {
+       print;
+   }
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+and here is how you might count the number of lines in a file provided
+on standard-input:
+<p>
+
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   $lines = 0;
+   while(&lt;&gt;) { $lines++; }
+   print "$lines\n";
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+</ul>
+<p>
+
+
+
+
+
+
+<a href="tst_suite/tst-while.html">Test file `<tt>tst-while.gre</tt>':</a><p> 
+
+
+
+<h4>3.7.2.2: `<code>do-while</code>' and `<code>do-until</code>' loops</h4>
+
+<!-- latex: \index{DO block WHILE expr} -->
+<!-- latex: \index{@code{do} ... @code{while} loop} -->
+<!-- latex: \index{loop, @code{do} ... @code{while}} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   do { commands } while (expr);
+</PRE>
+</TD>
+</TR>
+</TABLE>
+ The indicated commands are performed as long as the test value evaluates
+to 'true'.  Because the test value is evaluated at the bottom of the
+loop, the loop is always done at least once, in contrast to the
+`<code>while</code>' loop, e.g.
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   print "Numbers from 0 to 10:\n";
+   $i = 0;
+   do {
+       print " $i\n";
+       $i = $i + 1;
+   } while ($i &lt;= 10);
+</PRE>
+</TD>
+</TR>
+</TABLE>
+ The reverse of a `<code>do-while</code>' loop is a `<code>do-until</code>' loop, e.g.
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   $i = 10;
+   do {
+       $i--;
+   } until ($i == 0);
+   die "Error: i should be zero\n" if ($i != 0);
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+<a href="tst_suite/tst-do-while.html">Test file `<tt>tst-do-while.gre</tt>':</a><p> 
+
+<h4>3.7.2.3: Trailing `<code>while</code>' and `<code>until</code>'</h4>
+
+<!-- latex: \index{while, trailing} -->
+<!-- latex: \index{trailing @code{while} statement} -->
+
+A convenient form of `<code>while</code>' is the "trailing" form, in which a
+single command is repeated while a condition is true.  For example, the
+following code prints the number 10:
+<p>
+
+
+<em>Example:</em>
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   $i = 0;
+   $i++ while ($i&lt;10);
+   print "$i\n";
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+<!-- latex: \index{until, trailing} -->
+<!-- latex: \index{trailing @code{until} statement} -->
+
+The reverse is the "trailing until" form, in which a single command is
+repeated until a condition is true.  For example, the following code
+prints the number 10:
+<p>
+
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   $i = 0;
+   $i++ until ($i==10);
+   print "$i\n";
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+
+<!-- @node For, Foreach, While and Until, Loops -->
+<a name="For" >
+
+<h4>3.7.2.4: `<code>for</code>' loop</h4>
+</a>
+
+
+<p>
+
+<!-- latex: \index{for} -->
+<!-- latex: \index{@code{for} loop} -->
+<!-- latex: \index{loop, @code{for}} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   for (initial_statement; test_value; repeated_statement) {
+       # commands to execute while test_value is nonzero
+   }
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+Before the loop body is executed, the `<code>initial_statement</code>' is
+performed.  Normally it is an initialization of some type.  Then, if the
+`<code>test_value</code>' is nonzero, the contents of the loop are executed
+once.  After the contents have been executed, the statement denoted
+`<code>repeated_statement</code>' is executed (often this is an increment of a
+counter), and the loop may repeat again, if `<code>test_value</code>' still
+evaluates to a nonzero value, e.g.
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   print "Numbers from 0 to 10:\n";
+   for ($i = 0; $i &lt; 10; $i += 1) {
+       print " $i\n";
+   }
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+
+<a href="tst_suite/tst-for.html">Test file `<tt>tst-for.gre</tt>':</a><p> 
+
+
+
+<!-- @node Foreach, Commands in Gre, For, Loops -->
+<a name="Foreach" >
+
+<h4>3.7.2.5: `<code>foreach</code>' loop</h4>
+</a>
+
+
+<p>
+
+<!-- latex: \index{foreach} -->
+<!-- latex: \index{@code{foreach} loop} -->
+<!-- latex: \index{loop, @code{foreach}} -->
+
+
+
+<A HREF="BuiltinCommands.html#CautionaryNotesOnSyntax"> 
+<em>Syntax:</em>
+</A> 
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   foreach $x (value_1, value_2, ... value_n) { ... }  # style 1
+   foreach $x (@array_name) { ... }                    # style 2
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+The loop is executed repeatedly, with the value of the variable denoted
+`<code>$x</code>' in this example being set in turn to each of the values in the
+list (style 1) or the array (style 2), e.g.
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   print "Some prime numbers are:\n";
+   foreach $a (3, 5, 7, 11, 13, 17, 19) {
+       print "  $a\n";
+   }
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+`<code>foreach</code>' loops are very useful for processing a list of data
+files.  Sometimes you'll know the list in advance, e.g.
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   foreach $file ("a.dat", "b.dat", "c.dat") {
+       open(FILEHANDLE, $file);
+       # Do something with the data in this file
+       close FILEHANDLE;
+   }
+   
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+ and other times you'll have to "glob" the list see <a href="BuiltinCommands.html#Glob">Glob</a>, e.g
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   foreach $file (glob("*.dat")) {
+       open(FILEHANDLE, $file);
+       read columns FILEHANDLE x=1 y=2;
+       draw curve;
+       close FILEHANDLE;
+   }
+   
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+ and still other times you might want to have the values specified on the
+commandline, e.g.
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   foreach $opt (@ARGV) { print "Option '$opt'\n"; }
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+ The above could have also been written
+<TABLE BORDER="0" BGCOLOR="#efefef" WIDTH="100%">
+<TR>
+<TD>
+<PRE>
+   for ($i = 0; $i &lt;= $#ARGV; $i++) {print "Option '$ARGV[$i]' \n";}
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<p>
+
+
+
+<a href="tst_suite/tst-foreach.html">Test file `<tt>tst-foreach.gre</tt>':</a><p> 
+
+
+
+
+
+
+
+<p>
+(c) 1997-2000 Dan E. Kelley, email <a href="mailto:Dan.Kelley@Dal.Ca">
+Dan.Kelley@Dal.Ca</a>
+</tr>
+<p>
+</table>
+<img src="./resources/bottom_banner.gif" HEIGHT="26" WIDTH="603" usemap="#navigate_bottom" border="0">
+
+</table>
+</body>
+</html>

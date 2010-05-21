@@ -1,0 +1,5 @@
+Plans:
+
+* optimize image reading by unfolding loops by image-type
+
+* resolve byte-order problems (probably remove 'image rasterfile')

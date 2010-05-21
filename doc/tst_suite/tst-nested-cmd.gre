@@ -1,0 +1,29 @@
+print "tst_suite/tst-nested-cmd.gre     ...";
+$eps = 1e-4;
+# Test nested 'cmd's
+cmd cousin (;@) {
+    die "cousin #_   wrong.  Expecting 1\n" if ($#_ != 1);
+    die "cousin _[0] wrong\n" if (abs($_[0] - 3.14159) > $eps);
+    die "cousin _[1] wrong\n" if (abs($_[1] - 2*3.14159) > $eps);
+}
+cmd grandchild (;@) {
+    die "grandchild #_   wrong.  Expecting 1\n" if ($#_ != 1);
+    die "grandchild _[0] wrong\n" if (abs($_[0] - 3.14159) > $eps);
+    die "grandchild _[1] wrong\n" if (abs($_[1] - 2*3.14159) > $eps);
+    my $x;
+    $x = $_[0];
+    $y = $_[1];
+    cousin $x $y;
+}
+cmd child (;@) {
+    die "child #_   wrong.  Expecting 2\n" if ($#_ != 2);
+    die "child _[0] wrong\n" if (abs($_[0] - 3.14159) > $eps);
+    die "child _[1] wrong value. was $_[1] not 2pi\n" if (abs($_[1] - 2*3.14159) > $eps);
+    grandchild $_[0] $_[1];
+}
+cmd parent (;@) {
+    child $_[0] $_[1] $_[2];
+}
+
+parent 3.14159 2*3.14159 3*3.14159;
+print " passed\n";

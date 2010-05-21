@@ -1,0 +1,31 @@
+print "tst_suite/tst-sub.gre            ...";
+sub arg_transmission ($$) {
+    $x = $_[0];
+    $y = $_[1];
+    die " failed test 2" if ($x != 1);
+    die " failed test 3" if ($y != 2);
+}
+sub arg_transmission_local ($$) {
+    my $Y = $_[1];
+    my $X = $_[0];
+    die " failed test 4" if ($#_ != 1);
+    die " failed test 5" if ($X != 10);
+    die " failed test 6" if ($Y != 20);
+}
+sub double ($) {
+    my $x= $_[0];
+    return 2*$x;
+}
+sub double2 ($) {
+    return 2*$_[0] if ($_[0]);
+    die " failed test 11\n";
+}
+arg_transmission(1, 1+1);
+print "HUH\n";
+print "$x (1?)\n";
+die " failed test 7" if ($x != 1);
+die " failed test 8" if ($y != 2);
+arg_transmission_local(10, 10+10);
+die " failed test 9"  if (double(10) != 20);
+die " failed test 10" if (double2(1) != 2);
+print " passed\n";

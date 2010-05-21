@@ -1,0 +1,693 @@
+#!/usr/bin/perl -w
+# Convert a gri file into a gre file.
+# $Id: gri2gre,v 1.1 1998/08/04 17:02:12 kelley Exp $
+
+require "getopts.pl";
+
+# Process commandline arguments, if any given
+$usage = "
+  Proper usage:
+      gri2gre [-h] [-d [N]] file.gri
+  where
+      -h             Prints this help message and exits.
+      -d             Turns on debug mode higher N means more debugging.
+      file.gri       Names the file in old Gri syntax.  The new file will
+		     be called file.gre
+";
+$opt_h = 0;			# help
+$opt_d = 0;			# debug
+&Getopts('hd');
+if ($opt_h eq "" || $opt_h != 0) {
+    print STDERR "$usage";
+    exit 0;
+}
+
+
+if ($#ARGV != 0) {
+    print STDERR "\nERROR: you must specify an input filename.\n";
+    print STDERR "$usage";
+    exit 1;
+}
+
+# Name outfile to have index ".gre", patterned on the input filename.
+$outfile = substr($ARGV[0], 0, index($ARGV[0], ".gri")) . ".gre";
+open(OUT, ">$outfile");
+
+$date = `date`;
+chop($date);
+print OUT "# This Gre script created by gri2gre $date\n";
+
+$file_name_num = 0;
+$file_name[$file_name_num] = "STDIN";		# default name for input files
+
+$cmd_word_skip = 0;		# for \_word -> $_[] conversion
+
+sub handle_cmd_header {
+    $cmd_word_skip = 0;
+    my $line = $_[0];
+    # print STDERR "CMD '$line'\n";
+    my @words = split(" ", $line);
+    #print STDERR "words $#words\n";
+    print OUT "\ncmd ";
+    $arglist = "";
+    $found_arg = 0;
+    for ($i = 0; $i <= $#words; $i++) {
+	if (substr($words[$i],0,1) eq "\\"
+	    or substr($words[$i],0,1) eq "\$" 
+	    or substr($words[$i],0,1) eq "\[" 
+	    or $found_arg) {
+	    $arglist = "$arglist $words[$i]";
+	    $found_arg = 1;
+	} else {
+	    print OUT $words[$i], " ";
+	    $cmd_word_skip++;
+	}
+    }
+    print OUT "(;@) { # $arglist\n";
+    while(<>) {
+        last if (/\s*{/);
+        print OUT "# $_";
+    } 
+    $blevel++;
+}
+
+$indent = "    ";		# indent this number of spaces
+$blevel = 0;			# brace level
+sub indent {
+    local($i);
+    for ($i = 0; $i < $blevel; $i++) {
+	print OUT $indent;
+    }
+}
+
+# Change $...$ into \(...\)
+sub fix_math_mode {
+    my $s = $_;
+    #print STDERR "ENTER '$_'\n";
+    $pos = 0;
+    $start = 1;
+    while (-1 != ($i = index($s, "\\\$", $pos))) {
+	if ($start) {
+	    substr($s, $i, 2) = "\\(";
+	} else {
+	    substr($s, $i, 2) = "\\)";
+	}
+	$start = !$start;
+	#print STDERR "\t... pos=$pos; $s\n";
+	$pos = $i + 3;
+    }
+    #print STDERR "\tRETURN '$s'\n";
+    $_ = $s;
+}
+
+
+sub code_math_symbols {
+    s:\\,:MATH_SYMBOL_COMMA:g;
+    s:\\Delta:MATH_SYMBOL_Delta:g;
+    s:\\Downarrow:MATH_SYMBOL_Downarrow:g;
+    s:\\Gamma:MATH_SYMBOL_Gamma:g;
+    s:\\Im:MATH_SYMBOL_Im:g;
+    s:\\Lambda:MATH_SYMBOL_Lambda:g;
+    s:\\Leftarrow:MATH_SYMBOL_Leftarrow:g;
+    s:\\Leftrightarrow:MATH_SYMBOL_Leftrightarrow:g;
+    s:\\Omega:MATH_SYMBOL_Omega:g;
+    s:\\Pi:MATH_SYMBOL_Pi:g;
+    s:\\Phi:MATH_SYMBOL_Phi:g;
+    s:\\Psi:MATH_SYMBOL_Psi:g;
+    s:\\Re:MATH_SYMBOL_Re:g;
+    s:\\Rightarrow:MATH_SYMBOL_Rightarrow:g;
+    s:\\Sigma:MATH_SYMBOL_Sigma:g;
+    s:\\Theta:MATH_SYMBOL_Theta:g;
+    s:\\Uparrow:MATH_SYMBOL_Uparrow:g;
+    s:\\Upsilon:MATH_SYMBOL_Upsilon:g;
+    s:\\Xi:MATH_SYMBOL_Xi:g;
+    s:\\alpha:MATH_SYMBOL_alpha:g;
+    s:\\approx:MATH_SYMBOL_approx:g;
+    s:\\ast:MATH_SYMBOL_ast:g;
+    s:\\beta:MATH_SYMBOL_beta:g;
+    s:\\bullet:MATH_SYMBOL_bullet:g;
+    s:\\chi:MATH_SYMBOL_chi:g;
+    s:\\circ:MATH_SYMBOL_circ:g;
+    s:\\cong:MATH_SYMBOL_cong:g;
+    s:\\delta:MATH_SYMBOL_delta:g;
+    s:\\div:MATH_SYMBOL_div:g;
+    s:\\downarrow:MATH_SYMBOL_downarrow:g;
+    s:\\epsilon:MATH_SYMBOL_epsilon:g;
+    s:\\equiv:MATH_SYMBOL_equiv:g;
+    s:\\eta:MATH_SYMBOL_eta:g;
+    s:\\exists:MATH_SYMBOL_exists:g;
+    s:\\forall:MATH_SYMBOL_forall:g;
+    s:\\gamma:MATH_SYMBOL_gamma:g;
+    s:\\geq:MATH_SYMBOL_geq:g;
+    s:\\gg:MATH_SYMBOL_gg:g;
+    s:\\in:MATH_SYMBOL_in:g;
+    s:\\infty:MATH_SYMBOL_infty:g;
+    s:\\iota:MATH_SYMBOL_iota:g;
+    s:\\kappa:MATH_SYMBOL_kappa:g;
+    s:\\lambda:MATH_SYMBOL_lambda:g;
+    s:\\langle:MATH_SYMBOL_langle:g;
+    s:\\leftarrow:MATH_SYMBOL_leftarrow:g;
+    s:\\leftrightarrow:MATH_SYMBOL_leftrightarrow:g;
+    s:\\leq:MATH_SYMBOL_leq:g;
+    s:\\ll:MATH_SYMBOL_ll:g;
+    s:\\mu:MATH_SYMBOL_mu:g;
+    s:\\nabla:MATH_SYMBOL_nabla:g;
+    s:\\neq:MATH_SYMBOL_neq:g;
+    s:\\nu:MATH_SYMBOL_nu:g;
+    s:\\omega:MATH_SYMBOL_omega:g;
+    s:\\partial:MATH_SYMBOL_partial:g;
+    s:\\phi:MATH_SYMBOL_phi:g;
+    s:\\pi:MATH_SYMBOL_pi:g;
+    s:\\pm:MATH_SYMBOL_pm:g;
+    s:\\prod:MATH_SYMBOL_prod:g;
+    s:\\propto:MATH_SYMBOL_propto:g;
+    s:\\psi:MATH_SYMBOL_psi:g;
+    s:\\rangle:MATH_SYMBOL_rangle:g;
+    s:\\rho:MATH_SYMBOL_rho:g;
+    s:\\rightarrow:MATH_SYMBOL_rightarrow:g;
+    s:\\sigma:MATH_SYMBOL_sigma:g;
+    s:\\sim:MATH_SYMBOL_sim:g;
+    s:\\subset:MATH_SYMBOL_subset:g;
+    s:\\subseteq:MATH_SYMBOL_subseteq:g;
+    s:\\sum:MATH_SYMBOL_sum:g;
+    s:\\supset:MATH_SYMBOL_supset:g;
+    s:\\supseteq:MATH_SYMBOL_supseteq:g;
+    s:\\surd:MATH_SYMBOL_surd:g;
+    s:\\sqrt:MATH_SYMBOL_sqrt:g;
+    s:\\tau:MATH_SYMBOL_tau:g;
+    s:\\theta:MATH_SYMBOL_theta:g;
+    s:\\times:MATH_SYMBOL_times:g;
+    s:\\uparrow:MATH_SYMBOL_uparrow:g;
+    s:\\upsilon:MATH_SYMBOL_upsilon:g;
+    s:\\varpi:MATH_SYMBOL_varpi:g;
+    s:\\wedge:MATH_SYMBOL_wedge:g;
+    s:\\xi:MATH_SYMBOL_xi:g;
+    s:\\zeta:MATH_SYMBOL_zeta:g;
+    s:\\vartheta:MATH_SYMBOL_vartheta:g;
+    s:\\varsigma:MATH_SYMBOL_varsigma:g;
+    s:\\varphi:MATH_SYMBOL_varphi:g;
+    s:\\aleph:MATH_SYMBOL_aleph:g;
+    s:\\oplus:MATH_SYMBOL_oplus:g;
+    s:\\otimes:MATH_SYMBOL_otimes:g;
+    s:\\wp:MATH_SYMBOL_wp:g;
+    s:\\prime:MATH_SYMBOL_prime:g;
+    s:\\emptyset:MATH_SYMBOL_emptyset:g;
+    s:\\angle:MATH_SYMBOL_angle:g;
+    s:\\neg:MATH_SYMBOL_neg:g;
+    s:\\clubsuit:MATH_SYMBOL_clubsuit:g;
+    s:\\diamondsuit:MATH_SYMBOL_diamondsuit:g;
+    s:\\spadesuit:MATH_SYMBOL_spadesuit:g;
+    s:\\cdot:MATH_SYMBOL_cdot:g;
+    s:\\lfloor:MATH_SYMBOL_lfloor:g;
+    s:\\lceil:MATH_SYMBOL_lceil:g;
+    s:\\rceil:MATH_SYMBOL_rceil:g;
+    s:\\rfloor:MATH_SYMBOL_rfloor:g;
+}
+sub decode_math_symbols {
+    s:MATH_SYMBOL_COMMA:\\,:g;
+    s:MATH_SYMBOL_Delta:\\Delta:g;
+    s:MATH_SYMBOL_Downarrow:\\Downarrow:g;
+    s:MATH_SYMBOL_Gamma:\\Gamma:g;
+    s:MATH_SYMBOL_Im:\\Im:g;
+    s:MATH_SYMBOL_Lambda:\\Lambda:g;
+    s:MATH_SYMBOL_Leftarrow:\\Leftarrow:g;
+    s:MATH_SYMBOL_Leftrightarrow:\\Leftrightarrow:g;
+    s:MATH_SYMBOL_Omega:\\Omega:g;
+    s:MATH_SYMBOL_Pi:\\Pi:g;
+    s:MATH_SYMBOL_Phi:\\Phi:g;
+    s:MATH_SYMBOL_Psi:\\Psi:g;
+    s:MATH_SYMBOL_Re:\\Re:g;
+    s:MATH_SYMBOL_Rightarrow:\\Rightarrow:g;
+    s:MATH_SYMBOL_Sigma:\\Sigma:g;
+    s:MATH_SYMBOL_Theta:\\Theta:g;
+    s:MATH_SYMBOL_Uparrow:\\Uparrow:g;
+    s:MATH_SYMBOL_Upsilon:\\Upsilon:g;
+    s:MATH_SYMBOL_Xi:\\Xi:g;
+    s:MATH_SYMBOL_alpha:\\alpha:g;
+    s:MATH_SYMBOL_approx:\\approx:g;
+    s:MATH_SYMBOL_ast:\\ast:g;
+    s:MATH_SYMBOL_beta:\\beta:g;
+    s:MATH_SYMBOL_bullet:\\bullet:g;
+    s:MATH_SYMBOL_chi:\\chi:g;
+    s:MATH_SYMBOL_circ:\\circ:g;
+    s:MATH_SYMBOL_cong:\\cong:g;
+    s:MATH_SYMBOL_delta:\\delta:g;
+    s:MATH_SYMBOL_div:\\div:g;
+    s:MATH_SYMBOL_downarrow:\\downarrow:g;
+    s:MATH_SYMBOL_epsilon:\\epsilon:g;
+    s:MATH_SYMBOL_equiv:\\equiv:g;
+    s:MATH_SYMBOL_eta:\\eta:g;
+    s:MATH_SYMBOL_exists:\\exists:g;
+    s:MATH_SYMBOL_forall:\\forall:g;
+    s:MATH_SYMBOL_gamma:\\gamma:g;
+    s:MATH_SYMBOL_geq:\\geq:g;
+    s:MATH_SYMBOL_gg:\\gg:g;
+    s:MATH_SYMBOL_in:\\in:g;
+    s:MATH_SYMBOL_infty:\\infty:g;
+    s:MATH_SYMBOL_iota:\\iota:g;
+    s:MATH_SYMBOL_kappa:\\kappa:g;
+    s:MATH_SYMBOL_lambda:\\lambda:g;
+    s:MATH_SYMBOL_langle:\\langle:g;
+    s:MATH_SYMBOL_leftarrow:\\leftarrow:g;
+    s:MATH_SYMBOL_leftrightarrow:\\leftrightarrow:g;
+    s:MATH_SYMBOL_leq:\\leq:g;
+    s:MATH_SYMBOL_ll:\\ll:g;
+    s:MATH_SYMBOL_mu:\\mu:g;
+    s:MATH_SYMBOL_nabla:\\nabla:g;
+    s:MATH_SYMBOL_neq:\\neq:g;
+    s:MATH_SYMBOL_nu:\\nu:g;
+    s:MATH_SYMBOL_omega:\\omega:g;
+    s:MATH_SYMBOL_partial:\\partial:g;
+    s:MATH_SYMBOL_phi:\\phi:g;
+    s:MATH_SYMBOL_pi:\\pi:g;
+    s:MATH_SYMBOL_pm:\\pm:g;
+    s:MATH_SYMBOL_prod:\\prod:g;
+    s:MATH_SYMBOL_propto:\\propto:g;
+    s:MATH_SYMBOL_psi:\\psi:g;
+    s:MATH_SYMBOL_rangle:\\rangle:g;
+    s:MATH_SYMBOL_rho:\\rho:g;
+    s:MATH_SYMBOL_rightarrow:\\rightarrow:g;
+    s:MATH_SYMBOL_sigma:\\sigma:g;
+    s:MATH_SYMBOL_sim:\\sim:g;
+    s:MATH_SYMBOL_subset:\\subset:g;
+    s:MATH_SYMBOL_subseteq:\\subseteq:g;
+    s:MATH_SYMBOL_sum:\\sum:g;
+    s:MATH_SYMBOL_supset:\\supset:g;
+    s:MATH_SYMBOL_supseteq:\\supseteq:g;
+    s:MATH_SYMBOL_surd:\\surd:g;
+    s:MATH_SYMBOL_sqrt:\\sqrt:g;
+    s:MATH_SYMBOL_tau:\\tau:g;
+    s:MATH_SYMBOL_theta:\\theta:g;
+    s:MATH_SYMBOL_times:\\times:g;
+    s:MATH_SYMBOL_uparrow:\\uparrow:g;
+    s:MATH_SYMBOL_upsilon:\\upsilon:g;
+    s:MATH_SYMBOL_varpi:\\varpi:g;
+    s:MATH_SYMBOL_wedge:\\wedge:g;
+    s:MATH_SYMBOL_xi:\\xi:g;
+    s:MATH_SYMBOL_zeta:\\zeta:g;
+    s:MATH_SYMBOL_vartheta:\\vartheta:g;
+    s:MATH_SYMBOL_varsigma:\\varsigma:g;
+    s:MATH_SYMBOL_varphi:\\varphi:g;
+    s:MATH_SYMBOL_aleph:\\aleph:g;
+    s:MATH_SYMBOL_oplus:\\oplus:g;
+    s:MATH_SYMBOL_otimes:\\otimes:g;
+    s:MATH_SYMBOL_wp:\\wp:g;
+    s:MATH_SYMBOL_prime:\\prime:g;
+    s:MATH_SYMBOL_emptyset:\\emptyset:g;
+    s:MATH_SYMBOL_angle:\\angle:g;
+    s:MATH_SYMBOL_neg:\\neg:g;
+    s:MATH_SYMBOL_clubsuit:\\clubsuit:g;
+    s:MATH_SYMBOL_diamondsuit:\\diamondsuit:g;
+    s:MATH_SYMBOL_spadesuit:\\spadesuit:g;
+    s:MATH_SYMBOL_cdot:\\cdot:g;
+    s:MATH_SYMBOL_lfloor:\\lfloor:g;
+    s:MATH_SYMBOL_lceil:\\lceil:g;
+    s:MATH_SYMBOL_rceil:\\rceil:g;
+    s:MATH_SYMBOL_rfloor:\\rfloor:g;
+}
+
+sub handle_hereis {		# gobble hereis docs whole
+    if (/<<\s*(.*)/) {
+	$end = $1;
+	$end =~ s/"//g;
+	print OUT "$_\n";
+	while (<>) {
+	    last if (/$end/);
+	    print OUT;
+	}
+    }
+}
+
+sub replace_rpn {
+    local($i,$inrpn,$n,$copy,$c,$out);
+    print "INPUT '$_'\n" if $opt_d;
+    # Handle "{rpn" and "{ rpn", also "...}" and "... }"
+    s:\{\s*rpn([^\}]*)\s*\}:~ $1 ~:g;
+    # Ensure spaces separate arithmetic operators
+#    s:\+: \+ :g;
+#    s:-: - :g;
+#    s:\*: \* :g;
+#    s:/: / :g;
+    print "STEP 1 '$_'\n" if $opt_d;
+    $copy = $_;
+    print "copy '$copy'\n" if $opt_d;
+    @c = split(" ", $copy);
+    $n = $#c;
+    $inrpn = 0;
+    for ($i = 0; $i <= $n; $i++) {
+	if ($c[$i] eq "~") {
+	    $inrpn = !$inrpn;
+	    $c[$i] = "";
+	}
+	if ($inrpn) {
+	    local($j);
+	    if ($c[$i] eq "+" 
+		|| $c[$i] eq "-" 
+		|| $c[$i] eq "*"
+		|| $c[$i] eq "/" 
+		|| $c[$i] eq "<"
+		|| $c[$i] eq ">"
+		|| $c[$i] eq "&"
+		|| $c[$i] eq "|"
+		|| $c[$i] eq "=="
+		|| $c[$i] eq "!="
+		) {
+		# inequalities are reversed
+		if ($c[$i] eq ">") {
+		    $c[$i] = "<";
+		} elsif ($c[$i] eq "<") {
+		    $c[$i] = ">";		    
+		}
+		$c[$i] = "or"  if ($c[$i] eq "|");
+		$c[$i] = "and" if ($c[$i] eq "&");
+		$c[$i-2] = "($c[$i-2] $c[$i] $c[$i-1])";
+		for ($j = $i; $j <= $n; $j++) { $c[$j-1] = $c[$j+1]; }
+		$n -= 2;
+		$i -= 2;
+	    } elsif ($c[$i] eq "asin" # unary functions
+		     || $c[$i] eq "acos"
+		     || $c[$i] eq "atan"
+		     || $c[$i] eq "sin"
+		     || $c[$i] eq "cos"
+		     || $c[$i] eq "tan"		     
+		     || $c[$i] eq "asinh"
+		     || $c[$i] eq "acosh"
+		     || $c[$i] eq "atanh"
+		     || $c[$i] eq "cosh"
+		     || $c[$i] eq "sinh"
+		     || $c[$i] eq "tanh"
+		     || $c[$i] eq "sqrt"
+		     || $c[$i] eq "log10"
+		     || $c[$i] eq "ln"
+		     || $c[$i] eq "exp"
+		     || $c[$i] eq "exp10"
+		     || $c[$i] eq "ceil"
+		     || $c[$i] eq "floor"
+		     || $c[$i] eq "abs"
+		     || $c[$i] eq "cm_to_pt"
+		     || $c[$i] eq "pt_to_cm"
+		     || $c[$i] eq "dup"
+		     || $c[$i] eq "pop"
+		     || $c[$i] eq "strcat"
+		     || $c[$i] eq "atof"
+		     || $c[$i] eq "xcmtouser"
+		     || $c[$i] eq "xpttouser"
+		     || $c[$i] eq "xycmtouser"
+		     || $c[$i] eq "xyusertocm"
+		     || $c[$i] eq "xusertocm"
+		     || $c[$i] eq "xusertopt"
+		     || $c[$i] eq "ycmtouser"
+		     || $c[$i] eq "ypttouser"
+		     || $c[$i] eq "yusertocm"
+		     || $c[$i] eq "yusertopt"
+		     || $c[$i] eq "area"
+		     || $c[$i] eq "width"
+		     || $c[$i] eq "ascent"
+		     || $c[$i] eq "descent"
+		     || $c[$i] eq "ismissing"
+		     || $c[$i] eq "!"
+		     ) {
+		$c[$i] = "text_width" if ($c[$i] eq "width");
+		$c[$i] = "text_ascent" if ($c[$i] eq "ascent");
+		$c[$i] = "text_descent" if ($c[$i] eq "descent");
+		$c[$i] = "user_to_cm_x" if ($c[$i] eq "xusertocm");
+		$c[$i] = "user_to_cm_y" if ($c[$i] eq "yusertocm");
+		$c[$i] = "cm_to_user_x" if ($c[$i] eq "xcmtouser");
+		$c[$i] = "cm_to_user_y" if ($c[$i] eq "ycmtouser");
+		# See end for list of functions
+		$c[$i-1] = "$c[$i]($c[$i-1])";
+		for ($j = $i; $j <= $n; $j++) { $c[$j] = $c[$j+1]; }
+		$n -= 1;
+		$i -= 1;
+	    } elsif ($c[$i] eq "power" # binary functions
+		     || $c[$i] eq "sup"
+		     || $c[$i] eq "inf"
+		     ) {
+		$c[$i-2] = "$c[$i]($c[$i-2], $c[$i-1])";
+		for ($j = $i; $j <= $n; $j++) { $c[$j-1] = $c[$j+1]; }
+		$n -= 2;
+		$i -= 2;
+	    }
+	}
+    }
+    $out = "";
+    for ($i = 0; $i <= $n; $i++) {
+	$out = "$out $c[$i]";
+    }
+    print "LAST '$out'\n" if $opt_d;
+    $_ = $out;
+    s:^\s*::;
+}
+
+while(<>) {
+    chop;
+    #print STDERR "0.\t$_\n";
+    &code_math_symbols;
+    &handle_hereis;
+    $line = $_;
+    # Handle continued lines.  Put newline in place of 
+    # continuation character
+    while (/\\$/) {
+	$line =~ s/\\$//;
+	$_ = <>;
+	chop;
+	$line .= $_;
+    }
+    $_ = $line;
+    if (/^\s*#/) {
+	print OUT "$_\n";
+	next;
+    }
+    if (/^-*$/) {
+	next;
+    }
+
+    # Handle dollars (only appear in quotes)
+    #print STDERR "$_\n";
+    s:\$:\\\$:g;
+    #print STDERR "$_\n\n";
+
+    &code_math_symbols;
+
+    # Handle comments
+    $comment = "";
+    s://:#:;
+    $comment_index = index($_, "#");
+    if ($comment_index > -1) {
+	$comment = substr($_, $comment_index);
+      s:#(.*)::;
+    }
+
+    # Remove initial whitespace (indenting here anyway)
+    s:^\s*::;
+    # Synonyms become variables
+    s:\\\.words\.:(\$#_-$cmd_word_skip):g;	# \.words.
+    s:\\\.word([0-9]*)\.:\$_[$1-$cmd_word_skip]:g; # \.word0., \.word1., etc
+
+    s:\\\.([_a-zA-Z0-9]*)\.:\$_$1:g; # other builtin
+
+    #print STDERR "\n1.\t$_\n";
+    &fix_math_mode;
+    #print STDERR "2.\t$_\n";
+
+    s:\\([_a-zA-Z0-9]+):\$$1:g;	# user
+    s:MATH_START_STOP:\\\$:g; 
+    #print STDERR "3.\t$_\n";
+
+    # Rename builtin variables
+    s:\.\.linewidthaxis\.\.:$_linewidth_axis:g;
+    s:\.\.linewidthsymbol\.\.:$_linewidth_symbol:g;
+    s:\.\.linewidth\.\.:$_linewidth:g;
+
+    s:\.\.missingvalue\.\.:$_missing_value:g; # spelt differently now
+    s:\.\.symbolsize\.\.:$_symbol_size:g; # spelt differently now
+    s:\.\.num_col_data\.\.:(1+\$\#_x):g;
+
+    s/\.\.([a-zA-z0-9_]*)\.\./\$_$1/g;
+
+    # Rename user variables
+    s/\.([a-zA-z0-9_]*)\./\$$1/g;
+
+    # Rename some stuff
+
+
+    # `draw label whiteunder "\string" at .ll_x. .ll_y. [cm]'
+    # -> `draw label $label whiteunder at $x $y [cm]'
+    s/draw\s*label\s*whiteunder\s*"(.*)"\s*at\s*([^ ]*)\s*([^ ]*)\s*(.*)/draw label "$1" whiteunder at $2 $3 $4/;
+
+    s/^quit$/exit(0)/;
+
+    s/set\s*x\s*margin\s*bigger\s*(.*)/set x margin (\$_xmargin + $1)/;
+    s/set\s*x\s*margin\s*smaller\s*(.*)/set x margin (\$_xmargin - $1)/;
+
+    s/set\s*y\s*margin\s*bigger\s*(.*)/set y margin (\$_ymargin + $1)/;
+    s/set\s*y\s*margin\s*smaller\s*(.*)/set y margin (\$_ymargin - $1)/;
+
+    s/set\s*color\s*([^ ]*)\s*$/set color "$1"/;
+    s/set\s*color\s*hsb/set color hsv/;
+
+    if (/set\s*line\s*join\s*(.*)/) {
+	s/set\s*line\s*join\s*(.*)/set line join mitered/  if ($1 == 0);
+	s/set\s*line\s*join\s*(.*)/set line join rounded/  if ($1 == 1);
+	s/set\s*line\s*join\s*(.*)/set line join bevelled/ if ($1 == 2);
+    }
+
+    s/set\s*line\s*width\s*rapidograph\s([^ ]*)/set line width rapidograph "$1"/;
+
+    # Reading/closing now should specify file handle
+    s/read\scolumns/read columns $file_name[$file_name_num]/;
+    s/read\sgrid/read $file_name[$file_name_num] grid/;
+    s/read\simage/read $file_name[$file_name_num] image/;
+    s/read\s\*/read $file_name[$file_name_num] \*/;
+    s/read\s\./read $file_name[$file_name_num] \./;
+    s/read\s\\/read $file_name[$file_name_num] \\/;
+    s/read\sline/read $file_name[$file_name_num] line/;
+    s/close/close $file_name[$file_name_num]/;
+
+    # Rename two conversion functions (will use underline notation in gre)
+    s:pttocm:pt_to_cm:g;
+    s:cmtopt:cm_to_pt:g;
+    # Rename log to log10, to avoid confusion
+    s:log\s:log10 :g;
+    # Use 'last' instead of 'break', to match perl
+    s:(\s+)break(\s*):$1last;$2:g;
+
+    if (/^\s*$/) {
+	print OUT "$comment\n";
+	next;
+    }
+    &replace_rpn;
+    &decode_math_symbols;
+    #print STDERR "4.\t$_\n";
+    if (/`(.*)'/) {
+        handle_cmd_header($1);
+    } elsif (/^{\s*/) {		
+	# Start of newcommand content
+	print OUT "$_ $comment\n";
+	$blevel++;
+    } elsif (/^}\s*/) {
+	# End of newcommand content
+	print OUT "$_ $comment\n";
+        $blevel-- if ($blevel);
+    } elsif (/^if\s*/) {
+	# Start of if
+	s:if\s*(.*):if ($1) {:;
+	&indent;
+        print OUT "$_ $comment\n";
+	$blevel++;
+    } elsif (/^else\s*/) {
+	# Else
+        s:else:} else {:;
+        $blevel-- if ($blevel);
+	&indent;
+        print OUT "$_ $comment\n";
+	$blevel++;
+    } elsif (/^end\s*if/) {
+	# End of if
+        s:end\s*if:}:;
+        $blevel-- if ($blevel);
+	&indent;
+        print OUT "$_ $comment\n";
+    } elsif (/^while/) {
+	# Start of while
+	s:while\s*(.*):while ($1) {:;
+	&indent;
+        print OUT "$_ $comment\n";
+	$blevel++;
+    } elsif (/^end\s*while/) {
+	# End of while
+        s:end\s*while(.*):}:;
+        $blevel-- if ($blevel);
+	&indent;
+        print OUT "$_ $comment\n";
+    } elsif (/Draw\s*isopycnal/) {
+        s:Draw:draw:;
+        print OUT "$_; $comment\n";
+    } elsif (/help\s*(.*)/) {
+        print STDERR "Sorry, gre has no `help' command, so ignoring in gri commandfile.\n";
+        print OUT "# CANNOT TRANSLATE TO GRE: `$_'\n";
+	next;
+    } elsif (/draw\s*circle\s*with\s*radius\s*([^ ]*)\s*at\s*([^ ]*)\s*([^ ]*)/) {
+        &indent; print OUT "\$old_symbol_size = \$_symbol_size;\n";
+        &indent; print OUT "set symbol size 2*$1;\n";
+        &indent; print OUT "draw symbol circ at $2 $3 cm;\n";
+        &indent; print OUT "set symbol size \$old_symbol_size;\n";
+    } elsif (/draw\s*curve\s*filled\s*to\s*([^ ]*)\s*([xy])/) {
+	&indent;
+        print OUT "draw curve filled to $2 $1;\n";
+    } elsif (/set\s*([xy])\s*format\s*([^ ]*)\s*$/) {
+       &indent;
+       print OUT "set $1 format \"$2\";\n";
+#    } elsif (/draw\s*symbol\s*([^ ]*)\s*at\s*([^ ]*)\s*([^ ]*)\s*cm\s*/) {
+#       &indent;
+#       print OUT "draw symbol $1 at $2 $3 cm;\n";
+#    } elsif (/draw\s*symbol\s*([^ ]*)\s*at\s*([^ ]*)\s*([^ ]*)/) {
+#       &indent;
+#       print OUT "draw symbol $1 at $2 $3;\n";
+#    } elsif (/draw\s*line\s*from\s*([^ ]*)\s*([^ ]*)\s*to\s*([^ ]*)\s*([^ ]*)\s*$/) {
+#	&indent;    
+#        print OUT "draw line connecting $1 $2 $3 $4;\n";
+#    } elsif (/draw\s*line\s*from\s*(.*)\s*(.*)\s*to\s*(.*)\s(.*)\s*cm\s*$/) {
+#	&indent;    
+#       print OUT "draw line connecting cmtouserx($1) cmtousery($2) cmtouserx($3) cmtousery($4)\n";
+    } elsif (/show(.*)/) {
+	# show->print; also now need newline
+        print OUT "# NOTE: must manually insert commas in list!\n";
+        print STDERR "NB: print statements need manually-inserted commas\n";
+        print OUT "print $1, \"\\n\";\n";
+    } elsif (/^extern/) { 
+	# Change syntax to make more sense; looked like declaration before
+        s:extern::;
+	s:void::;
+        &indent;
+        print OUT "$_; $comment\n";
+    } elsif (/cd(\s*)(\$HOME)/) {
+        &indent;
+        print OUT "cd \"~\"\n";
+    } elsif (/ls(\s*)(\$HOME)/) {
+        &indent;
+        print OUT "ls \"~\"\n";
+    } elsif (/ls(\s*)[^"](.*)[^"]/) {
+        &indent;
+        print OUT "ls \"$1\"\n";
+    } elsif (/open\s*(.*)/) {
+        $fname = $1;
+        $fname =~ s/"//g;
+    # Open now specified file handle ... BUG: what if more words?
+        &indent;
+	$file_name_num++;
+	$file_name[$file_name_num] = "TMP_$file_name_num";
+	print OUT "open($file_name[$file_name_num], \"$fname\"); $comment\n";
+    } elsif (/set\s*graylevel\s*black/) {
+        &indent;
+        print OUT "set graylevel 0;\n";
+    } elsif (/set\s*graylevel\s*white/) {
+        &indent;
+        print OUT "set graylevel 1;\n";
+    } else {
+	# Normal statement
+	&indent;
+        print OUT "$_; $comment\n";
+    }
+}
+
+# Hard functions to implement:
+#
+# || $c[$i] eq "system"
+# || $c[$i] eq "defined"
+# || $c[$i] eq "interpolate"
+# || $c[$i] eq "min"
+# || $c[$i] eq "max"
+# || $c[$i] eq "median"
+# || $c[$i] eq "mean"
+# || $c[$i] eq "stddev"
+# || $c[$i] eq "size"
+
+# Functions of two variables:
+#
+# || $c[$i] eq "power"
+# || $c[$i] eq "remainder"
+# || $c[$i] eq "exch"
+# || $c[$i] eq "pstack"
+# || $c[$i] eq "="
+# || $c[$i] eq "@"

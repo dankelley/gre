@@ -1,0 +1,184 @@
+# Draw log(stock_price) versus time, to examine whether stock 
+# price is growing exponentially.  Also, indicate P/E and
+# how much I've gained.
+
+# Default to sun if not called as e.g.
+#
+#          gre chart.gre sebl-q
+#
+$rawfile = "sunw-q"; $rawfile = $ARGV[0] if ($#ARGV == 0);
+
+# Following works also, as of 2000-4-19
+#lynx -dump "http://charting.nasdaq.com/idc/nasdgraph.idc?usymbol=QQQ&umos=96&site=nasdaq" > QQQ
+
+sub prettify_date($) {
+    my $d = $_[0];
+    #print "BEFORE '$d'\n";
+    $d =~ s:/2000::;
+    #print "LATER  '$d'\n";
+    $d =~ s:01/:Jan :;
+    $d =~ s:02/:Feb :;
+    $d =~ s:03/:Mar :;
+    $d =~ s:04/:Apr :;
+    $d =~ s:05/:May :;
+    $d =~ s:06/:Jun :;
+    $d =~ s:07/:Jul :;
+    $d =~ s:08/:Aug :;
+    $d =~ s:09/:Sep :;
+    $d =~ s:10/:Oct :;
+    $d =~ s:11/:Nov :;
+    $d =~ s:12/:Dec :;
+    #print "FINAL  '$d'\n";
+    return $d;
+}
+set y size 5;
+set x name "Date";
+set y name "Price, \$US";
+set x axis 1992 2001 1 0.25;
+set y type log;
+set y axis 1 100;
+draw axes;
+set dash off;
+set color black;
+set y type linear;
+set y axis 0 2 1;
+draw axes none;
+set color black;
+
+
+$file = "tmp";
+system("./nasdaq2dat $rawfile > $file") == 0 or die "cannot run system command";
+
+$split = 1999;
+
+open(IN, $file) or die;
+read columns IN x=1 y=2;
+close;
+for ($i = 0; $i <= $#_x; $i++) { $_y[$i] = ln($_y[$i]) / ln(10); }
+
+$now = $_x[0];
+set color rgb 1.00 0.92 0.72;
+draw box filled $_xleft $_ybottom $now $_ytop;
+set color white;
+set line width rapidograph "3x0";
+set clip on;
+for ($t = 1993; $t < 2001; $t += 1) {
+    draw line from $t $_ybottom to $t $_ytop;
+}
+for ($logp = -1; $logp < 2; $logp += 1) {
+    draw line from $_xleft $logp to $_xright $logp;
+}
+set clip off;
+set color black;
+draw axes frame;
+
+draw curve;
+regress y vs x;
+$l = sprintf("%.2f", $_coeff1);
+$double = ln(2)/ln(10)/$_coeff1;
+$d = sprintf("%.2f", $double);
+draw title "Over all time, stock doubles in $d y";
+set clip on;
+draw line from $_xleft ($_coeff0 + $_xleft * $_coeff1)
+    to $_xright ($_coeff0 + $_xright * $_coeff1);
+set clip off;
+
+
+
+open(IN, "gawk '\$1<$split' $file |") or die;
+read columns IN x=1 y=2;
+close;
+if ($#_x > 0) {
+    for ($i = 0; $i <= $#_x; $i++) { $_y[$i] = ln($_y[$i]) / ln(10); }
+    set color red;
+    draw curve;
+    regress y vs x;
+    $l = sprintf("%.2f", $_coeff1);
+    $double = ln(2)/ln(10)/$_coeff1;
+    $d = sprintf("%.2f", $double);
+    draw title "Before $split, stock doubles in $d y";
+    set clip on;
+    draw line from $_xleft ($_coeff0 + $_xleft * $_coeff1)
+	to $_xright ($_coeff0 + $_xright * $_coeff1);
+    set clip off;
+}    
+open(IN, "gawk '\$1>$split' $file |") or die;
+
+read columns IN x=1 y=2;
+close;
+if ($#_x > 0) {
+    for ($i = 0; $i <= $#_x; $i++) { $_y[$i] = ln($_y[$i]) / ln(10); }
+    set color blue;
+    draw curve;
+    regress y vs x;
+    $l = sprintf("%.2f", $_coeff1);
+    $double = ln(2)/ln(10)/$_coeff1;
+    $d = sprintf("%.2f", $double);
+    draw title "After $split, stock doubles in $d y";
+    set clip on;
+    draw line from $_xleft ($_coeff0 + $_xleft * $_coeff1)
+	to $_xright ($_coeff0 + $_xright * $_coeff1);
+    set clip off;
+}
+
+set font size 14;
+set color black;
+draw title "$rawfile Stock Price";
+set font size 10;
+#draw title "`pwd`/$_command_file";
+draw title "$_command_file";
+
+# Indicate some recent prices.
+open(IN, $rawfile) or die "Cannot open $rawfile";
+$_ = <IN>; $_ = <IN>;		# 2 header lines
+
+set font size 14;
+set font size 11;
+for ($i = 0; $i < 3; $i++) {
+    $_ = <IN>;
+    @info = split;
+    $date = prettify_date($info[0]);
+    $price = sprintf("%.2f", $info[1]);
+    $most_recent = $info[1] if $i == 0;
+    if $rawfile eq "ibm-q" {
+	$pe = sprintf("%.1f", $price / 4.16);	
+	$paid = "n/a";
+    } else { 
+	if $rawfile eq "sunw-q" {
+	    $pe = sprintf("%.1f", $price / 1.34);
+	    $paid = 84 + 1/8;
+	} else { 
+	    if $rawfile eq "csco-q" {
+		$pe = sprintf("%.1f", $price / 0.36);
+		$paid = "n/a";
+	    } else {
+		if $rawfile eq "sebl-q" {
+		    $pe = sprintf("%.1f", $price / 0.63);
+		    $paid = 114;
+		} else {
+		    if $rawfile eq "qqq-q" {
+			$pe = "n/a";
+			$paid = "n/a";
+		    }
+		}
+	    }
+	}
+    }
+    if ($pe ne "n/a") {
+	draw label "$date:  P=\$$price,  P/E=$pe\(\,\)y" at 
+	    (user_to_cm_x($_xleft) + 0.4)
+		(user_to_cm_y($_ytop) - 1.5 * ($i + 1.5) * text_ascent("M")) cm;
+    } else {
+	draw label "$date:  P=\$$price" at 
+	    (user_to_cm_x($_xleft) + 0.4)
+		(user_to_cm_y($_ytop) - 1.5 * ($i + 1.5) * text_ascent("M")) cm;
+    }
+}
+
+if ($paid ne "n/a") {
+    $label = sprintf("Kelley gained %.1f%%", -100*(1-$most_recent/$paid));
+    draw label $label at 
+	(user_to_cm_x($_xleft) + 0.4)
+	    (user_to_cm_y($_ytop) - 1.5 * ($i + 1.5) * text_ascent("M")) cm;
+}
+unlink("tmp");

@@ -1,0 +1,3 @@
+Programmers note: segfaulting.  Seems to be in	
+	scalar_vars.push_back
+

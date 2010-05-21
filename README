@@ -1,0 +1,181 @@
+`Gre' (rhymes with `flee') is an extensible plotting language designed
+by a scientist, for scientists.  It can draw x-y plots, contour plots,
+and image plots.  The `gre' homepage is on the web, at
+
+     http://www.phys.ocean.dal.ca/~kelley/gre
+
+It may also be installed in
+
+     file://opt/gre-VERSION/doc/html
+
+on your machine, where VERSION is a version number.  Your local
+machine will give you fast access but the web site will give you
+up-to-the-minute information.
+
+Author's list of things to do...
+
+* add 'set colorname' and 'read colorname'
+
+* is there an error on fonts of contour labels on multipage?
+ 
+* -0 on axes sometimes
+
+* DOCUMENT THE following, perl-like, thing:
+ 
+	@t=(1,2,3);
+	print $t[0], "\n";
+	print $t[1], "\n";
+	print $t[2], "\n";
+
+* accented fonts
+
+* ERROR: 'set x type log' won't parse
+            set x type log;
+
+* fix 'skip', then document ... it's way broken...
+      open "test.dat" or die;
+      skip;
+      read columns x=1 y=2;
+      print columns;
+
+* if opening a pipe, and something dies, return bad value
+
+* only state the fonts that are actually used.
+
+* set arrow size as 10 percent of length;  BROKEN??
+
+* doc: rework 'grammar', putting user subs at toplevel, also 'cmd' (where the heck IS cmd??)
+
+* COMPLETE+DOCUMETN 'tagged_value' 
+	** make it actually scan the line, etc
+	** maybe also make it accept just 1 argument?
+
+   testpgm: print tagged_value("x=", "x= 10 y=20"), "\n";
+
+subs.cpp:88 in tagged_value(x=,x:10 y=20)
+1
+
+* fix bug noted in manual at 'print variables' ('my' variables)
+
+* allow split(argument), needed for:
+
+   sub get_tagged_value($$) {
+       my $tag = $_[0];
+       my $source = $_[1];
+       print "tag ", $tag, "\n";
+       print "input line '", $_, "'\n";
+       @source = split($source);
+       for ($i = 0; $i < $#source; $i++) {
+	   print "'", $source[$i], "'\n";
+	   print "'", $tag, "' ... '", $source[$i], "' match? ", ($tag eq $source[$i]), "\n";
+	   print "got ",  $source[$i + 1], "\n" if ($tag eq $source[$i]);
+	   if ($tag eq $source[$i]) {
+	       print "before returning ", $source[$i + 1], "\n";
+	       return $source[$i + 1];
+	   }
+       }
+       return 0;
+   }
+   open(IN,"test.dat") or die;
+   $keep = <IN>;
+   print;
+   $x = get_tagged_value("x=", $keep);
+   print "x is", $x, "\n";
+
+
+* Bessel's fcns (in a package, if perl does it that way)
+
+* add $_wd (alter if do 'cd' ... if I have that)
+
+* figure out where to put gre-mode.el, and change 
+	Makefile.in
+	*spec
+to point to the right place
+
+* perhaps make it 'set text|line|fill color' ?
+
+* doc/'draw image' -- say more; give example.
+
+* 'set image colorscale' image not same as contours more rounded
+
+test.gre:
+    set x grid 0 1 0.25;
+    set y grid 1 2 0.25;
+    open(IN, "test.dat") or die;
+    read grid data IN;
+    print grid;
+    convert grid to image size 512 512;
+    print image;
+    #set image colorscale hsv .33 0 1 1 hsv .33 1 1 3 increment 0.5;
+    set image colorscale rgb 1 0 0 1.0 rgb 0 1 0 3.0 increment 0.5;
+    draw image;
+    draw contour;
+
+test.dat:
+    0 0 0 0 0
+    0 1 2 1 0
+    0 2 3 2 0
+    0 1 2 1 0
+    0 0 0 0 0
+
+* err() gives wrong linenumbers (parser.y:4367) -- gives last line of file
+
+* 'set image grayscale'
+* 'draw image palette'
+
+* i18n: trying with gre_main first.  Not sure how to handle files,
+though.
+
+* errors in spacing after math (line 3 from bottom)
+
+     $y = 3.0; $dy = 1.2;
+     set font size 40;
+     draw label "fff"          at 3 $y cm; $y += $dy;
+     draw label "f0f"          at 3 $y cm; $y += $dy;
+     draw label "f\(0\)f"      at 3 $y cm; $y += $dy;
+     draw label "f\(f0\)f"     at 3 $y cm; $y += $dy;
+     draw label "f\(\alpha\)f" at 3 $y cm; $y += $dy;
+     draw label "f\(f\)f"      at 3 $y cm; $y += $dy;
+     draw label "f\(3*(f)\)f"  at 3 $y cm; $y += $dy;
+
+ what it should be is:
+	if in_math && last_was_roman
+		thinspace
+	if leaving_math && last_was_roman
+		thinspace
+ where last_was_roman is set for any non-greek,non-punct,non-numeric character
+ in mathmode.
+
+ search for grstring.cpp ... 'thinspace'
+
+
+* popt seems broken.  Doesn't recognize the options.
+
+* Change: -e ... style should still do the cmdfile, but doesn't
+
+* problem with some 'cm' commands (e.g. draw line from) if no axes yet
+
+* make 'GriPath' be based on STL vector<pair<pair<double,double>,bool>>?
+
+1. Package support
+==================
+
+* parse 'package NAMESPACE' 98-nov-08
+
+TO DO:
+
+* treat following as special (belongs to main) -- parser.y:2809
+	ARGV
+	_
+	_...  (any variable starting with underscore, e.g. $_xleft)
+
+* search for '::' in name, and don't prepend if so -- parser.y:2809
+
+* same for '@@' type variables
+
+* add seawater.gre to /opt... fix Makefile, spec files.
+
+* add package for interpolation, e.g.
+	read columns x y;
+	interpolate to x 0 1 10;
+  to interpolate to x being 0,1,2,..., 10??

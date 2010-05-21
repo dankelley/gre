@@ -1,0 +1,15 @@
+print "Test random number generator\n";
+$s = 0;
+$ss = 0;
+$n = 100;
+for ($i = 0; $i < $n; $i += 1) {
+    $r = 2*rand();
+    $s += $r;
+    $ss += $r * $r;
+}
+$mean   = $s / $n;
+$stddev = sqrt($ss / $n - $mean*$mean);
+$width = 1.96 * $stddev / sqrt($n);
+print "Mean =  $mean      stddev =  $stddev\n";
+print "95% CI = ", $mean-$width," to ",$mean+$width,"\n";
+

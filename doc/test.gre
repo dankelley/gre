@@ -1,0 +1,2 @@
+$date = "`date`";
+draw label $date at 3 3 cm;

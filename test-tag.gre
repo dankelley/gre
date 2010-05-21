@@ -1,0 +1,22 @@
+sub get_tagged_value($$) {
+    my $tag = $_[0];
+    my $source = $_[1];
+    print "tag ", $tag, "\n";
+    print "input line '", $_, "'\n";
+    @source = split($source);
+    for ($i = 0; $i < $#source; $i++) {
+	print "'", $source[$i], "'\n";
+	print "'", $tag, "' ... '", $source[$i], "' match? ", ($tag eq $source[$i]), "\n";
+	print "got ",  $source[$i + 1], "\n" if ($tag eq $source[$i]);
+	if ($tag eq $source[$i]) {
+	    print "before returning ", $source[$i + 1], "\n";
+	    return $source[$i + 1];
+	}
+    }
+    return 0;
+}
+open(IN,"test.dat") or die;
+$keep = <IN>;
+print;
+$x = get_tagged_value("x=", $keep);
+print "x is", $x, "\n";

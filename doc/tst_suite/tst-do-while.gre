@@ -1,0 +1,8 @@
+print "tst_suite/tst-do-while.gre       ...";
+$a = 1;
+$n = 11;
+do {
+    $a++;
+} while ($a < $n);
+die " failed\n" if ($a != $n);
+print " passed\n";

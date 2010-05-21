@@ -1,0 +1,622 @@
+%!PS-Adobe-2.0 EPSF-1.2
+%%Creator: Gre0.1.28 for kelley. [month-series.gre -> month-series.ps]
+%%Title: month-series.ps
+%%CreationDate: Fri Jun 25 14:07:24 1999
+%%Pages: (atend)
+%%BoundingBox: (atend)
+%%TemplateBox: 0 0 612 792
+%%DocumentFonts: (atend)
+%%Endcomments
+% NOTE: The Gre postscript dictionary is being converted to the Adobe
+% Illustrator 3.0 dialect of PostScript, as described in the Adobe
+% documents stored at URL
+%   http://www.adobe.com/Support/TechNotes.html
+% (as of Jan 1996, this doc is number 5007).  When the conversion
+% is complete, the Adobe Illustrator drawing program -- and any
+% program compatible with AI -- will be able to edit Gre output.
+%
+% The IslandDraw (TM) program is able to read Gre output
+% at this time; remarkably, it can read/edit arbitrary PostScript.
+%
+% The definitions below are presented in the same order as the Adobe
+% manual.  The stack configuration before and after is shown in curly
+% brackets.  All the operators are listed, but only some are defined
+% here. Most things are faithful, except that no distinction is made
+% between colors for stroking and filling paths.  The string 'WRONGLY'
+% appears with commands that are approximations.
+%
+% PDF-style abbreviations:
+/rg {setrgbcolor} def   % {red green blue}            {-} set RGB color
+/RG {setrgbcolor} def   % {red green blue}            {-} set RGB color
+/q {gsave} def
+/Q {grestore} def
+/W {clip} def
+/W* {eoclip} def
+%
+% Gre-specific abbreviations:
+/hsb {sethsbcolor} def  % {hue saturation brightness} {-} set HSB color
+%
+% Following all try to mimic Adobe Illustrator
+%
+% Mimicking section 5.1 of Adobe manual:
+%A                      % {flag A}          {-} Determine whether
+                        %                       following object can
+                        %                       be selected. Flag=1
+                        %                       prevents selection;
+                        %                       flag=0 allows it.
+
+% Mimicking section 5.2 of Adobe manual:
+%u                      % {u}               {-} start group
+%U                      % end group
+%q                      % as 'u' but first item is a clip path
+%Q                      % as 'U' but first item is a clip path
+
+% Mimicking section 5.3 of Adobe manual:
+/g {setgray} def        % {gray g}          {-} Set gray for fill
+                        %                       path, WRONGLY used
+                        %                       for stroking also. 
+/G {setgray} def        % As 'g', but for filling path.
+%k                      % Set cmyk color for filling path.
+%K                      % As 'k', but for stroking path.
+%x                      % Set cmyk custom color for filling path.
+%X                      % As 'x' but for stroking path.
+%p                      % Define pattern for filling path.
+%P                      % As 'p' but for stroking path.
+%O                      % Specify whether overprinting for fill paths
+%R                      % As 'O' but for stroking path.
+
+% Mimicking section 5.4 of Adobe manual:
+/d {setdash} def        % {[array] phase d} {-} Set dash.
+/i {setflat} def        % {flatness i}      {-} Set flatness.
+/j {setlinejoin} def    % {linejoin j}      {-} Set line join.
+/J {setlinecap} def     % {linecap J}       {-} Set line cap.
+/M {setmiterlimit} def  % {miterlimit M}    {-} Set miter limit.
+/w {setlinewidth} def   % {linewidth w}     {-} Set line width.
+
+% Mimicking section 5.5 of Adobe manual:
+/m {moveto} def         % {x y m}           {-} Move to locn
+/l {lineto} def         % {x y l}           {-} Draw line to locn
+                        %                       not a smooth point.
+                        %                       WRONGLY, no
+                        %                       distinction is made
+                        %                       between smooth and
+                        %                       corner. 
+%L                      % {x y L}           {-} As 'l' but a corner
+%c                      % Bezier curve to smooth point.
+%C                      % As 'c' but to corner point.
+%v                      % Something else to do with Bezier.
+%V                      % 
+%y                      % 
+%Y                      % 
+
+% Mimicking section 5.6 of Adobe manual:
+%N                      % {N}               {-} As 'n' for nondrawn stuff
+/n {newpath} def        % {n}               {-} WRONGLY interpreted
+                        %                       as path constructor
+/F {fill} def           % {F}               {-} Fill current path.
+%f                      % {f}               {-} 'F' but close first
+/S {stroke} def         % {S}               {-} Stroke current path.
+%s                      % {s}               {-} 'S' but close first
+%B                      % {B}               {-} As 's' but don't empty path.
+%b                      % {b}               {-} As 'f' but don't empty path.
+%H                      % no-op (weird huh?)
+/h {closepath} def      % {h}               {-} Close  current path
+%W                      % Used to create masks.
+
+% Mimicking section 5.7 of Adobe manual:
+%a                      % Begin text block ...
+%e                      % Similar to 'a' but ...
+%I                      % Similar to 'a' but ...
+%o                      % Similar to 'a' but ...
+%r                      % Similar to 'a' but ...
+%t                      % {len (string) t}  {-} Render string.
+%T                      % End block of text
+
+% That's the end of the Illustrator stuff. Following are some Gre
+% definitions which provide a temporary way of handling fonts. 
+/sf {setfont} def       % {fontname sf}     {-} Set font name.
+/sh {show} def          % {(text) sh}       {-} Show text.
+/sc {scalefont} def     % {size sc}         {-} Scale font.
+% Gre items which should be translated to Illustrator format:
+/rl {rlineto} def
+/rm {rmoveto} def
+% Procedures
+/cimdict 7 dict def
+/cim {
+ cimdict begin
+ /cl exch def
+ /rw exch def
+ /yur exch def
+ /xur exch def
+ /yll exch def
+ /xll exch def
+ q
+ xll yll translate
+ xur xll sub yur yll sub scale
+ /do cl 3 mul string def
+ cl rw 8 [cl 0 0 rw neg 0 rw] {currentfile do readhexstring pop} false 3 colorimage
+ Q
+ end
+} def
+/imdict 14 dict def
+/im {
+ imdict begin
+ /cl exch def
+ /rw exch def
+ /yur exch def
+ /xur exch def
+ /yll exch def
+ /xll exch def
+ /imagemap exch def
+ q
+ % Add the mapping to the transfer function (ref: white book, p 743.
+ [{255 mul cvi imagemap exch get} /exec load currenttransfer /exec load]
+   cvx settransfer
+ xll yll translate
+ xur xll sub yur yll sub scale
+ /do cl string def
+ cl rw 8 [cl 0 0 rw neg 0 rw] {currentfile do readhexstring pop}image
+ Q
+ end
+} def
+/frdict  5 dict def
+/fr {
+ frdict begin
+ /yt exch def
+ /xr exch def
+ /yb exch def
+ /xl exch def
+ n
+ xl yb m
+ xl yt l
+ xr yt l
+ xr yb l
+ h
+ F
+ n
+ end
+} def
+/plusdict 3 dict def
+/_plus {
+ plusdict begin
+ dup 0.5 mul /t0 exch def
+ /t1 exch def
+ 0 t0 rm
+ 0 t1 neg rl
+ t0 neg t0 rm
+ t1 0 rl
+ t0 neg 0 rm
+ end
+} def
+/timesdict 3 dict def
+/_times {
+ timesdict begin
+ dup 0.353553 mul /t0 exch def
+ 0.707106 mul /t1 exch def
+ t0 neg t0 rm
+ t1 dup neg rl
+ t1 neg 0 rm
+ t1 dup rl
+ t0 neg dup rm
+ end
+} def
+/boxdict 3 dict def
+/_box {
+ boxdict begin
+ dup 0.5 mul /t0 exch def
+ 1 mul /t1 exch def
+ t0 neg t0 rm
+ t1 0 rl
+ 0 t1 neg rl
+ t1 neg 0 rl
+ h
+ t0 dup neg rm
+ end
+} def
+/filledboxdict 3 dict def
+/_filledbox {
+ filledboxdict begin
+ dup 0.5 mul /t0 exch def
+ 1 mul /t1 exch def
+ t0 neg t0 rm
+ t1 0 rl
+ 0 t1 neg rl
+ t1 neg 0 rl
+ h
+ t0 dup neg rm
+ F end
+} def
+/diamonddict 2 dict def
+/_diamond {
+ diamonddict begin
+ 0.5 mul /t0 exch def
+ t0 neg 0 rm
+ t0 dup rl
+ t0 dup neg rl
+ t0 neg dup rl
+ h
+ t0 0 rm
+ end
+} def
+/filleddiamonddict 2 dict def
+/_filleddiamond {
+ filleddiamonddict begin
+ 0.5 mul /t0 exch def
+ t0 neg 0 rm
+ t0 dup rl
+ t0 dup neg rl
+ t0 neg dup rl
+ h
+ t0 0 rm
+ F end
+} def
+/triangleupdict 5 dict def
+/_triangleup {
+ triangleupdict begin
+ dup 0.25 mul /t0 exch def
+ dup 0.433013 mul /t1 exch def
+ dup 0.75 mul /t2 exch def
+ 0.866026 mul /t3 exch def
+ t1 neg t0 neg rm
+ t1 t2 rl
+ t1 t2 neg rl
+ h
+ t1 t0 rm
+ end
+} def
+/filledtriangleupdict 5 dict def
+/_filledtriangleup {
+ filledtriangleupdict begin
+ dup 0.25 mul /t0 exch def
+ dup 0.433013 mul /t1 exch def
+ dup 0.75 mul /t2 exch def
+ 0.866026 mul /t3 exch def
+ t1 neg t0 neg rm
+ t1 t2 rl
+ t1 t2 neg rl
+ h
+ t1 t0 rm
+ F end
+} def
+/trianglerightdict 5 dict def
+/_triangleright {
+ trianglerightdict begin
+ dup 0.25 mul /t0 exch def
+ dup 0.433013 mul /t1 exch def
+ dup 0.75 mul /t2 exch def
+ 0.866026 mul /t3 exch def
+ t0 neg t1 rm
+ t2 t1 neg rl
+ t2 neg t1 neg rl
+ h
+ t0 t1 neg rm
+ end
+} def
+/filledtrianglerightdict 5 dict def
+/_filledtriangleright {
+ filledtrianglerightdict begin
+ dup 0.25 mul /t0 exch def
+ dup 0.433013 mul /t1 exch def
+ dup 0.75 mul /t2 exch def
+ 0.866026 mul /t3 exch def
+ t0 neg t1 rm
+ t2 t1 neg rl
+ t2 neg t1 neg rl
+ h
+ t0 t1 neg rm
+ F end
+} def
+/triangledowndict 5 dict def
+/_triangledown {
+ triangledowndict begin
+ dup 0.25 mul /t0 exch def
+ dup 0.433013 mul /t1 exch def
+ dup 0.75 mul /t2 exch def
+ 0.866026 mul /t3 exch def
+ t1 neg t0 rm
+ t3 0 rl
+ t1 neg t2 neg rl
+ h
+ t1 t0 neg rm
+ end
+} def
+/filledtriangledowndict 5 dict def
+/_filledtriangledown {
+ filledtriangledowndict begin
+ dup 0.25 mul /t0 exch def
+ dup 0.433013 mul /t1 exch def
+ dup 0.75 mul /t2 exch def
+ 0.866026 mul /t3 exch def
+ t1 neg t0 rm
+ t3 0 rl
+ t1 neg t2 neg rl
+ h
+ t1 t0 neg rm
+ F end
+} def
+/triangleleftdict 5 dict def
+/_triangleleft {
+ triangleleftdict begin
+ dup 0.25 mul /t0 exch def
+ dup 0.433013 mul /t1 exch def
+ dup 0.75 mul /t2 exch def
+ 0.866026 mul /t3 exch def
+ t0 t1 rm
+ 0 t3 neg rl
+ t2 neg t1 rl
+ h
+ t0 neg t1 neg rm
+ end
+} def
+/filledtriangleleftdict 5 dict def
+/_filledtriangleleft {
+ filledtriangleleftdict begin
+ dup 0.25 mul /t0 exch def
+ dup 0.433013 mul /t1 exch def
+ dup 0.75 mul /t2 exch def
+ 0.866026 mul /t3 exch def
+ t0 t1 rm
+ 0 t3 neg rl
+ t2 neg t1 rl
+ h
+ t0 neg t1 neg rm
+ F end
+} def
+/circdict 5 dict def
+/_circ {
+ circdict begin
+ 0.5 mul /t0 exch def
+ currentpoint
+ /t2 exch def
+ /t1 exch def
+ S n t1 t2 t0 0 360 arc
+ t1 t2 m
+ end
+} def
+/bulldict 3 dict def
+/_bull {
+ bulldict begin
+ 0.5 mul /r exch def
+ currentpoint /y exch def /x exch def
+ S n x y r 0 360 arc h F S
+ end
+} def
+1 1 scale
+10.0 M
+1 j
+%%EndProlog
+%%Page: 1 1
+/Helvetica findfont 12.00 sc sf
+/Helvetica findfont 0.00 sc sf
+0.369 w
+0 g
+0 G
+1.0 i 0 J 0 j 0.369 w 10.0 M [] 0 d
+170.70 170.70 m
+170.70 170.70 l
+170.70 165.01 l
+170.70 170.70 l
+194.41 170.70 l
+194.41 165.01 l
+194.41 170.70 l
+218.12 170.70 l
+218.12 165.01 l
+218.12 170.70 l
+241.82 170.70 l
+241.82 165.01 l
+241.82 170.70 l
+265.53 170.70 l
+265.53 165.01 l
+265.53 170.70 l
+289.24 170.70 l
+289.24 165.01 l
+289.24 170.70 l
+312.95 170.70 l
+312.95 165.01 l
+312.95 170.70 l
+336.66 170.70 l
+336.66 165.01 l
+336.66 170.70 l
+360.37 170.70 l
+360.37 165.01 l
+360.37 170.70 l
+384.07 170.70 l
+384.07 165.01 l
+384.07 170.70 l
+407.78 170.70 l
+407.78 165.01 l
+407.78 170.70 l
+431.49 170.70 l
+431.49 165.01 l
+431.49 170.70 l
+455.20 170.70 l
+455.20 165.01 l
+455.20 170.70 l
+455.22 170.70 l
+S
+1.0 i 0 J 0 j 0.369 w 10.0 M [] 0 d
+170.70 455.20 m
+170.70 455.20 l
+170.70 460.89 l
+170.70 455.20 l
+194.41 455.20 l
+194.41 460.89 l
+194.41 455.20 l
+218.12 455.20 l
+218.12 460.89 l
+218.12 455.20 l
+241.82 455.20 l
+241.82 460.89 l
+241.82 455.20 l
+265.53 455.20 l
+265.53 460.89 l
+265.53 455.20 l
+289.24 455.20 l
+289.24 460.89 l
+289.24 455.20 l
+312.95 455.20 l
+312.95 460.89 l
+312.95 455.20 l
+336.66 455.20 l
+336.66 460.89 l
+336.66 455.20 l
+360.37 455.20 l
+360.37 460.89 l
+360.37 455.20 l
+384.07 455.20 l
+384.07 460.89 l
+384.07 455.20 l
+407.78 455.20 l
+407.78 460.89 l
+407.78 455.20 l
+431.49 455.20 l
+431.49 460.89 l
+431.49 455.20 l
+455.20 455.20 l
+455.20 460.89 l
+455.20 455.20 l
+455.22 455.20 l
+S
+1.0 i 0 J 0 j 0.369 w 10.0 M [] 0 d
+170.70 170.70 m
+170.70 170.70 l
+165.01 170.70 l
+170.70 170.70 l
+170.70 199.15 l
+165.01 199.15 l
+170.70 199.15 l
+170.70 227.60 l
+165.01 227.60 l
+170.70 227.60 l
+170.70 256.05 l
+165.01 256.05 l
+170.70 256.05 l
+170.70 284.50 l
+165.01 284.50 l
+170.70 284.50 l
+170.70 312.95 l
+165.01 312.95 l
+170.70 312.95 l
+170.70 341.40 l
+165.01 341.40 l
+170.70 341.40 l
+170.70 369.85 l
+165.01 369.85 l
+170.70 369.85 l
+170.70 398.30 l
+165.01 398.30 l
+170.70 398.30 l
+170.70 426.75 l
+165.01 426.75 l
+170.70 426.75 l
+170.70 455.20 l
+165.01 455.20 l
+170.70 455.20 l
+170.70 455.20 l
+S
+1.0 i 0 J 0 j 0.369 w 10.0 M [] 0 d
+455.20 170.70 m
+455.20 170.70 l
+460.89 170.70 l
+455.20 170.70 l
+455.20 199.15 l
+460.89 199.15 l
+455.20 199.15 l
+455.20 227.60 l
+460.89 227.60 l
+455.20 227.60 l
+455.20 256.05 l
+460.89 256.05 l
+455.20 256.05 l
+455.20 284.50 l
+460.89 284.50 l
+455.20 284.50 l
+455.20 312.95 l
+460.89 312.95 l
+455.20 312.95 l
+455.20 341.40 l
+460.89 341.40 l
+455.20 341.40 l
+455.20 369.85 l
+460.89 369.85 l
+455.20 369.85 l
+455.20 398.30 l
+460.89 398.30 l
+455.20 398.30 l
+455.20 426.75 l
+460.89 426.75 l
+455.20 426.75 l
+455.20 455.20 l
+460.89 455.20 l
+455.20 455.20 l
+455.20 455.20 l
+S
+/Helvetica findfont 10.00 sc sf
+0.369 w
+154.6 167.1 m (0) sh
+146.2 195.5 m (0.1) sh
+146.2 224.0 m (0.2) sh
+146.2 252.4 m (0.3) sh
+146.2 280.9 m (0.4) sh
+146.2 309.3 m (0.5) sh
+146.2 337.8 m (0.6) sh
+146.2 366.2 m (0.7) sh
+146.2 394.7 m (0.8) sh
+146.2 423.1 m (0.9) sh
+154.6 451.6 m (1) sh
+1.0 i 0 J 0 j 0.369 w 10.0 M [] 0 d
+170.70 170.70 m
+170.70 170.70 l
+165.01 170.70 l
+170.70 170.70 l
+170.70 199.15 l
+165.01 199.15 l
+170.70 199.15 l
+170.70 227.60 l
+165.01 227.60 l
+170.70 227.60 l
+170.70 256.05 l
+165.01 256.05 l
+170.70 256.05 l
+170.70 284.50 l
+165.01 284.50 l
+170.70 284.50 l
+170.70 312.95 l
+165.01 312.95 l
+170.70 312.95 l
+170.70 341.40 l
+165.01 341.40 l
+170.70 341.40 l
+170.70 369.85 l
+165.01 369.85 l
+170.70 369.85 l
+170.70 398.30 l
+165.01 398.30 l
+170.70 398.30 l
+170.70 426.75 l
+165.01 426.75 l
+170.70 426.75 l
+170.70 455.20 l
+165.01 455.20 l
+170.70 455.20 l
+170.70 455.20 l
+S
+141.3 242.9 m 90.00 rotate (Monthly average of ... whatever) sh
+-90.00 rotate %^ scale 1 170.7 0 23.7083 1 170.7 0 284.5
+174.5 155.7 m (Jan) sh
+197.6 155.7 m (Feb) sh
+221.3 155.7 m (Mar) sh
+245.9 155.7 m (Apr) sh
+267.9 155.7 m (May) sh
+293.0 155.7 m (Jun) sh
+318.4 155.7 m (Jul) sh
+339.6 155.7 m (Aug) sh
+363.3 155.7 m (Sep) sh
+388.1 155.7 m (Oct) sh
+410.7 155.7 m (Nov) sh
+434.4 155.7 m (Dec) sh
+showpage
+%%Trailer
+%%BoundingBox: 132 152 463 463
+%%DocumentFonts: Courier Helvetica Palatino-Roman Palatino-Italic Symbol Times-Roman ZapfChancery ZapfChancery-MediumItalic
+%%Pages: 1

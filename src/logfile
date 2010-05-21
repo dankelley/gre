@@ -1,0 +1,43 @@
+1062971067: 14: Dmalloc version '4.8.1' from 'http://dmalloc.com/'
+1062971067: 14: flags = 0x4f47503, logfile 'logfile'
+1062971067: 14: interval = 100, addr = 0, seen # = 0
+1062971067: 14: starting time = 1062971067
+1062971067: 14: free bucket count/bits:  126/5 7/9 4/10 1/11
+1062971067: 14: basic-block 4096 bytes, alignment 8 bytes, heap grows up
+1062971067: 14: heap: 0x80cd000 to 0x80d3000, size 24576 bytes (6 blocks)
+1062971067: 14: heap checked 0
+1062971067: 14: alloc calls: malloc 9, calloc 0, realloc 0, free 5
+1062971067: 14: alloc calls: recalloc 0, memalign 0, valloc 0
+1062971067: 14:  total memory allocated: 2430 bytes (9 pnts)
+1062971067: 14:  max in use at one time: 2430 bytes (9 pnts)
+1062971067: 14: max alloced with 1 call: 1600 bytes
+1062971067: 14: max alloc rounding loss: 1346 bytes (35%)
+1062971067: 14: max memory space wasted: 11880 bytes (75%)
+1062971067: 14: final user memory space: basic 0, divided 4, 15656 bytes
+1062971067: 14:  final admin overhead: basic 1, divided 1, 8192 bytes (33%)
+1062971067: 14:  final external space: 0 bytes (0 blocks)
+1062971067: 14: top 10 allocations:
+1062971067: 14:  total-size  count in-use-size  count  source
+1062971067: 14:        1600      1        1600      1  ra=0x400f3e9e
+1062971067: 14:         520      1           0      0  ra=0x40186b89
+1062971067: 14:         280      1         280      1  ra=0x8084971
+1062971067: 14:          12      1          12      1  ra=0x80849b4
+1062971067: 14:           8      1           0      0  ra=0x808b84e
+1062971067: 14:           4      1           4      1  ra=0x8084a1c
+1062971067: 14:           4      1           0      0  ra=0x808b86a
+1062971067: 14:           1      1           0      0  ra=0x808b831
+1062971067: 14:           1      1           0      0  ra=0x808b885
+1062971067: 14:        2430      9        1896      4  Total of 9
+1062971067: 14: dumping not-freed pointers changed since 0:
+1062971067: 14:  not freed: '0x80cf008|s1' (1600 bytes) from 'ra=0x400f3e9e'
+1062971067: 14:  not freed: '0x80d1088|s1' (12 bytes) from 'ra=0x80849b4'
+1062971067: 14:  not freed: '0x80d10a8|s1' (4 bytes) from 'ra=0x8084a1c'
+1062971067: 14:  not freed: '0x80d2008|s1' (280 bytes) from 'ra=0x8084971'
+1062971067: 14:  total-size  count  source
+1062971067: 14:        1600      1  ra=0x400f3e9e
+1062971067: 14:         280      1  ra=0x8084971
+1062971067: 14:          12      1  ra=0x80849b4
+1062971067: 14:           4      1  ra=0x8084a1c
+1062971067: 14:        1896      4  Total of 4
+1062971067: 14:  unknown memory: 4 pointers, 1896 bytes
+1062971067: 14: ending time = 1062971067, elapsed since start = 0:00:00
