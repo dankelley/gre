@@ -1,2 +1,15 @@
 *~
 *.o
+*.a
+*.Po
+Makefile
+*.log
+parser.cpp
+tst-*texi
+gre.info*
+depcomp
+src/gre
+Makefile
+config.log
+config.status
+traces.*

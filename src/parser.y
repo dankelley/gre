@@ -1266,8 +1266,11 @@ put_var(const char *n, const char *val)
 	    return true;
 	}
     }
+    printf("ONE\n");
     var *v = new var(n, val);
+    printf("TWO\n");
     scalar_vars.push_back(*v);
+    printf("THREE\n");
     delete v;
     printf("  created new scalar_var len=%d\n",int(scalar_vars.size()));
     return true;
