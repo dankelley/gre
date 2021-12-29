@@ -2,17 +2,13 @@
 by a scientist, for scientists.  It can draw x-y plots, contour plots,
 and image plots.  The `gre' homepage is on the web, at
 
-     http://www.phys.ocean.dal.ca/~kelley/gre
+    https://github.com/dankelley/gre
 
-It may also be installed in
+Gre has not been updated in over a decade, as the author (Dan Kelley) started
+using R for both data processing and plotting, many years ago.
 
-     file://opt/gre-VERSION/doc/html
-
-on your machine, where VERSION is a version number.  Your local
-machine will give you fast access but the web site will give you
-up-to-the-minute information.
-
-Author's list of things to do...
+For what it's worth (and that is not much, given a decade of no action) the
+following is an old to-do list for this project.
 
 * add 'set colorname' and 'read colorname'
 
